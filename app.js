@@ -10,19 +10,25 @@ const pct=x=>(x>=0?'+':'')+(x*100).toFixed(1)+'%';
 const pad2=n=>String(n).padStart(2,'0');
 const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const isDark=()=>document.documentElement.dataset.theme==='dark'||(!document.documentElement.dataset.theme&&matchMedia('(prefers-color-scheme: dark)').matches);
+const EN_MODE=()=>(typeof SET!=='undefined'&&SET.lang==='en');
+const L=(th,en)=>EN_MODE()&&en!=null?en:th;
 function fmtBaht(v){if(v==null)return{n:'–',u:''};const a=Math.abs(v);
-  if(a>=1e9)return{n:(v/1e6).toLocaleString('th-TH',{maximumFractionDigits:0}),u:'ล้านบาท'};
-  if(a>=1e6)return{n:(v/1e6).toLocaleString('th-TH',{maximumFractionDigits:2}),u:'ล้านบาท'};
-  if(a>=1e4)return{n:(v/1e3).toLocaleString('th-TH',{maximumFractionDigits:1}),u:'พันบาท'};
-  return{n:nf.format(Math.round(v)),u:'บาท'}}
+  if(a>=1e9)return{n:(v/1e6).toLocaleString('th-TH',{maximumFractionDigits:0}),u:L('ล้านบาท','M THB')};
+  if(a>=1e6)return{n:(v/1e6).toLocaleString('th-TH',{maximumFractionDigits:2}),u:L('ล้านบาท','M THB')};
+  if(a>=1e4)return{n:(v/1e3).toLocaleString('th-TH',{maximumFractionDigits:1}),u:L('พันบาท','K THB')};
+  return{n:nf.format(Math.round(v)),u:L('บาท','THB')}}
 const fB=v=>{const o=fmtBaht(v);return o.n+(o.u?' '+o.u:'')};
-const fShort=v=>Math.abs(v)>=1e6?(v/1e6).toLocaleString('th-TH',{maximumFractionDigits:1})+' ลบ.':Math.abs(v)>=1e3?(v/1e3).toLocaleString('th-TH',{maximumFractionDigits:0})+' พัน':nf.format(v);
+const fShort=v=>Math.abs(v)>=1e6?(v/1e6).toLocaleString('th-TH',{maximumFractionDigits:1})+L(' ลบ.','M'):Math.abs(v)>=1e3?(v/1e3).toLocaleString('th-TH',{maximumFractionDigits:0})+L(' พัน','K'):nf.format(v);
+const MO=()=>EN_MODE()?MONTHS_EN:MONTHS, MOF=()=>EN_MODE()?MONTHS_EN:MONTHS_FULL;
+const pname=p=>L(p.name,p.en);
+const pen=(p,k,th)=>EN_MODE()&&EN[p.id]?EN[p.id][k]:th;
+const giTag=(p,cls='')=>p.gi?`<span class="gi ${cls}" title="สิ่งบ่งชี้ทางภูมิศาสตร์ (Geographical Indication)">GI</span>`:'';
 function hexMix(hex,amt){const n=parseInt(hex.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;const t=amt<0?0:255,p=Math.abs(amt);r=Math.round((t-r)*p+r);g=Math.round((t-g)*p+g);b=Math.round((t-b)*p+b);return'#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}
 const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},
   sget(k,d){try{const v=sessionStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},sset(k,v){try{sessionStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 
 /* ---------- settings ---------- */
-const DEF_SET={theme:'auto',accent:'#0F4A37',video:true,kioskSec:20,mode:'Y',apiBase:APP.apiBase,res:{},gas:''};
+const DEF_SET={theme:'auto',accent:'#0F4A37',video:true,kioskSec:20,mode:'Y',apiBase:APP.apiBase,res:{},gas:'',lang:'th'};
 let SET=Object.assign({},DEF_SET,store.get('nbl12-set',{}));
 function saveSet(){store.set('nbl12-set',SET);applyTheme()}
 function applyTheme(){const r=document.documentElement;if(SET.theme==='auto')delete r.dataset.theme;else r.dataset.theme=SET.theme;
@@ -68,7 +74,7 @@ const IC={
  table:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M3 15h18M9 4v16"/>', chart:'<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
  refresh:'<path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/>', check:'<path d="m5 12 4 4 10-10"/>',
  mute:'<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="m16 9 5 6M21 9l-5 6"/>', vol:'<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16 9a4 4 0 0 1 0 6"/>', pause:'<path d="M8 5v14M16 5v14"/>',
- arrowL:'<path d="M15 6l-6 6 6 6"/>', arrowR:'<path d="M9 6l6 6-6 6"/>', ext:'<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>'
+ arrowL:'<path d="M15 6l-6 6 6 6"/>', map:'<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>', globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 3 2.5 15 0 18M12 3c-2.5 3-2.5 15 0 18"/>', star:'<path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"/>', arrowR:'<path d="M9 6l6 6-6 6"/>', ext:'<path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5"/>'
 };
 const ic=(n,c='')=>`<svg class="ic ${c}" viewBox="0 0 24 24" aria-hidden="true">${IC[n]||''}</svg>`;
 
@@ -109,13 +115,15 @@ const S=Object.assign({mode:SET.mode||'Y',y:LAST.y,m:LAST.m},store.sget('nbl12-p
 function savePeriod(){store.sset('nbl12-period',{mode:S.mode,y:S.y,m:S.m})}
 function months(){if(S.mode==='M')return[S.m-1];const n=S.y===LAST.y?LAST.m:12;return[...Array(n).keys()]}
 function periodVal(p,y){if(!p.m[y])return null;return sum(months().map(k=>p.m[y][k]))}
-function periodLabel(){if(S.mode==='M')return MONTHS_FULL[S.m-1]+' '+S.y;return S.y===LAST.y?'ปี '+S.y+' (ม.ค.–'+MONTHS[LAST.m-1]+')':'ปี '+S.y}
-function prevLabel(){return S.mode==='M'?MONTHS[S.m-1]+' '+(S.y-1):(S.y===LAST.y?'ช่วงเดียวกันปี '+(S.y-1):'ปี '+(S.y-1))}
+function periodLabel(){const ce=y=>EN_MODE()?y-543:y;if(S.mode==='M')return MOF()[S.m-1]+' '+ce(S.y);return S.y===LAST.y?L('ปี ','')+ce(S.y)+' ('+MO()[0]+'–'+MO()[LAST.m-1]+')':L('ปี ','')+ce(S.y)}
+function prevLabel(){const ce=y=>EN_MODE()?y-543:y;return S.mode==='M'?MO()[S.m-1]+' '+ce(S.y-1):(S.y===LAST.y?L('ช่วงเดียวกันปี ','same period ')+ce(S.y-1):L('ปี ','')+ce(S.y-1))}
 
 /* ---------- routing (ไร้รอยต่อ) ---------- */
-const PAGES={cover:{f:'index.html',t:'หน้าหลัก',ic:'home'},overview:{f:'overview.html',t:'ภาพรวม 14 สินค้า',ic:'grid'},
-  report:{f:'report.html',t:'รายงานและบทวิเคราะห์',ic:'report'},sources:{f:'sources.html',t:'แหล่งข้อมูลและที่มา',ic:'source'},
-  apistatus:{f:'apistatus.html',t:'สถานะการเชื่อมต่อข้อมูล (API)',ic:'api'},entry:{f:'entry.html',t:'กรอกข้อมูล',ic:'lock'},settings:{f:'settings.html',t:'ตั้งค่าระบบ',ic:'gear'}};
+const PAGES={cover:{f:'index.html',t:'หน้าหลัก',en:'Home',ic:'home'},overview:{f:'overview.html',t:'ภาพรวม 14 สินค้า',en:'Overview',ic:'grid'},
+  insights:{f:'insights.html',t:'วิเคราะห์เชิงกลยุทธ์',en:'Strategic insights',ic:'chart'},map:{f:'map.html',t:'แผนที่แหล่งผลิต',en:'Production map',ic:'map'},brief:{f:'brief.html',t:'สรุป 1 หน้า (A4)',en:'One-page brief',ic:'print'},
+  report:{f:'report.html',t:'รายงานและบทวิเคราะห์',en:'Report & analysis',ic:'report'},sources:{f:'sources.html',t:'แหล่งข้อมูลและที่มา',en:'Data sources',ic:'source'},
+  apistatus:{f:'apistatus.html',t:'สถานะการเชื่อมต่อข้อมูล (API)',en:'API status',ic:'api'},entry:{f:'entry.html',t:'กรอกข้อมูล',en:'Data entry',ic:'lock'},settings:{f:'settings.html',t:'ตั้งค่าระบบ',en:'Settings',ic:'gear'}};
+const PT=k=>L(PAGES[k].t,PAGES[k].en);
 const pFile=id=>`p${pad2(id)}.html`;
 function parse(href){
   let u;try{u=new URL(href,location.href)}catch(e){return null}
@@ -157,11 +165,11 @@ function shell(){
   <div class="app">
     <aside class="side" id="side" aria-label="เมนูหลัก">
       <a class="brand" href="index.html"><img src="img/seal.png" alt="ตราจังหวัดหนองบัวลำภู"><span><span class="wm">12 Plus<sup>+</sup></span><span class="th">สินค้าอัตลักษณ์หนองบัวลำภู</span><span class="sub">Dashboard เกษตรมูลค่าสูง</span></span></a>
-      <button class="side-search" type="button" data-act="search">${ic('search')}ค้นหาสินค้า ข้อมูล หน้า<kbd>Ctrl K</kbd></button>
+      <button class="side-search" type="button" data-act="search">${ic('search')}<span id="sideSearchT">ค้นหาสินค้า ข้อมูล หน้า</span><kbd>Ctrl K</kbd></button>
       <nav class="nav" id="navMain"></nav>
-      <div class="nav-t"><span>สินค้าอัตลักษณ์</span><span>14</span></div>
+      <div class="nav-t"><span id="navT1">สินค้าอัตลักษณ์</span><span>14</span></div>
       <nav class="nav pnav" id="navP"></nav>
-      <div class="nav-t"><span>ข้อมูลและระบบ</span></div>
+      <div class="nav-t"><span id="navT2">ข้อมูลและระบบ</span></div>
       <nav class="nav" id="navSys"></nav>
       <div class="side-foot">จัดทำโดย สำนักงานสถิติจังหวัดหนองบัวลำภู<br>ร่วมกับหน่วยงานเจ้าของข้อมูล 14 สินค้า<br>© 2569 สงวนลิขสิทธิ์</div>
     </aside>
@@ -174,14 +182,15 @@ function shell(){
         <div class="ctrls">
           <button class="tb ic-only" type="button" data-act="search" title="ค้นหา (Ctrl K)" aria-label="ค้นหา">${ic('search')}</button>
           <button class="tb ic-only tb-hide" type="button" data-act="edit" title="แก้ไขข้อมูลหน้านี้" aria-label="แก้ไขข้อมูล">${ic('edit')}</button>
+          <button class="tb keep" type="button" data-act="lang" title="ภาษาไทย / English (L)" aria-label="สลับภาษา">${ic('globe')}<span>TH</span></button>
           <button class="tb ic-only keep" type="button" data-act="theme" title="สลับธีม (T)" aria-label="สลับธีม">${ic('sun')}</button>
-          <button class="tb tb-hide" type="button" data-act="kiosk" title="เปลี่ยนหน้าอัตโนมัติสำหรับจอห้องประชุม (K)">${ic('monitor')}<span class="lbl">จอนำเสนอ</span></button>
-          <button class="tb tb-hide keep" type="button" data-act="present" title="นำเสนอเต็มจอ ใช้ลูกศรเปลี่ยนหน้า (P)">${ic('play')}<span class="lbl">นำเสนอ</span></button>
+          <button class="tb tb-hide" type="button" data-act="kiosk" title="เปลี่ยนหน้าอัตโนมัติสำหรับจอห้องประชุม (K)">${ic('monitor')}<span class="lbl" data-l="จอนำเสนอ" data-e="Kiosk">จอนำเสนอ</span></button>
+          <button class="tb tb-hide keep" type="button" data-act="present" title="นำเสนอเต็มจอ ใช้ลูกศรเปลี่ยนหน้า (P)">${ic('play')}<span class="lbl" data-l="นำเสนอ" data-e="Present">นำเสนอ</span></button>
           <a class="tb api tb-hide" href="apistatus.html" title="สถานะการเชื่อมต่อข้อมูล">${ic('db')}<span class="lbl">API</span></a>
           <button class="tb ic-only" type="button" data-act="bell" title="การแจ้งเตือน" aria-label="การแจ้งเตือน">${ic('bell')}<i class="dot" id="bellDot" hidden></i></button>
           <button class="tb ic-only tb-hide" type="button" data-act="link" title="คัดลอกลิงก์หน้านี้" aria-label="คัดลอกลิงก์">${ic('link')}</button>
           <button class="tb ic-only tb-hide" type="button" data-act="print" title="พิมพ์ / บันทึก PDF" aria-label="พิมพ์">${ic('print')}</button>
-          <a class="tb lock tb-hide" href="entry.html">${ic('lock')}<span class="lbl">กรอกข้อมูล</span></a>
+          <a class="tb lock tb-hide" href="entry.html">${ic('lock')}<span class="lbl" data-l="กรอกข้อมูล" data-e="Data entry">กรอกข้อมูล</span></a>
           <button class="tb ic-only tb-hide" type="button" data-act="help" title="คู่มือและคีย์ลัด (?)" aria-label="คู่มือ">${ic('help')}</button>
           <button class="tb ic-only tb-more" type="button" data-act="more" aria-label="เมนูเพิ่มเติม">${ic('more')}</button>
         </div>
@@ -203,17 +212,22 @@ function shell(){
 }
 function navRender(){
   const cur=R.page;
-  $('#navMain').innerHTML=['cover','overview'].map(k=>`<a href="${PAGES[k].f}"${cur===k?' aria-current="page"':''}>${ic(PAGES[k].ic)}${PAGES[k].t}</a>`).join('');
+  $('#navMain').innerHTML=['cover','overview','insights','map'].map(k=>`<a href="${PAGES[k].f}"${cur===k?' aria-current="page"':''}>${ic(PAGES[k].ic)}${PT(k)}</a>`).join('');
+  $('#navT1').textContent=L('สินค้าอัตลักษณ์','Identity products');$('#navT2').textContent=L('ข้อมูลและระบบ','Data & system');
+  document.documentElement.lang=EN_MODE()?'en':'th';
   $('#navP').innerHTML=P.map(p=>{const c=periodVal(p,S.y),q=periodVal(p,S.y-1),g=q?c/q-1:null;
-    return`<a href="${pFile(p.id)}"${R.page==='product'&&R.pid===p.id?' aria-current="page"':''}><span class="no">${pad2(p.id)}</span>${badge(p,{label:false})}<span class="n">${esc(p.name)}<span class="v num">${fB(c)}</span></span>${g==null?'':`<span class="g ${g>=0?'up':'down'}">${g>=0?'▲':'▼'}${Math.abs(g*100).toFixed(1)}%</span>`}</a>`}).join('');
-  $('#navSys').innerHTML=['report','sources','apistatus','entry','settings'].map(k=>`<a href="${PAGES[k].f}"${cur===k?' aria-current="page"':''}>${ic(PAGES[k].ic)}${PAGES[k].t}</a>`).join('');
-  const per=['overview','product','report'].includes(cur);
+    return`<a href="${pFile(p.id)}"${R.page==='product'&&R.pid===p.id?' aria-current="page"':''}><span class="no">${pad2(p.id)}</span>${badge(p,{label:false})}<span class="n">${esc(pname(p))}${giTag(p,'sm')}<span class="v num">${fB(c)}</span></span>${g==null?'':`<span class="g ${g>=0?'up':'down'}">${g>=0?'▲':'▼'}${Math.abs(g*100).toFixed(1)}%</span>`}</a>`}).join('');
+  $('#navSys').innerHTML=['report','brief','sources','apistatus','entry','settings'].map(k=>`<a href="${PAGES[k].f}"${cur===k?' aria-current="page"':''}>${ic(PAGES[k].ic)}${PT(k)}</a>`).join('');
+  const per=['overview','product','report','insights','map','brief'].includes(cur);
   const maxM=S.y===LAST.y?LAST.m:12;if(S.m>maxM)S.m=maxM;
-  $('#period').innerHTML=per?`<div class="seg" role="group" aria-label="มุมมอง"><button type="button" data-act="mY" aria-pressed="${S.mode==='Y'}">รายปี</button><button type="button" data-act="mM" aria-pressed="${S.mode==='M'}">รายเดือน</button></div>
-    <select class="sel" id="selY" aria-label="ปี">${YEARS.slice(1).map(y=>`<option value="${y}"${y===S.y?' selected':''}>ปี ${y}</option>`).join('')}</select>
-    ${S.mode==='M'?`<select class="sel" id="selM" aria-label="เดือน">${MONTHS_FULL.slice(0,maxM).map((m,i)=>`<option value="${i+1}"${i+1===S.m?' selected':''}>${m}</option>`).join('')}</select>`:''}`:'';
+  $('#period').innerHTML=per?`<div class="seg" role="group" aria-label="มุมมอง"><button type="button" data-act="mY" aria-pressed="${S.mode==='Y'}">${L('รายปี','Yearly')}</button><button type="button" data-act="mM" aria-pressed="${S.mode==='M'}">${L('รายเดือน','Monthly')}</button></div>
+    <select class="sel" id="selY" aria-label="ปี">${YEARS.slice(1).map(y=>`<option value="${y}"${y===S.y?' selected':''}>${L('ปี '+y,String(y-543))}</option>`).join('')}</select>
+    ${S.mode==='M'?`<select class="sel" id="selM" aria-label="เดือน">${MOF().slice(0,maxM).map((m,i)=>`<option value="${i+1}"${i+1===S.m?' selected':''}>${m}</option>`).join('')}</select>`:''}`:'';
   if(per){$('#selY').onchange=e=>{S.y=+e.target.value;savePeriod();render(true)};const sm=$('#selM');if(sm)sm.onchange=e=>{S.m=+e.target.value;savePeriod();render(true)}}
   const th=$('[data-act="theme"]');if(th)th.innerHTML=ic(isDark()?'moon':'sun');
+  const lg=$('[data-act="lang"]');if(lg)lg.innerHTML=`${ic('globe')}<span>${EN_MODE()?'EN':'TH'}</span>`;
+  $('#asofT').textContent=L('ข้อมูล ณ '+APP.asOf,'Data as of 30 Sep 2026');
+  $$('.tb [data-l]').forEach(x=>x.textContent=L(x.dataset.l,x.dataset.e));
   const cp=$('.pnav a[aria-current]');if(cp&&cp.scrollIntoViewIfNeeded)cp.scrollIntoViewIfNeeded(false);
 }
 
@@ -223,6 +237,7 @@ function onAct(e){
   if(a==='menu')document.body.classList.add('nav-open');
   else if(a==='search')palette();
   else if(a==='theme'){SET.theme=isDark()?'light':'dark';saveSet();render(true)}
+  else if(a==='lang'){SET.lang=EN_MODE()?'th':'en';saveSet();render(true);toast(EN_MODE()?'English · indicator names remain in Thai':'ภาษาไทย')}
   else if(a==='kiosk')kioskStart();
   else if(a==='present')presentToggle();
   else if(a==='bell')drawer();
@@ -242,8 +257,8 @@ function overlay(html,cls='dlg'){closeOverlay();const o=document.createElement('
 function closeOverlay(){$$('.ovl,.drawer,.lb').forEach(x=>x.remove())}
 
 function palette(){
-  const items=[...Object.keys(PAGES).map(k=>({t:PAGES[k].t,k:'หน้า',h:PAGES[k].f,i:PAGES[k].ic})),
-    ...P.map(p=>({t:`${pad2(p.id)} ${p.name}`,s:p.en+' · '+p.agency,k:'สินค้า',h:pFile(p.id),p})),
+  const items=[...Object.keys(PAGES).map(k=>({t:PT(k),k:'หน้า',h:PAGES[k].f,i:PAGES[k].ic})),
+    ...P.map(p=>({t:`${pad2(p.id)} ${p.name}`,s:p.en+' · '+p.agency+(p.gi?' · GI':''),k:'สินค้า',h:pFile(p.id),p})),
     ...P.flatMap(p=>p.inds.map(d=>({t:d.n,s:`${p.name} · ${d.code}`,k:'รายการข้อมูล',h:pFile(p.id)+'#ind-'+d.code})))];
   const o=overlay(`<input class="pal-in" id="palIn" placeholder="พิมพ์ชื่อสินค้า รายการข้อมูล หรือหน้า…" autocomplete="off" aria-label="ค้นหา"><ul class="pal-l" id="palL" role="listbox"></ul>`);
   let sel=0,list=[];
@@ -264,7 +279,7 @@ function help(tab='use'){
       <li>ปุ่ม <b>นำเสนอ</b> เปิดเต็มจอ ใช้ลูกศรซ้าย/ขวาเปลี่ยนสินค้า · ปุ่ม <b>จอนำเสนอ</b> เปลี่ยนหน้าอัตโนมัติสำหรับจอห้องประชุม</li>
       <li>ปุ่ม <b>API</b> ดูว่าตัวเลขแต่ละรายการมาจากไหน และเชื่อมต่อระบบบัญชีข้อมูลจังหวัดแล้วหรือยัง</li>
       <li>หน่วยงานส่งข้อมูลได้ที่ <b>กรอกข้อมูล</b> ทีละสินค้า ทีละหมวด</li></ol>`,
-    keys:`<div class="keys"><span><kbd>Ctrl</kbd> + <kbd>K</kbd> หรือ <kbd>/</kbd></span><span>ค้นหา</span><span><kbd>?</kbd></span><span>เปิดคู่มือนี้</span><span><kbd>T</kbd></span><span>สลับธีมสว่าง/มืด</span><span><kbd>P</kbd></span><span>เริ่ม/หยุดโหมดนำเสนอ</span><span><kbd>K</kbd></span><span>เริ่มจอนำเสนออัตโนมัติ</span><span><kbd>←</kbd> <kbd>→</kbd></span><span>สินค้าก่อนหน้า/ถัดไป</span><span><kbd>G</kbd> แล้ว <kbd>O</kbd></span><span>ไปหน้าภาพรวม</span><span><kbd>Esc</kbd></span><span>ปิดหน้าต่าง / หยุดนำเสนอ</span></div>`,
+    keys:`<div class="keys"><span><kbd>Ctrl</kbd> + <kbd>K</kbd> หรือ <kbd>/</kbd></span><span>ค้นหา</span><span><kbd>?</kbd></span><span>เปิดคู่มือนี้</span><span><kbd>T</kbd></span><span>สลับธีมสว่าง/มืด</span><span><kbd>L</kbd></span><span>สลับภาษาไทย / English</span><span><kbd>P</kbd></span><span>เริ่ม/หยุดโหมดนำเสนอ</span><span><kbd>K</kbd></span><span>เริ่มจอนำเสนออัตโนมัติ</span><span><kbd>←</kbd> <kbd>→</kbd></span><span>สินค้าก่อนหน้า/ถัดไป</span><span><kbd>G</kbd> แล้ว <kbd>O</kbd></span><span>ไปหน้าภาพรวม</span><span><kbd>Esc</kbd></span><span>ปิดหน้าต่าง / หยุดนำเสนอ</span></div>`,
     legend:`<div style="display:grid;gap:10px;font-size:14px"><div><span class="pill real">ข้อมูลจริง</span> ค่าที่หน่วยงานส่งมาแล้ว</div><div><span class="pill api">API</span> ดึงจากระบบบัญชีข้อมูลจังหวัดอัตโนมัติ</div><div><span class="pill has">มีข้อมูล</span> หน่วยงานยืนยันว่ามีข้อมูล รอส่งค่า (แสดงค่าจำลอง)</div><div><span class="pill sim">จำลอง</span> รอหน่วยงานยืนยัน แสดงค่าจำลองเพื่อดูรูปแบบ</div><div><span class="pill none">ไม่มีข้อมูล</span> หน่วยงานแจ้งว่ายังไม่มีข้อมูล</div></div>`};
   const o=overlay(`<div class="dlg-h"><h3>คู่มือการใช้งาน</h3><button class="tb ic-only" data-close aria-label="ปิด">${ic('x')}</button></div><div class="dlg-b"><div class="tabs" role="tablist">${[['use','วิธีใช้'],['keys','คีย์ลัด'],['legend','ความหมายสถานะ']].map(([k,t])=>`<button role="tab" data-tab="${k}" aria-selected="${k===tab}">${t}</button>`).join('')}</div><div id="helpB">${T[tab]}</div></div>`);
   $$('[data-tab]',o).forEach(b=>b.onclick=()=>{$$('[data-tab]',o).forEach(x=>x.setAttribute('aria-selected',x===b));$('#helpB').innerHTML=T[b.dataset.tab]});
@@ -279,7 +294,7 @@ function moreMenu(){const acts=[['edit','แก้ไขข้อมูลหน
   ${acts.map(([a,t,i])=>`<button class="btn btn-g" type="button" data-act="${a}" data-close>${ic(i)} ${t}</button>`).join('')}</div>`)}
 
 /* ---------- kiosk & present ---------- */
-const SEQ=()=>[{page:'overview'},...P.map(p=>({page:'product',pid:p.id}))];
+const SEQ=()=>[{page:'overview'},{page:'insights'},{page:'map'},...P.map(p=>({page:'product',pid:p.id}))];
 function seqIndex(){const s=SEQ();return Math.max(0,s.findIndex(x=>x.page===R.page&&(x.pid||0)===(R.pid||0)))}
 function step(d){const s=SEQ();const i=(seqIndex()+d+s.length)%s.length;go(Object.assign({q:new URLSearchParams()},s[i]))}
 let kT=null;
@@ -301,7 +316,8 @@ document.addEventListener('keydown',e=>{
   if(typing)return;
   if(e.key==='/'){e.preventDefault();palette()}else if(e.key==='?')help();else if(e.key==='t'||e.key==='T'){SET.theme=isDark()?'light':'dark';saveSet();render(true)}
   else if(e.key==='p'||e.key==='P')presentToggle();else if(e.key==='k'||e.key==='K')kioskStart();
-  else if((e.key==='ArrowRight'||e.key==='ArrowLeft')&&!$('.lb')&&['overview','product'].includes(R.page)){step(e.key==='ArrowRight'?1:-1)}
+  else if((e.key==='ArrowRight'||e.key==='ArrowLeft')&&!$('.lb')&&['overview','product','insights','map'].includes(R.page)){step(e.key==='ArrowRight'?1:-1)}
+  else if(e.key==='l'||e.key==='L'){SET.lang=EN_MODE()?'th':'en';saveSet();render(true)}
   else if(e.key==='g'){gKey=Date.now()}else if(e.key==='o'&&Date.now()-gKey<900)go('overview.html');
 });
 
@@ -311,9 +327,10 @@ const DS={
   base(){return(SET.apiBase||APP.apiBase).replace(/\/$/,'')},
   jsonp(url,ms=9000){return new Promise((res,rej)=>{const cb='__cb'+Math.random().toString(36).slice(2);const s=document.createElement('script');const t=setTimeout(()=>{clean();rej(new Error('timeout'))},ms);
     function clean(){clearTimeout(t);delete window[cb];s.remove()}window[cb]=d=>{clean();res(d)};s.onerror=()=>{clean();rej(new Error('network'))};s.src=url+(url.includes('?')?'&':'?')+'callback='+cb;document.head.appendChild(s)})},
+  /* ระบบบัญชีข้อมูลจังหวัดให้บริการแบบ JSONP เป็นหลัก (เลี่ยงปัญหา CORS) ถ้าไม่สำเร็จจึงลอง fetch */
   async get(path){const url=this.base()+path;
-    try{const c=new AbortController();const t=setTimeout(()=>c.abort(),9000);const r=await fetch(url,{signal:c.signal});clearTimeout(t);if(!r.ok)throw new Error('HTTP '+r.status);return await r.json()}
-    catch(e){return this.jsonp(url)}},
+    try{return await this.jsonp(url)}
+    catch(e){const c=new AbortController();const t=setTimeout(()=>c.abort(),9000);const r=await fetch(url,{signal:c.signal});clearTimeout(t);if(!r.ok)throw new Error('HTTP '+r.status);return await r.json()}},
   async ping(){const t0=performance.now();const d=await this.get('/package_search?rows=0');return{ok:!!d?.success,count:d?.result?.count??null,ms:Math.round(performance.now()-t0)}},
   /* รูปแบบชุดข้อมูลที่คาดหวัง: code, year, month, value, unit, agency  (code ตามรหัสรายการ เช่น P01-104) */
   async loadProduct(p){const rid=(SET.res||{})[p.id];if(!rid)return{state:'wait'};
@@ -332,12 +349,13 @@ function render(keepScroll){
   const cover=R.page==='cover';document.body.classList.toggle('cover',cover);document.body.dataset.page=R.page;
   shell();navRender();
   const p=R.page==='product'?byId(R.pid):null;
-  document.title=(p?`${pad2(p.id)} ${p.name}`:PAGES[R.page].t)+' · 12 Plus+ หนองบัวลำภู';
+  document.title=(p?`${pad2(p.id)} ${pname(p)}`:PT(R.page))+L(' · 12 Plus+ หนองบัวลำภู',' · 12 Plus+ Nong Bua Lam Phu');
+  const sst=$('#sideSearchT');if(sst)sst.textContent=L('ค้นหาสินค้า ข้อมูล หน้า','Search products, data, pages');
   const page=$('#page');page.style.setProperty('--pa',p?p.pa:css('--forest')||'#0F4A37');page.style.setProperty('--pa-ink',p?(isDark()?hexMix(p.pa,.35):hexMix(p.pa,-.12)):'');
   (PAGE_R[R.page]||PAGE_R.cover)(page,p);
   if(store.sget('nbl12-kiosk',0))kioskTick();
 }
 document.addEventListener('DOMContentLoaded',()=>{if(window.Chart){Chart.defaults.font.family='Kanit, Sarabun, sans-serif'}render();
   matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>render(true));
-  if(document.fonts)document.fonts.ready.then(()=>{if(['overview','product','report','sources','apistatus'].includes(R.page))render(true)});
+  if(document.fonts)document.fonts.ready.then(()=>{if(['overview','product','report','sources','apistatus','insights','map','brief'].includes(R.page))render(true)});
 });
