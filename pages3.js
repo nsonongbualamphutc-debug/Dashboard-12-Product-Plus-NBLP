@@ -2,7 +2,7 @@
    12 Plus+ · pages3.js — สื่อนำเสนอสินค้า (brief.html)
    slicer 3 มุมมอง:  สรุปสินค้า (A4) · แนะนำสินค้า (อินโฟขายของ) · หนังสือสินค้า (Lookbook พลิกหน้า)
    ===================================================================== */
-const BV=[['brief','สรุปสินค้า','Summary','print'],['promo','แนะนำสินค้า','Showcase','star'],['book','หนังสือสินค้า','Lookbook','report']];
+const BV=[['brief','สรุปสินค้า','Summary','print'],['promo','แนะนำสินค้า','Showcase','star'],['book','หนังสือสินค้า','Lookbook','report'],['tag','ป้าย QR','QR tags','grid']];
 const absUrl=q=>location.href.replace(/[?#].*$/,'').replace(/[^/]*$/,'')+q;
 const vaP=p=>{const v=VA[p.id];return v?{s:v.slice(0,3).map(x=>({t:L(x[0],x[1]),v:x[2]})),u:L(v[3],v[4])}:null};
 const fP=v=>v>=1000?nf.format(Math.round(v)):v>=10?nf.format(Math.round(v)):v.toFixed(2).replace(/\.?0+$/,'');
@@ -16,21 +16,23 @@ PAGE_R.brief=page=>{
   const p=byId(pid);store.sset('nbl12-brief',pid);page.style.setProperty('--pa',p.pa);document.body.style.setProperty('--pa',p.pa);
   const sub={brief:L('สรุปสินค้าแผ่นเดียว ขนาด A4 พิมพ์หรือบันทึกเป็น PDF ส่งต่อได้ทันที','A single A4 summary to print or share'),
     promo:L('อินโฟกราฟิกแนะนำสินค้าสำหรับผู้ซื้อ พร้อมร้านค้า แชร์ LINE / Facebook และสร้างภาพโพสต์ได้ในคลิกเดียว','A buyer-facing showcase with shops, sharing and a one-click social post'),
-    book:L('เปิดอ่านสินค้าทั้ง 14 อย่างแบบหนังสือ พลิกทีละหน้า ทุกสินค้าโยงไปยังร้านที่ซื้อได้','Flip through all 14 products like a book — every page links to where to buy')}[v];
+    book:L('เปิดอ่านสินค้าทั้ง 14 อย่างแบบหนังสือ พลิกทีละหน้า ทุกสินค้าโยงไปยังร้านที่ซื้อได้','Flip through all 14 products like a book — every page links to where to buy'),
+    tag:L('ป้าย QR ติดสินค้า หน้าร้าน หรือบูธ ลูกค้าสแกนแล้วเห็นเรื่องราว ที่มา และร้านที่ซื้อได้ พิมพ์บนกระดาษสติกเกอร์ A4','QR tags for products, shelves and booths — scan to see the story, origin and shops')}[v];
   page.innerHTML=`
   <div class="sx-head no-print">
     <div class="sx-t"><span class="eyebrow">Product showcase · 12 Plus+</span><h1>${L('สื่อนำเสนอสินค้า','Product showcase')}</h1><p>${sub}</p></div>
     <div class="sx-ctl">
       <div class="slicer" role="tablist" aria-label="${L('เลือกรูปแบบ','Choose view')}">${BV.map(([k,t,e,i])=>`<button type="button" role="tab" data-bv="${k}" aria-selected="${k===v}">${ic(i)}<span>${L(t,e)}</span></button>`).join('')}<i class="sl-ind" style="--i:${BV.findIndex(b=>b[0]===v)}"></i></div>
-      ${v!=='book'?`<select class="sel" id="bSel" aria-label="${L('เลือกสินค้า','Choose product')}">${P.map(x=>`<option value="${x.id}"${x.id===pid?' selected':''}>${pad2(x.id)} ${esc(pname(x))}${x.gi?' · GI':''}</option>`).join('')}</select>`:''}
+      ${v!=='book'&&v!=='tag'?`<select class="sel" id="bSel" aria-label="${L('เลือกสินค้า','Choose product')}">${P.map(x=>`<option value="${x.id}"${x.id===pid?' selected':''}>${pad2(x.id)} ${esc(pname(x))}${x.gi?' · GI':''}</option>`).join('')}</select>`:''}
     </div>
   </div>
   <div id="bv" class="bv-${v}"></div>`;
-  $$('[data-bv]',page).forEach(b=>b.onclick=()=>go({page:'brief',q:new URLSearchParams('v='+b.dataset.bv+(b.dataset.bv==='book'?'':'&p='+pid))}));
+  $$('[data-bv]',page).forEach(b=>b.onclick=()=>go({page:'brief',q:new URLSearchParams('v='+b.dataset.bv+(b.dataset.bv==='book'||b.dataset.bv==='tag'?'':'&p='+pid))}));
   const sel=$('#bSel');if(sel)sel.onchange=e=>go({page:'brief',q:new URLSearchParams('v='+v+'&p='+e.target.value)});
   const box=$('#bv');
   if(v==='brief'){_briefA4(box);const t=$('.ph-title',box);if(t){$$('.row',t).forEach(r=>{r.querySelector('#bSel')?.remove()});const r=$('.row',t);t.replaceWith(Object.assign(document.createElement('div'),{className:'sx-act no-print',innerHTML:r?r.innerHTML:''}))}}
   else if(v==='promo')promoView(box,p);
+  else if(v==='tag')tagView(box);
   else bookView(box,+q.get('p')||0);
 };
 
@@ -130,7 +132,7 @@ const BK={cur:0,n:0,mode:'spread',auto:0,snd:true,busy:false};
 function bkFaces(){
   const tot=sum(P.map(p=>periodVal(p,S.y))),prod=sum(P.map(p=>p.prodY[S.y]));
   const F=[];
-  F.push(`<div class="pg dark cover"><div class="cv-ph" style="background-image:url(img/kv-00.webp)"></div><div class="hx-grid" aria-hidden="true"></div>
+  F.push(`<div class="pg dark cover"><div class="cv-ph" style="background-image:url(img/book-cover.webp),url(img/kv-00.webp)"></div><div class="hx-grid" aria-hidden="true"></div>
     <div class="cv-in"><div class="cv-org"><img src="img/seal.png" alt=""><span><b>${L('จังหวัดหนองบัวลำภู','Nong Bua Lam Phu')}</b>${L('Nong Bua Lam Phu Province','Thailand')}</span></div>
     <div class="cv-mid"><span class="big">14</span><span class="lp">Local<br>Products</span></div>
     <h1>${L('สินค้าอัตลักษณ์<br>หนองบัวลำภู','Signature products of<br>Nong Bua Lam Phu')}</h1><p>${L('จากแผ่นดินลุ่มภู สู่ตลาดโลก','From the Lam Phu plains to the world')}</p>
@@ -147,7 +149,7 @@ function bkFaces(){
     const va=vaP(p),sh=shopsOf(p),s=sh[0],hl=pen(p,'hl',p.hl),pk=p.season.indexOf(Math.max(...p.season)),mx=Math.max(...p.season);
     F.push(`<div class="pg dark pa" style="--pa:${p.pa}"><img class="pa-ph" src="${IMG('post',p.id)}" alt="${esc(pname(p))}" loading="lazy"><div class="pa-sh"></div>
       <span class="rh">12 Plus<sup>+</sup> · No.${pad2(p.id)}</span><span class="pa-no">${pad2(p.id)}</span>${badge(p,{label:false})}
-      <div class="pa-tx"><span class="eyebrow">${GN(p.g)}</span>${p.gi?`<span class="gi lg">${ic('star')} GI</span>`:''}<h2>${esc(pname(p))}</h2><span class="en">${esc(EN_MODE()?p.name:p.en)}</span><p>${esc(pen(p,'t',p.tagline))}</p></div><span class="pn">${4+2*n}</span></div>`);
+      <div class="pa-tx"><span class="eyebrow">${GN(p.g)}</span>${p.gi?`<span class="gi lg">${ic('star')} GI</span>`:''}<h2>${esc(pname(p))}</h2><span class="en">${esc(EN_MODE()?p.name:p.en)}</span><p>${esc(pen(p,'t',p.tagline))}</p>${typeof certRow==='function'?certRow(p,'mini'):''}</div><span class="pn">${4+2*n}</span></div>`);
     F.push(`<div class="pg pb" style="--pa:${p.pa}"><span class="rh r">No.${pad2(p.id)} · ${esc(pname(p))}</span>
       <div class="pb-ph">${['a','pack','b'].map(k=>`<img src="${IMG(k,p.id)}" alt="" loading="lazy">`).join('')}</div>
       <h3>${L('เรื่องราว','The story')}</h3><p class="pb-st">${esc(pen(p,'s',p.story))}</p>
