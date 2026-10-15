@@ -51,7 +51,7 @@ PAGE_R.cover=page=>{
     <div class="qlinks">
       <a class="ql" href="insights.html">${ic('chart')}<b>${PT('insights')}</b><span>${L('ดาวเด่น ดาวรุ่ง มูลค่าเพิ่ม และปฏิทินของดี','Stars, risers, value added and the seasonal calendar')}</span></a>
       <a class="ql" href="map.html">${ic('map')}<b>${PT('map')}</b><span>${L('มูลค่าและสินค้าเด่นรายอำเภอ','Value and leading products by district')}</span></a>
-      <a class="ql" href="brief.html">${ic('print')}<b>${PT('brief')}</b><span>${L('สรุปสินค้าแผ่นเดียว พิมพ์หรือส่งต่อได้ทันที','A one-sheet summary to print or share')}</span></a>
+      <a class="ql" href="brief.html?v=book">${ic('report')}<b>${L('หนังสือสินค้า 14 Local Products','14 Local Products lookbook')}</b><span>${L('พลิกอ่านทีละหน้า ทุกสินค้าโยงไปร้านที่ซื้อได้','Flip through every product and where to buy it')}</span></a>
       <a class="ql" href="report.html">${ic('report')}<b>${PT('report')}</b><span>${L('สรุปผู้บริหาร ตารางตัวชี้วัด','Executive summary and indicators')}</span></a>
       <a class="ql" href="apistatus.html">${ic('api')}<b>${PT('apistatus')}</b><span>${L('ตัวเลขไหนมาจาก API และสดแค่ไหน','Where every figure comes from')}</span></a>
     </div>
@@ -131,7 +131,7 @@ PAGE_R.product=(page,p)=>{
         <h1>${esc(pname(p))}<span class="en">${esc(EN_MODE()?p.name:p.en)}</span></h1>
         <div class="tagline">${esc(pen(p,'t',p.tagline))}</div><p class="story">${esc(pen(p,'s',p.story))}</p>
         <div class="hl">${hl.map(h=>`<span>${esc(h)}</span>`).join('')}</div>
-        <div class="cta"><a class="btn btn-p" href="#shops" data-jump="shops">${L('ซื้อได้ที่ไหน','Where to buy')} ${ic('arrowR')}</a><a class="btn btn-glass" href="#vs" data-jump="vs">${L('เส้นทางจากแหล่งผลิตถึงผู้ซื้อ','From source to buyer')}</a><a class="btn btn-glass" href="brief.html?p=${p.id}">${ic('print')} ${L('สรุป 1 หน้า','One-page brief')}</a></div>
+        <div class="cta"><a class="btn btn-p" href="#shops" data-jump="shops">${L('ซื้อได้ที่ไหน','Where to buy')} ${ic('arrowR')}</a><a class="btn btn-glass" href="#vs" data-jump="vs">${L('เส้นทางจากแหล่งผลิตถึงผู้ซื้อ','From source to buyer')}</a><a class="btn btn-glass" href="brief.html?v=promo&p=${p.id}">${ic('star')} ${L('แนะนำสินค้า','Showcase')}</a><a class="btn btn-glass" href="brief.html?v=book&p=${p.id}">${ic('report')} ${L('เปิดในหนังสือ','Lookbook')}</a></div>
       </div>
       <div class="hx-media" data-tilt>
         <div class="media-frame" style="background-image:url(${IMG('poster',p.id)})">${vid?`<video src="video/clip-${pad2(p.id)}.mp4" poster="${IMG('poster',p.id)}" autoplay muted loop playsinline preload="metadata" aria-label="${esc(pname(p))}"></video>`:''}

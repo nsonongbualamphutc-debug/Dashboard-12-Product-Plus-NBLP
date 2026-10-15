@@ -100,7 +100,7 @@ const FX=(()=>{
   }
   function bnav(){
     const bn=$('.bnav');if(!bn)return;const pg=R.page;
-    const it=[['index.html','home',L('หน้าแรก','Home'),pg==='cover'],['overview.html','grid',L('ภาพรวม','Overview'),pg==='overview'],[pg==='cover'?'p01.html':null,'star',L('สินค้า','Products'),pg==='product','menu'],['map.html','map',L('แผนที่','Map'),pg==='map'],[null,'search',L('ค้นหา','Search'),false,'search']];
+    const it=[['index.html','home',L('หน้าแรก','Home'),pg==='cover'],['overview.html','grid',L('ภาพรวม','Overview'),pg==='overview'],[pg==='cover'?'p01.html':null,'star',L('สินค้า','Products'),pg==='product','menu'],['brief.html?v=book','report',L('หนังสือ','Lookbook'),pg==='brief'],[null,'search',L('ค้นหา','Search'),false,'search']];
     bn.innerHTML=it.map(([h,i,t,a,act])=>h?`<a href="${h}"${a?' aria-current="page"':''}>${ic(i)}<span>${t}</span></a>`:`<button type="button" data-act="${act}"${a?' aria-current="page"':''}>${ic(i)}<span>${t}</span></button>`).join('');
   }
   return{init(page){setup();bnav();reveal(page);countUp(page);tilt(page);dust(page)}};

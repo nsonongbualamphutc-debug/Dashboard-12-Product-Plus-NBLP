@@ -120,7 +120,7 @@ function prevLabel(){const ce=y=>EN_MODE()?y-543:y;return S.mode==='M'?MO()[S.m-
 
 /* ---------- routing (ไร้รอยต่อ) ---------- */
 const PAGES={cover:{f:'index.html',t:'หน้าหลัก',en:'Home',ic:'home'},overview:{f:'overview.html',t:'ภาพรวม 14 สินค้า',en:'Overview',ic:'grid'},
-  insights:{f:'insights.html',t:'วิเคราะห์เชิงกลยุทธ์',en:'Strategic insights',ic:'chart'},map:{f:'map.html',t:'แผนที่แหล่งผลิต',en:'Production map',ic:'map'},brief:{f:'brief.html',t:'สรุป 1 หน้า (A4)',en:'One-page brief',ic:'print'},
+  insights:{f:'insights.html',t:'วิเคราะห์เชิงกลยุทธ์',en:'Strategic insights',ic:'chart'},map:{f:'map.html',t:'แผนที่แหล่งผลิต',en:'Production map',ic:'map'},brief:{f:'brief.html',t:'สื่อนำเสนอสินค้า',en:'Product showcase',ic:'star'},
   report:{f:'report.html',t:'รายงานและบทวิเคราะห์',en:'Report & analysis',ic:'report'},sources:{f:'sources.html',t:'แหล่งข้อมูลและที่มา',en:'Data sources',ic:'source'},
   apistatus:{f:'apistatus.html',t:'สถานะการเชื่อมต่อข้อมูล (API)',en:'API status',ic:'api'},entry:{f:'entry.html',t:'กรอกข้อมูล',en:'Data entry',ic:'lock'},settings:{f:'settings.html',t:'ตั้งค่าระบบ',en:'Settings',ic:'gear'}};
 const PT=k=>L(PAGES[k].t,PAGES[k].en);
@@ -212,12 +212,12 @@ function shell(){
 }
 function navRender(){
   const cur=R.page;
-  $('#navMain').innerHTML=['cover','overview','insights','map'].map(k=>`<a href="${PAGES[k].f}"${cur===k?' aria-current="page"':''}>${ic(PAGES[k].ic)}${PT(k)}</a>`).join('');
+  $('#navMain').innerHTML=['cover','overview','insights','map','brief'].map(k=>`<a href="${PAGES[k].f}"${cur===k?' aria-current="page"':''}>${ic(PAGES[k].ic)}${PT(k)}</a>`).join('');
   $('#navT1').textContent=L('สินค้าอัตลักษณ์','Identity products');$('#navT2').textContent=L('ข้อมูลและระบบ','Data & system');
   document.documentElement.lang=EN_MODE()?'en':'th';
   $('#navP').innerHTML=P.map(p=>{const c=periodVal(p,S.y),q=periodVal(p,S.y-1),g=q?c/q-1:null;
     return`<a href="${pFile(p.id)}"${R.page==='product'&&R.pid===p.id?' aria-current="page"':''}><span class="no">${pad2(p.id)}</span>${badge(p,{label:false})}<span class="n">${esc(pname(p))}${giTag(p,'sm')}<span class="v num">${fB(c)}</span></span>${g==null?'':`<span class="g ${g>=0?'up':'down'}">${g>=0?'▲':'▼'}${Math.abs(g*100).toFixed(1)}%</span>`}</a>`}).join('');
-  $('#navSys').innerHTML=['report','brief','sources','apistatus','entry','settings'].map(k=>`<a href="${PAGES[k].f}"${cur===k?' aria-current="page"':''}>${ic(PAGES[k].ic)}${PT(k)}</a>`).join('');
+  $('#navSys').innerHTML=['report','sources','apistatus','entry','settings'].map(k=>`<a href="${PAGES[k].f}"${cur===k?' aria-current="page"':''}>${ic(PAGES[k].ic)}${PT(k)}</a>`).join('');
   const per=['overview','product','report','insights','map','brief'].includes(cur);
   const maxM=S.y===LAST.y?LAST.m:12;if(S.m>maxM)S.m=maxM;
   $('#period').innerHTML=per?`<div class="seg" role="group" aria-label="มุมมอง"><button type="button" data-act="mY" aria-pressed="${S.mode==='Y'}">${L('รายปี','Yearly')}</button><button type="button" data-act="mM" aria-pressed="${S.mode==='M'}">${L('รายเดือน','Monthly')}</button></div>
