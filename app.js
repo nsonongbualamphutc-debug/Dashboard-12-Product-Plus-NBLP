@@ -192,7 +192,7 @@ function shell(){
   </div>`);
   $('#foot').innerHTML=`<div class="foot-in">
     <div class="who"><img src="img/seal.png" alt=""><div>
-      <b>จัดทำโดย สำนักงานจังหวัดหนองบัวลำภู</b><br>
+      <b>สำนักงานจังหวัดหนองบัวลำภู</b><br>
       ศาลากลางจังหวัดหนองบัวลำภู ชั้น 4 ถ.หนองบัวลำภู – เลย<br>
       ต.ลำภู อ.เมือง จ.หนองบัวลำภู 39000</div></div>
     <div><b>หน่วยงานเจ้าของข้อมูล</b><div class="ag">${AGENCIES.map(a=>`<span>${a}</span>`).join('')}</div></div>

@@ -122,6 +122,7 @@ PAGE_R.product=(page,p)=>{
   const api=DS.cache[p.id];
   page.innerHTML=`
   <section class="hero" aria-label="${esc(p.name)}">
+    <div class="hero-bg" aria-hidden="true" style="background-image:url(${IMG('kv',p.id)})"></div>
     <div class="hero-txt"><span class="big-no" aria-hidden="true">${pad2(p.id)}</span>
       <div class="rank"><span class="chip-no">สินค้าอัตลักษณ์ ${pad2(p.id)}/14</span><span class="eyebrow">${GNAME(p.g)}</span></div>
       <h1>${esc(p.name)}<span class="en">${esc(p.en)}</span></h1>
