@@ -353,6 +353,7 @@ function render(keepScroll){
   const sst=$('#sideSearchT');if(sst)sst.textContent=L('ค้นหาสินค้า ข้อมูล หน้า','Search products, data, pages');
   const page=$('#page');page.style.setProperty('--pa',p?p.pa:css('--forest')||'#0F4A37');page.style.setProperty('--pa-ink',p?(isDark()?hexMix(p.pa,.35):hexMix(p.pa,-.12)):'');
   (PAGE_R[R.page]||PAGE_R.cover)(page,p);
+  document.body.style.setProperty('--pa',p?p.pa:'#0F4A37');if(typeof FX!=='undefined')FX.init(page);
   if(store.sget('nbl12-kiosk',0))kioskTick();
 }
 document.addEventListener('DOMContentLoaded',()=>{if(window.Chart){Chart.defaults.font.family='Kanit, Sarabun, sans-serif'}render();

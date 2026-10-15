@@ -10,6 +10,8 @@ const distVal=(p,i)=>periodVal(p,S.y)*p.dist[i]/sum(p.dist);
 const vaMult=p=>{const v=VA[p.id];return v?v[2][2]/v[0][2]:null};
 const KX=v=>v>=100?Math.round(v):v>=10?v.toFixed(0):v.toFixed(1);
 const yCE=y=>EN_MODE()?y-543:y;
+function ticker(){const it=P.map(p=>{const c=periodVal(p,S.y),q=periodVal(p,S.y-1),g=q?c/q-1:0;return`<a href="${pFile(p.id)}"><b>${pad2(p.id)}</b>${esc(pname(p))}<span class="num">${fShort(c)}</span><i class="${g>=0?'up':'dn'}">${g>=0?'▲':'▼'} ${pct(Math.abs(g)).slice(1)}</i></a>`}).join('');
+  return`<div class="tick" aria-label="${L('มูลค่าจำหน่ายรายสินค้า','Sales by product')}"><span class="tick-l"><i></i>LIVE · ${periodLabel()}</span><div class="tick-w"><div class="tick-in">${it}${it}</div></div></div>`}
 
 function tile(p){const c=periodVal(p,S.y),q=periodVal(p,S.y-1),g=q?c/q-1:null;
   return`<a class="tile" href="${pFile(p.id)}"><div class="ph" style="background-image:url(${IMG('kv',p.id)})"></div>${badge(p,{label:false})}<span class="no">${pad2(p.id)}</span>
@@ -22,23 +24,24 @@ function nowStrip(){const L0=nowProducts();
 PAGE_R.cover=page=>{
   const tot=sum(P.map(p=>periodVal(p,S.y))),prod=sum(P.map(p=>p.prodY[S.y])),R0=readyAll();
   const chip=p=>`<a href="${pFile(p.id)}">${badge(p,{label:false})}${pad2(p.id)} · ${esc(pname(p))}${p.gi?' <span class="gi">GI</span>':''}</a>`;
-  const lt='background:rgba(255,255,255,.7);color:#10211A;border-color:rgba(20,35,28,.15)';
+  const lt='';
   page.innerHTML=`
   <section class="cv">
-    <div class="bg" role="img" aria-label="${L('สินค้าอัตลักษณ์ 14 รายการของจังหวัดหนองบัวลำภู','14 identity products of Nong Bua Lam Phu')}"></div>
+    <div class="bg" role="img" aria-label="${L('สินค้าอัตลักษณ์ 14 รายการของจังหวัดหนองบัวลำภู','14 identity products of Nong Bua Lam Phu')}"></div><div class="hx-grid" aria-hidden="true"></div><canvas class="fx-dust" aria-hidden="true"></canvas>
     <div class="cv-top"><img src="img/seal.png" alt="ตราจังหวัดหนองบัวลำภู"><span class="org"><b>${L('จังหวัดหนองบัวลำภู','Nong Bua Lam Phu Province')}</b><span>${L('Nong Bua Lam Phu Province','Thailand')}</span></span><span class="x">×</span><img class="gd" src="img/gd-catalog.png" alt="GD Catalog"><span class="sp"></span>
-      <button class="btn btn-o" type="button" data-act="lang" style="${lt}">${ic('globe')} ${L('English','ภาษาไทย')}</button>
-      <a class="btn btn-o" href="apistatus.html" style="${lt}">${ic('db')} ${L('สถานะข้อมูล','Data status')}</a></div>
+      <button class="btn btn-glass" type="button" data-act="lang">${ic('globe')} ${L('English','ภาษาไทย')}</button>
+      <a class="btn btn-glass" href="apistatus.html">${ic('db')} ${L('สถานะข้อมูล','Data status')}</a></div>
     <div class="cv-main">
-      <span class="eyebrow" style="color:#8A6420">${L('Dashboard เกษตรมูลค่าสูง · '+APP.fy,'High-value agriculture dashboard · FY2026')}</span>
-      <div class="wm">12 Plus<sup>+</sup></div>
+      <span class="eyebrow">${L('Dashboard เกษตรมูลค่าสูง · '+APP.fy,'High-value agriculture dashboard · FY2026')}</span>
+      <div class="wm" data-text="12 Plus+">12 Plus<sup>+</sup></div>
       <h1>${L('สินค้าอัตลักษณ์หนองบัวลำภู<br>จากแผ่นดินลุ่มภู สู่ตลาดทั่วโลก','Identity products of Nong Bua Lam Phu<br>from the Lam Phu plains to the world')}</h1>
       <p>${L('ติดตามการผลิตและการขายของดี 14 รายการของจังหวัด ตั้งแต่แหล่งผลิต การแปรรูป ไปจนถึงมือผู้ซื้อ พร้อมแหล่งที่มาของข้อมูลทุกตัวเลข','Follow production and sales of the province’s 14 signature products — from farm and loom to the buyer — with a source for every figure.')}</p>
       <div class="cv-stats"><div><b>14</b><span>${L('สินค้าอัตลักษณ์','identity products')}</span></div><div><b>3</b><span>${L('สินค้า GI','GI products')}</span></div><div><b>${fmtBaht(tot).n}</b><span>${fmtBaht(tot).u} · ${periodLabel()}</span></div><div><b>${nf.format(prod)}</b><span>${L('เกษตรกรและผู้ผลิต','farmers & makers')}</span></div></div>
-      <div class="cta"><a class="btn btn-f" href="overview.html" style="padding:12px 22px;font-size:15px">${L('เข้าสู่แดชบอร์ด','Enter dashboard')} ${ic('arrowR')}</a><a class="btn btn-o" href="${pFile(1)}" style="${lt}">${ic('play')} ${L('เริ่มชมสินค้าชิ้นแรก','Start the tour')}</a></div>
+      <div class="cta"><a class="btn btn-f" href="overview.html" style="padding:12px 22px;font-size:15px">${L('เข้าสู่แดชบอร์ด','Enter dashboard')} ${ic('arrowR')}</a><a class="btn btn-glass" href="${pFile(1)}">${ic('play')} ${L('เริ่มชมสินค้าชิ้นแรก','Start the tour')}</a></div>
     </div>
     <div class="marq" aria-label="${L('สินค้าอัตลักษณ์ทั้ง 14 รายการ','All 14 products')}"><div class="marq-in">${P.map(chip).join('')}${P.map(chip).join('')}</div></div>
   </section>
+  ${ticker()}
   <section class="cv-sec">${nowStrip()}</section>
   <section class="cv-sec" style="padding-top:0">
     <div class="ph-title"><div><span class="eyebrow">${L('เลือกชมสินค้า','Browse products')}</span><h1>${L('ของดี 14 อย่าง เรียงตามแบบสำรวจรายการข้อมูล','14 products, in survey order')}</h1></div><a class="btn btn-o" href="overview.html">${L('ดูภาพรวมทั้งหมด','See the overview')} ${ic('arrowR')}</a></div>
@@ -61,11 +64,12 @@ PAGE_R.overview=page=>{
   const tot=sum(P.map(p=>periodVal(p,S.y))),pre=sum(P.map(p=>periodVal(p,S.y-1)||0)),prod=sum(P.map(p=>p.prodY[S.y])),R0=readyAll();
   const ex=tot-periodVal(byId(2),S.y),exp=pre-(periodVal(byId(2),S.y-1)||0);
   page.innerHTML=`
-  <section class="ov-hero"><div class="bg"></div><div class="ov-txt">
+  <section class="ov-hero"><div class="bg"></div><div class="hx-grid" aria-hidden="true"></div><canvas class="fx-dust" aria-hidden="true"></canvas><div class="ov-txt">
     <span class="eyebrow">${L('ภาพรวม','Overview')} · ${periodLabel()}</span>
     <h1>${L('ของดี <em>14 อย่าง</em><br>จากแผ่นดินหนองบัวลำภู','<em>14 signature</em><br>products of Nong Bua Lam Phu')}</h1>
     <p>${L('มูลค่าการจำหน่าย การเติบโต และความพร้อมของข้อมูลทุกสินค้าในหน้าเดียว แตะการ์ดสินค้าเพื่อดูเรื่องราว ตัวเลข และแหล่งซื้อ','Sales value, growth and data readiness for every product on one page. Tap a card for its story, figures and where to buy.')}</p>
-    <div class="cta"><a class="btn btn-f" href="${pFile(1)}">${L('เริ่มชมสินค้าชิ้นแรก','Start the tour')} ${ic('arrowR')}</a><button class="btn btn-o" type="button" data-act="present" style="background:rgba(255,255,255,.7);color:#10211A">${ic('play')} ${L('นำเสนอเต็มจอ','Present full screen')}</button></div></div></section>
+    <div class="cta"><a class="btn btn-f" href="${pFile(1)}">${L('เริ่มชมสินค้าชิ้นแรก','Start the tour')} ${ic('arrowR')}</a><button class="btn btn-glass" type="button" data-act="present">${ic('play')} ${L('นำเสนอเต็มจอ','Present full screen')}</button></div></div></section>
+  ${ticker()}
   <div class="kpis">
     ${kpi(L('มูลค่าจำหน่ายรวม 14 สินค้า','Total sales, 14 products'),fmtBaht(tot).n,fmtBaht(tot).u,grTxt(tot,pre),tot>=pre?'pos':'neg',pill('sim'))}
     ${kpi(L('มูลค่ารวม ไม่รวมอ้อย','Total excluding sugarcane'),fmtBaht(ex).n,fmtBaht(ex).u,grTxt(ex,exp),ex>=exp?'pos':'neg',L('ดูสินค้าชุมชนโดยไม่ถูกอ้อยกลบ','Community products without the sugarcane effect'))}
@@ -117,29 +121,35 @@ PAGE_R.product=(page,p)=>{
   const vid=SET.video&&!matchMedia('(prefers-reduced-motion: reduce)').matches,api=DS.cache[p.id];
   const hl=pen(p,'hl',p.hl);const vsv=store.get('nbl12-vsview','viz');
   page.innerHTML=`
-  <section class="hero" aria-label="${esc(pname(p))}">
-    <div class="hero-bg" aria-hidden="true" style="background-image:url(${IMG('kv',p.id)})"></div>
-    <div class="hero-txt"><span class="big-no" aria-hidden="true">${pad2(p.id)}</span>
-      <div class="rank"><span class="chip-no">${L('สินค้าอัตลักษณ์','Identity product')} ${pad2(p.id)}/14</span>${p.gi?`<span class="gi lg" title="สิ่งบ่งชี้ทางภูมิศาสตร์">${ic('star')} ${L('สินค้า GI','GI product')}</span>`:''}<span class="eyebrow">${GN(p.g)}</span></div>
-      <h1>${esc(pname(p))}<span class="en">${esc(EN_MODE()?p.name:p.en)}</span></h1>
-      <div class="tagline">${esc(pen(p,'t',p.tagline))}</div><p class="story">${esc(pen(p,'s',p.story))}</p>
-      <div class="hl">${hl.map(h=>`<span>${esc(h)}</span>`).join('')}</div>
-      <div class="price-row">
-        <div class="price"><small>${L('ราคาเฉลี่ย','Average price')} ${yCE(S.y)}</small><b class="num">${nf.format(Math.round(p.priceY[S.y]))}</b> <small style="display:inline">${esc(pen(p,'priceU',p.priceU))}</small></div>
-        <div class="price"><small>${L('มูลค่าจำหน่าย','Sales value')} ${periodLabel()}</small><b class="num">${fmtBaht(cur).n}</b> <small style="display:inline">${fmtBaht(cur).u}</small></div>
-        <div class="price"><small>${L('ฤดูกาลเด่น','Peak season')}</small><b class="s">${MOF()[peakIdx]}</b> <small style="display:inline">${esc(pen(p,'peak',p.peakTxt))}</small></div>
+  <section class="hx" aria-label="${esc(pname(p))}">
+    <div class="hx-bg" aria-hidden="true" style="background-image:url(${IMG('kv',p.id)})"></div>
+    <div class="hx-shade" aria-hidden="true"></div><div class="hx-grid" aria-hidden="true"></div><canvas class="fx-dust" aria-hidden="true"></canvas>
+    <span class="hx-no" aria-hidden="true">${pad2(p.id)}</span>
+    <div class="hx-in">
+      <div class="hx-txt">
+        <div class="rank"><span class="chip-no">${L('สินค้าอัตลักษณ์','Identity product')} ${pad2(p.id)}/14</span>${p.gi?`<span class="gi lg" title="สิ่งบ่งชี้ทางภูมิศาสตร์">${ic('star')} ${L('สินค้า GI','GI product')}</span>`:''}<span class="eyebrow">${GN(p.g)}</span></div>
+        <h1>${esc(pname(p))}<span class="en">${esc(EN_MODE()?p.name:p.en)}</span></h1>
+        <div class="tagline">${esc(pen(p,'t',p.tagline))}</div><p class="story">${esc(pen(p,'s',p.story))}</p>
+        <div class="hl">${hl.map(h=>`<span>${esc(h)}</span>`).join('')}</div>
+        <div class="cta"><a class="btn btn-p" href="#shops" data-jump="shops">${L('ซื้อได้ที่ไหน','Where to buy')} ${ic('arrowR')}</a><a class="btn btn-glass" href="#vs" data-jump="vs">${L('เส้นทางจากแหล่งผลิตถึงผู้ซื้อ','From source to buyer')}</a><a class="btn btn-glass" href="brief.html?p=${p.id}">${ic('print')} ${L('สรุป 1 หน้า','One-page brief')}</a></div>
       </div>
-      <div class="cta"><a class="btn btn-p" href="#shops" data-jump="shops">${L('ซื้อได้ที่ไหน','Where to buy')} ${ic('arrowR')}</a><a class="btn btn-o" href="#vs" data-jump="vs">${L('เส้นทางจากแหล่งผลิตถึงผู้ซื้อ','From source to buyer')}</a><a class="btn btn-o" href="brief.html?p=${p.id}">${ic('print')} ${L('สรุป 1 หน้า','One-page brief')}</a></div>
+      <div class="hx-media" data-tilt>
+        <div class="media-frame" style="background-image:url(${IMG('poster',p.id)})">${vid?`<video src="video/clip-${pad2(p.id)}.mp4" poster="${IMG('poster',p.id)}" autoplay muted loop playsinline preload="metadata" aria-label="${esc(pname(p))}"></video>`:''}
+          <i class="hud tl"></i><i class="hud tr"></i><i class="hud bl"></i><i class="hud br"></i><i class="scan"></i>
+          <span class="live"><i></i>Showcase · No.${pad2(p.id)}</span></div>
+        <div class="ar ar1"><small>YoY</small><b class="${gr>=0?'up':'dn'}">${gr==null?'–':(gr>=0?'▲ ':'▼ ')+pct(Math.abs(gr)).slice(1)}</b></div>
+        <div class="ar ar2"><small>${L('ราคาเฉลี่ย','Avg price')}</small><b><span class="cu">${nf.format(Math.round(p.priceY[S.y]))}</span> <em>${esc(pen(p,'priceU',p.priceU))}</em></b></div>
+        <div class="ar ar3"><small>${L('ฤดูกาลเด่น','Peak')}</small><b>${MOF()[peakIdx]}</b></div>
+        ${badge(p,{spin:true})}${vid?`<button class="vbtn" type="button" id="vBtn" aria-label="${L('หยุดวิดีโอ','Pause video')}">${ic('pause')}</button>`:''}
+      </div>
     </div>
-    <div class="hero-media"><div class="media-frame" style="background-image:url(${IMG('poster',p.id)})">${vid?`<video src="video/clip-${pad2(p.id)}.mp4" poster="${IMG('poster',p.id)}" autoplay muted loop playsinline preload="metadata" aria-label="${esc(pname(p))}"></video>`:''}<span class="live"><i></i>Showcase · No.${pad2(p.id)}</span></div>
-      ${badge(p,{spin:true})}${vid?`<button class="vbtn" type="button" id="vBtn" aria-label="${L('หยุดวิดีโอ','Pause video')}">${ic('pause')}</button>`:''}</div>
+    <div class="hx-stats">
+      <div class="st"><small>${L('มูลค่าการจำหน่าย','Sales value')} · ${periodLabel()}</small><b><span class="cu">${fmtBaht(cur).n}</span><em>${fmtBaht(cur).u}</em></b><span class="d ${gr>=0?'pos':'neg'}">${grTxt(cur,pre)}</span><span class="src">${(isReal&&p.real.v?pill('real'):pill('sim'))} ${esc(p.agency)}</span></div>
+      <div class="st"><small>${L('ปริมาณผลผลิต/จำหน่าย','Volume')}</small><b><span class="cu">${nf.format(Math.round(vol))}</span><em>${esc(p.volU)}</em></b><span class="d">${S.mode==='Y'?periodLabel():MOF()[S.m-1]}</span><span class="src">${isReal&&p.real.vol?pill('real'):pill('sim')}</span></div>
+      <div class="st"><small>${esc(pen(p,'prodL',p.prodL))}</small><b><span class="cu">${nf.format(p.prodY[S.y])}</span><em>${L('ราย','people')}</em></b><span class="d pos">${p.prodY[S.y-1]?'▲ '+pct(p.prodY[S.y]/p.prodY[S.y-1]-1)+L(' จากปีก่อน',' YoY'):''}</span><span class="src">${isReal&&p.real.prod?pill('real'):pill('sim')}</span></div>
+      <div class="st"><small>${L('รายการข้อมูลที่หน่วยงานมี','Data items available')}</small><b><span class="cu">${R0.ok}</span><em>/ ${R0.n}</em></b><span class="d">${R0.real?L('ส่งค่าจริงแล้ว ','Actual values: ')+R0.real:L('รอหน่วยงานส่งค่า','Awaiting agency data')}</span><span class="src">${api&&api.n?pill('api'):pill('wait')}</span></div>
+    </div>
   </section>
-  <div class="kpis">
-    ${kpi(L('มูลค่าการจำหน่าย · ','Sales value · ')+periodLabel(),fmtBaht(cur).n,fmtBaht(cur).u,grTxt(cur,pre),gr>=0?'pos':'neg',(isReal&&p.real.v?pill('real'):pill('sim'))+' '+esc(p.agency))}
-    ${kpi(L('ปริมาณผลผลิต/จำหน่าย','Volume'),nf.format(Math.round(vol)),esc(p.volU),S.mode==='Y'?periodLabel():MOF()[S.m-1],'',isReal&&p.real.vol?pill('real'):pill('sim'))}
-    ${kpi(esc(pen(p,'prodL',p.prodL)),nf.format(p.prodY[S.y]),L('ราย','people'),p.prodY[S.y-1]?'▲ '+pct(p.prodY[S.y]/p.prodY[S.y-1]-1)+L(' จากปีก่อน',' YoY'):'','pos',isReal&&p.real.prod?pill('real'):pill('sim'))}
-    ${kpi(L('รายการข้อมูลที่หน่วยงานมี','Data items available'),R0.ok,'/ '+R0.n,R0.real?L('ส่งค่าจริงแล้ว ','Actual values: ')+R0.real:L('รอหน่วยงานส่งค่า','Awaiting agency data'),'',`${api&&api.n?pill('api'):pill('wait')}`)}
-  </div>
   <div class="grid-2">
     <div class="card"><div class="card-h"><h3>${S.mode==='Y'?L('มูลค่าจำหน่ายรายเดือน','Monthly sales value'):L('มูลค่ารายเดือน · ไฮไลต์ ','Monthly value · highlight ')+MOF()[S.m-1]}</h3><span class="note">${yCE(S.y)} vs ${yCE(S.y-1)}</span></div><div class="chart-box"><canvas id="cMonth"></canvas></div></div>
     <div class="card"><div class="card-h"><h3>${S.mode==='Y'?L('มูลค่ารายปี','Yearly value'):MOF()[S.m-1]+L(' ย้อนหลัง',' by year')}</h3><span class="note">${S.mode==='Y'&&S.y===LAST.y?L('ปีล่าสุดถึง ','Latest year to ')+MO()[LAST.m-1]:''}</span></div><div class="chart-box"><canvas id="cYear"></canvas></div></div>
