@@ -271,7 +271,7 @@ table.t code{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
 
 /* ---------- overview ---------- */
 .ov-hero{position:relative;border-radius:26px;overflow:hidden;min-height:380px;display:flex;align-items:center;isolation:isolate;box-shadow:var(--shadow);background:#EFEDE4}
-.ov-hero .bg{position:absolute;inset:0;background:url(../img/kv-00.webp) right center/cover;z-index:-2;animation:kb 26s ease-in-out infinite alternate}
+.ov-hero .bg{position:absolute;inset:0;background:url(img/kv-00.webp) right center/cover;z-index:-2;animation:kb 26s ease-in-out infinite alternate}
 @keyframes kb{to{transform:scale(1.06) translateX(-1%)}}
 .ov-hero::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(248,246,239,.97) 0%,rgba(248,246,239,.9) 34%,rgba(248,246,239,0) 62%)}
 .ov-txt{padding:34px;max-width:620px;display:flex;flex-direction:column;gap:12px;color:#10211A}
@@ -292,7 +292,7 @@ table.t code{font-family:var(--f-mono);font-size:11.5px;color:var(--muted)}
 
 /* ---------- cover ---------- */
 .cv{position:relative;min-height:min(100svh,900px);display:flex;flex-direction:column;isolation:isolate;overflow:hidden;color:#10211A}
-.cv .bg{position:absolute;inset:0;background:url(../img/kv-00.webp) 70% center/cover;z-index:-2;animation:kb 30s ease-in-out infinite alternate}
+.cv .bg{position:absolute;inset:0;background:url(img/kv-00.webp) 70% center/cover;z-index:-2;animation:kb 30s ease-in-out infinite alternate}
 .cv::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(248,246,239,.97) 0%,rgba(248,246,239,.88) 36%,rgba(248,246,239,.15) 70%),linear-gradient(0deg,rgba(248,246,239,.9),rgba(248,246,239,0) 30%)}
 .cv-top{display:flex;align-items:center;gap:12px;padding-block:18px;padding-left:max(24px,env(safe-area-inset-left,0px));padding-right:max(24px,env(safe-area-inset-right,0px))}
 .cv-top img{height:54px;width:auto}
