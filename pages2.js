@@ -2,6 +2,8 @@
    12 Plus+ · pages2.js — หน้าปก ภาพรวม หน้าสินค้า (2 ภาษา)
    วิเคราะห์เชิงกลยุทธ์ · แผนที่แหล่งผลิต · สรุป 1 หน้า A4
    ===================================================================== */
+/* วิดีโอพื้นหลังหน้าปก: ปิดไว้ก่อนจนกว่าจะได้ CLIP 00 แบบมุมกว้าง (ตอนนี้คลิปเดิมซูมเข้าจนสินค้าถูกตัวหนังสือบัง) */
+const COVER_VIDEO=false;
 const MON_NOW=new Date().getMonth()+1;
 const GN=id=>{const g=GROUPS.find(x=>x.id===id);return g?L(g.name,g.en):''};
 const inSeason=(p,m)=>{const w=p.season,avg=sum(w)/12;return w[m-1]>=avg*1.12||w[m-1]===Math.max(...w)};
@@ -27,7 +29,7 @@ PAGE_R.cover=page=>{
   const lt='';
   page.innerHTML=`
   <section class="cv">
-    <div class="bg" role="img" aria-label="${L('สินค้าอัตลักษณ์ 14 รายการของจังหวัดหนองบัวลำภู','14 identity products of Nong Bua Lam Phu')}"></div>${SET.video&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&innerWidth>640?'<video class="cv-vid" src="video/clip-00.mp4" poster="img/poster-00.webp" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>':''}<div class="hx-grid" aria-hidden="true"></div><canvas class="fx-dust" aria-hidden="true"></canvas>
+    <div class="bg" role="img" aria-label="${L('สินค้าอัตลักษณ์ 14 รายการของจังหวัดหนองบัวลำภู','14 identity products of Nong Bua Lam Phu')}"></div>${COVER_VIDEO&&SET.video&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&innerWidth>640?'<video class="cv-vid" src="video/clip-00.mp4" poster="img/poster-00.webp" autoplay muted loop playsinline preload="metadata" aria-hidden="true"></video>':''}<div class="hx-grid" aria-hidden="true"></div><canvas class="fx-dust" aria-hidden="true"></canvas>
     <div class="cv-top"><img src="img/seal.png" alt="ตราจังหวัดหนองบัวลำภู"><span class="org"><b>${L('จังหวัดหนองบัวลำภู','Nong Bua Lam Phu Province')}</b><span>${L('Nong Bua Lam Phu Province','Thailand')}</span></span><span class="x">×</span><img class="gd" src="img/gd-catalog.png" alt="GD Catalog"><span class="sp"></span>
       <button class="btn btn-glass" type="button" data-act="lang">${ic('globe')} ${L('English','ภาษาไทย')}</button>
       <a class="btn btn-glass" href="apistatus.html">${ic('db')} ${L('สถานะข้อมูล','Data status')}</a></div>
@@ -164,7 +166,7 @@ PAGE_R.product=(page,p)=>{
     <div class="src-line" style="margin-top:16px"><span><b>${L('แหล่งที่มา','Source')}</b> ${ags.map(esc).join(' · ')}</span><span><b>${L('อ้างอิง','Reference')}</b> ${APP.survey}</span><span><b>${L('การเชื่อมต่อ','Connection')}</b> ${api&&api.n?`API ${api.n} · ${new Date(api.t).toLocaleDateString('th-TH')}`:L('รอข้อมูลเข้าระบบบัญชีข้อมูลจังหวัด','Awaiting provincial data catalog')}</span><a href="sources.html">${L('ทะเบียนข้อมูลทั้งหมด ›','All data sources ›')}</a></div>
   </section>
   <section><div class="card-h"><h3 style="font-size:18px">${L('แกลเลอรีสินค้า','Gallery')}</h3><span class="note">${L('แตะเพื่อดูภาพขยาย','Tap to enlarge')}</span></div>
-    <div class="gal" id="gal">${[['b','พร้อมเสิร์ฟถึงมือคุณ','Ready for you','3/4'],['maker','มือผู้ผลิต · ภาพประกอบ','Maker hands · illustrative','2/3'],['post','ภาพประชาสัมพันธ์','Promotional','2/3'],['pack','บรรจุภัณฑ์','Packaging','1/1'],['a','ต้นทางที่หนองบัวลำภู','At the source','16/9'],['shop','หน้าร้าน','Storefront','3/2'],['kv','Key Visual','Key visual','16/9']].map(([k,t,e,r],j)=>`<figure data-i="${j}" style="aspect-ratio:${r}"><img src="${IMG(k,p.id)}" alt="${esc(pname(p))} · ${L(t,e)}" decoding="async"><figcaption>${L(t,e)}</figcaption></figure>`).join('')}</div></section>
+    <div class="gal" id="gal">${[['b','พร้อมเสิร์ฟถึงมือคุณ','Ready for you','3/4'],['maker','มือผู้ผลิต · ภาพประกอบ','Maker hands · illustrative','2/3'],['post','ภาพประชาสัมพันธ์','Promotional','2/3'],['pack','บรรจุภัณฑ์','Packaging','1/1'],['a','ต้นทางที่หนองบัวลำภู','At the source','16/9'],['shop','นำเสนอ','Showcase','3/2'],['kv','Key Visual','Key visual','16/9']].map(([k,t,e,r],j)=>`<figure data-i="${j}" style="aspect-ratio:${r}"><img src="${IMG(k,p.id)}" alt="${esc(pname(p))} · ${L(t,e)}" decoding="async"><figcaption>${L(t,e)}</figcaption></figure>`).join('')}</div></section>
   <div class="grid-3">
     <div class="card"><div class="card-h"><h3>${L('แหล่งผลิตรายอำเภอ','Production by district')}</h3><a class="note" href="map.html?p=${p.id}">${L('ดูแผนที่ ›','Map ›')}</a></div><div class="chart-box sm"><canvas id="cDist"></canvas></div></div>
     <div class="card"><div class="card-h"><h3>${L('ช่องทางการจำหน่าย','Sales channels')}</h3><span class="note">%</span></div><div class="chart-box sm"><canvas id="cCh"></canvas></div></div>
