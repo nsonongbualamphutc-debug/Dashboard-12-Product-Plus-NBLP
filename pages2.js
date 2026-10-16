@@ -2,8 +2,8 @@
    12 Plus+ · pages2.js — หน้าปก ภาพรวม หน้าสินค้า (2 ภาษา)
    วิเคราะห์เชิงกลยุทธ์ · แผนที่แหล่งผลิต · สรุป 1 หน้า A4
    ===================================================================== */
-/* วิดีโอพื้นหลังหน้าปก: ปิดไว้ก่อนจนกว่าจะได้ CLIP 00 แบบมุมกว้าง (ตอนนี้คลิปเดิมซูมเข้าจนสินค้าถูกตัวหนังสือบัง) */
-const COVER_VIDEO=false;
+/* วิดีโอพื้นหลังหน้าปก (CLIP 00 มุมกว้าง) */
+const COVER_VIDEO=true;
 const MON_NOW=new Date().getMonth()+1;
 const GN=id=>{const g=GROUPS.find(x=>x.id===id);return g?L(g.name,g.en):''};
 const inSeason=(p,m)=>{const w=p.season,avg=sum(w)/12;return w[m-1]>=avg*1.12||w[m-1]===Math.max(...w)};
