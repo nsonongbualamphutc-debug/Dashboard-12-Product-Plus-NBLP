@@ -1338,3 +1338,21 @@ body.scrolled .top{box-shadow:0 10px 30px -20px rgba(0,0,0,.4)}
 /* ภาพใหม่จาก Prompt Studio v3 — ถ้ายังไม่มีไฟล์ ใช้ภาพเดิมอัตโนมัติ */
 .cv .bg{background-image:url(img/hero-00.webp),url(img/kv-00.webp);background-size:cover,cover;background-position:70% center,70% center}
 @media (max-width:640px){.cv .bg{background-image:url(img/hero-00m.webp),url(img/hero-00.webp),url(img/kv-00.webp);background-position:center top,70% center,70% center}}
+/* v3.3 */
+.nw{white-space:nowrap}
+.cv-main p.cv-lead{max-width:none;text-wrap:pretty}
+.cv-vid{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
+.cv .bg{z-index:-3}
+.by-how-g{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:16px;align-items:stretch}
+.by-ph{margin:0;position:relative;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);min-height:260px}
+.by-ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.by-ph figcaption{position:absolute;left:14px;bottom:12px;font-family:var(--f-head);font-size:13px;color:#fff;background:rgba(0,0,0,.45);backdrop-filter:blur(6px);padding:4px 12px;border-radius:99px}
+.by-how-g ol{grid-template-columns:1fr 1fr}
+@media (max-width:1000px){.by-how-g{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:640px){.by-how-g ol{grid-template-columns:minmax(0,1fr)}}
+h1,h2,h3{text-wrap:balance}
+p{text-wrap:pretty}
+.cv .bg,.cv-vid{scale:-1 1}
+@media (max-width:640px){.cv .bg{scale:1 1}}
+.cv-sec>*,.now,.now-h{min-width:0;max-width:100%}
+body.cover .page>*{min-width:0;max-width:100%}
