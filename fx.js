@@ -103,5 +103,16 @@ const FX=(()=>{
     const it=[['index.html','home',L('หน้าแรก','Home'),pg==='cover'],['overview.html','grid',L('ภาพรวม','Overview'),pg==='overview'],[pg==='cover'?'p01.html':null,'star',L('สินค้า','Products'),pg==='product','menu'],['brief.html?v=book','report',L('หนังสือ','Lookbook'),pg==='brief'],[null,'search',L('ค้นหา','Search'),false,'search']];
     bn.innerHTML=it.map(([h,i,t,a,act])=>h?`<a href="${h}"${a?' aria-current="page"':''}>${ic(i)}<span>${t}</span></a>`:`<button type="button" data-act="${act}"${a?' aria-current="page"':''}>${ic(i)}<span>${t}</span></button>`).join('');
   }
-  return{init(page){setup();bnav();reveal(page);countUp(page);tilt(page);dust(page)}};
+
+  /* ---------- จัดคำไทยไม่ให้ขาดผิดที่ ---------- */
+  const WJ='⁠',NB=' ';
+  const RE=[[/(การ|ความ|ผู้|นัก|ช่าง)(?=[ก-ฮเแโใไ])/g,'$1'+WJ],[/(ของ)(?=(ฝาก|ขวัญ|ดี))/g,'$1'+WJ],
+    [/(\d)\s+(?=(กก\.|ก\.|ตัน|ตัว|ปี|บาท|ราย|ชิ้น|ผืน|วัน|เดือน|หลอด|แห่ง|ลบ\.|ล้าน|พัน|ไร่|สนาม|กระถาง|หัว|แพ็ก|อำเภอ|รายการ|สินค้า|ดาว|กลุ่ม|ร้าน|หน่วยงาน))/g,'$1'+NB],
+    [/(ปี|พ\.ศ\.|ค\.ศ\.|หมู่|ต\.|อ\.|จ\.)\s(?=[\dก-ฮ])/g,'$1'+NB],[/([ก-๙])\/(?=[ก-๙])/g,'$1'+WJ+'/'+WJ]];
+  function glue(root){
+    const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>{const p=n.parentElement;return p&&!p.closest('script,style,textarea,input,select,option,svg,code,pre,.qr,.marq,.tick')&&/[ก-๙]/.test(n.nodeValue)?1:2}});
+    const L=[];while(w.nextNode())L.push(w.currentNode);
+    for(const n of L){let v=n.nodeValue;if(v.includes(WJ))continue;for(const[a,b]of RE)v=v.replace(a,b);if(v!==n.nodeValue)n.nodeValue=v}
+  }
+  return{init(page){glue(page);setup();bnav();reveal(page);countUp(page);tilt(page);dust(page)}};
 })();

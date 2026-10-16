@@ -7,6 +7,8 @@ const absUrl=q=>location.href.replace(/[?#].*$/,'').replace(/[^/]*$/,'')+q;
 const vaP=p=>{const v=VA[p.id];return v?{s:v.slice(0,3).map(x=>({t:L(x[0],x[1]),v:x[2]})),u:L(v[3],v[4])}:null};
 const fP=v=>v>=1000?nf.format(Math.round(v)):v>=10?nf.format(Math.round(v)):v.toFixed(2).replace(/\.?0+$/,'');
 const shopsOf=p=>SHOPS[p.id]||[];
+/* ตัดเรื่องราวตรงช่องว่าง (จบวลี) ไม่ตัดกลางคำ สำหรับหน้าหนังสือที่พื้นที่จำกัด */
+const shortStory=(t,n=150)=>{if(t.length<=n)return t;const i=t.lastIndexOf(' ',n);return t.slice(0,i>60?i:n)+' …'};
 
 const _briefA4=PAGE_R.brief;
 PAGE_R.brief=page=>{
@@ -152,7 +154,7 @@ function bkFaces(){
       <div class="pa-tx"><span class="eyebrow">${GN(p.g)}</span>${p.gi?`<span class="gi lg">${ic('star')} GI</span>`:''}<h2>${esc(pname(p))}</h2><span class="en">${esc(EN_MODE()?p.name:p.en)}</span><p>${esc(pen(p,'t',p.tagline))}</p>${typeof certRow==='function'?certRow(p,'mini'):''}</div><span class="pn">${4+2*n}</span></div>`);
     F.push(`<div class="pg pb" style="--pa:${p.pa}"><span class="rh r">No.${pad2(p.id)} · ${esc(pname(p))}</span>
       <div class="pb-ph">${['a','pack','b'].map(k=>`<img src="${IMG(k,p.id)}" alt="" loading="lazy">`).join('')}</div>
-      <h3>${L('เรื่องราว','The story')}</h3><p class="pb-st">${esc(pen(p,'s',p.story))}</p>
+      <h3>${L('เรื่องราว','The story')}</h3><p class="pb-st">${esc(shortStory(pen(p,'s',p.story)))} <a class="pb-more" href="${pFile(p.id)}">${L('อ่านต่อ ›','More ›')}</a></p>
       <ul class="pb-hl">${hl.slice(0,3).map(h=>`<li>${esc(h)}</li>`).join('')}</ul>
       ${va?`<div class="pb-va">${va.s.map((x,j)=>`${j?`<i>×${KX(x.v/va.s[j-1].v)}</i>`:''}<div><small>${esc(x.t)}</small><b>${fP(x.v)}</b></div>`).join('')}<span>${esc(va.u)}</span></div>`:''}
       <div class="pb-ss"><span>${L('ช่วงเด่น','Best')} <b>${MOF()[pk]}</b></span><div>${p.season.map((w,k)=>`<i class="${k===pk?'pk':''}" style="opacity:${(.18+.82*w/mx).toFixed(2)}"></i>`).join('')}</div></div>
