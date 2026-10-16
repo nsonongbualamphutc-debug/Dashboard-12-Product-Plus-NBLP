@@ -1371,3 +1371,7 @@ body{text-wrap:pretty}
 .pnav .n{white-space:normal;overflow:visible;text-overflow:clip}
 .pnav .v{white-space:nowrap}
 @media (min-width:1001px) and (max-width:1280px){.pnav a{grid-template-columns:18px 32px minmax(0,1fr) auto;gap:6px;padding:5px 6px}.pnav .bdg{width:32px;height:32px}.pnav .n{font-size:13px}}
+td.num,.num{white-space:nowrap}
+.kpi .l,.st small,.note,td,th,label,figcaption,.eyebrow,.spec dd,.pr-step b,.chap-h p,.vs-head p{text-wrap:balance}
+.t-short{display:none}
+@media (max-width:640px){.t-long{display:none}.t-short{display:inline}.tag-ctl .seg{flex-wrap:nowrap;overflow-x:auto;max-width:100%}.tag-ctl .seg button{white-space:nowrap}}

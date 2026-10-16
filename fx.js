@@ -109,10 +109,16 @@ const FX=(()=>{
   const RE=[[/(การ|ความ|ผู้|นัก|ช่าง)(?=[ก-ฮเแโใไ])/g,'$1'+WJ],[/(ของ)(?=(ฝาก|ขวัญ|ดี))/g,'$1'+WJ],
     [/(\d)\s+(?=(กก\.|ก\.|ตัน|ตัว|ปี|บาท|ราย|ชิ้น|ผืน|วัน|เดือน|หลอด|แห่ง|ลบ\.|ล้าน|พัน|ไร่|สนาม|กระถาง|หัว|แพ็ก|อำเภอ|รายการ|สินค้า|ดาว|กลุ่ม|ร้าน|หน่วยงาน))/g,'$1'+NB],
     [/(ปี|พ\.ศ\.|ค\.ศ\.|หมู่|ต\.|อ\.|จ\.)\s(?=[\dก-ฮ])/g,'$1'+NB],[/([ก-๙])\/(?=[ก-๙])/g,'$1'+WJ+'/'+WJ]];
+  const COMP=['ส่งค่าจริงแล้ว','การจำหน่ายรวม','ส่งออก','ซื้อขาย','ล้านบาท','พันบาท','หนองบัวลำภู','ลุ่มภู','ศรีบุญเรือง','ภูซาง','เพาะเห็ด','แปรรูป','วิสาหกิจ','ประกวด','พ่อแม่พันธุ์','น้ำเชื้อ','ไนโตรเจนเหลว','ของฝาก','ของขวัญ','ภูมิปัญญา','สิ่งบ่งชี้ทางภูมิศาสตร์'];
+  let GL=null;
+  function glueList(){if(GL)return GL;GL=[];const sg=window.Intl&&Intl.Segmenter?new Intl.Segmenter('th',{granularity:'word'}):null;
+    const words=[...new Set([...COMP,...(typeof P!=='undefined'?P.map(p=>p.name):[])])].sort((x,y)=>y.length-x.length);
+    for(const w of words){const g=sg?[...sg.segment(w)].map(x=>x.segment).join(WJ):w.split('').join(WJ);if(g!==w)GL.push([w,g])}return GL}
+  RE.push([/\s\/\s(?=\S{1,6}$)/g,NB+'/'+NB],[/(\d)-(?=\d)/g,'$1\u2011'],[/([ก-๙\)])\s(?=[A-Z][A-Z0-9.]{1,6}(\b|$))/g,'$1'+NB],[/(\d)\s+(?=(ซม\.|มม\.|ม\.|กม\.|ล้านบาท))/g,'$1'+NB]);
   function glue(root){
     const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT,{acceptNode:n=>{const p=n.parentElement;return p&&!p.closest('script,style,textarea,input,select,option,svg,code,pre,.qr,.marq,.tick')&&/[ก-๙]/.test(n.nodeValue)?1:2}});
     const L=[];while(w.nextNode())L.push(w.currentNode);
-    for(const n of L){let v=n.nodeValue;if(v.includes(WJ))continue;for(const[a,b]of RE)v=v.replace(a,b);if(v!==n.nodeValue)n.nodeValue=v}
+    for(const n of L){let v=n.nodeValue;if(v.includes(WJ))continue;for(const[w,g]of glueList())if(v.includes(w))v=v.split(w).join(g);for(const[a,b]of RE)v=v.replace(a,b);if(v!==n.nodeValue)n.nodeValue=v}
   }
   return{init(page){glue(page);setup();bnav();reveal(page);countUp(page);tilt(page);dust(page)}};
 })();

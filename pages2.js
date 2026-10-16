@@ -134,7 +134,7 @@ PAGE_R.product=(page,p)=>{
         <h1>${esc(pname(p))}<span class="en">${esc(EN_MODE()?p.name:p.en)}</span></h1>
         <div class="tagline">${esc(pen(p,'t',p.tagline))}</div><p class="story">${esc(pen(p,'s',p.story))}</p>
         <div class="hl">${hl.map(h=>`<span>${esc(h)}</span>`).join('')}</div>
-        <div class="cta"><a class="btn btn-p" href="#shops" data-jump="shops">${L('ซื้อได้ที่ไหน','Where to buy')} ${ic('arrowR')}</a><a class="btn btn-glass" href="#vs" data-jump="vs">${L('เส้นทางจากแหล่งผลิตถึงผู้ซื้อ','From source to buyer')}</a><a class="btn btn-glass" href="brief.html?v=promo&p=${p.id}">${ic('star')} ${L('แนะนำสินค้า','Showcase')}</a><a class="btn btn-glass" href="brief.html?v=book&p=${p.id}">${ic('report')} ${L('เปิดในหนังสือ','Lookbook')}</a></div>
+        <div class="cta"><a class="btn btn-p" href="#shops" data-jump="shops">${L('ซื้อได้ที่ไหน','Where to buy')} ${ic('arrowR')}</a><a class="btn btn-glass" href="#vs" data-jump="vs"><span class="t-long">${L('เส้นทางจากแหล่งผลิตถึงผู้ซื้อ','From source to buyer')}</span><span class="t-short">${L('เส้นทางสินค้า','Journey')}</span></a><a class="btn btn-glass" href="brief.html?v=promo&p=${p.id}">${ic('star')} ${L('แนะนำสินค้า','Showcase')}</a><a class="btn btn-glass" href="brief.html?v=book&p=${p.id}">${ic('report')} ${L('เปิดในหนังสือ','Lookbook')}</a></div>
       </div>
       <div class="hx-media" data-tilt>
         <div class="media-frame" style="background-image:url(${IMG('poster',p.id)})">${vid?`<video src="video/clip-${pad2(p.id)}.mp4" poster="${IMG('poster',p.id)}" autoplay muted loop playsinline preload="metadata" aria-label="${esc(pname(p))}"></video>`:''}
