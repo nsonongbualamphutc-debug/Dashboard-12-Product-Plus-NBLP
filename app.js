@@ -171,7 +171,7 @@ function shell(){
       <nav class="nav pnav" id="navP"></nav>
       <div class="nav-t"><span id="navT2">ข้อมูลและระบบ</span></div>
       <nav class="nav" id="navSys"></nav>
-      <div class="side-foot">จัดทำโดย สำนักงานสถิติจังหวัดหนองบัวลำภู<br>ร่วมกับหน่วยงานเจ้าของข้อมูล 14 สินค้า<br>© 2569 สงวนลิขสิทธิ์</div>
+      <div class="side-foot"><div class="sf-by"><img src="img/seal.png" alt="" width="34" height="34"><div><small>${L('จัดทำโดย','Produced by')}</small><b>${L('สำนักงานสถิติจังหวัดหนองบัวลำภู','Nong Bua Lam Phu Provincial Statistical Office')}</b></div></div><p class="sf-with">${L('ร่วมกับหน่วยงานเจ้าของข้อมูล','In partnership with data-owning agencies of')} <b>14</b> ${L('สินค้า','products')}</p><p class="sf-c">© 2569 ${L('สงวนลิขสิทธิ์','All rights reserved')}</p></div>
     </aside>
     <div class="scrim" id="scrim"></div>
     <div class="main">
