@@ -375,7 +375,7 @@ const P=[
 
 
 P.sort((a,b)=>a.id-b.id); // เรียงตามลำดับในแบบสำรวจรายการข้อมูล (Google Sheet)
-const APP={name:'12 Plus+ สินค้าอัตลักษณ์หนองบัวลำภู',build:'2.0.0',asOf:'30 กันยายน 2569',fy:'ปีงบประมาณ 2569',
+const APP={name:'12 Plus+ สินค้าอัตลักษณ์หนองบัวลำภู',build:'2.0.0',asOf:'30 กันยายน 2569',fy:'',
   survey:'แบบสำรวจรายการข้อมูลสำหรับจัดทำ Dashboard เกษตรมูลค่าสูง ประจำปี 2570',
   sheet:'https://docs.google.com/spreadsheets/d/1derDkS5KNYjtqhrROq6fz1eLPu8b8EwU/edit',
   portal:'https://nongbualamphu.gdcatalog.go.th',apiBase:'https://nongbualamphu.gdcatalog.go.th/api/3/action'};

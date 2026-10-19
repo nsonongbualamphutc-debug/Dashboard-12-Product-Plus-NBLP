@@ -34,7 +34,7 @@ PAGE_R.cover=page=>{
       <button class="btn btn-glass" type="button" data-act="lang">${ic('globe')} ${L('English','ภาษาไทย')}</button>
       <a class="btn btn-glass" href="apistatus.html">${ic('db')} ${L('สถานะข้อมูล','Data status')}</a></div>
     <div class="cv-main">
-      <span class="eyebrow">${L('Dashboard เกษตรมูลค่าสูง · '+APP.fy,'High-value agriculture dashboard · FY2026')}</span>
+      <span class="eyebrow">${L('Dashboard เกษตรมูลค่าสูง','High-value agriculture dashboard')}</span>
       <div class="wm" data-text="12 Plus+">12 Plus<sup>+</sup></div>
       <h1>${L('สินค้าอัตลักษณ์หนองบัวลำภู<br>จากแผ่นดินลุ่มภู สู่ตลาดทั่วโลก','Identity products of Nong Bua Lam Phu<br>from the Lam Phu plains to the world')}</h1>
       <p class="cv-lead">${L('<span class="nw">ติดตามการผลิตและการขายของดี</span> <span class="nw">14 รายการของจังหวัด</span><br><span class="nw">ตั้งแต่แหล่งผลิต</span> <span class="nw">การแปรรูป</span> <span class="nw">ไปจนถึงมือผู้ซื้อ</span> <span class="nw">พร้อมแหล่งที่มาของข้อมูลทุกตัวเลข</span>','Follow production and sales of the province’s 14 signature products — from farm and loom to the buyer — with a source for every figure.')}</p>

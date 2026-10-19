@@ -177,7 +177,7 @@ function shell(){
     <div class="main">
       <header class="top">
         <button class="tb ic-only menu-btn" type="button" data-act="menu" aria-label="เปิดเมนู">${ic('menu')}</button>
-        <div class="asof"><b id="asofT">ข้อมูล ณ ${APP.asOf}</b><span>${APP.fy} · build ${APP.build}</span></div>
+        <div class="asof"><b id="asofT">ข้อมูล ณ ${APP.asOf}</b><span>build ${APP.build}</span></div>
         <div class="ctrls" id="period"></div>
         <div class="ctrls">
           <button class="tb ic-only" type="button" data-act="search" title="ค้นหา (Ctrl K)" aria-label="ค้นหา">${ic('search')}</button>
@@ -242,7 +242,7 @@ function onAct(e){
   else if(a==='present')presentToggle();
   else if(a==='bell')drawer();
   else if(a==='link')copyText(location.href,'คัดลอกลิงก์หน้านี้แล้ว');
-  else if(a==='print')window.print();
+  else if(a==='print'){window.NBL_PRINT?NBL_PRINT():window.print()}
   else if(a==='help')help();
   else if(a==='edit')go('entry.html'+(R.page==='product'?'?p='+R.pid:''));
   else if(a==='more')moreMenu();

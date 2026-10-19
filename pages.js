@@ -18,7 +18,7 @@ PAGE_R.cover=page=>{
     <div class="cv-top"><img src="img/seal.png" alt="ตราจังหวัดหนองบัวลำภู"><span class="org"><b>จังหวัดหนองบัวลำภู</b><span>Nong Bua Lam Phu Province</span></span><span class="x">×</span><img class="gd" src="img/gd-catalog.png" alt="ระบบบัญชีข้อมูลจังหวัด"><span class="sp"></span>
       <a class="btn btn-o" href="apistatus.html" style="background:rgba(255,255,255,.7);color:#10211A;border-color:rgba(20,35,28,.15)">${ic('db')} สถานะข้อมูล</a></div>
     <div class="cv-main">
-      <span class="eyebrow" style="color:#8A6420">Dashboard เกษตรมูลค่าสูง · ${APP.fy}</span>
+      <span class="eyebrow" style="color:#8A6420">Dashboard เกษตรมูลค่าสูง</span>
       <div class="wm">12 Plus<sup>+</sup></div>
       <h1>สินค้าอัตลักษณ์หนองบัวลำภู<br>จากแผ่นดินลุ่มภู สู่ตลาดทั่วโลก</h1>
       <p>ติดตามการผลิตและการขายของดี 14 รายการของจังหวัด ตั้งแต่แหล่งผลิต การแปรรูป ไปจนถึงมือผู้ซื้อ พร้อมแหล่งที่มาของข้อมูลทุกตัวเลข</p>

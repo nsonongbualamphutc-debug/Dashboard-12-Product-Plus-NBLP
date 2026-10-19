@@ -13,7 +13,7 @@ Object.assign(IC,{
   file:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 3v5h5" fill="none" stroke="currentColor" stroke-width="2"/>'
 });
 
-const STY={real:{},drawn:new Set(),io:null,list:[],p:null,flip:{},show:null};
+const STY={view:{},gview:'viz',real:{},drawn:new Set(),io:null,list:[],p:null,flip:{},show:null};
 const STY_YEARS=[2566,2567,2568,2569];
 const STY_SRC='ข้อมูลจำลอง (รอค่าจริงจากหน่วยงาน)';
 const CH_META=[
@@ -197,14 +197,28 @@ function styCenter(a,b2,p){return{id:'stc',afterDraw(ch){const m=ch.getDatasetMe
   c.fillStyle=p.pa;c.font=`600 ${Math.max(14,r*.42)}px Kanit, sans-serif`;c.fillText(a,x,y-r*.12);c.fillStyle=css('--muted');c.font=`${Math.max(10,r*.2)}px Sarabun, sans-serif`;c.fillText(b2,x,y+r*.28);c.restore()}}}
 
 /* ---------- HTML บล็อก ---------- */
-function styBlock(b,i){const k=styKpi(b);const html=b.form==='cal'||b.form==='status';const flip=i%2===1;
+/* ---------- ตัวเลขเด่นประกอบภาพ (แผงข้าง) ---------- */
+function styFacts(b){const A=styAgg(b.rows),u=b.unit,U=u==='%'?'':' '+uLab(u);const tot=y=>A.v(r=>r.year===y);const F=[];
+  const top=(by,keys)=>keys.map(k=>[k,A.v(r=>r.year===A.ly&&r[by]===k)]).sort((x,y)=>y[1]-x[1]);
+  if(b.form==='cal'){const pk=A.ts.filter(t=>A.v(r=>r.type===t)>=3),lo=A.ts.filter(t=>A.v(r=>r.type===t)<=1);
+    F.push([L('ช่วงพีค','Peak'),pk.length+L(' เดือน',' mo')],[L('เริ่มพีค','Peak starts'),pk[0]||'–'],[L('ช่วงเบา','Low season'),lo.length+L(' เดือน',' mo')]);return F}
+  if(b.form==='status'){const dn=A.ts.filter(t=>A.v(r=>r.type===t)>0);F.push([L('ผ่านแล้ว','Done'),dn.length+' / '+A.ts.length],[L('ขั้นล่าสุด','Latest'),dn.at(-1)||'–'],[L('ขั้นถัดไป','Next'),A.ts[dn.length]||L('ครบทุกขั้น','Complete')]);return F}
+  if(b.form==='band'){['ต่ำ','เฉลี่ย','สูง'].forEach((k,i)=>{const t=A.ts.find(x=>x.includes(k));if(t)F.push([[L('ต่ำสุด','Low'),L('เฉลี่ย','Average'),L('สูงสุด','High')][i],fv(A.v(r=>r.year===A.ly&&r.type===t))+U])});return F}
+  if(b.form==='share'||b.form==='cost'){const T=top('type',A.ts),S=sum(T.map(x=>x[1]))||1;T.slice(0,3).forEach(([k,v])=>F.push([esc(k),Math.round(v/S*100)+'%']));return F}
+  if(A.ds.length&&(b.form==='rank'||b.form==='tallyd'||b.form==='stack')){const T=top('dist',A.ds),S=sum(T.map(x=>x[1]))||1;T.slice(0,3).forEach(([k,v],i)=>F.push([['🥇','🥈','🥉'][i]+' '+dShort(k),fv(v,u)+U+` <small>(${Math.round(v/S*100)}%)</small>`]));return F}
+  if(A.py){const a=tot(A.py),c=tot(A.ly),g=a?(c-a)/a*100:0;F.push([L('ปีก่อน','Prior year')+' '+yCE(A.py),fv(a,u)+U],[L('เปลี่ยนแปลง','Change'),`<span class="${g>=0?'up':'dn'}">${g>=0?'▲':'▼'} ${Math.abs(g).toFixed(1)}%</span>`])}
+  const mx=A.ys.map(y=>[y,tot(y)]).sort((x,y)=>y[1]-x[1])[0];if(mx)F.push([L('สูงสุด','Peak year'),yCE(mx[0])+' · '+fv(mx[1],u)]);return F}
+
+/* ---------- HTML บล็อก: ภาพเป็นหลัก มีปุ่มสลับ ภาพ ⇄ ตาราง ---------- */
+function styBlock(b,i){const k=styKpi(b);const html=b.form==='cal'||b.form==='status';const flip=i%2===1;const v=STY.view[b.d.code]||STY.gview||'viz';
   const badge=b.real?`<span class="pill real">${L('ข้อมูลจริง','Real data')}${b.srcName?' · '+esc(b.srcName):''}</span>`:`<span class="pill sim">${L('ข้อมูลจำลอง','Simulated')}</span>`;
-  return`<article class="stb${flip?' flip':''}" id="sb-${b.d.code}" data-code="${b.d.code}" style="--pa:${b.p.pa}">
+  return`<article class="stb${flip?' flip':''}" id="sb-${b.d.code}" data-code="${b.d.code}" data-v="${v}" style="--pa:${b.p.pa}">
   <header class="stb-h">
     <div class="stb-k"><span class="stb-no">${b.d.code}</span><span class="stb-en">${esc(b.en)}</span>${badge}</div>
     <h4>${esc(b.item)}</h4>
     <p class="stb-in">${styInsight(b)}</p>
     <div class="stb-tools" role="group" aria-label="${L('เครื่องมือ','Tools')}">
+      <div class="vt" role="tablist" aria-label="${L('มุมมอง','View')}"><button type="button" role="tab" data-sbv="viz" title="${L('แสดงภาพ','Show visual')}" aria-selected="${v==='viz'}">${ic('chart')}<span>${L('ภาพ','Visual')}</span></button><button type="button" role="tab" data-sbv="table" title="${L('แสดงตาราง','Show table')}" aria-selected="${v==='table'}">${ic('table')}<span>${L('ตาราง','Table')}</span></button></div>
       <button type="button" class="ib" data-sbt="present" title="${L('นำเสนอเต็มจอ','Present full screen')}">${ic('expand')}</button>
       ${html?'':`<button type="button" class="ib" data-sbt="png" title="${L('บันทึกภาพ PNG','Save PNG')}">${ic('image')}</button>`}
       <button type="button" class="ib" data-sbt="csv" title="${L('ดาวน์โหลดตาราง (CSV)','Download table (CSV)')}">${ic('down')}</button>
@@ -213,10 +227,13 @@ function styBlock(b,i){const k=styKpi(b);const html=b.form==='cal'||b.form==='st
     </div>
   </header>
   <div class="stb-b">
-    <figure class="stb-viz"><div class="stb-kpi"><b>${k.v}</b><span>${k.u}</span><em>${L(FORM_TH[b.form],FORM_EN[b.form])} · ${yCE(styAgg(b.rows).ly||2569)}</em></div>
-      <div class="stb-cv${html?' html':''}">${html?styHtmlViz(b):`<canvas id="sbc-${b.d.code}" role="img" aria-label="${esc(b.item)}"></canvas>`}</div></figure>
-    <div class="stb-tb"><div class="stb-tbh"><span>${ic('table')} ${L('ตารางประกอบ','Data table')}</span><small>${L('หน่วย','Unit')}: ${esc(uLab(b.unit))}</small></div><div class="scroll-x">${styTable(b)}</div>
-      <p class="stb-src">${L('แหล่งที่มา','Source')}: ${esc(b.agency||'')}${b.real?'':` · <i>${L('ค่าจำลองเพื่อแสดงโครงภาพ','simulated to preview the layout')}</i>`}</p></div>
+    <aside class="stb-side"><div class="stb-kpi"><em>${L(FORM_TH[b.form],FORM_EN[b.form])} · ${yCE(styAgg(b.rows).ly||2569)}</em><b>${k.v}</b><span>${k.u}</span></div>
+      <dl class="stb-f">${styFacts(b).map(([t,x])=>`<div><dt>${t}</dt><dd>${x}</dd></div>`).join('')}</dl>
+      <p class="stb-src">${L('แหล่งที่มา','Source')}: ${esc(b.agency||'')}${b.real?'':`<br><i>${L('ค่าจำลองเพื่อแสดงโครงภาพ','simulated to preview the layout')}</i>`}</p></aside>
+    <div class="stb-stage">
+      <figure class="stb-viz"><div class="stb-cv${html?' html':''}">${html?styHtmlViz(b):`<canvas id="sbc-${b.d.code}" role="img" aria-label="${esc(b.item)}"></canvas>`}</div></figure>
+      <div class="stb-tb"><div class="stb-tbh"><span>${ic('table')} ${L('ตารางข้อมูล','Data table')}</span><small>${L('หน่วย','Unit')}: ${esc(uLab(b.unit))}</small></div><div class="scroll-x">${styTable(b)}</div></div>
+    </div>
   </div></article>`}
 
 /* ---------- ส่วนเรื่องเล่าข้อมูลทั้งสินค้า ---------- */
@@ -235,7 +252,7 @@ function storySection(p){const list=styItems(p);STY.list=list;STY.p=p;
         <button type="button" class="btn btn-p" data-sty="show">${ic('play')} ${L('นำเสนอแบบสไลด์','Present as slides')}</button>
         <button type="button" class="btn btn-o" data-sty="xlsx">${ic('sheet')} ${L('Excel ทั้งชุด','Full workbook')}</button>
         <button type="button" class="btn btn-o" data-sty="tplall">${ic('file')} ${L('แม่แบบทั้งชุด','All templates')}</button>
-        <div class="seg sm" role="group" aria-label="${L('มุมมอง','View')}"><button type="button" data-styv="both" aria-pressed="true">${L('ภาพ+ตาราง','Both')}</button><button type="button" data-styv="viz" aria-pressed="false">${ic('chart')}</button><button type="button" data-styv="table" aria-pressed="false">${ic('table')}</button></div>
+        <div class="vt big" role="group" aria-label="${L('มุมมองทุกรายการ','View for all items')}"><span class="vt-l">${L('ทุกรายการ','All items')}</span><button type="button" data-styv="viz" aria-selected="true">${ic('chart')}<span>${L('ภาพ','Visual')}</span></button><button type="button" data-styv="table" aria-selected="false">${ic('table')}<span>${L('ตาราง','Table')}</span></button></div>
       </div>
       <p class="sty-note"><span class="pill sim">${L('ข้อมูลจำลอง','Simulated')}</span> ${L(`ค่าตัวเลขทั้งหมดเป็นค่าจำลองเพื่อวางโครงการนำเสนอ${nReal?` · มีข้อมูลจริงแล้ว ${nReal} รายการ`:''} · เมื่อหน่วยงานส่งไฟล์ (หรือกด ${ic('up')} นำเข้า) ภาพจะเปลี่ยนเป็นค่าจริงทันที`,`All figures are simulated placeholders${nReal?` · ${nReal} item(s) already real`:''} · drop in the agency file (${ic('up')}) and the visuals redraw with real values`)}</p>
     </div>
@@ -314,6 +331,8 @@ function styShow(start){const p=STY.p;let i=Math.max(0,start||0),timer=null,show
 
 /* ---------- ผูกเหตุการณ์ ---------- */
 function styBind1(el){if(!el)return;const code=el.dataset.code;const b=()=>STY.list.find(x=>x.d.code===code);
+  el.querySelectorAll('[data-sbv]').forEach(t=>t.onclick=()=>{STY.view[code]=t.dataset.sbv;el.dataset.v=t.dataset.sbv;el.querySelectorAll('[data-sbv]').forEach(x=>x.setAttribute('aria-selected',x===t));
+    if(t.dataset.sbv==='viz'){styDraw(code);setTimeout(()=>charts.forEach(c=>{if(c.canvas&&c.canvas.id==='sbc-'+code)c.resize()}),30)}});
   el.querySelectorAll('[data-sbt]').forEach(t=>t.onclick=()=>{const k=t.dataset.sbt;
     if(k==='present')styShow(STY.list.findIndex(x=>x.d.code===code));else if(k==='png')styPng(b());else if(k==='csv')styCsv(b(),false);else if(k==='tpl')styCsv(b(),true)});
   const inp=el.querySelector('input[type=file]');if(inp)inp.onchange=async ev=>{const f=ev.target.files[0];if(!f)return;
@@ -328,8 +347,9 @@ function styBind(p,root){const sec=$('#dsx',root);if(!sec)return;
   STY.io='IntersectionObserver'in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){styDraw(e.target.dataset.code);STY.io.unobserve(e.target)}}),{rootMargin:'300px 0px'}):null;
   $$('.stb',sec).forEach(el=>{styBind1(el);if(!STY.io)styDraw(el.dataset.code)});
   $$('[data-sty]',sec).forEach(t=>t.onclick=()=>({show:()=>styShow(0),xlsx:()=>styXlsx(false),tplall:()=>styXlsx(true)})[t.dataset.sty]());
-  $$('[data-styv]',sec).forEach(t=>t.onclick=()=>{sec.dataset.view=t.dataset.styv;$$('[data-styv]',sec).forEach(x=>x.setAttribute('aria-pressed',x===t));
-    setTimeout(()=>charts.forEach(c=>{if(c.canvas&&/^sbc-/.test(c.canvas.id))c.resize()}),60)});
+  $$('[data-styv]',sec).forEach(t=>t.onclick=()=>{const v=t.dataset.styv;STY.gview=v;STY.view={};$$('[data-styv]',sec).forEach(x=>x.setAttribute('aria-selected',x===t));
+    $$('.stb',sec).forEach(el=>{el.dataset.v=v;el.querySelectorAll('[data-sbv]').forEach(x=>x.setAttribute('aria-selected',x.dataset.sbv===v))});
+    if(v==='viz')setTimeout(()=>charts.forEach(c=>{if(c.canvas&&/^sbc-/.test(c.canvas.id))c.resize()}),40);toast(v==='viz'?L('แสดงภาพทุกรายการ','Showing visuals'):L('แสดงตารางทุกรายการ','Showing tables'))});
   $$('.sty-tabs a[href^="#"], .sty-idx a, .sh-k',sec).forEach(a=>a.onclick=e=>{e.preventDefault();const t=document.querySelector(a.getAttribute('href'));t?.scrollIntoView({behavior:'smooth',block:'start'});a.closest('details')?.removeAttribute('open')});
   /* ไฮไลต์แท็บบทที่กำลังอ่าน */
   if('IntersectionObserver'in window){const tabs=$$('.sty-tabs [data-ch]',sec);const io2=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const s=e.target.id.slice(3);tabs.forEach(t=>t.classList.toggle('on',t.dataset.ch===s))}}),{rootMargin:'-40% 0px -55% 0px'});$$('.sty-ch',sec).forEach(c=>io2.observe(c))}
@@ -343,3 +363,29 @@ PAGE_R.product=(page,p)=>{_prodR7(page,p);const old=$('#dsx',page);
   if(old){$$('.dsx',old).forEach(e=>{const c=e.id.replace('dsx-','');const ds=DATASETS.find(x=>x.code===c);if(ds)killDs(ds)});old.outerHTML=storySection(p)}
   else ($('.hx',page)||page.firstElementChild)?.insertAdjacentHTML('afterend',storySection(p));
   styBind(p,page)};
+
+/* =====================================================================
+   พิมพ์ / บันทึก PDF — ภาพครบทุกชิ้น
+   1) แสดงการ์ดที่ยังไม่ถูก reveal  2) โหลดรูป lazy ให้ครบ  3) วาดกราฟที่ยังไม่ถูกวาด
+   4) แปลงกราฟ canvas เป็นรูป (พิมพ์คมชัด ไม่หาย)  5) รอรูปโหลดแล้วค่อยเปิดหน้าพิมพ์
+   ===================================================================== */
+const PRINT={busy:false};
+function printPrep(){
+  document.body.classList.add('printing');
+  $$('.rv').forEach(e=>e.classList.add('in'));
+  $$('img').forEach(im=>{if(im.loading==='lazy')im.loading='eager';if(im.dataset.src&&!im.src)im.src=im.dataset.src});
+  if(STY.list&&STY.list.length&&document.getElementById('dsx'))STY.list.forEach(b=>{const el=document.getElementById('sb-'+b.d.code);if(el&&el.dataset.v!=='table')styDraw(b.d.code)});
+  $$('.psnap').forEach(e=>e.remove());
+  charts.forEach(c=>{try{const cv=c.canvas;if(!cv||!cv.isConnected||!cv.offsetWidth)return;c.stop&&c.stop();c.options.animation=false;c.update('none');
+    const im=new Image();im.className='psnap';im.alt=cv.getAttribute('aria-label')||'';im.src=c.toBase64Image('image/png',1);cv.classList.add('has-snap');cv.insertAdjacentElement('afterend',im)}catch(e){}})}
+function printDone(){document.body.classList.remove('printing');$$('.psnap').forEach(e=>e.remove());$$('canvas.has-snap').forEach(c=>c.classList.remove('has-snap'))}
+async function NBL_PRINT(){if(PRINT.busy)return;PRINT.busy=true;toast(L('กำลังเตรียมหน้าพิมพ์ให้ภาพครบ…','Preparing print with all visuals…'));
+  try{printPrep();
+    const imgs=[...document.images].filter(im=>!im.complete);
+    await Promise.race([Promise.all(imgs.map(im=>new Promise(r=>{im.addEventListener('load',r,{once:true});im.addEventListener('error',r,{once:true})}))),new Promise(r=>setTimeout(r,4000))]);
+    if(document.fonts&&document.fonts.ready)await document.fonts.ready;
+    await new Promise(r=>setTimeout(r,150));PRINT.manual=true;window.print()}
+  finally{PRINT.busy=false}}
+window.NBL_PRINT=NBL_PRINT;
+window.addEventListener('beforeprint',()=>{if(!PRINT.manual)printPrep()});
+window.addEventListener('afterprint',()=>{PRINT.manual=false;printDone()});
