@@ -3,6 +3,7 @@
    แสดงเฉพาะข้อมูลจากไฟล์ที่หน่วยงานส่ง (ทะเบียน DATASETS ใน data.js)
    ตัวเลข/กราฟที่มาจากค่าจำลองถูกตัดออก · ชุดข้อมูลที่ยังว่างแสดงเป็น "โครง"
    ===================================================================== */
+if(typeof SET!=='undefined'&&SET.side)document.documentElement.dataset.side=SET.side;
 if(DATA_ONLY){
 const nItems=()=>sum(P.map(p=>p.inds.length));
 const dsFilled=ds=>{const st=DSX.store[ds.code];return!!(st&&st.rows.some(r=>r.value!=null))};
@@ -18,6 +19,8 @@ navRender=function(){_nav();
   $('#navMain').innerHTML=['cover','overview','map','brief','buyer'].map(k=>`<a href="${PAGES[k].f}"${R.page===k?' aria-current="page"':''}>${ic(PAGES[k].ic)}${PT(k)}</a>`).join('');
   $('#navP').innerHTML=P.map(p=>{const s=pStat(p);return`<a href="${pFile(p.id)}"${R.page==='product'&&R.pid===p.id?' aria-current="page"':''}><span class="no">${pad2(p.id)}</span>${badge(p,{label:false})}<span class="n">${esc(pname(p))}${giTag(p,'sm')}<span class="v">${s.n?L(`ชุดข้อมูล ${s.n}`,`${s.n} dataset${s.n>1?'s':''}`):L('รอไฟล์ข้อมูล','Awaiting file')}</span></span><span class="g ds-dot ${s.f?'ok':s.n?'frame':''}" title="${s.f?L('มีข้อมูล','Has data'):s.n?L('มีโครงตาราง','Frame ready'):L('ยังไม่มีไฟล์','No file yet')}"></span></a>`}).join('');
   $('#period').innerHTML='';
+  const sf=$('.side-foot');if(sf&&!$('.side-pick')){const cur=document.documentElement.dataset.side||'00';sf.insertAdjacentHTML('beforeend',`<div class="side-pick" role="group" aria-label="${L('ภาพแถบข้าง','Sidebar art')}"><span>${L('ภาพแถบข้าง','Sidebar')}</span>${['00','01','02','none'].map(k=>`<button type="button" class="${k==='none'?'none':''}" data-side="${k}" aria-pressed="${k===cur}" title="${k==='none'?L('ไม่มีภาพ','None'):'SIDE '+k}" ${k==='none'?'':`style="background-image:url(img/side-${k}.webp)"`}></button>`).join('')}</div>`);
+    $$('.side-pick [data-side]').forEach(b=>b.onclick=e=>{e.stopPropagation();SET.side=b.dataset.side;saveSet();document.documentElement.dataset.side=SET.side;$$('.side-pick [data-side]').forEach(x=>x.setAttribute('aria-pressed',x===b))})}
   const ao=$('#asofT');if(ao)ao.textContent=L('ข้อมูลจากระบบบัญชีข้อมูลจังหวัด','From the provincial data catalog');const as2=ao&&ao.nextElementSibling;if(as2)as2.textContent=L(`ชุดข้อมูล ${DATASETS.length} ชุด · ยึดตามไฟล์ของหน่วยงาน`,`${DATASETS.length} dataset(s) · agency files only`);
 };
 PAGES.map.t='แผนที่ข้อมูลรายอำเภอ';PAGES.map.en='District data map';

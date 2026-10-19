@@ -1631,7 +1631,14 @@ body[data-pid="08"]{--bg-prod:url(img/bg-p08.webp)}body[data-pid="09"]{--bg-prod
 .rdy-c .m{font-size:12px;color:var(--muted)}
 .chip.on{background:var(--pa);color:#fff;border-color:var(--pa)}
 /* แถบข้างภาพ (img/side-bg.webp) — ถ้ายังไม่มีไฟล์ใช้ไล่สีเดิม */
-:root[data-theme="light"] .side{background:url(img/side-bg.webp) center/cover no-repeat,linear-gradient(180deg,#FFFFFF 0%,#FCE9EF 50%,#F4DDEF 100%)}
+:root[data-theme="light"] .side{background:var(--side-img,url(img/side-00.webp)) center bottom/cover no-repeat,linear-gradient(180deg,#FFFFFF 0%,#FCE9EF 50%,#F4DDEF 100%)}
+:root[data-side="01"]{--side-img:url(img/side-01.webp)}:root[data-side="02"]{--side-img:url(img/side-02.webp)}:root[data-side="none"]{--side-img:none}
+.side-pick{display:flex;gap:6px;align-items:center;margin-top:10px;font-size:11px;color:var(--on-forest-muted)}
+.side-pick button{width:26px;height:40px;border-radius:7px;border:2px solid transparent;background-size:cover;background-position:center;cursor:pointer;padding:0;box-shadow:0 2px 6px rgba(0,0,0,.15)}
+.side-pick button[aria-pressed="true"]{border-color:var(--pink-700,#D50654)}
+.side-pick button.none{background:linear-gradient(180deg,#fff,#FCE9EF);}
 :root[data-theme="light"] .side .pnav a,:root[data-theme="light"] .side .nav a{backdrop-filter:blur(2px)}
-:root[data-theme="light"] .side .pnav a:not([aria-current]){background:rgba(255,255,255,.35)}
-@media (max-width:1000px){:root[data-theme="light"] .bnav{background:url(img/side-m.webp) center/cover,rgba(255,255,255,.86)}}
+:root[data-theme="light"] .side .pnav a:not([aria-current]){background:rgba(255,255,255,.6);backdrop-filter:blur(3px)}
+@media (max-width:1000px){:root[data-theme="light"] .bnav{background:linear-gradient(rgba(255,255,255,.72),rgba(255,255,255,.72)),url(img/side-m.webp) center 70%/cover,rgba(255,255,255,.86)}}
+@media (max-width:1000px){.bnav{z-index:95!important}}
+:root[data-theme="light"] .side .brand{text-shadow:0 0 6px #fff,0 0 12px #fff}
