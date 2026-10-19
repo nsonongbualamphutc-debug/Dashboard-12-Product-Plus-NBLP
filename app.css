@@ -1576,3 +1576,22 @@ td.num,.num{white-space:nowrap}
 @media (max-width:1000px){.dsx-grid{grid-template-columns:minmax(0,1fr)}.dsx-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.dsx-dist{grid-template-columns:minmax(0,1fr)}}
 @media (max-width:640px){.dsx-h,.dsx-schema,.dsx-b,.dsx-f{padding-left:12px;padding-right:12px}.dsx-schema span{max-width:none}.dsx-rid{width:100%}.dsx-rid input{flex:1;width:auto}.sk-list li{grid-template-columns:90px minmax(0,1fr)}}
 code{white-space:nowrap}
+
+/* v4.1 · ปรับสีตามแบนเนอร์ "12 Plus+ ของดีวิถีเมืองลุ่มภู" — บานเย็นสด + ชมพูหวาน + ม่วงลาเวนเดอร์ยามเช้า */
+:root[data-theme="light"]{
+  --bg:#FDF1F5; --surface:#FFFFFF; --surface-2:#FFF4F8; --surface-3:#FBE3EC; --ink:#3A1428; --muted:#86607A; --line:#F5D6E3;
+  --forest:#D50654; --forest-2:#A8164E; --lotus:#F36FAB;
+  --pink-50:#FFF6FA; --pink-100:#FCE9EF; --pink-200:#FBCFE2; --pink-300:#FF9CD2; --pink-500:#E8559A; --pink-700:#D50654; --pink-900:#7A1240;
+  --lav-100:#F4DDEF; --lav-300:#DCC2E6; --lav-500:#B79CC9;
+  --neon:#F36FAB}
+:root[data-theme="light"] body:not(.cover) .main::before{background:radial-gradient(60vw 50vh at 88% -12%,rgba(220,194,230,.55),transparent 70%),radial-gradient(55vw 50vh at 0% 105%,rgba(255,156,210,.32),transparent 70%),radial-gradient(40vw 40vh at 50% 40%,rgba(252,233,239,.7),transparent 70%)}
+:root[data-theme="light"] .side{background:linear-gradient(180deg,#FFFFFF 0%,#FCE9EF 50%,#F4DDEF 100%)}
+:root[data-theme="light"] .btn-f,:root[data-theme="light"] .slicer .sl-ind,:root[data-theme="light"] .by-f button[aria-pressed="true"],:root[data-theme="light"] .tb.api,:root[data-theme="light"] .tick-l{background:linear-gradient(135deg,#F36FAB 0%,#E8559A 35%,#D50654 100%)}
+:root[data-theme="light"] .cv-main .wm{background:linear-gradient(100deg,#D50654 15%,#F36FAB 45%,#B79CC9 60%,#D50654 85%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text}
+:root[data-theme="light"] .cv-main .wm sup{-webkit-text-fill-color:#F36FAB}
+:root[data-theme="light"] .ov-txt h1 em{color:#D50654}
+:root[data-theme="light"] .hx::after,:root[data-theme="light"] .ov-hero::after,:root[data-theme="light"] .pr-hero::after,:root[data-theme="light"] .by-hero::after{background:linear-gradient(90deg,#D50654 0%,#F36FAB 45%,#FF9CD2 70%,#B79CC9 100%)}
+:root[data-theme="light"] .sprog{background:linear-gradient(90deg,#FF9CD2,#D50654,#B79CC9);box-shadow:0 0 10px #FF9CD2}
+:root[data-theme="light"] .cv::before{background:linear-gradient(90deg,rgba(253,241,245,.95) 0%,rgba(252,233,239,.84) 30%,rgba(244,221,239,.3) 50%,rgba(244,221,239,0) 64%),linear-gradient(0deg,rgba(252,233,239,.96) 0%,rgba(252,233,239,0) 26%)}
+:root[data-theme="light"] .bk-wrap{background:radial-gradient(70% 60% at 50% 35%,#FFFFFF,#FCE9EF 50%,#DCC2E6 100%)}
+:root[data-theme="light"] .cv-stats div::before,:root[data-theme="light"] .st::before{background:linear-gradient(180deg,#F36FAB,#B79CC9)}

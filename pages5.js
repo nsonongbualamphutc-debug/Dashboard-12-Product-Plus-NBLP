@@ -9,7 +9,7 @@ const dsOf=pid=>DATASETS.filter(d=>d.pid===pid);
 const dsRid=ds=>((SET.dsres||{})[ds.code]||ds.resource||'').trim();
 const dmerge=(a,b)=>{for(const k in b){if(b[k]&&typeof b[k]==='object'&&!Array.isArray(b[k])&&typeof b[k]!=='function'&&a[k]&&typeof a[k]==='object')dmerge(a[k],b[k]);else a[k]=b[k]}return a};
 const dsOpts=x=>dmerge(baseOpts(),x);
-const DSCOL=['#E0598F','#B1832A','#5B8DB8','#3E8E41','#8A6440'];
+const DSCOL=['#F36FAB','#B79CC9','#5B8DB8','#3E8E41','#8A6440'];
 function dsKey(k){k=String(k).replace(/^﻿/,'').trim().toLowerCase();
   if(/ปี|year/.test(k))return'year';if(/อำเภอ|district|amphoe/.test(k))return'dist';if(/จังหวัด|province/.test(k))return'prov';
   if(/ประเภท|type|category/.test(k))return'type';if(/ค่า|value/.test(k))return'value';if(/หน่วย|unit/.test(k))return'unit';
