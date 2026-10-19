@@ -156,7 +156,7 @@ PAGE_R.product=(page,p)=>{
     <div class="src-line" style="margin-top:16px"><span><b>แหล่งที่มา</b> ${ags.map(esc).join(' · ')}</span><span><b>อ้างอิง</b> ${APP.survey}</span><span><b>การเชื่อมต่อ</b> ${api&&api.n?`API ${api.n} รายการ · ${new Date(api.t).toLocaleDateString('th-TH')}`:'รอข้อมูลเข้าระบบบัญชีข้อมูลจังหวัด'}</span><a href="sources.html">ทะเบียนข้อมูลทั้งหมด ›</a></div>
   </section>
   <section><div class="card-h"><h3 style="font-size:18px">แกลเลอรีสินค้า</h3><span class="note">แตะเพื่อดูภาพขยาย</span></div>
-    <div class="gal" id="gal">${[['b','พร้อมเสิร์ฟถึงมือคุณ','3/4'],['post','ภาพประชาสัมพันธ์','2/3'],['pack','บรรจุภัณฑ์','1/1'],['a','ต้นทางที่หนองบัวลำภู','16/9'],['shop','หน้าร้าน','3/2'],['kv','Key Visual','16/9']].map(([k,t,r],j)=>`<figure data-i="${j}" style="aspect-ratio:${r}"><img src="${IMG(k,p.id)}" alt="${esc(p.name)} · ${t}" decoding="async"><figcaption>${t}</figcaption></figure>`).join('')}</div></section>
+    <div class="gal" id="gal">${[['b','พร้อมเสิร์ฟถึงมือคุณ','3/4'],['post','ภาพประชาสัมพันธ์','2/3'],['pack','บรรจุภัณฑ์','1/1'],['a','ต้นทางที่หนองบัวลำภู','16/9'],['shop','นำเสนอ','3/2'],['kv','Key Visual','16/9']].map(([k,t,r],j)=>`<figure data-i="${j}" style="aspect-ratio:${r}"><img src="${IMG(k,p.id)}" alt="${esc(p.name)} · ${t}" decoding="async"><figcaption>${t}</figcaption></figure>`).join('')}</div></section>
   <div class="grid-3">
     <div class="card"><div class="card-h"><h3>แหล่งผลิตรายอำเภอ</h3><span class="note">สัดส่วนมูลค่า</span></div><div class="chart-box sm"><canvas id="cDist"></canvas></div></div>
     <div class="card"><div class="card-h"><h3>ช่องทางการจำหน่าย</h3><span class="note">% ของมูลค่า</span></div><div class="chart-box sm"><canvas id="cCh"></canvas></div></div>
