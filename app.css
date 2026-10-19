@@ -1595,3 +1595,43 @@ code{white-space:nowrap}
 :root[data-theme="light"] .cv::before{background:linear-gradient(90deg,rgba(253,241,245,.95) 0%,rgba(252,233,239,.84) 30%,rgba(244,221,239,.3) 50%,rgba(244,221,239,0) 64%),linear-gradient(0deg,rgba(252,233,239,.96) 0%,rgba(252,233,239,0) 26%)}
 :root[data-theme="light"] .bk-wrap{background:radial-gradient(70% 60% at 50% 35%,#FFFFFF,#FCE9EF 50%,#DCC2E6 100%)}
 :root[data-theme="light"] .cv-stats div::before,:root[data-theme="light"] .st::before{background:linear-gradient(180deg,#F36FAB,#B79CC9)}
+
+/* ---------- พื้นหลังภาพจาง ๆ ประจำหน้า (img/bg-*.webp) ----------
+   ถ้ายังไม่มีไฟล์ภาพ จะเห็นเฉพาะแสงไล่สีเดิม · ภาพเฉพาะหน้าวางทับภาพหลัก */
+.pbg{position:fixed;inset:0;z-index:-3;pointer-events:none;background-repeat:no-repeat;background-size:cover;background-position:center;opacity:.9;
+  background-image:var(--bg-page,none),url(img/bg-main.webp)}
+body.cover .pbg{display:none}
+body[data-page="overview"]{--bg-page:url(img/bg-overview.webp)}
+body[data-page="insights"]{--bg-page:url(img/bg-insights.webp)}
+body[data-page="map"]{--bg-page:url(img/bg-map.webp)}
+body[data-page="product"] .pbg{background-image:var(--bg-prod,none),url(img/bg-product.webp),url(img/bg-main.webp)}
+body[data-page="brief"]{--bg-page:url(img/bg-brief.webp)}
+body[data-page="buyer"]{--bg-page:url(img/bg-buyer.webp)}
+body[data-page="report"],body[data-page="sources"],body[data-page="apistatus"],body[data-page="settings"],body[data-page="entry"]{--bg-page:url(img/bg-data.webp)}
+body[data-pid="01"]{--bg-prod:url(img/bg-p01.webp)}body[data-pid="02"]{--bg-prod:url(img/bg-p02.webp)}body[data-pid="03"]{--bg-prod:url(img/bg-p03.webp)}body[data-pid="04"]{--bg-prod:url(img/bg-p04.webp)}body[data-pid="05"]{--bg-prod:url(img/bg-p05.webp)}body[data-pid="06"]{--bg-prod:url(img/bg-p06.webp)}body[data-pid="07"]{--bg-prod:url(img/bg-p07.webp)}
+body[data-pid="08"]{--bg-prod:url(img/bg-p08.webp)}body[data-pid="09"]{--bg-prod:url(img/bg-p09.webp)}body[data-pid="10"]{--bg-prod:url(img/bg-p10.webp)}body[data-pid="11"]{--bg-prod:url(img/bg-p11.webp)}body[data-pid="12"]{--bg-prod:url(img/bg-p12.webp)}body[data-pid="13"]{--bg-prod:url(img/bg-p13.webp)}body[data-pid="14"]{--bg-prod:url(img/bg-p14.webp)}
+@media (max-width:640px){.pbg{background-image:var(--bg-page,none),url(img/bg-main-m.webp),url(img/bg-main.webp)}body[data-page="product"] .pbg{background-image:url(img/bg-main-m.webp),url(img/bg-main.webp)}}
+:root[data-theme="dark"] .pbg{opacity:.12;filter:invert(1) hue-rotate(180deg)}
+/* ให้การ์ดโปร่งนิด ๆ เห็นพื้นหลังเคลิ้ม ๆ */
+:root[data-theme="light"] .card,:root[data-theme="light"] .kpi,:root[data-theme="light"] .dsx-c,:root[data-theme="light"] .dsx-kpis .k{background:rgba(255,255,255,.86);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px)}
+
+/* ---------- DATA_ONLY ---------- */
+.ds-dot{width:9px;height:9px;border-radius:50%;background:var(--line);box-shadow:inset 0 0 0 1.5px var(--muted);align-self:center}
+.ds-dot.frame{background:#fff;box-shadow:inset 0 0 0 2px var(--pink-500,#E0598F)}
+.ds-dot.ok{background:#1E8A52;box-shadow:0 0 0 3px rgba(30,138,82,.2)}
+.rdy{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:12px}
+.rdy-c{display:flex;flex-direction:column;border-radius:18px;overflow:hidden;border:1px solid var(--line);background:rgba(255,255,255,.9);text-decoration:none;color:var(--ink);transition:transform .25s,box-shadow .25s}
+.rdy-c:hover{transform:translateY(-3px);box-shadow:0 18px 36px -22px color-mix(in srgb,var(--pa) 70%,#000)}
+.rdy-c .ph{aspect-ratio:16/7;background-size:cover;background-position:center}
+.rdy-c .b{padding:10px 12px 12px;display:flex;flex-direction:column;gap:6px}
+.rdy-c .h{display:flex;align-items:center;gap:8px;font-family:var(--f-head);font-size:14.5px}
+.rdy-c .h .bdg{width:30px;height:30px;flex:0 0 auto}
+.rdy-c .bar{height:6px;border-radius:6px;background:var(--surface-3);overflow:hidden}
+.rdy-c .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--pa),var(--pink-300,#FF9CD2))}
+.rdy-c .m{font-size:12px;color:var(--muted)}
+.chip.on{background:var(--pa);color:#fff;border-color:var(--pa)}
+/* แถบข้างภาพ (img/side-bg.webp) — ถ้ายังไม่มีไฟล์ใช้ไล่สีเดิม */
+:root[data-theme="light"] .side{background:url(img/side-bg.webp) center/cover no-repeat,linear-gradient(180deg,#FFFFFF 0%,#FCE9EF 50%,#F4DDEF 100%)}
+:root[data-theme="light"] .side .pnav a,:root[data-theme="light"] .side .nav a{backdrop-filter:blur(2px)}
+:root[data-theme="light"] .side .pnav a:not([aria-current]){background:rgba(255,255,255,.35)}
+@media (max-width:1000px){:root[data-theme="light"] .bnav{background:url(img/side-m.webp) center/cover,rgba(255,255,255,.86)}}

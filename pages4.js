@@ -5,7 +5,7 @@
 const XP={ready:['พร้อมส่งออก','Export-ready','#1E8A52'],dev:['กำลังพัฒนาสู่ส่งออก','Export in development','#B1832A'],local:['ตลาดในประเทศ','Domestic market','#5B6B62']};
 const b2b=p=>B2B[p.id]||{cap:['–','–'],moq:['–','–'],shelf:['–','–'],pack:['–','–'],lead:['–','–'],exp:'local',hs:'–',certs:[]};
 const LL=a=>Array.isArray(a)?L(a[0],a[1]):a;
-const certsOf=p=>(b2b(p).certs||[]).map(s=>{const m=s.match(/^([A-Z]+)(\d)?$/);const k=m?m[1]:s;return{k,st:m&&m[2]?+m[2]:0,ok:(CERT_OK[p.id]||[]).includes(k),d:CERT[k]}}).filter(c=>c.d);
+const certsOf=p=>(b2b(p).certs||[]).map(s=>{const m=s.match(/^([A-Z]+)(\d)?$/);const k=m?m[1]:s;return{k,st:m&&m[2]?+m[2]:0,ok:(CERT_OK[p.id]||[]).includes(k),d:CERT[k]}}).filter(c=>c.d&&(!DATA_ONLY||c.ok));
 function medal(c){
   const a=c.d.a,fs=a.length>5?10.5:a.length>3?13:16,ttl=`${L(c.d.th,c.d.en)}${c.st?' · '+c.st+L(' ดาว',' stars'):''} · ${c.ok?L('ยืนยันแล้ว','verified'):L('ค่าตัวอย่าง รอหน่วยงานยืนยัน','sample, awaiting agency confirmation')}`;
   return`<span class="md ${c.ok?'ok':'smp'}" style="--mc:${c.d.c}" title="${esc(ttl)}" aria-label="${esc(ttl)}"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30" class="o"/><circle cx="32" cy="32" r="24" class="i"/><text x="32" y="${c.st?31:37.5}" text-anchor="middle" class="a" style="font-size:${fs}px">${esc(a)}</text>${c.st?`<text x="32" y="45" text-anchor="middle" class="s">${'★'.repeat(c.st)}</text>`:''}</svg>${c.ok?'<i class="ck" aria-hidden="true">✓</i>':''}</span>`;
@@ -15,14 +15,14 @@ function certRow(p,mode){
   if(mode==='mini')return`<div class="cmini">${cs.map(c=>`<span class="${c.ok?'ok':''}" style="--mc:${c.d.c}">${esc(c.d.a)}${c.st?' '+'★'.repeat(c.st):''}</span>`).join('')}</div>`;
   return`<div class="certs c-${mode||"n"}">${cs.map(medal).join('')}</div>`;
 }
-const xpPill=p=>{const x=XP[b2b(p).exp]||XP.local;return`<span class="xp" style="--xc:${x[2]}"><i></i>${L(x[0],x[1])}</span>`};
-function specDl(p){const b=b2b(p);return`<dl class="spec">
-  <div><dt>${L('กำลังผลิต','Capacity')}</dt><dd>${esc(LL(b.cap))}</dd></div>
-  <div><dt>${L('สั่งขั้นต่ำ','MOQ')}</dt><dd>${esc(LL(b.moq))}</dd></div>
-  <div><dt>${L('อายุสินค้า','Shelf life')}</dt><dd>${esc(LL(b.shelf))}</dd></div>
-  <div><dt>${L('บรรจุภัณฑ์','Packaging')}</dt><dd>${esc(LL(b.pack))}</dd></div>
-  <div><dt>${L('ระยะเวลาส่งมอบ','Lead time')}</dt><dd>${esc(LL(b.lead))}</dd></div>
-  <div><dt>${L('พิกัดศุลกากร (HS)','HS code')}</dt><dd class="num">${esc(b.hs)}</dd></div></dl>`}
+const xpPill=p=>{if(DATA_ONLY)return'';const x=XP[b2b(p).exp]||XP.local;return`<span class="xp" style="--xc:${x[2]}"><i></i>${L(x[0],x[1])}</span>`};
+function specDl(p){const b=b2b(p);const V=x=>DATA_ONLY?`<i class="sk w60" title="${L('รอข้อมูลจากหน่วยงาน','Awaiting agency data')}"></i>`:esc(LL(x));return`<dl class="spec">
+  <div><dt>${L('กำลังผลิต','Capacity')}</dt><dd>${V(b.cap)}</dd></div>
+  <div><dt>${L('สั่งขั้นต่ำ','MOQ')}</dt><dd>${V(b.moq)}</dd></div>
+  <div><dt>${L('อายุสินค้า','Shelf life')}</dt><dd>${V(b.shelf)}</dd></div>
+  <div><dt>${L('บรรจุภัณฑ์','Packaging')}</dt><dd>${V(b.pack)}</dd></div>
+  <div><dt>${L('ระยะเวลาส่งมอบ','Lead time')}</dt><dd>${V(b.lead)}</dd></div>
+  <div><dt>${L('พิกัดศุลกากร (HS)','HS code')}</dt><dd class="num">${DATA_ONLY?V(b.hs):esc(b.hs)}</dd></div></dl>`}
 function buyerBlock(p,cls=''){
   return`<section class="card byr ${cls}" id="buyer">
     <div class="card-h"><h3>${L('สำหรับผู้ซื้อรายใหญ่','For trade buyers')} · <em>Buyer corner</em></h3><span class="note">${L('ค่าตัวอย่าง รอหน่วยงานยืนยัน','Sample values, awaiting agency confirmation')}</span></div>

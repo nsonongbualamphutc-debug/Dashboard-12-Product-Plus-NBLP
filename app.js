@@ -294,7 +294,7 @@ function moreMenu(){const acts=[['edit','แก้ไขข้อมูลหน
   ${acts.map(([a,t,i])=>`<button class="btn btn-g" type="button" data-act="${a}" data-close>${ic(i)} ${t}</button>`).join('')}</div>`)}
 
 /* ---------- kiosk & present ---------- */
-const SEQ=()=>[{page:'overview'},{page:'insights'},{page:'map'},...P.map(p=>({page:'product',pid:p.id}))];
+const SEQ=()=>[{page:'overview'},{page:'map'},...P.map(p=>({page:'product',pid:p.id}))];
 function seqIndex(){const s=SEQ();return Math.max(0,s.findIndex(x=>x.page===R.page&&(x.pid||0)===(R.pid||0)))}
 function step(d){const s=SEQ();const i=(seqIndex()+d+s.length)%s.length;go(Object.assign({q:new URLSearchParams()},s[i]))}
 let kT=null;
