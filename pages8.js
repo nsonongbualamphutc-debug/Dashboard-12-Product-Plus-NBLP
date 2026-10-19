@@ -13,13 +13,13 @@ const DECO=(()=>{
 
   /* ---------- 9 ไอคอน 3D: ใช้เมื่อมีไฟล์ img/icon-XX.webp ---------- */
   /* เปิดใช้เมื่อมีไฟล์จริงแล้ว (กันการเรียกไฟล์ที่ยังไม่มี) — icons: ไอคอน 3D img/icon-XX.webp · empty: img/empty.webp */
-  const ASSETS={icons:false,empty:false};
+  const ASSETS={icons:true,empty:true};
   if(ASSETS.icons)for(let i=1;i<=14;i++)H.classList.add('i3d-'+pad2(i));
   if(ASSETS.empty)H.classList.add('has-empty');
   let nb=0;const _badge=badge;
-  if(ASSETS.icons)badge=function(p,o={}){let s=_badge(p,o);const id=pad2(p.id),lab=o.label!==false,sz=lab?66:104,cy=lab?79:100,k=++nb;
+  if(ASSETS.icons)badge=function(p,o={}){let s=_badge(p,o);const id=pad2(p.id),lab=o.label!==false,sz=lab?70:112,cy=lab?79:100,k=++nb;
     s=s.replace('<svg class="bdg','<svg data-i="'+id+'" class="bdg');
-    return s.replace(/<\/svg>$/,`<clipPath id="ci${k}"><circle cx="100" cy="${cy}" r="${sz/2}"/></clipPath><image class="i3d" href="img/icon-${id}.webp" x="${100-sz/2}" y="${cy-sz/2}" width="${sz}" height="${sz}" clip-path="url(#ci${k})" preserveAspectRatio="xMidYMid slice"/></svg>`)};
+    return s.replace(/<\/svg>$/,`<clipPath id="ci${k}"><circle cx="100" cy="100" r="61"/></clipPath><image class="i3d" href="img/icon-${id}.webp" x="${100-sz/2}" y="${cy-sz/2}" width="${sz}" height="${sz}" clip-path="url(#ci${k})" preserveAspectRatio="xMidYMid slice"/></svg>`)};
 
   /* ---------- 1 หน้าโหลดดอกบัวบาน (ครั้งแรกของการเปิดเว็บ) ---------- */
   function intro(){let seen=false;try{seen=sessionStorage.getItem('nbl12-intro')}catch(e){}
