@@ -13,7 +13,7 @@ const DECO=(()=>{
 
   /* ---------- 9 ไอคอน 3D: ใช้เมื่อมีไฟล์ img/icon-XX.webp ---------- */
   /* เปิดใช้เมื่อมีไฟล์จริงแล้ว (กันการเรียกไฟล์ที่ยังไม่มี) — icons: ไอคอน 3D img/icon-XX.webp · empty: img/empty.webp */
-  const ASSETS={icons:true,empty:true,sys:false};
+  const ASSETS={icons:true,empty:true,sys:true};
   if(ASSETS.sys)H.classList.add('has-sys');
   if(ASSETS.icons)for(let i=1;i<=14;i++)H.classList.add('i3d-'+pad2(i));
   if(ASSETS.empty)H.classList.add('has-empty');

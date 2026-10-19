@@ -1981,3 +1981,140 @@ html.has-sys body[data-page="settings"] .sys-ban{background:linear-gradient(90de
 html.has-sys body:is([data-page="report"],[data-page="sources"],[data-page="entry"],[data-page="settings"],[data-page="apistatus"]) .page .card{background:linear-gradient(rgba(255,255,255,.9),rgba(255,255,255,.9)),url(img/sys-card.webp) center/cover}
 @media (max-width:760px){.sys-ban{padding:20px 18px;min-height:0}html.has-sys .sys-ban{background-position:center,70% center,center!important}}
 @media print{.ap-map{display:none}}
+
+/* =====================================================================
+   v6 · LOTUS NIGHT — โหมดมืดโทนบัวราตรี (ม่วงพลัม · บานเย็น · ลาเวนเดอร์ · ทองอ่อน)
+   ครอบคลุมทุกส่วนที่ทำมาตั้งแต่ v4 (ธีมชมพู) ถึง v5.8
+   ===================================================================== */
+:root[data-theme="dark"]{
+  --bg:#130911; --surface:#1D0F19; --surface-2:#251320; --surface-3:#2E1827; --ink:#F8E9F1; --muted:#C7A3B7; --line:#3A2031;
+  --forest:#E8559A; --forest-2:#C2387A; --on-forest:#FFFFFF; --on-forest-muted:#F3BFD7;
+  --gold:#E9C46A; --gold-soft:#3A2A15; --lotus:#F36FAB; --cream:#211019;
+  --pink-50:#211019; --pink-100:#2A1522; --pink-200:#3A1C2E; --pink-300:#6E2F51; --pink-500:#F36FAB; --pink-700:#FF8CC2; --pink-900:#FFD9EA;
+  --neon:#F36FAB; --good:#5FD08F; --warn:#F0B85A; --bad:#FF7C8A; --wait:#B79CC9; --api:#8FB3FF;
+  --glass:rgba(255,255,255,.06); --glass-b:rgba(255,182,214,.18);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 16px 36px -18px rgba(0,0,0,.8),0 0 0 1px rgba(255,140,194,.04);
+  color-scheme:dark}
+:root[data-theme="dark"] body{background:radial-gradient(90% 60% at 100% 0%,rgba(194,24,91,.18),transparent 60%),radial-gradient(70% 50% at 0% 100%,rgba(125,91,166,.16),transparent 60%),var(--bg);background-attachment:fixed}
+/* พื้นหลังภาพ: ใช้ภาพเดิมแต่หรี่และอมม่วง */
+:root[data-theme="dark"] .pbg{opacity:.22!important;filter:brightness(.55) saturate(1.3) hue-rotate(-8deg)!important;mix-blend-mode:screen}
+/* แถบบน / แถบล่าง */
+:root[data-theme="dark"] .top{background:rgba(19,9,17,.72)!important;border-bottom-color:var(--line)}
+:root[data-theme="dark"] .bnav{background:linear-gradient(rgba(29,15,25,.86),rgba(29,15,25,.86)),url(img/side-m.webp) center 70%/cover!important;border-color:rgba(255,140,194,.18)!important}
+/* แถบข้าง: ภาพบัวเดิม + ม่านกลางคืน */
+:root[data-theme="dark"] .side{background:linear-gradient(180deg,rgba(19,9,17,.55) 0%,rgba(19,9,17,.86) 40%,rgba(19,9,17,.9) 100%),var(--side-img,url(img/side-00.webp)) center bottom/cover no-repeat,#130911!important;border-right:1px solid var(--line);--on-forest:#F8E9F1;--on-forest-muted:#C7A3B7}
+:root[data-theme="dark"][data-side="none"] .side{background:linear-gradient(180deg,#1D0F19,#130911)!important}
+:root[data-theme="dark"] .side .pnav a:not([aria-current]){background:rgba(255,255,255,.04)}
+:root[data-theme="dark"] .side .pnav a[aria-current],:root[data-theme="dark"] .nav a[aria-current="page"]{background:linear-gradient(135deg,rgba(232,85,154,.28),rgba(183,156,201,.16));border-color:rgba(255,140,194,.4)}
+:root[data-theme="dark"] .brand .wm{color:#FF8CC2}
+:root[data-theme="dark"] .side .brand{text-shadow:0 0 12px rgba(19,9,17,.9)}
+:root[data-theme="dark"] .side-search{background:rgba(255,255,255,.05);border-color:var(--line)}
+:root[data-theme="dark"] .side-foot{background:rgba(29,15,25,.75)!important;border-color:var(--line)}
+/* การ์ดทั่วไป: กระจกกลางคืน */
+:root[data-theme="dark"] .card,:root[data-theme="dark"] .kpi,:root[data-theme="dark"] .tile,:root[data-theme="dark"] .rdy-c,:root[data-theme="dark"] .dsx{background:linear-gradient(160deg,rgba(43,22,36,.88),rgba(29,15,25,.9))!important;border-color:var(--line)!important;backdrop-filter:blur(10px)}
+:root[data-theme="dark"] .chip.on,:root[data-theme="dark"] .dsx-yr button[aria-pressed="true"]{background:linear-gradient(135deg,#C2387A,#E8559A);color:#fff;border-color:transparent}
+:root[data-theme="dark"] .t th{background:#251320;color:#E7B8CF}
+:root[data-theme="dark"] .t td{border-bottom-color:var(--line)}
+:root[data-theme="dark"] .btn-o{border-color:rgba(255,140,194,.3);color:var(--ink)}
+:root[data-theme="dark"] .pill.sim{background:rgba(183,156,201,.18);color:#D9C3EA}
+/* ===== DATA STORY ===== */
+:root[data-theme="dark"] .sty-hero{background:linear-gradient(90deg,rgba(19,9,17,.96) 0%,rgba(29,15,25,.86) 38%,rgba(29,15,25,.35) 62%,rgba(19,9,17,.15) 100%),var(--story,none) right center/cover no-repeat,#1D0F19!important;border-color:rgba(255,140,194,.2);box-shadow:0 30px 60px -36px rgba(213,6,84,.6)}
+:root[data-theme="dark"] .sty-hero h2{color:#fff}
+:root[data-theme="dark"] .sty-hero h2 em{background:linear-gradient(90deg,#FF9CD2,#F36FAB);-webkit-background-clip:text;background-clip:text}
+:root[data-theme="dark"] .sty-hero p{color:#E3C3D4}
+:root[data-theme="dark"] .sty-act .btn-o{background:rgba(255,255,255,.06)}
+:root[data-theme="dark"] .sh-k,:root[data-theme="dark"] .sty-hi .sh-k{background:rgba(29,15,25,.66)!important;border-color:rgba(255,140,194,.2)!important;color:var(--ink)}
+:root[data-theme="dark"] .sh-k b{color:#FF9CD2}
+:root[data-theme="dark"] .sty-tabs{background:rgba(29,15,25,.82);border-color:var(--line);box-shadow:0 12px 30px -20px #000}
+:root[data-theme="dark"] .sty-tabs>a{color:var(--ink)}
+:root[data-theme="dark"] .sty-tabs>a em{background:rgba(255,255,255,.07)}
+:root[data-theme="dark"] .sty-idx summary,:root[data-theme="dark"] .sty-idx>div{background:#251320;border-color:var(--line);color:var(--ink)}
+:root[data-theme="dark"] .sty-idx>div a{color:var(--ink)}:root[data-theme="dark"] .sty-idx>div a:hover{background:#3A1C2E}
+:root[data-theme="dark"] .ch-h h3{color:var(--ink)}
+:root[data-theme="dark"] .ch-art{box-shadow:0 14px 30px -14px rgba(0,0,0,.8),0 0 0 1px rgba(255,140,194,.18);filter:brightness(.9)}
+:root[data-theme="dark"] .stb{background:linear-gradient(165deg,rgba(43,22,36,.92),rgba(27,13,23,.94))!important;border-color:color-mix(in srgb,var(--pa) 30%,#3A2031)!important;box-shadow:0 20px 44px -30px #000}
+:root[data-theme="dark"] .stb h4{color:#fff}
+:root[data-theme="dark"] .stb-no{background:color-mix(in srgb,var(--pa) 25%,#1D0F19);color:color-mix(in srgb,var(--pa) 40%,#fff)}
+:root[data-theme="dark"] .stb-en{background:linear-gradient(90deg,color-mix(in srgb,var(--pa) 45%,#fff),#FF9CD2);-webkit-background-clip:text;background-clip:text}
+:root[data-theme="dark"] .stb-in b,:root[data-theme="dark"] .stb-kpi b{color:color-mix(in srgb,var(--pa) 45%,#FFC2DE)}
+:root[data-theme="dark"] .stb-side{background:linear-gradient(165deg,color-mix(in srgb,var(--pa) 18%,#1D0F19),#1D0F19 70%);border-color:color-mix(in srgb,var(--pa) 25%,transparent)}
+:root[data-theme="dark"] .stb-kpi em{background:rgba(255,255,255,.06);border-color:rgba(255,140,194,.3);color:#FF9CD2}
+:root[data-theme="dark"] .stb-f dd{color:var(--ink)}
+:root[data-theme="dark"] .stb-viz{background:linear-gradient(160deg,rgba(255,255,255,.035),rgba(255,140,194,.04))}
+:root[data-theme="dark"] .stb-tb .scroll-x,:root[data-theme="dark"] .ss-tb{background:#1D0F19;border-color:var(--line)}
+:root[data-theme="dark"] .sty-tb th{background:#2A1522!important;color:#F3BFD7!important}
+:root[data-theme="dark"] .sty-tb tbody tr:nth-child(even) td{background:rgba(255,255,255,.025)}
+:root[data-theme="dark"] .sty-tb tbody tr:hover td{background:color-mix(in srgb,var(--pa) 14%,#1D0F19)}
+:root[data-theme="dark"] .sty-tb tfoot td{background:#2A1522;border-top-color:rgba(255,140,194,.3)}
+:root[data-theme="dark"] .vt{background:rgba(255,255,255,.05);border-color:rgba(255,140,194,.22)}
+:root[data-theme="dark"] .vt button{color:#E3C3D4}
+:root[data-theme="dark"] .ib{background:rgba(255,255,255,.05);border-color:var(--line);color:#E3C3D4}
+:root[data-theme="dark"] .sty-cal .m{background:rgba(255,255,255,.04);border-color:var(--line)}
+:root[data-theme="dark"] .sty-cal .m b{color:var(--ink)}
+:root[data-theme="dark"] .sty-steps li i{background:#251320;border-color:var(--line);color:var(--muted)}
+:root[data-theme="dark"] .sty-steps::before{background:var(--line)}
+:root[data-theme="dark"] .sty-steps li span{color:var(--ink)}
+/* โหมดสไลด์ */
+:root[data-theme="dark"] .sty-show{background:linear-gradient(rgba(19,9,17,.84),rgba(19,9,17,.9)),url(img/slide-bg.webp) center/cover no-repeat,#130911!important;color:var(--ink)}
+:root[data-theme="dark"] .ss-h h2{color:#fff}
+:root[data-theme="dark"] .ss-viz{background:rgba(255,255,255,.04);border-color:rgba(255,140,194,.18)}
+:root[data-theme="dark"] .ss-dots i.past{background:color-mix(in srgb,var(--pa) 60%,#1D0F19)}
+/* แบนเนอร์หน้าข้อมูลและระบบ */
+:root[data-theme="dark"] .sys-ban{background:linear-gradient(90deg,rgba(19,9,17,.96) 0%,rgba(29,15,25,.84) 40%,rgba(29,15,25,.3) 70%),radial-gradient(70% 120% at 100% 0%,rgba(194,24,91,.35),transparent 60%),#1D0F19!important;border-color:rgba(255,140,194,.2)}
+html.has-sys:is([data-theme="dark"]) body[data-page="report"] .sys-ban{background:linear-gradient(90deg,rgba(19,9,17,.96) 0%,rgba(29,15,25,.84) 40%,rgba(29,15,25,.25) 68%,rgba(19,9,17,.2)),url(img/sys-report.webp) right center/cover no-repeat,#1D0F19!important}
+html.has-sys:is([data-theme="dark"]) body[data-page="sources"] .sys-ban{background:linear-gradient(90deg,rgba(19,9,17,.96) 0%,rgba(29,15,25,.84) 40%,rgba(29,15,25,.25) 68%,rgba(19,9,17,.2)),url(img/sys-sources.webp) right center/cover no-repeat,#1D0F19!important}
+html.has-sys:is([data-theme="dark"]) body[data-page="entry"] .sys-ban{background:linear-gradient(90deg,rgba(19,9,17,.96) 0%,rgba(29,15,25,.84) 40%,rgba(29,15,25,.25) 68%,rgba(19,9,17,.2)),url(img/sys-entry.webp) right center/cover no-repeat,#1D0F19!important}
+html.has-sys:is([data-theme="dark"]) body[data-page="settings"] .sys-ban{background:linear-gradient(90deg,rgba(19,9,17,.96) 0%,rgba(29,15,25,.84) 40%,rgba(29,15,25,.25) 68%,rgba(19,9,17,.2)),url(img/sys-settings.webp) right center/cover no-repeat,#1D0F19!important}
+:root[data-theme="dark"] .sys-ban h1{color:#fff}
+html.has-sys:is([data-theme="dark"]) body:is([data-page="report"],[data-page="sources"],[data-page="entry"],[data-page="settings"],[data-page="apistatus"]) .page .card{background:linear-gradient(160deg,rgba(43,22,36,.9),rgba(29,15,25,.92))!important}
+/* ตกแต่ง */
+:root[data-theme="dark"] .intro{background:radial-gradient(60% 60% at 50% 45%,#2E1827 0%,#1D0F19 55%,#130911 100%)}
+:root[data-theme="dark"] .intro span{color:#C7A3B7}
+:root[data-theme="dark"] .petals i{opacity:.5;filter:drop-shadow(0 0 6px rgba(243,111,171,.55))}
+:root[data-theme="dark"] .spot{mix-blend-mode:screen;background:radial-gradient(circle,rgba(243,111,171,.16) 0%,rgba(183,156,201,.08) 35%,transparent 68%)}
+:root[data-theme="dark"] .khit{opacity:.9;filter:drop-shadow(0 0 4px rgba(243,111,171,.5))}
+:root[data-theme="dark"] .lprog .head{filter:drop-shadow(0 0 6px rgba(243,111,171,.8))}
+:root[data-theme="dark"] html.has-empty .empty-art,:root[data-theme="dark"] .empty-art{filter:brightness(.85)}
+:root[data-theme="dark"] .bdg circle[fill="#FBF7EE"]{fill:#FBF7EE}
+:root[data-theme="dark"] .gm-lbl text{stroke:rgba(19,9,17,.85)}
+:root[data-theme="dark"] .side-pick button.none{background:linear-gradient(180deg,#2A1522,#130911)}
+
+/* v6 · ยกสีเน้นชมพูจากโหมดสว่างมาใช้ในโหมดมืด (สร้างอัตโนมัติ) */
+:root[data-theme="dark"] .brand .wm{color:var(--pink-700)}
+:root[data-theme="dark"] .nav a .ic{color:var(--pink-500)}
+:root[data-theme="dark"] .sprog{background:linear-gradient(90deg,var(--pink-300),var(--pink-700),var(--gold));box-shadow:0 0 10px var(--pink-300)}
+:root[data-theme="dark"] .kpi::after{background:linear-gradient(90deg,var(--pa),var(--pink-300))}
+:root[data-theme="dark"] .hx h1 .en{color:var(--pink-700);-webkit-text-fill-color:var(--pink-700)}
+:root[data-theme="dark"] .hx .eyebrow{color:var(--pink-700)}
+:root[data-theme="dark"] .hx::after{background:linear-gradient(90deg,var(--pa) 0 55%,var(--pink-300) 55% 80%,var(--gold) 80%);box-shadow:none}
+:root[data-theme="dark"] .st::before{background:linear-gradient(180deg,var(--pink-500),var(--pa))}
+:root[data-theme="dark"] .cv-main .eyebrow{color:var(--pink-700)}
+:root[data-theme="dark"] .cv-main .wm{background:linear-gradient(100deg,var(--pink-700) 20%,var(--gold) 50%,var(--pink-700) 80%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 24px rgba(224,89,143,.25))}
+:root[data-theme="dark"] .cv-main .wm sup{-webkit-text-fill-color:var(--gold)}
+:root[data-theme="dark"] .cv-stats div::before{background:linear-gradient(180deg,var(--pink-500),var(--gold))}
+:root[data-theme="dark"] .cv-stats b{color:var(--pink-700)}
+:root[data-theme="dark"] .marq a:hover{box-shadow:0 0 0 1px var(--pink-300)}
+:root[data-theme="dark"] .ov-hero::after{background:linear-gradient(90deg,var(--pink-700) 0 55%,var(--pink-300) 55% 80%,var(--gold) 80%);box-shadow:none}
+:root[data-theme="dark"] .ov-txt .eyebrow{color:var(--pink-700)}
+:root[data-theme="dark"] .ov-txt h1 em{color:var(--pink-500)}
+:root[data-theme="dark"] .tick a b{color:var(--pink-700)}
+:root[data-theme="dark"] .pr-hero::after,:root[data-theme="dark"] .by-hero::after{background:linear-gradient(90deg,var(--pink-700) 0 55%,var(--pink-300) 55% 80%,var(--gold) 80%)}
+:root[data-theme="dark"] .pr-k b{color:var(--pink-700)}
+:root[data-theme="dark"] .pr-en{color:var(--pink-700)}
+:root[data-theme="dark"] .by-tx h1 span{color:var(--pink-700);-webkit-text-fill-color:var(--pink-700)}
+:root[data-theme="dark"] .pr-price em{color:var(--pink-700)}
+:root[data-theme="dark"] .by-st b{color:var(--pink-700)}
+:root[data-theme="dark"] .slicer .sl-ind{background:linear-gradient(135deg,var(--pink-500),var(--pink-700))}
+:root[data-theme="dark"] .by-f button[aria-pressed="true"]{background:linear-gradient(135deg,var(--pink-500),var(--pink-700));box-shadow:0 8px 18px -8px var(--pink-500)}
+:root[data-theme="dark"] .tb.api{background:linear-gradient(135deg,var(--pink-500),var(--pink-700));border-color:var(--pink-700);box-shadow:0 6px 16px -8px var(--pink-500)}
+:root[data-theme="dark"] .btn-f,:root[data-theme="dark"] .slicer .sl-ind,:root[data-theme="dark"] .by-f button[aria-pressed="true"],:root[data-theme="dark"] .tb.api,:root[data-theme="dark"] .tick-l{background:linear-gradient(135deg,#F36FAB 0%,#E8559A 35%,#D50654 100%)}
+:root[data-theme="dark"] .cv-main .wm{background:linear-gradient(100deg,#D50654 15%,#F36FAB 45%,#B79CC9 60%,#D50654 85%);background-size:250% 100%;-webkit-background-clip:text;background-clip:text}
+:root[data-theme="dark"] .cv-main .wm sup{-webkit-text-fill-color:#F36FAB}
+:root[data-theme="dark"] .ov-txt h1 em{color:#D50654}
+:root[data-theme="dark"] .hx::after,:root[data-theme="dark"] .ov-hero::after,:root[data-theme="dark"] .pr-hero::after,:root[data-theme="dark"] .by-hero::after{background:linear-gradient(90deg,#D50654 0%,#F36FAB 45%,#FF9CD2 70%,#B79CC9 100%)}
+:root[data-theme="dark"] .sprog{background:linear-gradient(90deg,#FF9CD2,#D50654,#B79CC9);box-shadow:0 0 10px #FF9CD2}
+:root[data-theme="dark"] .cv-stats div::before,:root[data-theme="dark"] .st::before{background:linear-gradient(180deg,#F36FAB,#B79CC9)}
+/* ปุ่มเน้นในโหมดมืด: บานเย็นเข้ม ตัวอักษรขาวคมชัด */
+:root[data-theme="dark"] .btn-f,:root[data-theme="dark"] .slicer .sl-ind,:root[data-theme="dark"] .by-f button[aria-pressed="true"],:root[data-theme="dark"] .tb.api,:root[data-theme="dark"] .tick-l{background:linear-gradient(135deg,#C2387A,#E8559A)!important;border-color:#C2387A!important;color:#fff!important;box-shadow:0 8px 20px -10px #E8559A}
+:root[data-theme="dark"] .btn-p{background:linear-gradient(135deg,color-mix(in srgb,var(--pa) 70%,#E8559A),#C2387A)}
+@media (max-width:760px){:root[data-theme="dark"] .sty-hero{background:linear-gradient(180deg,rgba(19,9,17,0) 0,rgba(19,9,17,.1) 90px,rgba(29,15,25,.97) 165px,#1D0F19 100%),var(--story,none) 72% top/auto 175px no-repeat,#1D0F19!important}}

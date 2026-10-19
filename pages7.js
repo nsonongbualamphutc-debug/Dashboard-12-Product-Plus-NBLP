@@ -29,8 +29,9 @@ const hx2=h=>{h=h.replace('#','');if(h.length===3)h=h.split('').map(c=>c+c).join
 const rgbHex=a=>'#'+a.map(v=>Math.round(v).toString(16).padStart(2,'0')).join('');
 const lerpHex=(a,b,t)=>{const A=hx2(a),B=hx2(b);return rgbHex(A.map((v,i)=>v+(B[i]-v)*t))};
 const rgba=(h,a)=>{const c=hx2(h);return`rgba(${c[0]},${c[1]},${c[2]},${a})`};
-function styRamp(p,n){return Array.from({length:n},(_,i)=>lerpHex(p.pa,'#F4A9CB',n<2?0:i/(n-1)))}
-function styPal(p,n){const base=[p.pa,'#E8559A','#B79CC9',lerpHex(p.pa,'#FFFFFF',.45),'#F49AC1','#7D5BA6','#C9A227','#5B8DB8'];if(n<=1)return[p.pa];return Array.from({length:n},(_,i)=>base[i%base.length])}
+const PA=p=>isDark()?lerpHex(p.pa,'#FFE3F1',.34):p.pa;
+function styRamp(p,n){return Array.from({length:n},(_,i)=>lerpHex(PA(p),'#F4A9CB',n<2?0:i/(n-1)))}
+function styPal(p,n){const base=[PA(p),'#E8559A','#B79CC9',lerpHex(PA(p),'#FFFFFF',.45),'#F49AC1','#7D5BA6','#C9A227','#5B8DB8'];if(n<=1)return[PA(p)];return Array.from({length:n},(_,i)=>base[i%base.length])}
 
 /* ---------- เลือกรูปแบบภาพตามความหมายของรายการ ---------- */
 function styCats(d,p){const n=d.n;
@@ -177,24 +178,24 @@ function styCfg0(b,big){const A=styAgg(b.rows),u=b.unit,p=b.p;const fs=big?15:11
     case'stack':{const keys=A.ds.length?A.ds:A.ts;const pal=styPal(p,keys.length);const by=A.ds.length?'dist':'type';
       return{type:'bar',data:{labels:ysL,datasets:keys.map((k,i)=>({label:by==='dist'?dShort(k):tLab(k),data:A.ys.map(y=>A.v(r=>r.year===y&&r[by]===k)),backgroundColor:pal[i],borderRadius:4,stack:'s',maxBarThickness:big?90:52}))},
         options:base({plugins:{legend:{display:keys.length>1,position:'bottom'}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true}}})}}
-    case'flow':case'growth':case'tally':{const line=b.form==='flow'||(b.form==='growth'&&/เฉลี่ย/.test(b.d.n));const c0=p.pa,c1='#E8559A';
+    case'flow':case'growth':case'tally':{const line=b.form==='flow'||(b.form==='growth'&&/เฉลี่ย/.test(b.d.n));const c0=PA(p),c1='#E8559A';
       if(line)return{type:'line',data:{labels:ysL,datasets:[{label:tLab('รวม'),data:A.ys.map(tot),borderColor:c1,backgroundColor:grad(c1,.38),fill:true,tension:.38,borderWidth:big?4:3,pointRadius:big?7:5,pointBackgroundColor:'#fff',pointBorderColor:c0,pointBorderWidth:3}]},options:base({})};
       return{type:'bar',data:{labels:ysL,datasets:[{label:tLab('รวม'),data:A.ys.map(tot),backgroundColor:A.ys.map((_,i)=>i===A.ys.length-1?c1:rgba(c0,.35+.15*i)),borderRadius:{topLeft:10,topRight:10},maxBarThickness:big?100:56}]},options:base({})}}
-    case'band':{const pal=['#B79CC9',p.pa,'#E8559A'];
+    case'band':{const pal=['#B79CC9',PA(p),'#E8559A'];
       return{type:'line',data:{labels:ysL,datasets:A.ts.map((t,i)=>({label:t,data:A.ys.map(y=>A.v(r=>r.year===y&&r.type===t)),borderColor:pal[i%3],backgroundColor:rgba(pal[i%3],.12),fill:i===A.ts.length-1?'-2':false,borderWidth:i===1?(big?5:3.5):2,borderDash:i===1?[]:[5,4],tension:.35,pointRadius:i===1?(big?7:5):0,pointBackgroundColor:'#fff',pointBorderColor:pal[i%3],pointBorderWidth:3}))},
         options:base({plugins:{legend:{display:true,position:'bottom'}}})}}
     case'cost':{const pal=styPal(p,A.ts.length);
       return{type:'bar',data:{labels:ysL,datasets:A.ts.map((t,i)=>({label:t,data:A.ys.map(y=>A.v(r=>r.year===y&&r.type===t)),backgroundColor:pal[i],stack:'s',borderRadius:3,maxBarThickness:big?90:50}))},
         options:base({plugins:{legend:{display:A.ts.length>1,position:'bottom'}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true}}})}}
     case'share':{const pal=styPal(p,A.ts.length);const TS=A.ts.slice().sort((x,y)=>A.v(r=>r.year===A.ly&&r.type===y)-A.v(r=>r.year===A.ly&&r.type===x));const vals=TS.map(t=>A.v(r=>r.year===A.ly&&r.type===t));
-      return{type:'doughnut',data:{labels:TS,datasets:[{data:vals,backgroundColor:pal,borderColor:'#fff',borderWidth:3,hoverOffset:10}]},
+      return{type:'doughnut',data:{labels:TS,datasets:[{data:vals,backgroundColor:pal,borderColor:isDark()?'#1D0F19':'#fff',borderWidth:3,hoverOffset:10}]},
         options:{responsive:true,maintainAspectRatio:false,cutout:'64%',plugins:{legend:{position:big?'right':'bottom',labels:{font:{family:'Kanit, Sarabun, sans-serif',size:fs},boxWidth:12,usePointStyle:true,color:css('--muted')}},tooltip:{callbacks:{label:c=>` ${c.label}: ${fv(c.raw,u)}${u==='%'?'':' '+uLab(u)}`}}}},plugins:[styCenter(u==='%'?L('ปี ','')+yCE(A.ly):fv(sum(vals),u),u==='%'?L('สัดส่วน','share'):uLab(u),p)]}}
     case'tallyd':{const DS=A.ds.slice().sort((x,y)=>A.v(r=>r.year===A.ly&&r.dist===y)-A.v(r=>r.year===A.ly&&r.dist===x));const vals=DS.map(d=>A.v(r=>r.year===A.ly&&r.dist===d));const pal=styPal(p,DS.length);
-      return{type:'polarArea',data:{labels:DS.map(dShort),datasets:[{data:vals,backgroundColor:pal.map(c=>rgba(c,.72)),borderColor:'#fff',borderWidth:2}]},
+      return{type:'polarArea',data:{labels:DS.map(dShort),datasets:[{data:vals,backgroundColor:pal.map(c=>rgba(c,.72)),borderColor:isDark()?'#1D0F19':'#fff',borderWidth:2}]},
         options:{responsive:true,maintainAspectRatio:false,scales:{r:{ticks:{display:false},grid:{color:css('--line')},pointLabels:{display:true,centerPointLabels:true,font:{family:'Kanit, Sarabun, sans-serif',size:fs},color:css('--muted')}}},plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>` ${c.label}: ${fv(c.raw,u)} ${uLab(u)}`}}}}}}
   }return null}
 function styCenter(a,b2,p){return{id:'stc',afterDraw(ch){const m=ch.getDatasetMeta(0);if(!m||!m.data[0])return;const{x,y}=m.data[0];const c=ch.ctx;const r=m.data[0].innerRadius;c.save();c.textAlign='center';c.textBaseline='middle';
-  c.fillStyle=p.pa;c.font=`600 ${Math.max(14,r*.42)}px Kanit, sans-serif`;c.fillText(a,x,y-r*.12);c.fillStyle=css('--muted');c.font=`${Math.max(10,r*.2)}px Sarabun, sans-serif`;c.fillText(b2,x,y+r*.28);c.restore()}}}
+  c.fillStyle=PA(p);c.font=`600 ${Math.max(14,r*.42)}px Kanit, sans-serif`;c.fillText(a,x,y-r*.12);c.fillStyle=css('--muted');c.font=`${Math.max(10,r*.2)}px Sarabun, sans-serif`;c.fillText(b2,x,y+r*.28);c.restore()}}}
 
 /* ---------- HTML บล็อก ---------- */
 /* ---------- ตัวเลขเด่นประกอบภาพ (แผงข้าง) ---------- */
