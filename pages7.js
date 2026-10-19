@@ -167,8 +167,8 @@ function styHtmlViz(b){const A=styAgg(b.rows);
 
 /* ---------- Chart.js config ---------- */
 function styCfg(b,big){const c=styCfg0(b,big);if(c)c.data.datasets.forEach(d=>d._fx=1);return c}
-function styCfg0(b,big){const A=styAgg(b.rows),u=b.unit,p=b.p;const fs=big?15:11;
-  const tip={callbacks:{label:c=>` ${c.dataset.label?c.dataset.label+': ':''}${fv(c.parsed.y??c.parsed.x??c.raw,u)} ${u==='%'?'':uLab(u)}`.replace(/: (\S+)$/,': $1')}};
+function styCfg0(b,big){const A=styAgg(b.rows),u=b.unit,p=b.p;const fs=big?17:13.5;
+  const tip={callbacks:{label:c=>` ${c.dataset.label?c.dataset.label+': ':''}${fv(c.chart.options.indexAxis==='y'?c.parsed.x:(c.parsed.y??c.raw),u)} ${u==='%'?'':uLab(u)}`.replace(/: (\S+)$/,': $1')}};
   const tick={color:css('--muted'),font:{family:'Kanit, Sarabun, sans-serif',size:fs}};
   const base=(x)=>dsOpts(dmerge({animation:{duration:700},plugins:{legend:{display:false,labels:{font:{family:'Kanit, Sarabun, sans-serif',size:fs}}},tooltip:tip},scales:{x:{ticks:tick},y:{ticks:Object.assign({},tick,{callback:v=>u==='%'?v+'%':Math.abs(v)<1e4?nf.format(v):fShort(v)})}}},x));
   const grad=(c0,a0=.45,a1=.02)=>ctx=>{const ch=ctx.chart,ca=ch.chartArea;if(!ca)return rgba(c0,a0);const g=ch.ctx.createLinearGradient(0,ca.top,0,ca.bottom);g.addColorStop(0,rgba(c0,a0));g.addColorStop(1,rgba(c0,a1));return g};

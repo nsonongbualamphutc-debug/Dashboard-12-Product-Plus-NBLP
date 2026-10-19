@@ -153,10 +153,10 @@ function killCharts(){while(charts.length)charts.pop().destroy()}
 function mk(id,cfg){const c=document.getElementById(id);if(!c||!window.Chart)return;charts.push(new Chart(c,cfg))}
 function baseOpts(extra={}){const ink=css('--muted'),line=css('--line');
   return Object.assign({responsive:true,maintainAspectRatio:false,animation:{duration:500},
-    plugins:{legend:{labels:{color:ink,font:{family:'Kanit',size:12},boxWidth:12,boxHeight:12,usePointStyle:true}},
+    plugins:{legend:{labels:{color:ink,font:{family:'Kanit, Sarabun, sans-serif',size:14},boxWidth:12,boxHeight:12,usePointStyle:true}},
       tooltip:{titleFont:{family:'Kanit'},bodyFont:{family:'Sarabun'},callbacks:{label:c=>' '+c.dataset.label+': '+fB(c.raw)}}},
-    scales:{x:{grid:{display:false},ticks:{color:ink,font:{family:'Kanit',size:11}},border:{color:line}},
-      y:{grid:{color:line},border:{display:false},ticks:{color:ink,font:{family:'Kanit',size:11},callback:v=>fShort(v)}}}},extra)}
+    scales:{x:{grid:{display:false},ticks:{color:ink,font:{family:'Kanit, Sarabun, sans-serif',size:13}},border:{color:line}},
+      y:{grid:{color:line},border:{display:false},ticks:{color:ink,font:{family:'Kanit, Sarabun, sans-serif',size:13},callback:v=>fShort(v)}}}},extra)}
 
 /* ---------- shell ---------- */
 function shell(){
@@ -171,7 +171,7 @@ function shell(){
       <nav class="nav pnav" id="navP"></nav>
       <div class="nav-t"><span id="navT2">ข้อมูลและระบบ</span></div>
       <nav class="nav" id="navSys"></nav>
-      <div class="side-foot"><div class="sf-by"><img src="img/seal.png" alt="" width="34" height="34"><div><small>${L('จัดทำโดย','Produced by')}</small><b>${L('สำนักงานสถิติจังหวัดหนองบัวลำภู','Nong Bua Lam Phu Provincial Statistical Office')}</b></div></div><p class="sf-with">${L('ร่วมกับหน่วยงานเจ้าของข้อมูล','In partnership with data-owning agencies of')} <b>14</b> ${L('สินค้า','products')}</p><p class="sf-c">© 2569 ${L('สงวนลิขสิทธิ์','All rights reserved')}</p></div>
+      <div class="side-foot"><div class="sf-by"><span class="sf-logo"><img src="img/nso-mark.png" alt="${L('ตราสำนักงานสถิติแห่งชาติ','National Statistical Office logo')}"></span><div><small>${L('จัดทำโดย','Produced by')}</small><b>${L('สำนักงานสถิติจังหวัดหนองบัวลำภู','Nong Bua Lam Phu Provincial Statistical Office')}</b></div></div><p class="sf-with">${L('ร่วมกับหน่วยงานเจ้าของข้อมูล','In partnership with data-owning agencies of')} <b>14</b> ${L('สินค้า','products')}</p><p class="sf-c">© 2569 ${L('สงวนลิขสิทธิ์','All rights reserved')}</p></div>
     </aside>
     <div class="scrim" id="scrim"></div>
     <div class="main">
@@ -356,7 +356,7 @@ function render(keepScroll){
   document.body.style.setProperty('--pa',p?p.pa:(css('--forest')||'#0F4A37'));if(typeof FX!=='undefined')FX.init(page);
   if(store.sget('nbl12-kiosk',0))kioskTick();
 }
-document.addEventListener('DOMContentLoaded',()=>{if(window.Chart){Chart.defaults.font.family='Kanit, Sarabun, sans-serif'}render();
+document.addEventListener('DOMContentLoaded',()=>{if(window.Chart){Chart.defaults.font.family='Kanit, Sarabun, sans-serif';Chart.defaults.font.size=13.5}render();
   matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{applyTheme();render(true)});
   if(document.fonts)document.fonts.ready.then(()=>{if(['overview','product','report','sources','apistatus','insights','map','brief'].includes(R.page))render(true)});
 });
