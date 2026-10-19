@@ -28,11 +28,11 @@ const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.
   sget(k,d){try{const v=sessionStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},sset(k,v){try{sessionStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 
 /* ---------- settings ---------- */
-const DEF_SET={theme:'auto',accent:'#0F4A37',video:true,kioskSec:20,mode:'Y',apiBase:APP.apiBase,res:{},gas:'',lang:'th'};
+const DEF_SET={theme:'light',accent:'#0F4A37',video:true,kioskSec:20,mode:'Y',apiBase:APP.apiBase,res:{},gas:'',lang:'th'};
 let SET=Object.assign({},DEF_SET,store.get('nbl12-set',{}));
 function saveSet(){store.set('nbl12-set',SET);applyTheme()}
-function applyTheme(){const r=document.documentElement;if(SET.theme==='auto')delete r.dataset.theme;else r.dataset.theme=SET.theme;
-  r.style.setProperty('--forest',SET.accent&&SET.accent!=='#0F4A37'&&!isDark()?SET.accent:'')}
+function applyTheme(){const r=document.documentElement;r.dataset.theme=SET.theme==='auto'?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'):SET.theme;
+  r.style.setProperty('--forest','')}
 applyTheme();
 
 /* ---------- log & notifications ---------- */
@@ -353,10 +353,10 @@ function render(keepScroll){
   const sst=$('#sideSearchT');if(sst)sst.textContent=L('ค้นหาสินค้า ข้อมูล หน้า','Search products, data, pages');
   const page=$('#page');page.style.setProperty('--pa',p?p.pa:css('--forest')||'#0F4A37');page.style.setProperty('--pa-ink',p?(isDark()?hexMix(p.pa,.35):hexMix(p.pa,-.12)):'');
   (PAGE_R[R.page]||PAGE_R.cover)(page,p);
-  document.body.style.setProperty('--pa',p?p.pa:'#0F4A37');if(typeof FX!=='undefined')FX.init(page);
+  document.body.style.setProperty('--pa',p?p.pa:(css('--forest')||'#0F4A37'));if(typeof FX!=='undefined')FX.init(page);
   if(store.sget('nbl12-kiosk',0))kioskTick();
 }
 document.addEventListener('DOMContentLoaded',()=>{if(window.Chart){Chart.defaults.font.family='Kanit, Sarabun, sans-serif'}render();
-  matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>render(true));
+  matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{applyTheme();render(true)});
   if(document.fonts)document.fonts.ready.then(()=>{if(['overview','product','report','sources','apistatus','insights','map','brief'].includes(R.page))render(true)});
 });

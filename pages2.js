@@ -243,7 +243,7 @@ function mapSVG(vals,sel){
   F.forEach(ft=>each(ft.geometry,([x,y])=>{x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)}));
   const k=Math.cos((y0+y1)/2*Math.PI/180),W=600,sc=W/((x1-x0)*k),H=(y1-y0)*sc;
   const pr=([x,y])=>[(x-x0)*k*sc,(y1-y)*sc];
-  const mx=Math.max(...vals);const pa=sel?sel.pa:'#0F4A37';
+  const mx=Math.max(...vals);const pa=sel?sel.pa:(css('--forest')||'#0F4A37');
   const out=F.map(ft=>{const i=DISTRICTS.indexOf(ft.properties.th);const polys=ft.geometry.type==='Polygon'?[ft.geometry.coordinates]:ft.geometry.coordinates;
     const d=polys.map(pl=>pl.map(r=>'M'+r.map(c=>pr(c).map(n=>n.toFixed(1)).join(',')).join('L')+'Z').join('')).join('');
     const big=polys.map(pl=>pl[0]).sort((a,b)=>b.length-a.length)[0];const cx=big.reduce((s,c)=>s+pr(c)[0],0)/big.length,cy=big.reduce((s,c)=>s+pr(c)[1],0)/big.length;
@@ -258,7 +258,7 @@ PAGE_R.map=page=>{
     const p=sel?byId(sel):null;const L0=p?[p]:P;
     const vals=DISTRICTS.map((_,i)=>sum(L0.map(x=>distVal(x,i))));const tot=sum(vals);
     const top=P.map(x=>({p:x,v:distVal(x,di)})).sort((a,b)=>b.v-a.v);const tv=sum(top.map(t=>t.v));
-    page.style.setProperty('--pa',p?p.pa:'#0F4A37');
+    page.style.setProperty('--pa',p?p.pa:(css('--forest')||'#0F4A37'));
     page.innerHTML=`
     <div class="ph-title"><div><span class="eyebrow">Production map · ${periodLabel()}</span><h1>${PT('map')}</h1><p>${L('มูลค่าการจำหน่ายแยกตามอำเภอ เลือกสินค้าเพื่อดูแหล่งผลิต หรือแตะอำเภอเพื่อดูสินค้าเด่น','Sales value by district. Pick a product to see where it is made, or tap a district to see its leading products.')}</p></div></div>
     <div class="mchips"><button type="button" data-s="0" aria-pressed="${!sel}">${L('ทั้ง 14 สินค้า','All 14 products')}</button>${P.map(x=>`<button type="button" data-s="${x.id}" aria-pressed="${sel===x.id}" style="--c:${x.pa}">${badge(x,{label:false})}${esc(pname(x))}</button>`).join('')}</div>

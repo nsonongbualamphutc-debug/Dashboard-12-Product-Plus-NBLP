@@ -120,5 +120,5 @@ const FX=(()=>{
     const L=[];while(w.nextNode())L.push(w.currentNode);
     for(const n of L){let v=n.nodeValue;if(v.includes(WJ))continue;for(const[w,g]of glueList())if(v.includes(w))v=v.split(w).join(g);for(const[a,b]of RE)v=v.replace(a,b);if(v!==n.nodeValue)n.nodeValue=v}
   }
-  return{init(page){glue(page);setup();bnav();reveal(page);countUp(page);tilt(page);dust(page)}};
+  return{glueNode:glue,init(page){glue(page);setup();bnav();reveal(page);countUp(page);tilt(page);dust(page)}};
 })();
