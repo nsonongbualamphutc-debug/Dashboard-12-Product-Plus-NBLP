@@ -113,9 +113,11 @@ function styAgg(rows){const ys=[...new Set(rows.map(r=>r.year))].sort((a,b)=>a-b
   const ds=[...new Set(rows.map(r=>r.dist))].filter(x=>x&&x!=='รวมทั้งจังหวัด');const ts=[...new Set(rows.map(r=>r.type||'รวม'))];
   const v=f=>rows.filter(f).reduce((a,r)=>a+(r.value||0),0);return{ys,ds,ts,v,ly:ys.at(-1),py:ys.at(-2)}}
 const dShort=d=>L(d.replace('เมืองหนองบัวลำภู','เมืองฯ'),DISTRICTS_EN[DISTRICTS.indexOf(d)]||d);
-const tLab=t=>t==='รวม'?L('รวม','Total'):t;
+const CAT_EN={'รวม':'Total','สายพันธุ์ ก':'Variety A','สายพันธุ์ ข':'Variety B','สายพันธุ์ ค':'Variety C','อื่น ๆ':'Others','กล้วยน้ำว้า':'Namwa banana','กล้วยหอมทอง':'Hom Thong banana','กล้วยไข่':'Khai banana','ตลาดชุมชน/หน้าร้าน':'Local market / shop','ออนไลน์':'Online','ห้าง/ร้านค้าปลีก':'Retail chains','งานแสดงสินค้า':'Trade fairs','ส่งนอกจังหวัด':'Out-of-province','ในจังหวัด':'In province','ภาคอีสาน':'Northeast','กรุงเทพฯ และปริมณฑล':'Bangkok metro','ต่างประเทศ':'Overseas','เห็ดนางฟ้า':'Grey oyster','เห็ดขอนขาว':'Lentinus','เห็ดนางรม':'Oyster','เห็ดฟาง':'Straw','ปลานิล':'Tilapia','ปลาตะเพียน':'Silver barb','ปลาดุก':'Catfish','ปลายี่สก':'Seven-striped barb','โรงเรือน':'Greenhouse','กลางแจ้ง':'Open field','ตะกร้า':'Basket','ผลิตเอง':'Self-made','ซื้อจากภายนอก':'Purchased','ในชุมชน':'Community','นอกจังหวัด':'Out of province','กากอ้อย':'Bagasse','กากน้ำตาล':'Molasses','แรงงานคน':'Manual labour','รถตัดอ้อย':'Harvesters','แปรรูปขั้นต้น':'Primary processed','พร้อมรับประทาน/ใช้งาน':'Ready to use','ของฝาก/ของที่ระลึก':'Gifts / souvenirs','ค่าขนส่ง':'Haulage','วัตถุดิบ':'Raw materials','แรงงาน':'Labour','บรรจุภัณฑ์':'Packaging','พลังงาน/อื่น ๆ':'Energy / other','ลูกสัตว์/พันธุ์':'Young stock','อาหารสัตว์':'Feed','ยา/วัคซีน':'Medicine / vaccines','พันธุ์/ก้อนเชื้อ':'Seed / spawn','ปุ๋ย/สารบำรุง':'Fertiliser','ราคาต่ำสุด':'Low','ราคาเฉลี่ย':'Average','ราคาสูงสุด':'High'};
+const tLab=t=>L(t,CAT_EN[t]||t);
 const fv=(v,u)=>u==='%'?(Math.round(v*10)/10).toLocaleString('th-TH')+'%':Math.abs(v)>=1e6?fShort(v):Math.abs(v)<10&&v%1?v.toLocaleString('th-TH',{maximumFractionDigits:1}):nf.format(Math.round(v));
-const uLab=u=>u==='บาท'?L('บาท','THB'):u;
+const UNIT_EN={'บาท':'THB','ไร่':'rai','ราย':'persons','คน':'people','กก.':'kg','ตัน':'t','ตัว':'head','กลุ่ม':'groups','แห่ง':'sites','หน่วยงาน':'agencies','หน่วย':'units','แบรนด์':'brands','ช่องทาง':'channels','กิจกรรม':'activities','โครงการ':'projects','ฟาร์ม':'farms','ร้าน':'shops','ครั้ง':'times','ชนิด':'kinds','ประเภท':'types','สายพันธุ์':'varieties','ผลิตภัณฑ์':'products','มาตรการ':'measures','ผืน':'pieces','ชิ้น':'pieces','ชิ้น/ปี':'pieces/yr','หัว':'rhizomes','ต้น':'plants','ลาย':'patterns','รูปแบบ':'systems','แหล่ง':'sources','สินค้า':'products','ระบบ':'systems','รอบ':'cycles','ช่วง':'periods'};
+const uLab=u=>L(u,UNIT_EN[u]||u);
 
 /* ---------- ประโยคสรุปอัตโนมัติ ---------- */
 function styInsight(b){const A=styAgg(b.rows),u=b.unit;const tot=y=>A.v(r=>r.year===y);
@@ -127,8 +129,8 @@ function styInsight(b){const A=styAgg(b.rows),u=b.unit;const tot=y=>A.v(r=>r.yea
     case'band':{const av=A.v(r=>r.year===A.ly&&/เฉลี่ย|avg/i.test(r.type))||tot(A.ly)/Math.max(1,A.ts.length);const mn=A.v(r=>r.year===A.ly&&/ต่ำ|min/i.test(r.type)),mx=A.v(r=>r.year===A.ly&&/สูง|max/i.test(r.type));
       return L(`ราคาเฉลี่ยปี ${yCE(A.ly)} <b>${fv(av)}</b> ${uLab(u)}`,`Avg ${yCE(A.ly)} <b>${fv(av)}</b> ${uLab(u)}`)+(mn&&mx?L(` · ช่วง ${fv(mn)}–${fv(mx)}`,` · range ${fv(mn)}–${fv(mx)}`):'')}
     case'share':case'cost':{const L0=A.ts.map(t=>[t,A.v(r=>r.year===A.ly&&r.type===t)]).sort((x,y)=>y[1]-x[1]);const t=sum(L0.map(x=>x[1]))||1;
-      return b.form==='cost'?L(`ต้นทุนหลักคือ <b>${esc(L0[0][0])}</b> ${Math.round(L0[0][1]/t*100)}% · รวม <b>${fv(t)}</b> ${uLab(u)}`,`Largest cost: <b>${esc(L0[0][0])}</b> ${Math.round(L0[0][1]/t*100)}% · total <b>${fv(t)}</b> ${uLab(u)}`)
-        :L(`<b>${esc(L0[0][0])}</b> ครองสัดส่วน <b>${Math.round(L0[0][1]/t*100)}%</b> จาก ${A.ts.length} กลุ่ม`,`<b>${esc(L0[0][0])}</b> holds <b>${Math.round(L0[0][1]/t*100)}%</b> of ${A.ts.length} groups`)}
+      return b.form==='cost'?L(`ต้นทุนหลักคือ <b>${esc(L0[0][0])}</b> ${Math.round(L0[0][1]/t*100)}% · รวม <b>${fv(t)}</b> ${uLab(u)}`,`Largest cost: <b>${esc(tLab(L0[0][0]))}</b> ${Math.round(L0[0][1]/t*100)}% · total <b>${fv(t)}</b> ${uLab(u)}`)
+        :L(`<b>${esc(L0[0][0])}</b> ครองสัดส่วน <b>${Math.round(L0[0][1]/t*100)}%</b> จาก ${A.ts.length} กลุ่ม`,`<b>${esc(tLab(L0[0][0]))}</b> holds <b>${Math.round(L0[0][1]/t*100)}%</b> of ${A.ts.length} groups`)}
     case'cal':{const pk=A.ts.filter(t=>A.v(r=>r.type===t)>=3);return L(`ช่วงพีค: <b>${pk.join(' ')||'–'}</b>`,`Peak: <b>${pk.map(m=>MONTHS_EN[MONTHS_TH.indexOf(m)]||m).join(' ')||'–'}</b>`)}
     case'status':{const dn=A.ts.filter(t=>A.v(r=>r.type===t)>0);return L(`ผ่านแล้ว <b>${dn.length}/${A.ts.length}</b> ขั้น · ล่าสุด “${esc(dn.at(-1)||'–')}”`,`<b>${dn.length}/${A.ts.length}</b> milestones reached`)}
     case'flow':return L(`ปี ${yCE(A.ly)} <b>${fShort(tot(A.ly))}</b>`,`${yCE(A.ly)}: <b>${fShort(tot(A.ly))}</b>`)+' · '+yoy()+cagr();
@@ -138,7 +140,7 @@ function styInsight(b){const A=styAgg(b.rows),u=b.unit;const tot=y=>A.v(r=>r.yea
 function styKpi(b){const A=styAgg(b.rows),u=b.unit;
   if(b.form==='cal')return{v:A.ts.filter(t=>A.v(r=>r.type===t)>=2).length,u:L('เดือนที่มีผลผลิต','active months')};
   if(b.form==='status'){const dn=A.ts.filter(t=>A.v(r=>r.type===t)>0).length;return{v:Math.round(dn/A.ts.length*100)+'%',u:L('ความคืบหน้า','progress')}}
-  if(b.form==='share'&&u==='%')return{v:A.ts.length,u:esc(b.d.u)};
+  if(b.form==='share'&&u==='%')return{v:A.ts.length,u:esc(uLab(b.d.u))};
   if(b.form==='band'){const av=A.v(r=>r.year===A.ly&&/เฉลี่ย/.test(r.type));return{v:fv(av||A.v(r=>r.year===A.ly)/A.ts.length),u:uLab(u)}}
   const t=A.v(r=>r.year===A.ly);return{v:fv(t,u),u:u==='บาท'&&t>=1e6?'':uLab(u)}}
 
@@ -182,13 +184,13 @@ function styCfg0(b,big){const A=styAgg(b.rows),u=b.unit,p=b.p;const fs=big?15:11
       if(line)return{type:'line',data:{labels:ysL,datasets:[{label:tLab('รวม'),data:A.ys.map(tot),borderColor:c1,backgroundColor:grad(c1,.38),fill:true,tension:.38,borderWidth:big?4:3,pointRadius:big?7:5,pointBackgroundColor:'#fff',pointBorderColor:c0,pointBorderWidth:3}]},options:base({})};
       return{type:'bar',data:{labels:ysL,datasets:[{label:tLab('รวม'),data:A.ys.map(tot),backgroundColor:A.ys.map((_,i)=>i===A.ys.length-1?c1:rgba(c0,.35+.15*i)),borderRadius:{topLeft:10,topRight:10},maxBarThickness:big?100:56}]},options:base({})}}
     case'band':{const pal=['#B79CC9',PA(p),'#E8559A'];
-      return{type:'line',data:{labels:ysL,datasets:A.ts.map((t,i)=>({label:t,data:A.ys.map(y=>A.v(r=>r.year===y&&r.type===t)),borderColor:pal[i%3],backgroundColor:rgba(pal[i%3],.12),fill:i===A.ts.length-1?'-2':false,borderWidth:i===1?(big?5:3.5):2,borderDash:i===1?[]:[5,4],tension:.35,pointRadius:i===1?(big?7:5):0,pointBackgroundColor:'#fff',pointBorderColor:pal[i%3],pointBorderWidth:3}))},
+      return{type:'line',data:{labels:ysL,datasets:A.ts.map((t,i)=>({label:tLab(t),data:A.ys.map(y=>A.v(r=>r.year===y&&r.type===t)),borderColor:pal[i%3],backgroundColor:rgba(pal[i%3],.12),fill:i===A.ts.length-1?'-2':false,borderWidth:i===1?(big?5:3.5):2,borderDash:i===1?[]:[5,4],tension:.35,pointRadius:i===1?(big?7:5):0,pointBackgroundColor:'#fff',pointBorderColor:pal[i%3],pointBorderWidth:3}))},
         options:base({plugins:{legend:{display:true,position:'bottom'}}})}}
     case'cost':{const pal=styPal(p,A.ts.length);
-      return{type:'bar',data:{labels:ysL,datasets:A.ts.map((t,i)=>({label:t,data:A.ys.map(y=>A.v(r=>r.year===y&&r.type===t)),backgroundColor:pal[i],stack:'s',borderRadius:3,maxBarThickness:big?90:50}))},
+      return{type:'bar',data:{labels:ysL,datasets:A.ts.map((t,i)=>({label:tLab(t),data:A.ys.map(y=>A.v(r=>r.year===y&&r.type===t)),backgroundColor:pal[i],stack:'s',borderRadius:3,maxBarThickness:big?90:50}))},
         options:base({plugins:{legend:{display:A.ts.length>1,position:'bottom'}},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true}}})}}
     case'share':{const pal=styPal(p,A.ts.length);const TS=A.ts.slice().sort((x,y)=>A.v(r=>r.year===A.ly&&r.type===y)-A.v(r=>r.year===A.ly&&r.type===x));const vals=TS.map(t=>A.v(r=>r.year===A.ly&&r.type===t));
-      return{type:'doughnut',data:{labels:TS,datasets:[{data:vals,backgroundColor:pal,borderColor:isDark()?'#1D0F19':'#fff',borderWidth:3,hoverOffset:10}]},
+      return{type:'doughnut',data:{labels:TS.map(tLab),datasets:[{data:vals,backgroundColor:pal,borderColor:isDark()?'#1D0F19':'#fff',borderWidth:3,hoverOffset:10}]},
         options:{responsive:true,maintainAspectRatio:false,cutout:'64%',plugins:{legend:{position:big?'right':'bottom',labels:{font:{family:'Kanit, Sarabun, sans-serif',size:fs},boxWidth:12,usePointStyle:true,color:css('--muted')}},tooltip:{callbacks:{label:c=>` ${c.label}: ${fv(c.raw,u)}${u==='%'?'':' '+uLab(u)}`}}}},plugins:[styCenter(u==='%'?L('ปี ','')+yCE(A.ly):fv(sum(vals),u),u==='%'?L('สัดส่วน','share'):uLab(u),p)]}}
     case'tallyd':{const DS=A.ds.slice().sort((x,y)=>A.v(r=>r.year===A.ly&&r.dist===y)-A.v(r=>r.year===A.ly&&r.dist===x));const vals=DS.map(d=>A.v(r=>r.year===A.ly&&r.dist===d));const pal=styPal(p,DS.length);
       return{type:'polarArea',data:{labels:DS.map(dShort),datasets:[{data:vals,backgroundColor:pal.map(c=>rgba(c,.72)),borderColor:isDark()?'#1D0F19':'#fff',borderWidth:2}]},
@@ -205,7 +207,7 @@ function styFacts(b){const A=styAgg(b.rows),u=b.unit,U=u==='%'?'':' '+uLab(u);co
     F.push([L('ช่วงพีค','Peak'),pk.length+L(' เดือน',' mo')],[L('เริ่มพีค','Peak starts'),pk[0]||'–'],[L('ช่วงเบา','Low season'),lo.length+L(' เดือน',' mo')]);return F}
   if(b.form==='status'){const dn=A.ts.filter(t=>A.v(r=>r.type===t)>0);F.push([L('ผ่านแล้ว','Done'),dn.length+' / '+A.ts.length],[L('ขั้นล่าสุด','Latest'),dn.at(-1)||'–'],[L('ขั้นถัดไป','Next'),A.ts[dn.length]||L('ครบทุกขั้น','Complete')]);return F}
   if(b.form==='band'){['ต่ำ','เฉลี่ย','สูง'].forEach((k,i)=>{const t=A.ts.find(x=>x.includes(k));if(t)F.push([[L('ต่ำสุด','Low'),L('เฉลี่ย','Average'),L('สูงสุด','High')][i],fv(A.v(r=>r.year===A.ly&&r.type===t))+U])});return F}
-  if(b.form==='share'||b.form==='cost'){const T=top('type',A.ts),S=sum(T.map(x=>x[1]))||1;T.slice(0,3).forEach(([k,v])=>F.push([esc(k),Math.round(v/S*100)+'%']));return F}
+  if(b.form==='share'||b.form==='cost'){const T=top('type',A.ts),S=sum(T.map(x=>x[1]))||1;T.slice(0,3).forEach(([k,v])=>F.push([esc(tLab(k)),Math.round(v/S*100)+'%']));return F}
   if(A.ds.length&&(b.form==='rank'||b.form==='tallyd'||b.form==='stack')){const T=top('dist',A.ds),S=sum(T.map(x=>x[1]))||1;T.slice(0,3).forEach(([k,v],i)=>F.push([['🥇','🥈','🥉'][i]+' '+dShort(k),fv(v,u)+U+` <small>(${Math.round(v/S*100)}%)</small>`]));return F}
   if(A.py){const a=tot(A.py),c=tot(A.ly),g=a?(c-a)/a*100:0;F.push([L('ปีก่อน','Prior year')+' '+yCE(A.py),fv(a,u)+U],[L('เปลี่ยนแปลง','Change'),`<span class="${g>=0?'up':'dn'}">${g>=0?'▲':'▼'} ${Math.abs(g).toFixed(1)}%</span>`])}
   const mx=A.ys.map(y=>[y,tot(y)]).sort((x,y)=>y[1]-x[1])[0];if(mx)F.push([L('สูงสุด','Peak year'),yCE(mx[0])+' · '+fv(mx[1],u)]);return F}
@@ -215,8 +217,8 @@ function styBlock(b,i){const k=styKpi(b);const html=b.form==='cal'||b.form==='st
   const badge=b.real?`<span class="pill real">${L('ข้อมูลจริง','Real data')}${b.srcName?' · '+esc(b.srcName):''}</span>`:`<span class="pill sim">${L('ข้อมูลจำลอง','Simulated')}</span>`;
   return`<article class="stb${flip?' flip':''}" id="sb-${b.d.code}" data-code="${b.d.code}" data-v="${v}" style="--pa:${b.p.pa}">
   <header class="stb-h">
-    <div class="stb-k"><span class="stb-no">${b.d.code}</span><span class="stb-en">${esc(b.en)}</span>${badge}</div>
-    <h4>${esc(b.item)}</h4>
+    <div class="stb-k"><span class="stb-no">${b.d.code}</span><span class="stb-en">${esc(L(b.en,FORM_EN[b.form]))}</span>${badge}</div>
+    <h4>${esc(L(b.item,b.en))}</h4>${EN_MODE()?`<small class="stb-th">${esc(b.item)}</small>`:''}
     <p class="stb-in">${styInsight(b)}</p>
     <div class="stb-tools" role="group" aria-label="${L('เครื่องมือ','Tools')}">
       <div class="vt" role="tablist" aria-label="${L('มุมมอง','View')}"><button type="button" role="tab" data-sbv="viz" title="${L('แสดงภาพ','Show visual')}" aria-selected="${v==='viz'}">${ic('chart')}<span>${L('ภาพ','Visual')}</span></button><button type="button" role="tab" data-sbv="table" title="${L('แสดงตาราง','Show table')}" aria-selected="${v==='table'}">${ic('table')}<span>${L('ตาราง','Table')}</span></button></div>
@@ -240,7 +242,7 @@ function styBlock(b,i){const k=styKpi(b);const html=b.form==='cal'||b.form==='st
 /* ---------- ส่วนเรื่องเล่าข้อมูลทั้งสินค้า ---------- */
 function styHeadline(list){const pick=(re)=>list.find(b=>re.test(b.form));const out=[];
   const f=list.find(b=>b.form==='flow'),a=list.find(b=>/ไร่/.test(b.unit)&&(b.form==='rank'||b.form==='stack')),pp=list.find(b=>/ราย|คน/.test(b.unit)),br=list.find(b=>/แบรนด์/.test(b.d.u)),pr=pick(/band/);
-  [a||list[0],pp,pr,f,br].filter(Boolean).slice(0,4).forEach(b=>{const k=styKpi(b);out.push(`<a class="sh-k" href="#sb-${b.d.code}" style="--pa:${b.p.pa}"><small>${esc(b.en)}</small><b>${k.v}<em>${k.u}</em></b><span>${esc(b.item)}</span></a>`)});return out.join('')}
+  [a||list[0],pp,pr,f,br].filter(Boolean).slice(0,4).forEach(b=>{const k=styKpi(b);out.push(`<a class="sh-k" href="#sb-${b.d.code}" style="--pa:${b.p.pa}"><small>${esc(b.en)}</small><b>${k.v}<em>${k.u}</em></b><span>${esc(L(b.item,b.en))}</span></a>`)});return out.join('')}
 function storySection(p){const list=styItems(p);STY.list=list;STY.p=p;
   const ch=[0,1,2].map(s=>list.filter(b=>b.d.s===s));let gi=0;const nReal=list.filter(b=>b.real).length;
   const dt=new Date().toLocaleDateString('th-TH',{day:'numeric',month:'long',year:'numeric'});
@@ -262,7 +264,7 @@ function storySection(p){const list=styItems(p);STY.list=list;STY.p=p;
     <div class="sty-hi">${styHeadline(list)}</div>
   </header>
   <nav class="sty-tabs" aria-label="${L('บทของข้อมูล','Chapters')}">${CH_META.map((c,s)=>`<a href="#ch-${s}" data-ch="${s}"><b>0${s+1}</b><span><small>${c.k}</small>${L(c.th,c.en.split(' — ')[0])}</span><em>${ch[s].length}</em></a>`).join('')}
-    <details class="sty-idx"><summary>${L('ดัชนี','Index')} ${list.length}</summary><div>${list.map(b=>`<a href="#sb-${b.d.code}"><code>${b.d.code}</code>${esc(b.item)}</a>`).join('')}</div></details></nav>
+    <details class="sty-idx"><summary>${L('ดัชนี','Index')} ${list.length}</summary><div>${list.map(b=>`<a href="#sb-${b.d.code}"><code>${b.d.code}</code>${esc(L(b.item,b.en))}</a>`).join('')}</div></details></nav>
   ${ch.map((L1,s)=>L1.length?`<div class="sty-ch" id="ch-${s}">
     <div class="ch-h"><span class="ch-no">0${s+1}</span><i class="ch-art" style="background-image:url(img/ch-${s+1}.webp)" aria-hidden="true"></i><div><small>${CH_META[s].k} · ${esc(CH_META[s].en)}</small><h3>${L(CH_META[s].th,CH_META[s].en.split(' — ')[0])} <span>${L(CH_META[s].sub,'')}</span></h3></div><em>${L1.length} ${L('รายการ','items')}</em></div>
     ${L1.map(b=>styBlock(b,gi++)).join('')}</div>`:'').join('')}
@@ -312,7 +314,7 @@ function styShow(start){const p=STY.p;let i=Math.max(0,start||0),timer=null,show
     <div class="ss-bar"><i style="width:${(i+1)/STY.list.length*100}%"></i></div>
     <div class="ss-main${showT?'':' notb'}">
       <div class="ss-h"><span class="ss-k">${b.d.code} · ${esc(b.en.toUpperCase())} ${b.real?`<span class="pill real">${L('ข้อมูลจริง','Real')}</span>`:`<span class="pill sim">${L('ข้อมูลจำลอง','Simulated')}</span>`}</span>
-        <h2>${esc(b.item)}</h2><p>${styInsight(b)}</p></div>
+        <h2>${esc(L(b.item,b.en))}</h2><p>${styInsight(b)}</p></div>
       <div class="ss-kpi"><b>${k.v}</b><span>${k.u}</span></div>
       <div class="ss-viz">${html?styHtmlViz(b):'<canvas id="ss-cv"></canvas>'}</div>
       <div class="ss-tb scroll-x">${styTable(b)}</div>
