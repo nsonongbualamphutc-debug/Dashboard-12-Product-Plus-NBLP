@@ -2280,3 +2280,5 @@ html.has-tips .tipbox.rich{background:linear-gradient(165deg,rgba(255,255,255,.7
 .by-f button br{display:none}
 @media (max-width:760px){.btn{font-size:14px;padding:8px 14px}.btn.sm{font-size:13px;padding:6px 11px}}
 body[data-page="report"] #page table{min-width:760px}
+.ib.api-b.on{background:linear-gradient(135deg,#C2387A,#E8559A)!important;color:#fff!important;border-color:transparent!important}.stb-api{margin-top:14px}
+@media (max-width:760px){.stb-tools{gap:5px}.stb-tools .ib{width:34px;height:34px}}

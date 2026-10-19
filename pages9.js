@@ -69,7 +69,7 @@ const TIP=(()=>{
         <div><dt>${L('เจ้าของข้อมูล','Data owner')}</dt><dd>${esc(b.agency||'–')}</dd></div>
         <div><dt>resource_id</dt><dd class="mono">${esc(rid||L('ยังไม่เชื่อม','not linked'))}</dd></div>
       </dl>
-      <div class="tp-mr"><small>${L('ข้อมูลแบบเครื่องอ่านได้ (1 บรรทัด)','Machine-readable (one line)')}</small><code>${esc(mrLine(b))}</code></div>`}
+`}
   function prodTip(id){const p=byId(id);if(!p)return'';const ch=[0,1,2].map(s=>p.inds.filter(d=>d.s===s).length);const ds=DATASETS.filter(d=>d.pid===id).length;const ags=[...new Set(p.inds.map(d=>d.ag))];
     return`<div class="tp-h"><span class="tp-code">No. ${pad2(id)}</span>${p.gi?'<span class="pill gi">GI</span>':''}<span class="pill ${ds?'real':'wait'}">${ds?L('มีไฟล์ ','Files: ')+ds:L('รอไฟล์ข้อมูล','Awaiting files')}</span></div>
       <div class="tp-t">${esc(pname(p))}</div><div class="tp-en">${esc(L(p.en,p.name))}</div>
@@ -89,11 +89,9 @@ const TIP=(()=>{
   /* ---------- บรรทัดเครื่องอ่านได้ + เชื่อม API ในทุกบล็อก ---------- */
   if(typeof styBlock==='function'){const _sb=styBlock;styBlock=function(b,i){let h=_sb(b,i);const rid=((SET.dsres||{})[b.d.code]||'').trim();
     h=h.replace(/(<div class="stb-tools"[^>]*>)/,`$1<button type="button" class="ib tip-i" data-tipk="item:${b.d.code}" aria-label="${L('รายละเอียดข้อมูล','Data details')}">${ic('help')}</button>`);
+    h=h.replace(/(<label class="ib"[^>]*>)/,`<button type="button" class="ib api-b${rid?' on':''}" data-mr="api" title="${L('เชื่อม API จากระบบบัญชีข้อมูล (วาง resource_id)','Link catalog API (paste resource_id)')}">${ic('api')}</button>$1`);
     h=h.replace('<h4>',`<h4 data-tipk="item:${b.d.code}" tabindex="0">`);
-    const mr=`<div class="stb-mr"><span class="mr-l">${L('เครื่องอ่านได้','Machine-readable')}</span><code title="${L('คลิกเพื่อคัดลอก','Click to copy')}">${esc(mrLine(b))}</code>
-      <button type="button" class="ib" data-mr="copy" title="${L('คัดลอกบรรทัดข้อมูล','Copy line')}">${ic('copy')}</button>
-      <button type="button" class="ib${rid?' on':''}" data-mr="api" title="${L('เชื่อม API จากระบบบัญชีข้อมูล (วาง resource_id)','Link catalog API (paste resource_id)')}">${ic('api')}</button></div>
-      <form class="stb-api" hidden><label>${ic('db')}<span>${L('วาง resource_id หรือลิงก์ชุดข้อมูลจาก','Paste a resource_id or dataset link from')} <b>gdcatalog</b></span></label>
+    const mr=`<form class="stb-api" hidden><label>${ic('db')}<span>${L('วาง resource_id หรือลิงก์ชุดข้อมูลจาก','Paste a resource_id or dataset link from')} <b>gdcatalog</b></span></label>
       <div><input type="text" inputmode="url" spellcheck="false" value="${esc(rid)}" placeholder="เช่น 3f2a…-…  หรือ  https://nongbualamphu.gdcatalog.go.th/dataset/…/resource/…"><button type="submit" class="btn btn-p sm">${L('ดึงข้อมูล','Fetch')}</button>${rid?`<button type="button" class="btn btn-o sm" data-mr="unlink">${L('ยกเลิก','Unlink')}</button>`:''}</div>
       <p class="mr-hint">${L('ตารางต้องมีคอลัมน์: ปี · จังหวัด · อำเภอ · รายการ · ประเภท · ค่าของข้อมูล · หน่วย · แหล่งที่มา — ดึงสำเร็จแล้วภาพและตาราง “เปลี่ยนเป็นข้อมูลจริง” ทันที','Columns: year · province · district · item · type · value · unit · source — visuals switch to real data instantly')}</p></form>`;
     return h.replace(/<\/article>\s*$/,mr+'</article>')}}
