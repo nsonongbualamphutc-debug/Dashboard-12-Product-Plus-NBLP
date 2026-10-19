@@ -242,8 +242,10 @@ function styHeadline(list){const pick=(re)=>list.find(b=>re.test(b.form));const 
   [a||list[0],pp,pr,f,br].filter(Boolean).slice(0,4).forEach(b=>{const k=styKpi(b);out.push(`<a class="sh-k" href="#sb-${b.d.code}" style="--pa:${b.p.pa}"><small>${esc(b.en)}</small><b>${k.v}<em>${k.u}</em></b><span>${esc(b.item)}</span></a>`)});return out.join('')}
 function storySection(p){const list=styItems(p);STY.list=list;STY.p=p;
   const ch=[0,1,2].map(s=>list.filter(b=>b.d.s===s));let gi=0;const nReal=list.filter(b=>b.real).length;
+  const dt=new Date().toLocaleDateString('th-TH',{day:'numeric',month:'long',year:'numeric'});
   return`<section class="sty" id="dsx" style="--pa:${p.pa}">
-  <header class="sty-hero">
+  <div class="print-cover" aria-hidden="true"><img class="pc-img" src="img/cover-a4.webp" alt="" onerror="this.remove()"><div class="pc-t"><span>DATA STORY · ${esc(p.en.toUpperCase())}</span><h1>${L('เส้นทางข้อมูล','The data journey of')}<br><em>${esc(pname(p))}</em></h1><p>${L('สินค้าอัตลักษณ์หนองบัวลำภู 12 Plus+','Nong Bua Lam Phu signature products · 12 Plus+')} · ${list.length} ${L('รายการ','items')}</p><small>${L('พิมพ์เมื่อ','Printed')} ${dt}${list.some(b=>!b.real)?' · '+L('มีข้อมูลจำลองบางส่วน','contains simulated values'):''}</small></div></div>
+  <header class="sty-hero" style="--story:url(img/story-${pad2(p.id)}.webp)">
     <div class="sty-hx">
       <span class="sty-kick">DATA STORY · ${esc(p.en.toUpperCase())}</span>
       <h2>${L('เส้นทางข้อมูล','The data journey of')} <em>${esc(pname(p))}</em></h2>
@@ -261,7 +263,7 @@ function storySection(p){const list=styItems(p);STY.list=list;STY.p=p;
   <nav class="sty-tabs" aria-label="${L('บทของข้อมูล','Chapters')}">${CH_META.map((c,s)=>`<a href="#ch-${s}" data-ch="${s}"><b>0${s+1}</b><span><small>${c.k}</small>${L(c.th,c.en.split(' — ')[0])}</span><em>${ch[s].length}</em></a>`).join('')}
     <details class="sty-idx"><summary>${L('ดัชนี','Index')} ${list.length}</summary><div>${list.map(b=>`<a href="#sb-${b.d.code}"><code>${b.d.code}</code>${esc(b.item)}</a>`).join('')}</div></details></nav>
   ${ch.map((L1,s)=>L1.length?`<div class="sty-ch" id="ch-${s}">
-    <div class="ch-h"><span class="ch-no">0${s+1}</span><div><small>${CH_META[s].k} · ${esc(CH_META[s].en)}</small><h3>${L(CH_META[s].th,CH_META[s].en.split(' — ')[0])} <span>${L(CH_META[s].sub,'')}</span></h3></div><em>${L1.length} ${L('รายการ','items')}</em></div>
+    <div class="ch-h"><span class="ch-no">0${s+1}</span><i class="ch-art" style="background-image:url(img/ch-${s+1}.webp)" aria-hidden="true"></i><div><small>${CH_META[s].k} · ${esc(CH_META[s].en)}</small><h3>${L(CH_META[s].th,CH_META[s].en.split(' — ')[0])} <span>${L(CH_META[s].sub,'')}</span></h3></div><em>${L1.length} ${L('รายการ','items')}</em></div>
     ${L1.map(b=>styBlock(b,gi++)).join('')}</div>`:'').join('')}
   </section>`}
 
@@ -362,6 +364,8 @@ const _prodR7=PAGE_R.product;
 PAGE_R.product=(page,p)=>{_prodR7(page,p);const old=$('#dsx',page);
   if(old){$$('.dsx',old).forEach(e=>{const c=e.id.replace('dsx-','');const ds=DATASETS.find(x=>x.code===c);if(ds)killDs(ds)});old.outerHTML=storySection(p)}
   else ($('.hx',page)||page.firstElementChild)?.insertAdjacentHTML('afterend',storySection(p));
+  const pc=$('.print-cover',page);if(pc)page.prepend(pc);
+  $$('.ch-art',page).forEach(e=>{const u=(e.style.backgroundImage.match(/url\(["']?([^"')]+)/)||[])[1];if(!u)return e.remove();const im=new Image();im.onerror=()=>e.remove();im.src=u});
   styBind(p,page)};
 
 /* =====================================================================
