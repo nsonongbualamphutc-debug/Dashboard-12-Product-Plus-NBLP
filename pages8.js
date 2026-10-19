@@ -13,7 +13,8 @@ const DECO=(()=>{
 
   /* ---------- 9 ไอคอน 3D: ใช้เมื่อมีไฟล์ img/icon-XX.webp ---------- */
   /* เปิดใช้เมื่อมีไฟล์จริงแล้ว (กันการเรียกไฟล์ที่ยังไม่มี) — icons: ไอคอน 3D img/icon-XX.webp · empty: img/empty.webp */
-  const ASSETS={icons:true,empty:true};
+  const ASSETS={icons:true,empty:true,sys:false};
+  if(ASSETS.sys)H.classList.add('has-sys');
   if(ASSETS.icons)for(let i=1;i<=14;i++)H.classList.add('i3d-'+pad2(i));
   if(ASSETS.empty)H.classList.add('has-empty');
   let nb=0;const _badge=badge;
@@ -71,8 +72,28 @@ const DECO=(()=>{
       x:{type:'number',easing:'easeOutQuad',duration:step,from:NaN,delay(ctx){if(ctx.type!=='data'||ctx.xStarted)return 0;ctx.xStarted=true;return ctx.index*step}},
       y:{type:'number',easing:'easeOutQuad',duration:step,from:prevY,delay(ctx){if(ctx.type!=='data'||ctx.yStarted)return 0;ctx.yStarted=true;return ctx.index*step}}});return c}}
 
+  /* ---------- กล่อง API: แผนที่หนองบัวลำภูเรืองแสง + เส้นข้อมูลวิ่ง (วาดจากพิกัดจริง NBL_GEO) ---------- */
+  function glowMap(){if(typeof NBL_GEO==='undefined')return'';const F=NBL_GEO.features;let x0=999,x1=-999,y0=999,y1=-999;
+    const each=(g,f)=>{(g.type==='Polygon'?[g.coordinates]:g.coordinates).forEach(pl=>pl.forEach(r=>r.forEach(f)))};
+    F.forEach(ft=>each(ft.geometry,([x,y])=>{x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)}));
+    const k=Math.cos((y0+y1)/2*Math.PI/180),W=400,sc=W/((x1-x0)*k),Hh=(y1-y0)*sc,pr=([x,y])=>[(x-x0)*k*sc,(y1-y)*sc];
+    const D=F.map(ft=>{const i=DISTRICTS.indexOf(ft.properties.th);const polys=ft.geometry.type==='Polygon'?[ft.geometry.coordinates]:ft.geometry.coordinates;
+      const d=polys.map(pl=>pl.map(r=>'M'+r.map(c=>pr(c).map(n=>n.toFixed(1)).join(',')).join('L')+'Z').join('')).join('');
+      const big=polys.map(pl=>pl[0]).sort((a,b)=>b.length-a.length)[0];return{i,d,cx:big.reduce((s,c)=>s+pr(c)[0],0)/big.length,cy:big.reduce((s,c)=>s+pr(c)[1],0)/big.length}});
+    const hub=D.find(o=>o.i===0)||D[0];const fills=['#F36FAB','#E8559A','#FF9CD2','#B79CC9','#D50654','#F4A9CB'];
+    return`<svg class="gmap" viewBox="-30 -30 ${W+60} ${Hh+60}" aria-hidden="true"><defs>
+      <filter id="gmGlow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      <linearGradient id="gmLine" x1="0" x2="1"><stop offset="0" stop-color="#FFD6EA" stop-opacity="0"/><stop offset=".5" stop-color="#FFFFFF"/><stop offset="1" stop-color="#FFD6EA" stop-opacity="0"/></linearGradient></defs>
+      <g class="gm-shadow" transform="translate(10 16)">${D.map(o=>`<path d="${o.d}" fill="#000" fill-opacity=".28"/>`).join('')}</g>
+      <g filter="url(#gmGlow)">${D.map((o,j)=>`<path class="gm-d" style="--j:${j}" d="${o.d}" fill="${fills[o.i%6]}" fill-opacity=".55" stroke="#FFE3F1" stroke-width="1.6"/>`).join('')}</g>
+      <g class="gm-links">${D.filter(o=>o!==hub).map((o,j)=>`<path class="gm-l" style="--j:${j}" d="M${hub.cx.toFixed(0)},${hub.cy.toFixed(0)} Q${((hub.cx+o.cx)/2+30).toFixed(0)},${(Math.min(hub.cy,o.cy)-40).toFixed(0)} ${o.cx.toFixed(0)},${o.cy.toFixed(0)}"/>`).join('')}</g>
+      ${D.map((o,j)=>`<g transform="translate(${o.cx.toFixed(0)} ${o.cy.toFixed(0)})"><circle class="gm-pulse" style="--j:${j}" r="14"/><circle r="${o===hub?7:4.5}" fill="#fff"/><circle r="${o===hub?3.5:2}" fill="#D50654"/></g>`).join('')}
+      <g class="gm-lbl">${D.map(o=>`<text x="${o.cx.toFixed(0)}" y="${(o.cy+22).toFixed(0)}" text-anchor="middle">${esc(L(DISTRICTS[o.i].replace('เมืองหนองบัวลำภู','เมืองฯ'),DISTRICTS_EN[o.i]))}</text>`).join('')}</g></svg>`}
+  function sysDecor(page){
+    if(R.page==='apistatus'){const m=$('.ap-main',page);if(m&&!$('.ap-map',m)){m.insertAdjacentHTML('beforeend',`<div class="ap-map" aria-hidden="true">${glowMap()}<div class="ap-tags"><span>6 ${L('อำเภอ','districts')}</span><span>14 ${L('สินค้า','products')}</span><span>282 ${L('รายการ','items')}</span></div></div>`)}}
+    if(['report','sources','entry','settings'].includes(R.page)){const t=$('.ph-title',page);if(t){if(page.firstElementChild!==t)page.prepend(t);t.classList.add('sys-ban')}}}
   /* ---------- ผูกกับการ render ทุกหน้า ---------- */
-  function apply(){const page=$('#page');if(!page)return;khit(page);empty(page);petals();spot();lprog()}
+  function apply(){const page=$('#page');if(!page)return;sysDecor(page);khit(page);empty(page);petals();spot();lprog()}
   const _render=render;render=function(k){_render(k);try{apply()}catch(e){console.warn(e)}};
   document.addEventListener('DOMContentLoaded',intro);
   return{apply,countEl};

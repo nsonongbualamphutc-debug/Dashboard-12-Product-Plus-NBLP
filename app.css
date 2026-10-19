@@ -1942,3 +1942,42 @@ html.i3d-01 .bdg[data-i="01"] .i3d{display:inline}html.i3d-01 .bdg[data-i="01"] 
 @media print{.petals,.spot,.lprog,.intro{display:none!important}}
 @media (max-width:760px){.ch-h{gap:10px}.ch-h>div{flex:1;min-width:0}.ch-h small{letter-spacing:.08em;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.ch-h>em{display:none}.ch-art{width:76px;height:57px;margin-left:0;border-radius:14px}}
 .lprog{overflow:hidden}.lprog .head{left:calc(var(--p,0)*(100% - 24px) + 12px)!important}.lprog.bloom .head{transform:translateX(-50%) scale(1.25)}
+/* ===================== v5.8 · กล่อง API + แบนเนอร์หน้าข้อมูลและระบบ ===================== */
+.ap-main{background:radial-gradient(60% 80% at 85% 30%,rgba(243,111,171,.45),transparent 60%),radial-gradient(50% 70% at 10% 110%,rgba(183,156,201,.35),transparent 60%),linear-gradient(135deg,#2A0A22 0%,#4E1038 42%,#8E0F4E 78%,#C2185B 100%)!important;
+  color:#FFF3F8!important;min-height:440px;box-shadow:0 30px 60px -30px rgba(142,15,78,.7);isolation:isolate}
+.ap-main>*:not(.ap-map){position:relative;z-index:2;max-width:58%}
+.ap-main h1{color:#fff;text-shadow:0 2px 20px rgba(213,6,84,.45)}
+.ap-main p{color:rgba(255,236,246,.88)!important}
+.ap-main .endpoint{background:rgba(255,255,255,.08)!important;border:1px solid rgba(255,214,234,.25)!important;color:#FFE3F1!important}
+.ap-main .ap-chips span{border-color:rgba(255,214,234,.35)!important;background:rgba(255,255,255,.06)!important;color:#FFE3F1!important}
+.ap-main .btn:not(.w){background:rgba(255,255,255,.1)!important;border-color:rgba(255,214,234,.3)!important;color:#fff!important}
+.ap-main .btn.w{background:#fff!important;color:#8E0F4E!important}
+.ap-main .lgs span[style*="F0D58E"]{color:#FFD6EA!important}
+.ap-map{position:absolute;right:-10px;top:50%;transform:translateY(-50%);width:44%;max-width:470px;z-index:1;pointer-events:none}
+.gmap{width:100%;height:auto;overflow:visible;animation:gmFloat 7s ease-in-out infinite}
+@keyframes gmFloat{50%{transform:translateY(-8px) rotate(-.6deg)}}
+.gm-d{animation:gmIn .9s cubic-bezier(.2,.8,.2,1) calc(var(--j)*90ms) both;transform-origin:center;transform-box:fill-box}
+@keyframes gmIn{from{opacity:0;transform:translateY(14px) scale(.96)}}
+.gm-l{fill:none;stroke:url(#gmLine);stroke:#FFE3F1;stroke-opacity:.75;stroke-width:1.6;stroke-dasharray:4 7;animation:gmFlow 1.6s linear infinite}
+@keyframes gmFlow{to{stroke-dashoffset:-22}}
+.gm-pulse{fill:none;stroke:#FFD6EA;stroke-width:2;transform-box:fill-box;transform-origin:center;animation:gmPulse 2.4s ease-out calc(var(--j)*.35s) infinite}
+@keyframes gmPulse{from{transform:scale(.3);opacity:.9}to{transform:scale(1.8);opacity:0}}
+.gm-lbl text{font-family:var(--f-head);font-size:13px;fill:#fff;paint-order:stroke;stroke:rgba(78,16,56,.75);stroke-width:3px}
+.ap-tags{display:flex;gap:6px;justify-content:center;margin-top:-6px}
+.ap-tags span{font-family:var(--f-head);font-size:12px;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,214,234,.3);color:#FFE3F1}
+@media (max-width:900px){.ap-main>*:not(.ap-map){max-width:100%}.ap-map{position:relative;right:auto;top:auto;transform:none;width:78%;margin:18px auto 0}.ap-main{min-height:0}}
+@media (prefers-reduced-motion:reduce){.gmap,.gm-l,.gm-pulse,.gm-d{animation:none}}
+/* เมื่อมีภาพจาก GPT (img/sys-*.webp) */
+html.has-sys .ap-main{background:linear-gradient(90deg,rgba(42,10,34,.94) 0%,rgba(78,16,56,.82) 42%,rgba(78,16,56,.1) 70%),url(img/sys-api.webp) right center/cover no-repeat,#4E1038!important}
+html.has-sys .ap-main .ap-map{display:none}
+.sys-ban{position:relative;border-radius:24px;padding:28px 30px;overflow:hidden;min-height:170px;align-items:center!important;
+  background:linear-gradient(90deg,rgba(255,255,255,.95) 0%,rgba(255,250,252,.8) 45%,rgba(255,250,252,.15) 75%),radial-gradient(70% 120% at 100% 0%,#F9D3E3,transparent 60%),linear-gradient(160deg,#fff,#FCE9EF);
+  border:1px solid rgba(232,85,154,.18);box-shadow:0 20px 40px -30px rgba(213,6,84,.5)}
+.sys-ban::before{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:linear-gradient(90deg,#D50654,#F36FAB 60%,#B79CC9)}
+html.has-sys body[data-page="report"] .sys-ban{background:linear-gradient(90deg,rgba(255,255,255,.95) 0%,rgba(255,250,252,.8) 42%,rgba(255,250,252,0) 70%),url(img/sys-report.webp) right center/cover no-repeat,#FCE9EF}
+html.has-sys body[data-page="sources"] .sys-ban{background:linear-gradient(90deg,rgba(255,255,255,.95) 0%,rgba(255,250,252,.8) 42%,rgba(255,250,252,0) 70%),url(img/sys-sources.webp) right center/cover no-repeat,#FCE9EF}
+html.has-sys body[data-page="entry"] .sys-ban{background:linear-gradient(90deg,rgba(255,255,255,.95) 0%,rgba(255,250,252,.8) 42%,rgba(255,250,252,0) 70%),url(img/sys-entry.webp) right center/cover no-repeat,#FCE9EF}
+html.has-sys body[data-page="settings"] .sys-ban{background:linear-gradient(90deg,rgba(255,255,255,.95) 0%,rgba(255,250,252,.8) 42%,rgba(255,250,252,0) 70%),url(img/sys-settings.webp) right center/cover no-repeat,#FCE9EF}
+html.has-sys body:is([data-page="report"],[data-page="sources"],[data-page="entry"],[data-page="settings"],[data-page="apistatus"]) .page .card{background:linear-gradient(rgba(255,255,255,.9),rgba(255,255,255,.9)),url(img/sys-card.webp) center/cover}
+@media (max-width:760px){.sys-ban{padding:20px 18px;min-height:0}html.has-sys .sys-ban{background-position:center,70% center,center!important}}
+@media print{.ap-map{display:none}}
