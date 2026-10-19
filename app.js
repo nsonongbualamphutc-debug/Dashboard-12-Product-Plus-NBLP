@@ -1,3 +1,5 @@
+/* polyfill สำหรับ Safari/iOS รุ่นเก่า */
+if(!Array.prototype.at){Object.defineProperty(Array.prototype,'at',{value:function(n){n=Math.trunc(n)||0;if(n<0)n+=this.length;return this[n]},writable:true,configurable:true})}
 /* =====================================================================
    12 Plus+ · app.js — โครงหน้า เมนู แถบเครื่องมือ ค้นหา แจ้งเตือน โหมดนำเสนอ
    และการนำทางแบบไร้รอยต่อ (เปลี่ยนหน้าโดยไม่โหลดใหม่)
@@ -134,16 +136,18 @@ function parse(href){
 let R=parse(location.href)||{page:document.body.dataset.page||'cover',pid:+document.body.dataset.pid||0,q:new URLSearchParams()};
 if(document.body.dataset.page&&R.page!==document.body.dataset.page){R={page:document.body.dataset.page,pid:+document.body.dataset.pid||0,q:new URLSearchParams(location.search)}}
 function hrefFor(r){return r.page==='product'?pFile(r.pid):PAGES[r.page].f}
-function go(href,push=true){
+function go(href,push=true,hash){
+  if(!hash&&typeof href==='string'&&href.includes('#'))hash=href.split('#')[1];
   const r=typeof href==='string'?parse(href):href;if(!r){location.href=href;return}
-  const run=()=>{R=r;if(push){try{history.pushState({},'',hrefFor(r)+(r.q&&String(r.q)?'?'+r.q:''))}catch(e){}}render();window.scrollTo(0,0)};
+  const run=()=>{R=r;if(push){try{history.pushState({},'',hrefFor(r)+(r.q&&String(r.q)?'?'+r.q:'')+(hash?'#'+hash:''))}catch(e){}}render();window.scrollTo(0,0);
+    if(hash)setTimeout(()=>{const el=document.getElementById(hash);if(el)el.scrollIntoView({block:'start'})},380)};
   document.body.classList.remove('nav-open');
   if(document.startViewTransition&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.startViewTransition(run);else run();
 }
 document.addEventListener('click',e=>{
   const a=e.target.closest('a[href]');if(!a||a.target||e.ctrlKey||e.metaKey||e.shiftKey||a.hasAttribute('download'))return;
   const h=a.getAttribute('href');if(/^(https?:|mailto:|tel:|#)/.test(h))return;
-  const r=parse(h);if(!r)return;e.preventDefault();go(r);
+  const r=parse(h);if(!r)return;e.preventDefault();go(r,true,h.includes('#')?h.split('#')[1]:'');
 });
 addEventListener('popstate',()=>{const r=parse(location.href);if(r){R=r;render()}});
 
@@ -259,7 +263,7 @@ function closeOverlay(){$$('.ovl,.drawer,.lb').forEach(x=>x.remove())}
 function palette(){
   const items=[...Object.keys(PAGES).map(k=>({t:PT(k),k:'หน้า',h:PAGES[k].f,i:PAGES[k].ic})),
     ...P.map(p=>({t:`${pad2(p.id)} ${p.name}`,s:p.en+' · '+p.agency+(p.gi?' · GI':''),k:'สินค้า',h:pFile(p.id),p})),
-    ...P.flatMap(p=>p.inds.map(d=>({t:d.n,s:`${p.name} · ${d.code}`,k:'รายการข้อมูล',h:pFile(p.id)+'#ind-'+d.code})))];
+    ...P.flatMap(p=>p.inds.map(d=>({t:d.n,s:`${p.name} · ${d.code}`,k:'รายการข้อมูล',h:pFile(p.id)+'#sb-'+d.code})))];
   const o=overlay(`<input class="pal-in" id="palIn" placeholder="พิมพ์ชื่อสินค้า รายการข้อมูล หรือหน้า…" autocomplete="off" aria-label="ค้นหา"><ul class="pal-l" id="palL" role="listbox"></ul>`);
   let sel=0,list=[];
   const draw=q=>{q=q.trim().toLowerCase();list=(q?items.filter(x=>(x.t+' '+(x.s||'')).toLowerCase().includes(q)):items.slice(0,22)).slice(0,40);sel=0;
@@ -268,7 +272,7 @@ function palette(){
   const inp=$('#palIn');draw('');inp.focus();
   inp.oninput=()=>draw(inp.value);
   inp.onkeydown=e=>{if(e.key==='ArrowDown'||e.key==='ArrowUp'){e.preventDefault();sel=(sel+(e.key==='ArrowDown'?1:-1)+list.length)%list.length;$$('#palL a').forEach((a,i)=>a.setAttribute('aria-selected',i===sel));$$('#palL a')[sel]?.scrollIntoView({block:'nearest'})}
-    if(e.key==='Enter'&&list[sel]){e.preventDefault();closeOverlay();const h=list[sel].h;go(h.split('#')[0]);if(h.includes('#'))setTimeout(()=>{const el=document.getElementById(h.split('#')[1]);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.animate([{boxShadow:'0 0 0 3px var(--gold)'},{boxShadow:'0 0 0 0 transparent'}],{duration:1800})}},450)}};
+    if(e.key==='Enter'&&list[sel]){e.preventDefault();closeOverlay();const h=list[sel].h;go(h);if(h.includes('#'))setTimeout(()=>{const el=document.getElementById(h.split('#')[1]);if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.animate([{boxShadow:'0 0 0 3px var(--gold)'},{boxShadow:'0 0 0 0 transparent'}],{duration:1800})}},450)}};
   $('#palL').addEventListener('click',()=>closeOverlay());
 }
 function help(tab='use'){

@@ -7,7 +7,7 @@
 const TIP=(()=>{
   const H=document.documentElement;
   /* ภาพพื้นหลัง tooltip รายสินค้า (img/tip-XX.webp) — เปิดเมื่อมีไฟล์ */
-  const ASSETS={tips:false};if(ASSETS.tips)H.classList.add('has-tips');
+  const ASSETS={tips:true};if(ASSETS.tips)H.classList.add('has-tips');
   const REG=new Map();let box=null,cur=null,hideT=0,showT=0;
   const DIM_TH={year:'ปี',dist:'อำเภอ',type:'ประเภท'},DIM_EN={year:'year',dist:'district',type:'type'};
   const FORM_HELP={rank:['เรียงอำเภอจากมากไปน้อยในปีล่าสุด เห็นทันทีว่าอำเภอไหนเป็นแหล่งหลัก','Districts ranked for the latest year'],
@@ -125,5 +125,7 @@ const TIP=(()=>{
     chartTheme()}
   chartTheme();
   const _r=render;render=function(k){try{chartTheme()}catch(e){}_r(k);try{decorate()}catch(e){console.warn(e)}};
+  /* เปิดลิงก์ที่มี #รายการ ตรง ๆ (เช่น p04.html#sb-P04-205) ให้เลื่อนไปที่รายการนั้นหลังวาดเสร็จ */
+  document.addEventListener('DOMContentLoaded',()=>{const h=location.hash.slice(1);if(h)setTimeout(()=>{const el=document.getElementById(h);if(el)el.scrollIntoView({block:'start'})},600)});
   return{show,hide,REG,mrLine,itemTip}
 })();
