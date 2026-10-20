@@ -2282,3 +2282,14 @@ html.has-tips .tipbox.rich{background:linear-gradient(165deg,rgba(255,255,255,.7
 body[data-page="report"] #page table{min-width:760px}
 .ib.api-b.on{background:linear-gradient(135deg,#C2387A,#E8559A)!important;color:#fff!important;border-color:transparent!important}.stb-api{margin-top:14px}
 @media (max-width:760px){.stb-tools{gap:5px}.stb-tools .ib{width:34px;height:34px}}
+/* v6.7 Safari/iPad fixes */
+svg.bdg{aspect-ratio:1/1;height:auto;max-width:100%;flex-shrink:0}
+.a4-t>svg.bdg{width:92px;height:92px;max-width:none}
+@media (max-width:640px){.a4-t>svg.bdg{width:64px;height:64px}}
+.a4-t>div{min-width:0}
+.bk,.leaf{-webkit-transform-style:preserve-3d}
+.bk-stage{-webkit-perspective:2600px}
+.face{-webkit-transform:translateZ(.1px);transform:translateZ(.1px)}
+.face.back{-webkit-transform:rotateY(180deg) translateZ(.1px);transform:rotateY(180deg) translateZ(.1px)}
+.leaf .face{transition:visibility 0s linear var(--fvd,.5s)}
+.leaf.fl .face.front,.leaf:not(.fl) .face.back{visibility:hidden}
