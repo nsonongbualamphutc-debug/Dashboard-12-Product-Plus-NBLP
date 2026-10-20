@@ -142,7 +142,7 @@ function bkFaces(){
   F.push(`<div class="pg intro"><span class="rh">12 Plus<sup>+</sup> · Lookbook</span>
     <span class="eyebrow">Welcome to Nong Bua Lam Phu</span><h2>${L('แผ่นดินลุ่มภู<br>ต้นทางของดี <em>14 อย่าง</em>','The Lam Phu plains,<br>home of <em>14 signatures</em>')}</h2>
     <p>${L('ภูเขาหินปูน ป่าต้นน้ำ และทุ่งนาลุ่มน้ำ ทำให้หนองบัวลำภูมีของดีที่ไม่เหมือนใคร ตั้งแต่ข้าวหอม กาแฟบนภู จนถึงผ้าทอและงานจักสาน GI ทุกหน้าในเล่มนี้พาไปรู้จักสินค้า และบอกว่าซื้อได้ที่ไหน','Limestone hills, headwater forests and river plains give Nong Bua Lam Phu its one-of-a-kind products — from fragrant rice and highland coffee to GI textiles and basketry. Every page shows the product and where to buy it.')}</p>
-    <div class="in-st"><div><b>14</b><span>${L('สินค้าอัตลักษณ์','products')}</span></div><div><b>3</b><span>${L('สินค้า GI','GI products')}</span></div><div><b>${nf.format(prod)}</b><span>${L('เกษตรกรและผู้ผลิต','makers')}</span></div><div><b>6</b><span>${L('อำเภอ','districts')}</span></div></div>
+    <div class="in-st"><div><b>14</b><span>${L('สินค้าอัตลักษณ์','products')}</span></div><div><b>${P.filter(x=>x.gi).length}</b><span>${L('สินค้า GI','GI products')}</span></div><div><b>${nf.format(prod)}</b><span>${L('เกษตรกรและผู้ผลิต','makers')}</span></div><div><b>6</b><span>${L('อำเภอ','districts')}</span></div></div>
     <div class="in-map">${mapSVG(DISTRICTS.map((_,i)=>sum(P.map(p=>distVal(p,i)))),null)}</div>
     <div class="in-how"><span>${ic('arrowR')} ${L('แตะขอบขวาหรือปัดเพื่อพลิกหน้า','Tap the right edge or swipe to turn')}</span><span>${ic('map')} ${L('สแกน QR เพื่อนำทางไปร้าน','Scan QR to navigate to shops')}</span></div><span class="pn">2</span></div>`);
   F.push(`<div class="pg toc"><span class="rh r">Contents</span><span class="eyebrow">Contents</span><h2>${L('สารบัญ','Contents')}</h2>
@@ -241,7 +241,7 @@ function bkGo(t,instant){
     const L0=$$('.leaf',bk),N=L0.length;
     L0.forEach((lf,i)=>{const fl=i<t,was=i<prev,moving=fl!==was;
       const delay=instant||!moving?0:Math.abs(t>prev?i-prev:prev-1-i)*90;
-      lf.style.transitionDuration=instant?'0s':'';lf.style.transitionDelay=delay+'ms';
+      lf.style.transitionDuration=instant?'0s':'';lf.style.transitionDelay=delay+'ms';lf.style.setProperty('--fvd',instant?'0ms':(delay+500)+'ms');
       if(moving&&!instant){lf.style.zIndex=N+20+(t>prev?-i:i);lf.classList.add('mv');setTimeout(()=>{lf.classList.remove('mv');lf.style.zIndex=fl?i+1:N-i},delay+950)}
       else lf.style.zIndex=fl?i+1:N-i;
       lf.classList.toggle('fl',fl)});

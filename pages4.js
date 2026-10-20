@@ -92,7 +92,7 @@ PAGE_R.buyer=page=>{
     </div>
   </section>
   <p class="by-warn no-print">${ic('help')} ${L('ตัวเลขในหน้านี้เป็นค่าตัวอย่าง รอยืนยันจากหน่วยงาน ยกเว้นสินค้า GI ที่ยืนยันแล้ว','Figures on this page are samples awaiting agency confirmation, except verified GI status.')}</p>
-  <div class="by-f no-print" role="group" aria-label="${L('กรองสินค้า','Filter')}">${[['all',L('ทั้งหมด','All'),14],['ready',L('พร้อมส่งออก','Export-ready'),nReady],['dev',L('กำลังพัฒนา','In development'),P.filter(p=>b2b(p).exp==='dev').length],['local',L('ตลาดในประเทศ','Domestic'),P.filter(p=>b2b(p).exp==='local').length],['gi','GI',3]].map(([k,t,n])=>`<button type="button" data-bf="${k}" aria-pressed="${f===k}">${t}<small>${n}</small></button>`).join('')}</div>
+  <div class="by-f no-print" role="group" aria-label="${L('กรองสินค้า','Filter')}">${[['all',L('ทั้งหมด','All'),14],['ready',L('พร้อมส่งออก','Export-ready'),nReady],['dev',L('กำลังพัฒนา','In development'),P.filter(p=>b2b(p).exp==='dev').length],['local',L('ตลาดในประเทศ','Domestic'),P.filter(p=>b2b(p).exp==='local').length],['gi','GI',P.filter(x=>x.gi).length]].map(([k,t,n])=>`<button type="button" data-bf="${k}" aria-pressed="${f===k}">${t}<small>${n}</small></button>`).join('')}</div>
   <div class="by-grid">${L0.map(p=>`<article class="byc" style="--pa:${p.pa}">
     <a class="byc-ph" href="${pFile(p.id)}"><img src="${IMG('pack',p.id)}" alt="${esc(pname(p))}" loading="lazy">${badge(p,{label:false})}<span class="no">${pad2(p.id)}</span>${p.gi?'<span class="gi lg">GI</span>':''}</a>
     <div class="byc-b"><div class="byc-t"><h3>${esc(pname(p))}</h3><span class="en">${esc(p.en)}</span></div>${xpPill(p)}

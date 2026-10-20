@@ -29,7 +29,7 @@ PAGES.report.t='รายงานความพร้อมข้อมูล'
 /* ---------- หน้าปก ---------- */
 const _cover=PAGE_R.cover;
 PAGE_R.cover=page=>{_cover(page);const f=F();
-  const st=$('.cv-stats',page);if(st)st.innerHTML=`<div><b>14</b><span>${L('สินค้าอัตลักษณ์','identity products')}</span></div><div><b>3</b><span>${L('สินค้า GI','GI products')}</span></div><div><b>${f.n}</b><span>${L('ชุดข้อมูลจากหน่วยงาน','agency datasets')}</span></div><div><b>${f.items}</b><span>${L('รายการตามแบบสำรวจ','survey items')}</span></div>`;
+  const st=$('.cv-stats',page);if(st)st.innerHTML=`<div><b>14</b><span>${L('สินค้าอัตลักษณ์','identity products')}</span></div><div><b>${P.filter(x=>x.gi).length}</b><span>${L('สินค้า GI','GI products')}</span></div><div><b>${f.n}</b><span>${L('ชุดข้อมูลจากหน่วยงาน','agency datasets')}</span></div><div><b>${f.items}</b><span>${L('รายการตามแบบสำรวจ','survey items')}</span></div>`;
   const lead=$('.cv-lead',page);if(lead)lead.innerHTML=L('<span class="nw">ของดี 14 รายการของจังหวัด</span> <span class="nw">เล่าด้วยภาพ เรื่องราว และร้านที่ซื้อได้</span><br><span class="nw">ตัวเลขทุกตัวมาจากไฟล์ของหน่วยงานเจ้าของข้อมูล</span> <span class="nw">ผ่านระบบบัญชีข้อมูลจังหวัด</span>','The province’s 14 signature products — told through images, stories and where to buy. Every figure comes from the owning agency’s file via the provincial data catalog.');
   $$('.tick',page).forEach(e=>e.remove());$$('.now',page).forEach(e=>e.closest('.cv-sec')?.remove());
   $$('.tile',page).forEach((t,i)=>{const p=P[i];const e=[...t.querySelectorAll('.tx > span')].filter(x=>!x.classList.contains('gi')).pop();if(!p||!e)return;const s=pStat(p);e.innerHTML=s.n?L(`ชุดข้อมูล ${s.n}`,`${s.n} dataset(s)`):L('รอไฟล์ข้อมูล','Awaiting file')});
@@ -115,14 +115,14 @@ PAGE_R.brief=page=>{_brief(page);const v=$('#bv',page);if(!v)return;
 const _faces=bkFaces;
 bkFaces=function(){return _faces().map(h=>{if(!/pb-va|pb-ss|in-st|in-map/.test(h))return h;const t=document.createElement('template');t.innerHTML=h;
   t.content.querySelectorAll('.pb-va,.pb-ss,.in-map').forEach(e=>e.remove());
-  const st=t.content.querySelector('.in-st');if(st)st.innerHTML=`<div><b>14</b><span>${L('สินค้าอัตลักษณ์','products')}</span></div><div><b>3</b><span>${L('สินค้า GI','GI products')}</span></div><div><b>6</b><span>${L('อำเภอ','districts')}</span></div><div><b>${DATASETS.length}</b><span>${L('ชุดข้อมูล','datasets')}</span></div>`;
+  const st=t.content.querySelector('.in-st');if(st)st.innerHTML=`<div><b>14</b><span>${L('สินค้าอัตลักษณ์','products')}</span></div><div><b>${P.filter(x=>x.gi).length}</b><span>${L('สินค้า GI','GI products')}</span></div><div><b>6</b><span>${L('อำเภอ','districts')}</span></div><div><b>${DATASETS.length}</b><span>${L('ชุดข้อมูล','datasets')}</span></div>`;
   return t.innerHTML})};
 
 /* ---------- มุมผู้ซื้อ: เหลือเฉพาะที่ยืนยันแล้ว ---------- */
 const _buyer=PAGE_R.buyer;
 PAGE_R.buyer=page=>{store.sset('nbl12-bf',['all','gi'].includes(store.sget('nbl12-bf','all'))?store.sget('nbl12-bf','all'):'all');_buyer(page);
   $$('[data-bf]',page).forEach(b=>{if(!['all','gi'].includes(b.dataset.bf))b.remove()});
-  const st=$('.by-st',page);if(st)st.innerHTML=`<div><b>14</b><span>${L('สินค้า','products')}</span></div><div><b>3</b><span>${L('สินค้า GI (ยืนยันแล้ว)','verified GI')}</span></div>`;
+  const st=$('.by-st',page);if(st)st.innerHTML=`<div><b>14</b><span>${L('สินค้า','products')}</span></div><div><b>${P.filter(x=>x.gi).length}</b><span>${L('สินค้า GI (ยืนยันแล้ว)','verified GI')}</span></div>`;
   const w=$('.by-warn',page);if(w)w.innerHTML=`${ic('help')} ${L('สเปกสินค้า กำลังผลิต และมาตรฐานอื่นนอกจาก GI รอข้อมูลจากหน่วยงาน จึงแสดงเป็นโครงไว้ก่อน','Specs, capacity and non-GI standards await agency data and are shown as frames.')}`;
   $('#byCsv')?.remove();
 };
