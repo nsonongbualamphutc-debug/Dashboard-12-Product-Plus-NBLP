@@ -2293,3 +2293,42 @@ svg.bdg{aspect-ratio:1/1;height:auto;max-width:100%;flex-shrink:0}
 .face.back{-webkit-transform:rotateY(180deg) translateZ(.1px);transform:rotateY(180deg) translateZ(.1px)}
 .leaf .face{transition:visibility 0s linear var(--fvd,.5s)}
 .leaf.fl .face.front,.leaf:not(.fl) .face.back{visibility:hidden}
+/* v6.8 side mini — พับแถบเมนูเหลือไอคอน */
+.side-col{display:none}
+@media (min-width:1001px){
+  .menu-btn{display:inline-flex}
+  .side-col{display:inline-flex;align-items:center;justify-content:center;position:absolute;top:12px;right:10px;width:30px;height:30px;border-radius:10px;border:1px solid var(--line,rgba(0,0,0,.1));background:rgba(255,255,255,.55);color:var(--on-forest);cursor:pointer;z-index:3;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:background .15s,transform .25s}
+  .side-col:hover{background:#fff;color:#D50654}
+  .side-col .ic{width:16px;height:16px}
+  .side .brand{padding-right:30px}
+  .app{transition:grid-template-columns .28s cubic-bezier(.4,0,.2,1)}
+  html.side-mini .app{grid-template-columns:84px minmax(0,1fr)!important}
+  html.side-mini .side{padding-left:10px;padding-right:10px;overflow-x:hidden;scrollbar-width:none}
+  html.side-mini .side::-webkit-scrollbar{display:none}
+  html.side-mini .side-col{position:static;display:flex;margin:0 auto 10px;width:40px;height:34px}
+  html.side-mini .side .brand{grid-template-columns:1fr;justify-items:center;padding:4px 0 12px;gap:0}
+  html.side-mini .side .brand>span{display:none}
+  html.side-mini .side .brand img{width:46px;height:46px}
+  html.side-mini .side-search{justify-content:center;padding:10px 0;font-size:0}
+  html.side-mini .side-search>span,html.side-mini .side-search kbd{display:none}
+  html.side-mini .side-search .ic{width:20px;height:20px}
+  html.side-mini .nav-t{font-size:0;padding:0;margin:12px 8px 8px;height:1px;min-height:0;background:var(--line,rgba(0,0,0,.12));overflow:hidden}
+  html.side-mini .nav-t *{display:none}
+  html.side-mini .side .nav a{justify-content:center;font-size:0!important;padding:10px 0;gap:0}
+  html.side-mini .side .nav a .ic{width:22px;height:22px;flex:0 0 22px}
+  html.side-mini .side .pnav a{display:flex;justify-content:center;padding:5px 0;position:relative}
+  html.side-mini .side .pnav a .no,html.side-mini .side .pnav a .n{display:none}
+  html.side-mini .side .pnav .bdg{width:42px!important;height:42px!important}
+  html.side-mini .side .pnav a .ds-dot{position:absolute;top:5px;right:9px;margin:0;transform:scale(.8)}
+  html.side-mini .side .pnav a[aria-current="page"] .bdg{outline:2px solid #D50654;outline-offset:2px;border-radius:50%}
+  html.side-mini .side-foot{padding:8px!important;align-items:center}
+  html.side-mini .side-foot>*:not(.sf-by),html.side-mini .side-foot .sf-by>div{display:none!important}
+  html.side-mini .side-foot .sf-by{display:flex;justify-content:center}
+}
+@media (prefers-reduced-motion:reduce){.app{transition:none!important}}
+@media (min-width:1001px){
+  .side-col .ic{transition:transform .25s}
+  html.side-mini .side-col .ic{transform:scaleX(-1)}
+  :root[data-theme="dark"] .side-col{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.16);color:#F6DCE7}
+  :root[data-theme="dark"] .side-col:hover{background:rgba(255,255,255,.16);color:#FF8DB8}
+}

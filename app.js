@@ -162,13 +162,18 @@ function baseOpts(extra={}){const ink=css('--muted'),line=css('--line');
     scales:{x:{grid:{display:false},ticks:{color:ink,font:{family:'Kanit, Sarabun, sans-serif',size:13}},border:{color:line}},
       y:{grid:{color:line},border:{display:false},ticks:{color:ink,font:{family:'Kanit, Sarabun, sans-serif',size:13},callback:v=>fShort(v)}}}},extra)}
 
+/* ---------- side mini (พับแถบเมนู เหลือไอคอน) ---------- */
+function sideMini(on){const h=document.documentElement;on=on==null?!h.classList.contains('side-mini'):on;h.classList.toggle('side-mini',on);sideTips();try{localStorage.setItem('nbl12-mini',on?'1':'0')}catch(e){}
+  const b=document.querySelector('.side-col');if(b){const t=on?L('ขยายแถบเมนู','Expand menu'):L('ย่อแถบเมนู','Collapse menu');b.setAttribute('aria-label',t);b.dataset.tip=t;b.setAttribute('aria-expanded',String(!on))}
+  setTimeout(()=>{try{dispatchEvent(new Event('resize'))}catch(e){}},320)}
+function sideTips(){const on=document.documentElement.classList.contains('side-mini');document.querySelectorAll('#navMain a,#navSys a,.side-search').forEach(a=>{if(on){a.dataset.tip=a.textContent.replace(/Ctrl K/,'').trim();a.dataset.tipM='1'}else if(a.dataset.tipM){delete a.dataset.tip;delete a.dataset.tipM}})}
 /* ---------- shell ---------- */
 function shell(){
   if($('.app'))return;
   document.body.insertAdjacentHTML('afterbegin',`
   <div class="app">
     <aside class="side" id="side" aria-label="เมนูหลัก">
-      <a class="brand" href="index.html"><img src="img/seal.png" alt="ตราจังหวัดหนองบัวลำภู"><span><span class="wm">12 Plus<sup>+</sup></span><span class="th">สินค้าอัตลักษณ์หนองบัวลำภู</span><span class="sub">Dashboard เกษตรมูลค่าสูง</span></span></a>
+      <button class="side-col" type="button" data-act="mini" aria-label="ย่อ/ขยายแถบเมนู" data-tip="ย่อ/ขยายแถบเมนู"><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9 4v16"/><path d="M16 10l-2 2 2 2"/></svg></button><a class="brand" href="index.html"><img src="img/seal.png" alt="ตราจังหวัดหนองบัวลำภู"><span><span class="wm">12 Plus<sup>+</sup></span><span class="th">สินค้าอัตลักษณ์หนองบัวลำภู</span><span class="sub">Dashboard เกษตรมูลค่าสูง</span></span></a>
       <button class="side-search" type="button" data-act="search">${ic('search')}<span id="sideSearchT">ค้นหาสินค้า ข้อมูล หน้า</span><kbd>Ctrl K</kbd></button>
       <nav class="nav" id="navMain"></nav>
       <div class="nav-t"><span id="navT1">สินค้าอัตลักษณ์</span><span>14</span></div>
@@ -238,7 +243,8 @@ function navRender(){
 /* ---------- actions ---------- */
 function onAct(e){
   const b=e.target.closest('[data-act]');if(!b)return;const a=b.dataset.act;
-  if(a==='menu')document.body.classList.add('nav-open');
+  if(a==='menu'){if(innerWidth>1000)sideMini();else document.body.classList.add('nav-open')}
+  else if(a==='mini')sideMini();
   else if(a==='search')palette();
   else if(a==='theme'){SET.theme=isDark()?'light':'dark';saveSet();render(true)}
   else if(a==='lang'){SET.lang=EN_MODE()?'th':'en';saveSet();render(true);toast(EN_MODE()?'English · indicator names remain in Thai':'ภาษาไทย')}

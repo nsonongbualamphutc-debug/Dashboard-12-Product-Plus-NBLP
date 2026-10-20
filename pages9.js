@@ -127,3 +127,10 @@ const TIP=(()=>{
   document.addEventListener('DOMContentLoaded',()=>{const h=location.hash.slice(1);if(h)setTimeout(()=>{const el=document.getElementById(h);if(el)el.scrollIntoView({block:'start'})},600)});
   return{show,hide,REG,mrLine,itemTip}
 })();
+
+/* side mini: คืนค่าที่จำไว้ + ใส่ tooltip ให้เมนูเมื่อพับ */
+(function(){try{if(localStorage.getItem('nbl12-mini')==='1')document.documentElement.classList.add('side-mini')}catch(e){}
+  const hook=()=>{const sd=document.getElementById('side');if(!sd){setTimeout(hook,120);return}
+    try{sideMini(document.documentElement.classList.contains('side-mini'))}catch(e){}
+    let t;new MutationObserver(()=>{clearTimeout(t);t=setTimeout(()=>{try{sideTips()}catch(e){}},30)}).observe(sd,{childList:true,subtree:true})};
+  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',hook);else hook()})();
