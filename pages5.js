@@ -25,6 +25,8 @@ function dsData(ds,p){const st=DSX.store[ds.code];if(st&&st.rows.some(r=>r.value
   if(DSX.mode[ds.code]==='demo')return{rows:dsSim(ds,p),src:'demo'};return null}
 function dsAgg(rows,ds){const ys=[...new Set(rows.map(r=>r.year))].sort();const ts=[...new Set([...(ds.types||[]),...rows.map(r=>r.type)])].filter(t=>rows.some(r=>r.type===t));
   const v=(f)=>rows.filter(f).reduce((a,r)=>a+(r.value||0),0);const has=(f)=>rows.some(r=>f(r)&&r.value!=null);return{ys,ts,v,has}}
+/* ข้อมูลจริงที่หน่วยงานส่งแล้ว (ฝังไว้ใน DATASETS[].rows) → โหลดเข้าระบบทันที */
+DATASETS.forEach(ds=>{if(ds.rows&&ds.rows.length&&!DSX.store[ds.code])DSX.store[ds.code]={rows:ds.rows.map(([y,d,t,v])=>({year:y,dist:d||'รวมทั้งจังหวัด',type:t||'รวม',value:v,unit:ds.unit,src:ds.source,item:ds.item})),src:'real',name:ds.file+'.xlsx'}});
 const dsYears=ds=>ds.years.map(y=>yCE(y));
 function dsTemplate(rows){download(rows.file+'.csv',[csvRow(TIDY_COLS),...rows.list.map(r=>csvRow(r))].join('\n'))}
 function dsTemplateRows(ds){const L0=[];const types=ds.types&&ds.types.length?ds.types:[''];const dists=ds.district?DISTRICTS:['รวมทั้งจังหวัด'];
@@ -35,7 +37,7 @@ function dsCard(ds,p){
   const D=dsData(ds,p),mode=DSX.mode[ds.code]||'frame',view=DSX.view[ds.code]||'viz',rid=dsRid(ds);
   const types=ds.types&&ds.types.length?ds.types:['รวม'],nRows=ds.years.length*(ds.district?6:1)*types.length;
   const st=D?D.src:'frame';
-  const pillH={api:`<span class="pill api">API</span>`,file:`<span class="pill has">${L('ไฟล์ทดลอง','Test file')}</span>`,demo:`<span class="pill sim">${L('ค่าตัวอย่าง','Sample')}</span>`,frame:`<span class="pill wait">${L('รอค่าข้อมูล','Awaiting values')}</span>`}[st];
+  const pillH={api:`<span class="pill api">API</span>`,file:`<span class="pill has">${L('ไฟล์ทดลอง','Test file')}</span>`,real:`<span class="pill has">${L('ข้อมูลจริง','Real data')}</span>`,demo:`<span class="pill sim">${L('ค่าตัวอย่าง','Sample')}</span>`,frame:`<span class="pill wait">${L('รอค่าข้อมูล','Awaiting values')}</span>`}[st];
   return`<article class="dsx" id="dsx-${ds.code}" style="--pa:${p.pa}">
   <header class="dsx-h">
     <div class="dsx-t"><span class="dsx-code">${ds.code}</span>${pillH}<h3>${esc(ds.item)}</h3>

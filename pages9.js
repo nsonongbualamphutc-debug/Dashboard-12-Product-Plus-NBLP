@@ -134,3 +134,50 @@ const TIP=(()=>{
     try{sideMini(document.documentElement.classList.contains('side-mini'))}catch(e){}
     let t;new MutationObserver(()=>{clearTimeout(t);t=setTimeout(()=>{try{sideTips()}catch(e){}},30)}).observe(sd,{childList:true,subtree:true})};
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',hook);else hook()})();
+
+/* รายชื่อประกอบ (แบรนด์ / มาตรการ ฯลฯ) จากแผ่นงาน "รายชื่อ" ในไฟล์ของหน่วยงาน → แสดงใต้ภาพของรายการนั้น */
+if(typeof styBlock==='function'){const _sbL=styBlock;styBlock=function(b,i){const h=_sbL(b,i);const ds=b.ds;if(!ds||!ds.list||!ds.list.rows.length)return h;
+  const isGps=c=>/GPS|พิกัด/.test(c);
+  const isUrl=v=>/^https?:\/\//.test(String(v||''));
+  const t=`<details class="stb-list"${ds.list.rows.length<=8?' open':''}><summary>${ic('table')} ${L('รายชื่อประกอบจากหน่วยงาน','Detail list from agency')} <b>${ds.list.rows.length}</b> ${L('รายการ','items')}</summary>
+    <div class="tbl-wrap"><table class="tbl"><thead><tr>${ds.list.cols.map(c=>`<th>${esc(c)}</th>`).join('')}</tr></thead><tbody>${ds.list.rows.map(r=>`<tr>${r.map((v,k)=>{const c=ds.list.cols[k];
+      if(isGps(c)&&v&&/\d/.test(String(v))){const q=String(v).replace(/\s/g,'');return`<td><a href="https://www.google.com/maps?q=${encodeURIComponent(q)}" target="_blank" rel="noopener">${ic('map')} ${esc(v)}</a></td>`}
+      if(isUrl(v)){let h='';try{h=new URL(v).hostname.replace(/^www\./,'')}catch(e){}return`<td><a href="${esc(v)}" target="_blank" rel="noopener">${ic('ext')} ${esc(h||L('เปิดลิงก์','Open'))}</a></td>`}
+      return`<td>${typeof v==='number'&&/ปี/.test(c)?yCE(v):esc(v==null?'–':v)}</td>`}).join('')}</tr>`).join('')}</tbody></table></div>
+    <p class="stb-ln">${L('แหล่งที่มา','Source')}: ${esc(ds.source)}</p></details>`;
+  return h.replace(/(<form class="stb-api"|<\/article>\s*$)/,t+'$1')}}
+/* คำแปลประเภท/หน่วยจากไฟล์อ้อย */
+try{Object.assign(CAT_EN,{'โรงงานน้ำตาล':'Sugar mills','จุดรับซื้อ':'Buying points','อ้อยสด':'Fresh cane','อ้อยไฟไหม้':'Burnt cane','กากอ้อย':'Bagasse','กากน้ำตาล':'Molasses','ราคาอ้อยขั้นต้น':'Initial price','ราคาอ้อยขั้นสุดท้าย':'Final price'});
+  Object.assign(UNIT_EN,{'มาตรการ':'measures','แบรนด์':'brands','สายพันธุ์':'varieties','โครงการ':'programmes','ช่องทาง':'channels','ครั้ง':'times'})}catch(e){}
+
+/* ---------- รูปแบบภาพเพิ่มสำหรับข้อมูลจริงแยกประเภท ----------
+   mix  = แท่งซ้อนรายปีแยกประเภท (เห็นยอดรวม + สัดส่วน เช่น อ้อยสด/อ้อยไฟไหม้)
+   pair = แท่งคู่รายปีแยกประเภท (เปรียบเทียบตรง ๆ เช่น ราคาขั้นต้น/ขั้นสุดท้าย)
+   กำหนดใน DATASETS ด้วย form:'mix' | 'pair' */
+(function(){if(typeof styForm!=='function')return;
+  Object.assign(FORM_EN,{mix:'Mix by type',pair:'Side-by-side'});Object.assign(FORM_TH,{mix:'องค์ประกอบรายปี',pair:'เปรียบเทียบคู่รายปี'});
+  if(typeof FORM_HELP!=='undefined')Object.assign(FORM_HELP,{mix:['แท่งรายปี แต่ละสีคือประเภท ความสูงรวมคือยอดทั้งหมด','Yearly bars split by type'],pair:['แท่งคู่รายปี เทียบแต่ละประเภทแบบตรง ๆ','Paired yearly bars by type']});
+  const _f=styForm;styForm=function(d,p,ds){if(ds&&ds.form)return ds.form;if(ds&&ds.district&&ds.years&&ds.years.length===1)return'rank';return _f(d,p,ds)};
+  const _c=styCfg0;styCfg0=function(b,big){if(b.form!=='mix'&&b.form!=='pair')return _c(b,big);
+    const c=_c(Object.assign({},b,{form:'cost'}),big);if(!c)return c;
+    if(b.form==='pair'){const pal=['#B79CC9',PA(b.p),'#E8559A',rgba(PA(b.p),.5)];c.data.datasets.forEach((d,i)=>{delete d.stack;d.backgroundColor=pal[i%pal.length];d.borderRadius={topLeft:8,topRight:8};d.maxBarThickness=big?60:34});
+      c.options.scales.x.stacked=false;c.options.scales.y.stacked=false;c.options.plugins.legend.display=true}
+    return c};
+  const A_=b=>styAgg(b.rows);
+  const _i=styInsight;styInsight=function(b){if(b.form!=='mix'&&b.form!=='pair')return _i(b);const A=A_(b),u=b.unit;
+    if(b.form==='mix'){const t=A.v(r=>r.year===A.ly)||1;const L0=A.ts.map(k=>[k,A.v(r=>r.year===A.ly&&r.type===k)]).sort((x,y)=>y[1]-x[1]);
+      let s=L(`ปี ${yCE(A.ly)} รวม <b>${fv(t,u)}</b> ${uLab(u)} · <b>${esc(L0[0][0])}</b> ${(L0[0][1]/t*100).toFixed(1)}%`,`${yCE(A.ly)} total <b>${fv(t,u)}</b> ${uLab(u)} · <b>${esc(tLab(L0[0][0]))}</b> ${(L0[0][1]/t*100).toFixed(1)}%`);
+      if(A.py){const a=A.v(r=>r.year===A.py);if(a){const g=(t-a)/a*100;s+=L(` · ${g>=0?'เพิ่มขึ้น':'ลดลง'} ${Math.abs(g).toFixed(1)}% จากปีก่อน`,` · ${g>=0?'+':'−'}${Math.abs(g).toFixed(1)}% YoY`)}}return s}
+    const L0=A.ts.map(k=>[k,A.v(r=>r.year===A.ly&&r.type===k)]);
+    return L(`ปี ${yCE(A.ly)} `,`${yCE(A.ly)}: `)+L0.map(([k,v])=>`${esc(tLab(k))} <b>${fv(v,u)}</b>`).join(' · ')+` ${uLab(u)}`};
+  const _k=styKpi;styKpi=function(b){if(b.form==='pair'){const A=A_(b);const k=A.ts.at(-1);const v=A.v(r=>r.year===A.ly&&r.type===k);return{v:fv(v,b.unit),u:uLab(b.unit)}}return _k(b)};
+  const _fa=styFacts;styFacts=function(b){if(b.form!=='mix'&&b.form!=='pair')return _fa(b);const A=A_(b),u=b.unit,U=' '+uLab(u);const F=[];
+    const t=A.v(r=>r.year===A.ly)||1;
+    A.ts.forEach(k=>{const v=A.v(r=>r.year===A.ly&&r.type===k);const pv=A.py?A.v(r=>r.year===A.py&&r.type===k):0;const g=pv?(v-pv)/pv*100:null;
+      F.push([esc(tLab(k)),fv(v,u)+U+(b.form==='mix'?` <small>(${(v/t*100).toFixed(1)}%)</small>`:g==null?'':` <small class="${g>=0?'up':'dn'}">${g>=0?'▲':'▼'}${Math.abs(g).toFixed(1)}%</small>`)])});
+    if(b.form==='mix'&&A.py){const a=A.v(r=>r.year===A.py),g=a?(t-a)/a*100:0;F.push([L('รวมเทียบปีก่อน','Total vs prior'),`<span class="${g>=0?'up':'dn'}">${g>=0?'▲':'▼'} ${Math.abs(g).toFixed(1)}%</span>`])}
+    return F};
+})();
+if(typeof styTable==='function'){const _t=styTable;styTable=function(b){return _t(b.form==='pair'?Object.assign({},b,{form:'band'}):b)}}
+
+try{Object.assign(CAT_EN,{'ปลานิล':'Nile tilapia','ปลาดุก':'Catfish','ปลาตะเพียน':'Silver barb','ปลาหมอไทย':'Climbing perch','ปลาน้ำจืดชนิดอื่น ๆ':'Other freshwater fish'});Object.assign(UNIT_EN,{'ฟาร์ม':'farms','ผลิตภัณฑ์':'products','ชนิด':'species','กิจกรรม':'events'})}catch(e){}
