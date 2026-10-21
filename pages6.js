@@ -53,7 +53,7 @@ PAGE_R.overview=page=>{const f=F();
   </div>
   <section class="card"><div class="card-h"><h3>${L('ความพร้อมข้อมูลรายสินค้า','Data readiness by product')}</h3><span class="note">${L('แตะการ์ดเพื่อดูโครงข้อมูลของสินค้า','Tap a card for its data frame')}</span></div>
     <div class="rdy">${P.map(p=>{const L0=dsOf(p.id),s=pStat(p),pc=L0.length/p.inds.length;return`<a class="rdy-c" href="${pFile(p.id)}#dsx" style="--pa:${p.pa}"><div class="ph" style="background-image:url(${IMG('kv',p.id)})"></div>
-      <div class="b"><span class="h">${badge(p,{label:false})}<b>${pad2(p.id)} ${esc(pname(p))}</b>${p.gi?'<span class="gi">GI</span>':''}</span>
+      <div class="b"><span class="h">${badge(p,{label:false})}<b>${pad2(p.id)} ${esc(pname(p))}</b></span>
       <span class="bar"><i style="width:${Math.max(pc*100,L0.length?6:0)}%"></i></span>
       <span class="m">${L0.length?`${L0.length} / ${p.inds.length} ${L('รายการมีไฟล์','items with a file')}`:`0 / ${p.inds.length} ${L('รายการ · รอไฟล์','items · awaiting')}`}</span>
       <span class="s">${s.f?pill('real'):L0.length?`<span class="pill wait">${L('มีโครงตาราง','Frame ready')}</span>`:`<span class="pill none">${L('ยังไม่มีไฟล์','No file yet')}</span>`}</span></div></a>`}).join('')}</div></section>

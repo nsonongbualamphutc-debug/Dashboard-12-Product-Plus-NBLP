@@ -17,7 +17,7 @@ function ticker(){const it=P.map(p=>{const c=periodVal(p,S.y),q=periodVal(p,S.y-
 
 function tile(p){const c=periodVal(p,S.y),q=periodVal(p,S.y-1),g=q?c/q-1:null;
   return`<a class="tile" href="${pFile(p.id)}"><div class="ph" style="background-image:url(${IMG('kv',p.id)})"></div>${badge(p,{label:false})}<span class="no">${pad2(p.id)}</span>
-  <span class="tx">${p.gi?'<span class="gi on-dark">GI</span>':''}<b>${esc(pname(p))}</b><span>${fB(c)} ${g==null?'':`<em style="font-style:normal;color:${g>=0?'#7BE0A6':'#FFA597'}">${g>=0?'▲':'▼'}${Math.abs(g*100).toFixed(1)}%</em>`}</span></span></a>`}
+  <span class="tx"><b>${esc(pname(p))}</b><span>${fB(c)} ${g==null?'':`<em style="font-style:normal;color:${g>=0?'#7BE0A6':'#FFA597'}">${g>=0?'▲':'▼'}${Math.abs(g*100).toFixed(1)}%</em>`}</span></span></a>`}
 function nowStrip(){const L0=nowProducts();
   return`<section class="now"><div class="now-h"><span class="eyebrow">${L('ของดีประจำเดือน','In season now')}</span><h2>${L('เดือน'+MONTHS_FULL[MON_NOW-1]+' มีอะไรดี','What’s good in '+MONTHS_EN[MON_NOW-1])}</h2><a class="note" href="insights.html#heat">${L('ดูปฏิทินทั้งปี ›','Full-year calendar ›')}</a></div>
   <div class="now-l">${L0.map(p=>`<a class="now-c" href="${pFile(p.id)}"><div class="ph" style="background-image:url(${IMG('kv',p.id)})"></div><span>${badge(p,{label:false})}<b>${esc(pname(p))}${giTag(p)}</b><small>${esc(pen(p,'peak',p.peakTxt))}</small></span></a>`).join('')}</div></section>`}
@@ -25,7 +25,7 @@ function nowStrip(){const L0=nowProducts();
 /* ================= หน้าหลัก (ปก) ================= */
 PAGE_R.cover=page=>{
   const tot=sum(P.map(p=>periodVal(p,S.y))),prod=sum(P.map(p=>p.prodY[S.y])),R0=readyAll();
-  const chip=p=>`<a href="${pFile(p.id)}">${badge(p,{label:false})}${pad2(p.id)} · ${esc(pname(p))}${p.gi?' <span class="gi">GI</span>':''}</a>`;
+  const chip=p=>`<a href="${pFile(p.id)}">${badge(p,{label:false})}${pad2(p.id)} · ${esc(pname(p))}</a>`;
   const lt='';
   page.innerHTML=`
   <section class="cv">
@@ -266,7 +266,7 @@ PAGE_R.map=page=>{
       <section class="card map-card"><div class="card-h"><h3>${p?esc(pname(p)):L('มูลค่ารวม 14 สินค้า','Total of 14 products')}</h3><span class="note">${fB(tot)}</span></div>${mapSVG(vals,p)}
         <div class="mleg"><span>${L('น้อย','Low')}</span><i style="background:linear-gradient(90deg,color-mix(in srgb,var(--pa) 14%,transparent),var(--pa))"></i><span>${L('มาก','High')}</span></div></section>
       <section class="card"><div class="card-h"><h3>${ic('map')} ${esc(L(DISTRICTS[di],'Amphoe '+DISTRICTS_EN[di]))}</h3><span class="note">${L('สัดส่วน','Share')} ${(vals[di]/tot*100).toFixed(1)}%</span></div>
-        <div class="kpis" style="grid-template-columns:1fr 1fr;margin-bottom:14px">${kpi(L('มูลค่าในอำเภอ','Value in district'),fmtBaht(vals[di]).n,fmtBaht(vals[di]).u,p?esc(pname(p)):L('รวม 14 สินค้า','All products'),'',pill('sim'))}${kpi(L('สินค้าเด่นอันดับ 1','Top product'),esc(pname(top[0].p)),'',fB(top[0].v),'',top[0].p.gi?'<span class="gi">GI</span>':'')}</div>
+        <div class="kpis" style="grid-template-columns:1fr 1fr;margin-bottom:14px">${kpi(L('มูลค่าในอำเภอ','Value in district'),fmtBaht(vals[di]).n,fmtBaht(vals[di]).u,p?esc(pname(p)):L('รวม 14 สินค้า','All products'),'',pill('sim'))}${kpi(L('สินค้าเด่นอันดับ 1','Top product'),esc(pname(top[0].p)),'',fB(top[0].v),'','')}</div>
         <h4 style="font-family:var(--f-head);font-size:14px;margin:0 0 8px">${L('สินค้าเด่นของอำเภอ (ไม่รวมอ้อย)','Leading products (excl. sugarcane)')}</h4>
         <div class="dlist">${top.filter(t=>t.p.id!==2).slice(0,8).map(t=>`<a href="${pFile(t.p.id)}"><span>${badge(t.p,{label:false})}${esc(pname(t.p))}</span><i style="width:${t.v/top.filter(x=>x.p.id!==2)[0].v*100}%;background:${t.p.pa}"></i><b class="num">${fShort(t.v)}</b></a>`).join('')}</div></section>
     </div>
@@ -292,7 +292,7 @@ PAGE_R.brief=page=>{
     <div class="row"><select class="sel" id="bSel" aria-label="${L('เลือกสินค้า','Choose product')}">${P.map(x=>`<option value="${x.id}"${x.id===pid?' selected':''}>${pad2(x.id)} ${esc(pname(x))}</option>`).join('')}</select><button class="btn btn-o" type="button" data-act="link">${ic('link')} ${L('คัดลอกลิงก์','Copy link')}</button><button class="btn btn-f" type="button" data-act="print">${ic('print')} ${L('พิมพ์ / บันทึก PDF','Print / PDF')}</button></div></div>
   <article class="a4">
     <header class="a4-h"><img src="img/seal.png" alt=""><div><b>12 Plus<sup>+</sup> · ${L('สินค้าอัตลักษณ์หนองบัวลำภู','Nong Bua Lam Phu identity products')}</b><span>${L('สรุปข้อมูลสินค้า · ','Product brief · ')}${periodLabel()}</span></div><span class="a4-no">No.${pad2(p.id)}</span></header>
-    <div class="a4-t">${badge(p)}<div><h2>${esc(pname(p))} ${p.gi?'<span class="gi lg">GI</span>':''}</h2><span class="en">${esc(EN_MODE()?p.name:p.en)}</span><p>${esc(pen(p,'t',p.tagline))}</p></div></div>
+    <div class="a4-t">${badge(p)}<div><h2>${esc(pname(p))}</h2><span class="en">${esc(EN_MODE()?p.name:p.en)}</span><p>${esc(pen(p,'t',p.tagline))}</p></div></div>
     <div class="a4-img" style="background-image:url(${IMG('kv',p.id)})"></div>
     <div class="a4-k">
       <div><span>${L('มูลค่าจำหน่าย','Sales value')}</span><b>${fmtBaht(cur).n}</b><small>${fmtBaht(cur).u} · ${pre?pct(cur/pre-1):''}</small></div>

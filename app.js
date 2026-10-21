@@ -24,7 +24,7 @@ const fShort=v=>Math.abs(v)>=1e6?(v/1e6).toLocaleString('th-TH',{maximumFraction
 const MO=()=>EN_MODE()?MONTHS_EN:MONTHS, MOF=()=>EN_MODE()?MONTHS_EN:MONTHS_FULL;
 const pname=p=>L(p.name,p.en);
 const pen=(p,k,th)=>EN_MODE()&&EN[p.id]?EN[p.id][k]:th;
-const giTag=(p,cls='')=>p.gi?`<span class="gi ${cls}" title="สิ่งบ่งชี้ทางภูมิศาสตร์ (Geographical Indication)">GI</span>`:'';
+const giTag=()=>'';/* ชื่อสินค้า GI มีคำว่า GI นำหน้าแล้ว */
 function hexMix(hex,amt){const n=parseInt(hex.slice(1),16);let r=n>>16,g=n>>8&255,b=n&255;const t=amt<0?0:255,p=Math.abs(amt);r=Math.round((t-r)*p+r);g=Math.round((t-g)*p+g);b=Math.round((t-b)*p+b);return'#'+((1<<24)+(r<<16)+(g<<8)+b).toString(16).slice(1)}
 const store={get(k,d){try{const v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},
   sget(k,d){try{const v=sessionStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},sset(k,v){try{sessionStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
@@ -107,7 +107,7 @@ function badge(p,{spin=false,label=true}={}){
   <g class="ring"><text fill="#fff" font-family="Kanit, sans-serif" font-weight="500" font-size="12.5" letter-spacing="2"><textPath href="#rp${k}" textLength="492" lengthAdjust="spacing">NONG BUA LAM PHU · LOCAL IDENTITY · 12 PLUS+ · </textPath></text></g>
   <circle cx="100" cy="100" r="66" fill="#FBF7EE"/><circle cx="100" cy="100" r="61" fill="none" stroke="${pa}" stroke-opacity=".25"/>
   <g transform="translate(100 ${label?80:100}) scale(${label?1.45:1.9}) translate(-24 -24)" fill="none" stroke="${pa}" color="${pa}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">${ICON[p.id]}</g>
-  ${label?`<text x="100" y="134" text-anchor="middle" font-family="Kanit, sans-serif" font-weight="600" font-size="${fs}" fill="#16241D">${esc(nm)}</text>
+  ${label?`<text x="100" y="134" text-anchor="middle" font-family="Kanit, sans-serif" font-weight="600" font-size="${fs}" fill="#16241D"${nm.length>13?' textLength="112" lengthAdjust="spacingAndGlyphs"':''}>${esc(nm)}</text>
   <text x="100" y="150" text-anchor="middle" font-family="Fraunces, Georgia, serif" font-style="italic" font-size="11" fill="${pa}">No. ${pad2(p.id)}</text>`:''}</svg>`;
 }
 const IMG=(kind,id)=>`img/${kind}-${pad2(id)}.webp`;

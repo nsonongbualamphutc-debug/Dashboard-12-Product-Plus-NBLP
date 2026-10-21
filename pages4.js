@@ -116,9 +116,9 @@ PAGE_R.buyer=page=>{
 const TAGSZ={sticker:{t:'สติกเกอร์ 5×5 ซม.',e:'Sticker 5×5 cm',n:15},card:{t:'การ์ด 9×5.5 ซม.',e:'Card 9×5.5 cm',n:10},shelf:{t:'ป้ายตั้งโต๊ะ A6',e:'Shelf talker A6',n:4}};
 function tagHtml(p,sz){
   const u=absUrl(pFile(p.id))+'?src=qr',nm=esc(pname(p)),en=esc(p.en);
-  if(sz==='card')return`<div class="tg tcard" style="--pa:${p.pa}"><div class="l">${badge(p,{label:false})}<b>${nm}</b><i>${en}</i>${p.gi?'<span class="g">GI</span>':''}<small>No.${pad2(p.id)} · 12 Plus+ · Nong Bua Lam Phu</small></div><div class="r"><div class="qr" data-tq="${esc(u)}"></div><span>สแกนดูที่มาและร้านค้า<br><em>Scan for origin & shops</em></span></div></div>`;
+  if(sz==='card')return`<div class="tg tcard" style="--pa:${p.pa}"><div class="l">${badge(p,{label:false})}<b>${nm}</b><i>${en}</i><small>No.${pad2(p.id)} · 12 Plus+ · Nong Bua Lam Phu</small></div><div class="r"><div class="qr" data-tq="${esc(u)}"></div><span>สแกนดูที่มาและร้านค้า<br><em>Scan for origin & shops</em></span></div></div>`;
   if(sz==='shelf')return`<div class="tg shelf" style="--pa:${p.pa}"><div class="ph" style="background-image:url(${IMG('post',p.id)})">${badge(p,{label:false})}<span class="no">${pad2(p.id)}</span></div><div class="bd"><b>${nm}</b><i>${en}</i><p>${esc(p.tagline)}</p>${certRow(p,'mini')}<div class="qq"><div class="qr" data-tq="${esc(u)}"></div><span>สแกนดูเรื่องราว ที่มา<br>และร้านที่ซื้อได้<br><em>Scan for story & shops</em></span></div></div><div class="ft">12 Plus<sup>+</sup> · สินค้าอัตลักษณ์หนองบัวลำภู</div></div>`;
-  return`<div class="tg sticker" style="--pa:${p.pa}"><div class="hd">${badge(p,{label:false})}<span><b>${nm}</b><i>${en}</i></span>${p.gi?'<span class="g">GI</span>':''}</div><div class="qr" data-tq="${esc(u)}"></div><span class="cap">สแกนดูที่มา · Scan for origin</span><div class="ft">12 Plus<sup>+</sup> · Nong Bua Lam Phu</div></div>`;
+  return`<div class="tg sticker" style="--pa:${p.pa}"><div class="hd">${badge(p,{label:false})}<span><b>${nm}</b><i>${en}</i></span></div><div class="qr" data-tq="${esc(u)}"></div><span class="cap">สแกนดูที่มา · Scan for origin</span><div class="ft">12 Plus<sup>+</sup> · Nong Bua Lam Phu</div></div>`;
 }
 function tagView(box,pid){
   const sz=store.sget('nbl12-tsz','sticker'),sel=store.sget('nbl12-tp','all');const Z=TAGSZ[sz];

@@ -146,7 +146,7 @@ function bkFaces(){
     <div class="in-map">${mapSVG(DISTRICTS.map((_,i)=>sum(P.map(p=>distVal(p,i)))),null)}</div>
     <div class="in-how"><span>${ic('arrowR')} ${L('แตะขอบขวาหรือปัดเพื่อพลิกหน้า','Tap the right edge or swipe to turn')}</span><span>${ic('map')} ${L('สแกน QR เพื่อนำทางไปร้าน','Scan QR to navigate to shops')}</span></div><span class="pn">2</span></div>`);
   F.push(`<div class="pg toc"><span class="rh r">Contents</span><span class="eyebrow">Contents</span><h2>${L('สารบัญ','Contents')}</h2>
-    <ol>${P.map((p,n)=>`<li><a href="#" data-go="${n+2}" data-gs="${3+2*n}"><span class="no">${pad2(p.id)}</span>${badge(p,{label:false})}<span class="nm"><b>${esc(pname(p))}${p.gi?' <i class="gi">GI</i>':''}</b><small>${esc(EN_MODE()?p.name:p.en)}</small></span><span class="pg-n">${4+2*n}</span></a></li>`).join('')}</ol><span class="pn">3</span></div>`);
+    <ol>${P.map((p,n)=>`<li><a href="#" data-go="${n+2}" data-gs="${3+2*n}"><span class="no">${pad2(p.id)}</span>${badge(p,{label:false})}<span class="nm"><b>${esc(pname(p))}</b><small>${esc(EN_MODE()?p.name:p.en)}</small></span><span class="pg-n">${4+2*n}</span></a></li>`).join('')}</ol><span class="pn">3</span></div>`);
   P.forEach((p,n)=>{
     const va=vaP(p),sh=shopsOf(p),s=sh[0],hl=pen(p,'hl',p.hl),pk=p.season.indexOf(Math.max(...p.season)),mx=Math.max(...p.season);
     F.push(`<div class="pg dark pa" style="--pa:${p.pa}"><img class="pa-ph" src="${IMG('post',p.id)}" alt="${esc(pname(p))}" loading="lazy"><div class="pa-sh"></div>
