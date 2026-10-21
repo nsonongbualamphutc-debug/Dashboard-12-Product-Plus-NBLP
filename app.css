@@ -2361,3 +2361,8 @@ svg.bdg{aspect-ratio:1/1;height:auto;max-width:100%;flex-shrink:0}
 :root[data-theme="dark"] .stb-mix{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.1)}
 :root[data-theme="dark"] .mx-bar{background:rgba(255,255,255,.08)}
 @media print{.stb-mix{break-inside:avoid}}
+/* v7.1 มือถือ: ป้ายชื่อไฟล์ยาว/แถวปุ่มไม่ล้นจอ */
+.stb-k{min-width:0;flex-wrap:wrap;max-width:100%}
+.stb-k .pill{white-space:normal;max-width:100%;overflow-wrap:anywhere;line-height:1.35;height:auto}
+.stb-h,.stb-h>div{min-width:0}
+.stb-tools{flex-wrap:wrap;max-width:100%}

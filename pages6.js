@@ -82,7 +82,7 @@ PAGE_R.insights=page=>{page.innerHTML=`<div class="ph-title"><div><span class="e
   <section class="card"><div class="sk-note" style="margin:0">${ic('db')}<span><b>${L('ยังไม่มีข้อมูลรองรับ','No supporting data yet')}</b> ${L('ดูความพร้อมข้อมูลได้ที่','See readiness on')} <a href="overview.html">${PT('overview')}</a> · <a href="report.html">${PT('report')}</a></span></div></section>`};
 
 /* ---------- แผนที่: เฉพาะชุดข้อมูลที่มีมิติอำเภอ ---------- */
-PAGE_R.map=page=>{const L0=DATASETS.filter(d=>d.district);let code=(R.q&&R.q.get('d'))||store.sget('nbl12-mapds',L0[0]?.code);if(!L0.some(d=>d.code===code))code=L0[0]?.code;store.sset('nbl12-mapds',code);
+PAGE_R.map=page=>{const L0=DATASETS.filter(d=>d.district);let code=(R.q&&R.q.get('d'))||store.sget('nbl12-mapds',(L0.find(dsFilled)||L0[0])?.code);if(!L0.some(d=>d.code===code))code=(L0.find(dsFilled)||L0[0])?.code;store.sset('nbl12-mapds',code);
   const ds=L0.find(d=>d.code===code);
   page.innerHTML=`<div class="ph-title"><div><span class="eyebrow">District data</span><h1>${PT('map')}</h1><p>${L('แผนที่ 6 อำเภอ จากชุดข้อมูลที่มีคอลัมน์ "อำเภอ" เลือกชุดข้อมูลด้านล่าง','Six-district map from datasets with a district column.')}</p></div></div>
   <div class="mchips">${L0.map(d=>{const p=byId(d.pid);return`<button type="button" class="chip${d.code===code?' on':''}" data-md="${d.code}" style="--pa:${p.pa}">${badge(p,{label:false})}${esc(d.item)}</button>`}).join('')||`<span class="note">${L('ยังไม่มีชุดข้อมูลรายอำเภอ','No district datasets yet')}</span>`}</div>
