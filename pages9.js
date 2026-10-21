@@ -181,3 +181,43 @@ try{Object.assign(CAT_EN,{'โรงงานน้ำตาล':'Sugar mills','
 if(typeof styTable==='function'){const _t=styTable;styTable=function(b){return _t(b.form==='pair'?Object.assign({},b,{form:'band'}):b)}}
 
 try{Object.assign(CAT_EN,{'ปลานิล':'Nile tilapia','ปลาดุก':'Catfish','ปลาตะเพียน':'Silver barb','ปลาหมอไทย':'Climbing perch','ปลาน้ำจืดชนิดอื่น ๆ':'Other freshwater fish'});Object.assign(UNIT_EN,{'ฟาร์ม':'farms','ผลิตภัณฑ์':'products','ชนิด':'species','กิจกรรม':'events'})}catch(e){}
+
+/* ---------- แท่ง/กลีบกราฟทึบ: ไม่ให้เส้นวัดค่าโผล่ทะลุแท่งสีโปร่ง ----------
+   วาดรูปทรงเดียวกันด้วยสีพื้นการ์ดไว้ใต้แท่งจริงก่อน (ใช้ได้กับ bar / polarArea ทุกกราฟ) */
+(function(){if(!window.Chart)return;
+  const bgOf=el=>{let n=el;while(n&&n!==document.documentElement){const c=getComputedStyle(n).backgroundColor;const m=c&&c.match(/rgba?\(([^)]+)\)/);if(m){const a=m[1].split(',').map(s=>+s.trim());if(a.length<4||a[3]>=.85)return`rgb(${a[0]},${a[1]},${a[2]})`}n=n.parentElement}
+    return isDark()?'#1D0F19':'#FFFFFF'};
+  const lift=(c,k)=>{const m=c.match(/\d+/g);if(!m)return c;return`rgb(${m.slice(0,3).map(v=>Math.round(+v+(255-+v)*k)).join(',')})`};
+  Chart.register({id:'solidUnder',beforeDatasetsDraw(ch){const types=['bar','polarArea'];let bg=null;const ctx=ch.ctx;
+    ch.data.datasets.forEach((ds,i)=>{const m=ch.getDatasetMeta(i);if(!m||m.hidden||!types.includes(m.type||ch.config.type))return;bg=bg||(isDark()?lift(bgOf(ch.canvas),.3):bgOf(ch.canvas));
+      m.data.forEach(el=>{if(!el||!el.options)return;const o=el.options,keep=[o.backgroundColor,o.borderColor,o.borderWidth];
+        try{o.backgroundColor=bg;o.borderColor=bg;o.borderWidth=0;ctx.save();el.draw(ctx,ch.chartArea);ctx.restore()}catch(e){}finally{o.backgroundColor=keep[0];o.borderColor=keep[1];o.borderWidth=keep[2]}})})}});
+  /* ให้กราฟที่สร้างไปแล้ววาดใหม่ */
+  try{Object.values(Chart.instances||{}).forEach(c=>c.update('none'))}catch(e){}
+})();
+
+/* ---------- ตัวเลขบนแท่ง (กราฟใน Data Story + สไลด์) ---------- */
+(function(){if(!window.Chart||typeof styCfg!=='function')return;
+  const _c=styCfg;styCfg=function(b,big){const c=_c(b,big);if(!c||c.type!=='bar')return c;c.options=c.options||{};c.options.plugins=c.options.plugins||{};
+    const hz=c.options.indexAxis==='y';c.options.plugins.vlab={u:b.unit,big:!!big};c.options.layout=Object.assign({},c.options.layout,{padding:Object.assign({top:hz?4:(big?30:22),right:hz?(big?70:56):6},(c.options.layout||{}).padding||{})});return c};
+  Chart.register({id:'vlab',afterDatasetsDraw(ch){const o=ch.options.plugins&&ch.options.plugins.vlab;if(!o||ch.config.type!=='bar')return;
+    const ctx=ch.ctx,hz=ch.options.indexAxis==='y',stacked=!!(ch.options.scales&&ch.options.scales.x&&ch.options.scales.x.stacked);
+    const metas=ch.data.datasets.map((_,i)=>ch.getDatasetMeta(i)).filter(m=>!m.hidden&&m.visible!==false);if(!metas.length)return;
+    const n=ch.data.labels.length,fs=o.big?17:13;const dark=isDark();
+    const txt=v=>{try{return fv(v,o.u)}catch(e){return String(v)}};
+    ctx.save();ctx.font=`600 ${fs}px Kanit, Sarabun, sans-serif`;ctx.fillStyle=dark?'#FBE9F2':'#3A1F2E';ctx.textAlign=hz?'left':'center';ctx.textBaseline=hz?'middle':'bottom';
+    if(stacked){for(let j=0;j<n;j++){let tot=0,top=null;metas.forEach(m=>{const el=m.data[j];const v=ch.data.datasets[m.index].data[j];if(el&&v!=null){tot+=+v||0;const y=el.y;if(top==null||(hz?el.x>top.x:y<top.y))top=el}});
+        if(top&&tot){const t=txt(tot);hz?ctx.fillText(t,top.x+6,top.y):ctx.fillText(t,top.x,top.y-6)}}}
+    else{const many=metas.length*n>24;metas.forEach(m=>m.data.forEach((el,j)=>{const v=ch.data.datasets[m.index].data[j];if(v==null||el.skip)return;if(many&&!v)return;
+        const w=hz?el.height:el.width;if(!hz&&w<18&&metas.length>1)return;const t=txt(v);if(!hz&&ctx.measureText(t).width>w*2.2&&metas.length>1)return;
+        hz?ctx.fillText(t,el.x+6,el.y):ctx.fillText(t,el.x,el.y-6)}))}
+    ctx.restore()}});
+})();
+
+/* ---------- ข้อมูลแยกอำเภอที่มีหลายประเภท: แถบสัดส่วนตามประเภท (ปีล่าสุด) ใต้ภาพ ---------- */
+if(typeof styBlock==='function'){const _sbM=styBlock;styBlock=function(b,i){const h=_sbM(b,i);const ds=b.ds;if(!b.real||!ds||!ds.district||!ds.types||ds.types.length<2)return h;
+  const A=styAgg(b.rows);const T=A.ts.map(t=>[t,A.v(r=>r.year===A.ly&&r.type===t)]).filter(x=>x[1]>0).sort((x,y)=>y[1]-x[1]);const S=sum(T.map(x=>x[1]))||1;const pal=styPal(b.p,T.length);
+  const bar=`<section class="stb-mix" aria-label="${L('สัดส่วนตามประเภท','Share by type')}"><h5>${L('สัดส่วนตามประเภท','Share by type')} · ${yCE(A.ly)} <small>${L('รวม','total')} ${fv(S,b.unit)} ${uLab(b.unit)}</small></h5>
+    <div class="mx-bar">${T.map(([t,v],k)=>`<i style="flex:${v};background:${pal[k]}" data-tip="${esc(tLab(t))}: ${fv(v,b.unit)} ${esc(uLab(b.unit))} (${(v/S*100).toFixed(1)}%)"></i>`).join('')}</div>
+    <ul class="mx-lg">${T.map(([t,v],k)=>`<li><i style="background:${pal[k]}"></i><span>${esc(tLab(t))}</span><b>${(v/S*100).toFixed(1)}%</b><small>${fv(v,b.unit)}</small></li>`).join('')}</ul></section>`;
+  return h.replace(/(<details class="stb-list"|<form class="stb-api"|<\/article>\s*$)/,bar+'$1')}}
