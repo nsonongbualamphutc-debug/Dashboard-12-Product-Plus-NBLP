@@ -393,6 +393,13 @@ img.md{width:30px;height:30px;object-fit:contain;display:block;margin:-4px auto}
 .sf-tier{display:flex;gap:6px;flex-wrap:wrap;margin-top:6px}.sf-tier span{padding:4px 10px;border-radius:99px;background:rgba(127,127,127,.1);font-size:12px;opacity:.6}.sf-tier span.ok{opacity:1;background:linear-gradient(135deg,#FFE3A0,#93D96F)}.sf-tier small{margin-left:4px;opacity:.7}
 .sf-inv{display:grid;gap:5px}.sf-inv>div{display:grid;grid-template-columns:28px 1fr auto auto auto;gap:6px;align-items:center;padding:6px 8px;border-radius:12px;background:rgba(127,127,127,.07)}.sf-inv i{font-style:normal;font-size:20px}.sf-inv b{font-size:13.5px;font-weight:500}.sf-inv .tb{height:32px;padding:0 9px;font-size:12px}
 @media (max-width:600px){.gh{grid-template-columns:1fr}.rid{transform:translate(-50%,190px);font-size:12.5px}.sf-m{grid-template-columns:110px 1fr 30px;font-size:12px}.sf-inv>div{grid-template-columns:22px 1fr auto auto auto;gap:4px}.sf-inv .tb{padding:0 6px;font-size:11px}}
+
+@media (max-width:1440px){#bFace .l{display:none}#bFace{padding:0 11px}}#bFace.on{background:#D50654;color:#fff}
+.gd-raw{display:flex;flex-wrap:wrap;gap:6px}.gd-raw span{padding:5px 10px;border-radius:99px;background:rgba(127,127,127,.09);font-size:13px}.gd-raw b{color:#D50654}
+.gd-st{display:grid;gap:6px}.gd-st>div{display:grid;grid-template-columns:34px 1fr auto;gap:8px;align-items:center;padding:8px 10px;border-radius:12px;background:rgba(127,127,127,.07)}.gd-st>div.ok{background:linear-gradient(135deg,rgba(255,227,160,.6),rgba(147,217,111,.4))}.gd-st i{font-style:normal;font-size:24px}.gd-st b{font-size:13.5px;font-weight:600;font-family:var(--f-head)}.gd-st small{display:block;font-size:11.5px;color:var(--muted)}.gd-st em{font-style:normal;font-size:12.5px;color:#C99A3E}.gd-st .tb{height:34px;font-size:12.5px}.gd-st .lb-bar{height:7px;margin-top:4px}
+.gd-show{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.gd-show span{display:flex;flex-direction:column;align-items:center;gap:2px;padding:8px 4px;border-radius:12px;background:rgba(127,127,127,.08);font-size:24px;opacity:.45;filter:grayscale(1)}.gd-show span.ok{opacity:1;filter:none;background:linear-gradient(135deg,#FFF6E0,#FFE3EE)}.gd-show small{font-size:10.5px;text-align:center;line-height:1.25}
+.pv-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px}.pv-g>div{display:grid;grid-template-columns:34px 1fr;gap:2px 8px;padding:10px;border-radius:14px;background:linear-gradient(135deg,rgba(255,246,224,.7),rgba(255,227,238,.5))}.pv-g i{grid-row:span 2;font-style:normal;font-size:24px}.pv-g b{font-family:var(--f-head);font-size:14px}.pv-g small{font-size:12px;line-height:1.45;color:var(--muted)}
+.pv-src{font-size:11px;color:var(--muted);margin:10px 0 0}.pv-q{font-family:var(--f-head);font-size:18px;text-align:center;margin:14px 0}.pv-o{display:grid;gap:8px}.pv-o .tb{height:auto;min-height:46px;white-space:normal;padding:8px 14px}.pv-o .tb.bad{background:#B42318;color:#fff}
 </style>
 </head>
 <body>
@@ -408,6 +415,7 @@ img.md{width:30px;height:30px;object-fit:contain;display:block;margin:-4px auto}
   <button class="tb" id="bMic" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span class="l" id="bMicL">เปิดไมค์</span></button>
   <button class="tb" id="bGame" type="button" aria-label="มุมเกม (K)"><span style="font-size:18px;line-height:1">🎮</span><span class="l">เกม</span></button>
   <button class="tb" id="bSuff" type="button" aria-label="แปลงเกษตรพอเพียง (G)"><span style="font-size:18px;line-height:1">🌾</span><span class="l">พอเพียง</span></button>
+  <button class="tb" id="bFace" type="button" aria-label="ดูหน้าตัวละคร (C)"><span style="font-size:18px;line-height:1">🙂</span><span class="l">ดูหน้า</span></button>
   <button class="tb" id="bView" type="button" aria-label="สลับมุมมองบุคคลที่ 1/3 (V)"><span style="font-size:18px;line-height:1">🎥</span><span class="l">มุมมอง</span></button>
   <button class="tb" id="bTod" type="button" aria-label="ช่วงเวลา กลางวัน/เย็น/กลางคืน"><span id="bTodI" style="font-size:18px;line-height:1">🌤</span><span class="l" id="bTodL">กลางวัน</span></button>
   <button class="tb" id="bPhoto" type="button" aria-label="ถ่ายรูปที่งาน"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span class="l">ถ่ายรูป</span></button>
@@ -471,9 +479,11 @@ img.md{width:30px;height:30px;object-fit:contain;display:block;margin:-4px auto}
   <h3 id="hT">วิธีเดินชม</h3>
   <ul>
     <li>คอมพิวเตอร์: <b>W A S D</b> หรือปุ่มลูกศร เพื่อเดิน · ลากเมาส์เพื่อหันมอง</li>
-    <li>คีย์ลัด: <b>Space</b> กระโดด · <b>Shift</b> วิ่ง · <b>V</b> สลับมุมมองบุคคลที่ 1/3 · <b>ล้อเมาส์</b> ซูมกล้อง · <b>M</b> มุมสูง · <b>K</b> มุมเกม · <b>G</b> แปลงพอเพียง · <b>J</b> ภารกิจ</li>
+    <li>คีย์ลัด: <b>Space</b> กระโดด · <b>Shift</b> วิ่ง · <b>V</b> สลับมุมมองบุคคลที่ 1/3 · <b>ล้อเมาส์</b> ซูมกล้อง · <b>M</b> มุมสูง · <b>C</b> ดูหน้าตัวละคร · <b>K</b> มุมเกม · <b>G</b> แปลงพอเพียง · <b>J</b> ภารกิจ</li>
     <li>🎮 มุมเกม: ทายข้อมูลจริง · ล่าปริศนาของดี · วิ่งเก็บดาว · ต่อจิ๊กซอว์สินค้า</li>
     <li>🌾 แปลงเกษตรพอเพียง (หลังบูธ): ตักน้ำจากหนอง ทำนา ปลูกผัก เลี้ยงไก่ แล้วแบ่งผลผลิตตาม 3 ห่วง กินเอง · แบ่งปัน · ออม</li>
+    <li>🏭 ไร่ของดี + ซุ้มแปรรูป (หลังบูธอีกฝั่ง): ปลูกข้าว อ้อย ผักหวานป่า กล้วย กาแฟ แล้วแปรรูปเป็นผลิตภัณฑ์จริงของจังหวัด</li>
+    <li>📜 ซุ้มรู้จักหนองบัวลำภู (ข้างลานกลาง) · 🔊 แตะลำโพงเพื่อเปิด/ปิดเพลง · 🙂 ปุ่มดูหน้าตัวละคร</li>
     <li>🗼 หอชมวิว 2 ฝั่ง: เดินเข้าวงแสงชมพูที่โคนหอ ลิฟต์แก้วจะพาขึ้นยอดหอ (ยืนในวงชมพูบนยอดเพื่อลง)</li>
     <li>iPad / มือถือ: ใช้จอยสติ๊กมุมซ้ายล่างเพื่อเดิน · ปัดหน้าจอเพื่อหันมอง</li>
     <li>แตะที่ภาพหรือแท่นจัดแสดง เพื่อเปิดการ์ดข้อมูล และรับแสตมป์บูธ</li>
@@ -495,6 +505,8 @@ img.md{width:30px;height:30px;object-fit:contain;display:block;margin:-4px auto}
 <div class="rid glass" id="rid" hidden></div>
 <div class="runh glass" id="runH" hidden><b id="runT">3…</b><button class="tb" id="runX" type="button">หยุด</button></div>
 <div class="lb" id="gm" role="dialog" aria-label="มุมเกม"><div class="lb-card glass gm-card"><div class="lb-h"><b>🎮 มุมเกม</b><button class="tb" id="gmX" type="button" aria-label="ปิด">✕</button></div><div id="gmB"></div></div></div>
+<div class="lb" id="gd" role="dialog" aria-label="ซุ้มแปรรูปของดี"><div class="lb-card glass"><div class="lb-h"><b>🏭 ไร่ของดี + ซุ้มแปรรูป</b><button class="tb" id="gdX" type="button" aria-label="ปิด">✕</button></div><div id="gdB"></div></div></div>
+<div class="lb" id="pv" role="dialog" aria-label="รู้จักหนองบัวลำภู"><div class="lb-card glass gm-card"><div class="lb-h"><b>📜 รู้จักหนองบัวลำภู</b><button class="tb" id="pvX" type="button" aria-label="ปิด">✕</button></div><div id="pvB"></div></div></div>
 <div class="lb" id="sf" role="dialog" aria-label="แปลงเกษตรพอเพียง"><div class="lb-card glass"><div class="lb-h"><b>🌾 แปลงเกษตรพอเพียง</b><button class="tb" id="sfX" type="button" aria-label="ปิด">✕</button></div><div id="sfB"></div></div></div>
 <button class="tdown" id="bDown" type="button" hidden>🛗 ลงจากหอชมวิว</button>
 <button class="jmp" id="bJump" type="button" aria-label="กระโดด">⤒<small>กระโดด</small></button>
@@ -676,10 +688,11 @@ const PLAYER=(function(){const ls=(k,v)=>{try{if(v===undefined)return localStora
   const inp=$('#pName');if(inp){inp.value=name;inp.oninput=inp.onchange=()=>{name=inp.value.trim().slice(0,24);ls('nbl12-pname',name)}}
   function ui(){const e=$('#ptN');if(e)e.textContent=pts.toLocaleString('th-TH')}
   function pop(n){const d=document.createElement('div');d.className='pop-pts';d.textContent='+'+n;document.body.appendChild(d);setTimeout(()=>d.remove(),1300)}
-  let combo=0,lastA=0;
-  function comboFx(c){const d=document.createElement('div');d.className='combo';d.innerHTML=`COMBO ×${c} <small>🔥 โบนัส +50%</small>`;document.body.appendChild(d);setTimeout(()=>d.remove(),1600)}
+  let combo=0,lastA=0,lastE='';const CEV=['stamp','quiz_ok','vote','lotus','interest','riddle','photo','wave','chest','view','harvest','egg','craft','share','hlgame','puzzle','province'];
+  function comboFx(c,b){const d=document.createElement('div');d.className='combo';d.innerHTML=`COMBO ×${c} <small>🔥 ทำกิจกรรมต่างชนิดต่อเนื่อง · โบนัส +${b}</small>`;document.body.appendChild(d);setTimeout(()=>d.remove(),1700)}
   function add(n,ev,extra){try{if(n>0&&extra&&extra.b!=null&&window.__HOT&&window.__HOT(extra.b)){n*=2;extra=Object.assign({x2:1},extra);setTimeout(()=>{try{window.MISSION&&MISSION.hit('hot')}catch(e){}},0)}}catch(e){}
-    if(n>0&&!/dup|wave_r|interest/.test(ev)){const t=Date.now();combo=t-lastA<25000?combo+1:1;lastA=t;if(combo>=3){n+=Math.round(n*.5);comboFx(combo)}}
+    /* คอมโบ: นับเฉพาะกิจกรรมที่ผู้เล่นทำเอง และต้องเป็นกิจกรรม 'ต่างชนิด' ต่อกันภายใน 30 วินาที · โบนัส +5/+10/+15/+20 (สูงสุด) */
+    if(n>0&&CEV.includes(ev)){const t=Date.now();if(t-lastA>30000){combo=0;lastE=''}if(ev!==lastE){combo++;lastE=ev;lastA=t;if(combo>=3){const b=Math.min(20,5*(combo-2));n+=b;comboFx(combo,b)}}}
     const r0=rankOf(pts).i;pts+=n;const r1=rankOf(pts);if(r1.i>r0){setTimeout(()=>{try{window.__rankUp&&__rankUp(r1.t)}catch(e){}},700)}
     try{window.__netGain&&window.__netGain(ev,n,extra)}catch(e){}ls('nbl12-pts-'+new Date().toISOString().slice(0,10),pts);ui();if(n)pop(n);log(ev,extra)}
   function log(ev,extra){Qe.push(Object.assign({ev,t:new Date().toISOString()},extra||{}));if(Qe.length>=8)flush()}
@@ -1148,7 +1161,8 @@ ITEMS.forEach((p,i)=>{const a=i/N*Math.PI*2+Math.PI/N;const g=new THREE.Group();
    ตัวละครรูปทรง "เพื่อนลุ่มภู": สร้างจากรูปทรงเรขาคณิต 7 แบบ ตาโต ยิ้มแย้ม สีสด (ไม่มีสีผิว/เชื้อชาติ → ไม่เหมารวมใคร)
    ขยับด้วยโค้ด (เดิน แกว่งแขน กระพริบตา โบกมือ) ไม่ต้องโหลดโมเดล
    ===================================================================== */
-const AVS=[['บอลกลม','⚪'],['ถั่วสูง','🫘'],['กล่องเหลี่ยม','🟪'],['ลูกแพร์','🍐'],['สามเหลี่ยม','🔺'],['หยดน้ำ','💧'],['ไข่ใบโต','🥚']];
+const AVS=[['บอลกลม','⚪'],['ถั่วสูง','🫘'],['กล่องเหลี่ยม','🟪'],['ลูกแพร์','🍐'],['สามเหลี่ยม','🔺'],['หยดน้ำ','💧'],['ไข่ใบโต','🥚'],['น้องกล้วย','🍌'],['น้องเมล็ดกาแฟ','☕'],['น้องข้าวหอม','🍚'],['น้องอ้อย','🎋'],['น้องบัวตูม','🪷']];
+const MASCOT={7:0xFFD84D,8:0x8A5A3A,9:0xFFF6E8,10:0x9CCB5A,11:0xFF9EC4};
 const AVC=[[0xFF8FAB,0xFFF1F5,'ชมพูบัว'],[0x6FD3BE,0xFFFFFF,'มินต์'],[0x7DB8FF,0x1F3A68,'ฟ้าใส'],[0xB99BF2,0xE8BE68,'ม่วงลาเวนเดอร์'],[0xFFCF5C,0xFFFFFF,'เหลืองตะวัน'],[0xFFA982,0x2E7D73,'พีช'],[0x93D96F,0xFFFFFF,'เขียวใบตอง'],[0xEE8CC8,0x5B2C83,'ชมพูม่วง'],[0x8FE0EE,0xD50654,'ฟ้าน้ำทะเล'],[0xF4EEE2,0xC99A3E,'ครีมทอง']];
 const AVH=[['ไม่มี','—'],['หมวกแก๊ป','🧢'],['หมวกปีกกว้าง','👒'],['หูฟัง','🎧'],['ดอกบัวบนหัว','🌸'],['หมวกไหมพรม','🧶'],['แว่นตา','👓']];
 const AVI=[['ไม่มี','—'],['ลูกโป่ง','🎈'],['กระเป๋าผ้า','👜'],['เป้','🎒'],['ดอกบัว','🪷'],['กล้อง','📷'],['ถุงช้อปปิ้ง','🛍']];
@@ -1158,7 +1172,7 @@ const botStyle=k=>({s:k%AVS.length,c:(k*3+1)%AVC.length,h:(k*5+2)%AVH.length,i:(
 const avMat=(c,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.45,metalness:.03},o||{}));
 const _ray=new THREE.Raycaster();
 function lathe(pts,seg){return new THREE.LatheGeometry(pts.map(([r,y])=>new THREE.Vector2(r,y)),seg||32)}
-function makeChar(st,opt){st=st||{s:0,c:0,h:0,i:0};const c=AVC[st.c]||AVC[0];const root=new THREE.Group();const rig=new THREE.Group();root.add(rig);
+function makeChar(st,opt){st=st||{s:0,c:0,h:0,i:0};const c=(AVC[st.c]||AVC[0]).slice();if(MASCOT[st.s]!=null)c[0]=MASCOT[st.s];const root=new THREE.Group();const rig=new THREE.Group();root.add(rig);
   const bodyM=avMat(c[0]),accM=avMat(c[1]),darkM=avMat(0x2A1A22,{roughness:.3}),whiteM=avMat(0xFFFFFF,{roughness:.2});
   /* ลำตัว (ตัวกับหัวเป็นชิ้นเดียวแบบมาสคอต) */
   const LEG=.34;let body,top,wid,mid;
@@ -1169,8 +1183,18 @@ function makeChar(st,opt){st=st||{s:0,c:0,h:0,i:0};const c=AVC[st.c]||AVC[0];con
     case 4:body=new THREE.Mesh(lathe([[0,0],[.5,.02],[.58,.12],[.5,.36],[.36,.7],[.2,1.02],[.08,1.2],[0,1.24]]),bodyM);body.position.y=LEG;top=LEG+1.24;wid=.5;break;
     case 5:body=new THREE.Mesh(lathe([[0,0],[.3,.02],[.48,.16],[.54,.36],[.5,.58],[.36,.84],[.18,1.08],[0,1.3]]),bodyM);body.position.y=LEG;top=LEG+1.3;wid=.5;break;
     case 6:body=new THREE.Mesh(new THREE.SphereGeometry(.5,32,24),bodyM);body.scale.set(.92,1.18,.88);body.position.y=LEG+.59;top=LEG+1.18;wid=.46;break;
+    case 7:body=new THREE.Mesh(new THREE.CapsuleGeometry(.36,.7,10,24),bodyM);body.position.y=LEG+.36+.35;body.rotation.z=.12;top=LEG+1.42;wid=.38;break;
+    case 8:body=new THREE.Mesh(new THREE.SphereGeometry(.5,32,24),bodyM);body.scale.set(.9,1.12,.72);body.position.y=LEG+.56;top=LEG+1.12;wid=.45;break;
+    case 9:body=new THREE.Mesh(new THREE.SphereGeometry(.5,32,24),bodyM);body.scale.set(.78,1.26,.7);body.position.y=LEG+.63;top=LEG+1.26;wid=.39;break;
+    case 10:body=new THREE.Mesh(new THREE.CylinderGeometry(.34,.36,1.1,28),bodyM);body.position.y=LEG+.55;top=LEG+1.1;wid=.35;break;
+    case 11:body=new THREE.Mesh(lathe([[0,0],[.36,.04],[.5,.22],[.52,.44],[.44,.7],[.28,.96],[.12,1.18],[0,1.32]]),bodyM);body.position.y=LEG;top=LEG+1.32;wid=.48;break;
     default:body=new THREE.Mesh(new THREE.SphereGeometry(.58,32,24),bodyM);body.position.y=LEG+.56;top=LEG+1.14;wid=.55}
   body.castShadow=true;rig.add(body);body.updateMatrixWorld(true);mid=(LEG+top)/2;
+  if(st.s===7){const tip=new THREE.Mesh(new THREE.CylinderGeometry(.05,.07,.14,10),avMat(0x5A3A24));tip.position.set(-.09,top+.04,0);tip.rotation.z=.12;rig.add(tip);const bt=new THREE.Mesh(new THREE.SphereGeometry(.06,8,6),avMat(0x5A3A24));bt.position.set(.0,LEG+.02,0);rig.add(bt);[-1,1].forEach(sx=>{const ln=new THREE.Mesh(new THREE.CapsuleGeometry(.012,.9,4,6),avMat(0xE0B83A));ln.position.set(sx*.25,LEG+.72,-.22);ln.rotation.z=.12;rig.add(ln)})}
+  if(st.s===8){const cr=new THREE.Mesh(new THREE.TorusGeometry(.42,.02,6,30,Math.PI),avMat(0x5A3A24));cr.rotation.y=Math.PI/2;cr.position.set(0,LEG+.56,-.36);cr.scale.y=1.2;rig.add(cr);const lf=new THREE.Mesh(new THREE.SphereGeometry(.14,10,8),avMat(0x3E9A4A));lf.scale.set(.45,.12,1);lf.position.set(.06,top-.03,0);lf.rotation.z=-.4;rig.add(lf)}
+  if(st.s===9){[-1,1].forEach(sx=>{const lf=new THREE.Mesh(new THREE.SphereGeometry(.16,10,8),avMat(0x4FA040));lf.scale.set(.3,1,.12);lf.position.set(sx*.08,top+.12,0);lf.rotation.z=-sx*.5;rig.add(lf)})}
+  if(st.s===10){[.25,.55,.85].forEach(y=>{const r=new THREE.Mesh(new THREE.TorusGeometry(.355,.025,6,32),avMat(0x6F9A3A));r.rotation.x=Math.PI/2;r.position.y=LEG+y;rig.add(r)});for(let k=0;k<4;k++){const l=new THREE.Mesh(new THREE.ConeGeometry(.06,.5,4),avMat(0x4FA040));const a=k/4*Math.PI*2;l.position.set(Math.sin(a)*.1,top+.2,Math.cos(a)*.1);l.rotation.set(Math.cos(a)*.4,0,-Math.sin(a)*.4);rig.add(l)}}
+  if(st.s===11){const sp=new THREE.Mesh(new THREE.CylinderGeometry(.42,.3,.16,20),avMat(0x4FA040));sp.position.y=LEG+.06;rig.add(sp);for(let k=0;k<5;k++){const a=k/5*Math.PI*2+.3;const pt=new THREE.Mesh(new THREE.SphereGeometry(.34,14,10,0,Math.PI*2,0,Math.PI*.5),avMat(0xFF7FB0,{side:THREE.DoubleSide,transparent:true,opacity:.75}));pt.scale.set(.55,1.6,.25);pt.position.set(Math.sin(a)*.4,LEG+.12,Math.cos(a)*.4);pt.rotation.set(Math.cos(a)*-.25,a,0,'YXZ');if(Math.cos(a)>.3)continue;rig.add(pt)}const tip=new THREE.Mesh(new THREE.ConeGeometry(.08,.16,10),avMat(0xFF5C9E));tip.position.y=top;rig.add(tip)}
   /* หาผิวด้านหน้าด้วย ray เพื่อติดหน้าให้พอดีทุกทรง */
   const front=(x,y)=>{_ray.set(new THREE.Vector3(x,y,3),new THREE.Vector3(0,0,-1));rig.updateMatrixWorld(true);const h=_ray.intersectObject(body,false)[0];return h?h.point.z:.3};
   const eyeY=st.s===2?top-.3:top-(top-LEG)*.32,ex=Math.min(.2,wid*.38);
@@ -1285,15 +1309,15 @@ $('#bMode').onclick=()=>{if(!enter())return;stopTour();closeCard();setMode(mode=
 
 /* ---------- อินพุต ---------- */
 const keys={};
-addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('input,select,textarea'))return;if(document.body.classList.contains('pres')||e.code==='PageDown'||e.code==='PageUp')return;if(e.code==='Space'&&entered){e.preventDefault();if(mode!=='walk'){setMode('walk',true)}}if(!e.repeat&&entered){if(e.code==='KeyV'){VIEW.toggle();return}if(e.code==='KeyM'){$('#bMode').click();return}if(e.code==='KeyK'){$('#bGame').click();return}if(e.code==='KeyG'){$('#bSuff').click();return}if(e.code==='KeyJ'){$('#mis').click();return}}keys[e.code]=1;if(/Arrow|Key[WASD]/.test(e.code)){stopTour();tw=null;if(mode==='orbit'&&/Key[WS]|ArrowUp|ArrowDown/.test(e.code)){enter();setMode('walk',true)}}});
+addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('input,select,textarea'))return;if(document.body.classList.contains('pres')||e.code==='PageDown'||e.code==='PageUp')return;if(e.code==='Space'&&entered){e.preventDefault();if(mode!=='walk'){setMode('walk',true)}}if(!e.repeat&&entered){if(e.code==='KeyV'){VIEW.toggle();return}if(e.code==='KeyC'){$('#bFace').click();return}if(e.code==='KeyM'){$('#bMode').click();return}if(e.code==='KeyK'){$('#bGame').click();return}if(e.code==='KeyG'){$('#bSuff').click();return}if(e.code==='KeyJ'){$('#mis').click();return}}keys[e.code]=1;if(/Arrow|Key[WASD]/.test(e.code)){stopTour();tw=null;if(mode==='orbit'&&/Key[WS]|ArrowUp|ArrowDown/.test(e.code)){enter();setMode('walk',true)}}});
 addEventListener('keyup',e=>{keys[e.code]=0});
 let drag=null;const pts=new Map();
-canvas.addEventListener('pointerdown',e=>{pts.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pts.size===1){drag={id:e.pointerId,x:e.clientX,y:e.clientY,yaw:cam.yaw,pitch:cam.pitch,th:orbit.th,h:orbit.h,moved:0};canvas.setPointerCapture(e.pointerId);canvas.classList.add('drag')}else drag=null});
+canvas.addEventListener('pointerdown',e=>{pts.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pts.size===1){drag={id:e.pointerId,x:e.clientX,y:e.clientY,yaw:cam.yaw,pitch:cam.pitch,th:orbit.th,h:orbit.h,fo:(window.VIEW_?VIEW_.fOff:0),moved:0};canvas.setPointerCapture(e.pointerId);canvas.classList.add('drag')}else drag=null});
 canvas.addEventListener('pointermove',e=>{const prev=pts.get(e.pointerId);if(prev){if(pts.size===2){const o=[...pts.values()];const d0=Math.hypot(o[0].x-o[1].x,o[0].y-o[1].y);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});const o2=[...pts.values()];const d1=Math.hypot(o2[0].x-o2[1].x,o2[0].y-o2[1].y);zoom((d0-d1)*.03);return}pts.set(e.pointerId,{x:e.clientX,y:e.clientY})}
   if(!drag||drag.id!==e.pointerId)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.moved=Math.max(drag.moved,Math.abs(dx)+Math.abs(dy));
   if(drag.moved>5){tw=null;stopTour();orbit.auto=false;
     if(mode==='orbit'){orbit.th=drag.th+dx*.004;orbit.h=Math.max(2.4,Math.min(wallH-2,drag.h+dy*.02));Object.assign(cam,orbitState())}
-    else{const k=isTouch?.005:.0035;cam.yaw=drag.yaw-dx*k;cam.pitch=Math.max(-.75,Math.min(.6,drag.pitch-dy*k))}}});
+    else if(window.VIEW_&&VIEW_.face){VIEW_.fOff=drag.fo-dx*(isTouch?.008:.006)}else{const k=isTouch?.005:.0035;cam.yaw=drag.yaw-dx*k;cam.pitch=Math.max(-.75,Math.min(.6,drag.pitch-dy*k))}}});
 const up=e=>{pts.delete(e.pointerId);if(!drag||drag.id!==e.pointerId)return;const click=drag.moved<7;drag=null;canvas.classList.remove('drag');if(click)pick(e.clientX,e.clientY)};
 canvas.addEventListener('pointerup',up);canvas.addEventListener('pointercancel',e=>{pts.delete(e.pointerId);drag=null;canvas.classList.remove('drag')});
 function zoom(d){if(mode==='orbit'){orbit.r=Math.max(-2,Math.min(R-7.5,orbit.r-d));orbit.auto=false;Object.assign(cam,orbitState())}else{VIEW.zoom(d*.8)}}
@@ -1302,7 +1326,7 @@ const ray=new THREE.Raycaster(),mv=new THREE.Vector2();let hot=-1,hvT=0;
 canvas.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||drag&&drag.moved>5)return;const now=performance.now();if(now-hvT<70)return;hvT=now;const r=canvas.getBoundingClientRect();mv.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(mv,camera);
   const h=ray.intersectObjects(clickables,false)[0];hot=h?h.object.userData.i:-1;canvas.style.cursor=h?'pointer':''});
 function pick(cx,cy){const r=canvas.getBoundingClientRect();mv.set((cx-r.left)/r.width*2-1,-(cy-r.top)/r.height*2+1);ray.setFromCamera(mv,camera);
-  const h=ray.intersectObjects(clickables,false).find(x=>x.object.visible&&(!x.object.parent||x.object.parent.visible));if(h){if(h.object.userData.hunt!=null){HUNT.take(h.object.userData.hunt);return}if(h.object.userData.chest){window.__CHEST&&__CHEST.take();return}if(h.object.userData.rain){window.__RAIN&&__RAIN.take(h.object);return}const U=h.object.userData;if(U.tower!=null){TOWER.go(U.tower);return}if(U.suff){SUFF.act(U.suff);return}enter();stopTour();goBooth(h.object.userData.i,true)}}
+  const h=ray.intersectObjects(clickables,false).find(x=>x.object.visible&&(!x.object.parent||x.object.parent.visible));if(h){if(h.object.userData.hunt!=null){HUNT.take(h.object.userData.hunt);return}if(h.object.userData.chest){window.__CHEST&&__CHEST.take();return}if(h.object.userData.rain){window.__RAIN&&__RAIN.take(h.object);return}const U=h.object.userData;if(U.tower!=null){TOWER.go(U.tower);return}if(U.suff){SUFF.act(U.suff);return}if(U.goods){GOODS.act(U.goods);return}if(U.prov){PROV.open();return}if(U.spk){$('#bSnd').click();toast(MUSIC.playing?'🔊 เปิดเพลงแล้ว':'🔇 ปิดเพลงแล้ว');return}enter();stopTour();goBooth(h.object.userData.i,true)}}
 /* จอยสติ๊ก */
 const joy=$('#joy'),knob=joy.querySelector('i');let jid=null,joyV={x:0,y:0};
 joy.addEventListener('pointerdown',e=>{jid=e.pointerId;joy.setPointerCapture(jid);jmove(e);stopTour();tw=null;if(mode==='orbit'){enter();setMode('walk',true)}});
@@ -1348,7 +1372,7 @@ function loop(){const dt=Math.min(.05,clock.getDelta()),t=clock.elapsedTime;
     vy-=14*dt;feet+=vy*dt;if(feet<=sh){if(sh-feet>.02&&vy<0&&sh-feet<.75)feet=sh;feet=Math.max(feet,sh);vy=0;grounded=true}else grounded=feet-sh<.03;
     cam.pos.y=feet+EYE}
   VIEW.apply(Math.max(0,cam.pos.y-EYE),moving,dt);TOWER.hud(cam.pos.y-EYE);
-  HERO.tick(dt,t,cam.pos,hot);AMB.tick(dt,t);try{MUSIC.tick();SPK.tick(dt,t);HL.tick(dt,t);EMO.tick(dt);CHEST.tick(dt,t);RAIN.tick(dt,t);TOWER.tick(t);GAMES.tick(dt,t);SUFF.tick(dt,t);SCREEN.tick(dt);NET.tick(dt)}catch(e){};HUNT.tick(t);BANNERS.forEach(b=>{b.rotation.z=Math.sin(t*.8+b.userData.sw)*.025});movePeople(dt,t);spinners.forEach(s=>{s.g.rotation.y=Math.sin(t*.6+s.ph)*.12;s.g.position.y=(s.y||1.62)+Math.sin(t*1.5+s.ph)*.035});
+  HERO.tick(dt,t,cam.pos,hot);AMB.tick(dt,t);try{MUSIC.tick();SPK.tick(dt,t);HL.tick(dt,t);EMO.tick(dt);CHEST.tick(dt,t);RAIN.tick(dt,t);TOWER.tick(t);GAMES.tick(dt,t);SUFF.tick(dt,t);GOODS.tick(dt,t);PROV.tick(t);SCREEN.tick(dt);NET.tick(dt)}catch(e){};HUNT.tick(t);BANNERS.forEach(b=>{b.rotation.z=Math.sin(t*.8+b.userData.sw)*.025});movePeople(dt,t);spinners.forEach(s=>{s.g.rotation.y=Math.sin(t*.6+s.ph)*.12;s.g.position.y=(s.y||1.62)+Math.sin(t*1.5+s.ph)*.035});
   MAP.rotation.y=Math.sin(t*.1)*.06;band.rotation.y=-t*.08;glows.forEach((m,k)=>{m.material.color.offsetHSL(0,0,0)});
   if(mode==='walk'&&!tw){let ni=-1,nd=7.5;BOOTH.forEach((b,i)=>{const d=Math.hypot(cam.pos.x-b.stand.x,cam.pos.z-b.stand.z);if(d<nd){nd=d;ni=i}});
     if(ni!==near){near=ni;if(ni>=0){where.innerHTML=`บูธ <b>${pad2(BOOTH[ni].p.id)}</b> · ${esc(BOOTH[ni].p.name)} · ${ni+1}/${N}`;where.classList.add('on');syncDock(ni)}else where.classList.remove('on')}}
@@ -1491,9 +1515,9 @@ window.REWARD=REWARD;
 /* ---------- ภารกิจรายวัน ---------- */
 const MISSION=(function(){const realB=Math.max(1,ITEMS.filter(p=>hasData(p.id)).length);
   /* [ประเภท, จำนวน, ข้อความ, แต้ม] · วันละ 3 ข้อ (ง่าย/กลาง/ท้าทาย) ทุกคนวันเดียวกันได้ชุดเดียวกัน */
-  const T=[[['booths',3,'เปิดดูบูธ 3 บูธ',40],['map',1,'เปิดแผนที่ 6 อำเภอกลางลาน',30],['emote',3,'ส่งอีโมจิ 3 ครั้ง',30],['tod',2,'ลองเปลี่ยนช่วงเวลาในงาน 2 แบบ',30],['vote',1,'โหวตบูธที่ชอบ 1 บูธ',30],['interest',1,'กด 💗 สนใจสินค้า 1 อย่าง',30],['view',1,'ขึ้นลิฟต์ไปยอดหอชมวิว 1 ครั้ง',30],['jump',5,'กระโดด 5 ครั้ง (Space / ปุ่มกระโดด)',20],['riddle',1,'ไขปริศนาของดีได้ 1 ข้อ',30],['share',1,'แบ่งปันผลผลิตให้เพื่อนบ้าน 1 ครั้ง',30]],
-    [['quiz',3,'ตอบควิซหน้าบูธถูก 3 ข้อ',70],['lotus',2,'ตามหาบัวทองให้เจอ 2 ดอก',70],['booths',8,'เดินชมให้ครบ 8 บูธ',70],['photo',1,'ถ่ายรูปที่จุดถ่ายรูป 1 ครั้ง',60],['say',2,'ส่งข้อความด่วนคุยกับคนในงาน 2 ครั้ง',60],['rain',5,'เก็บกลีบบัวทองจากฝนบัว 5 กลีบ',70],['view',2,'ขึ้นหอชมวิวให้ครบทั้ง 2 ฝั่ง',70],['puzzle',1,'ต่อจิ๊กซอว์สินค้าสำเร็จ 1 ภาพ',60],['hlgame',1,'ทายข้อมูลจริงถูกติดกัน 5 ข้อ',70],['harvest',3,'เก็บผลผลิตในแปลงพอเพียง 3 ครั้ง',60]],
-    [['chest',1,'แย่งเปิดหีบสมบัติให้ได้ 1 ใบ',150],['wave',2,'ทักทายผู้เล่นจริง 2 คน',150],['real',realB,'เปิดบูธที่มี “ข้อมูลจริง” ครบทุกบูธ',120],['lotus',5,'เก็บบัวทองครบ 5 ดอก',150],['hot',1,'ทำแต้มที่บูธไฮไลต์ ×2 ให้ได้',120],['quiz',8,'ตอบควิซถูก 8 ข้อ',150],['booths',14,'เดินชมให้ครบทุกบูธ',150],['run',1,'วิ่งเก็บดาวครบ 12 ดวง',120],['suff',1,'ทำครัวเรือนพอเพียงให้สมดุลถึง 30',130]]];
+  const T=[[['booths',3,'เปิดดูบูธ 3 บูธ',40],['map',1,'เปิดแผนที่ 6 อำเภอกลางลาน',30],['emote',3,'ส่งอีโมจิ 3 ครั้ง',30],['tod',2,'ลองเปลี่ยนช่วงเวลาในงาน 2 แบบ',30],['vote',1,'โหวตบูธที่ชอบ 1 บูธ',30],['interest',1,'กด 💗 สนใจสินค้า 1 อย่าง',30],['view',1,'ขึ้นลิฟต์ไปยอดหอชมวิว 1 ครั้ง',30],['jump',5,'กระโดด 5 ครั้ง (Space / ปุ่มกระโดด)',20],['riddle',1,'ไขปริศนาของดีได้ 1 ข้อ',30],['share',1,'แบ่งปันผลผลิตให้เพื่อนบ้าน 1 ครั้ง',30],['province',1,'อ่านเรื่องรู้จักหนองบัวลำภูที่ซุ้มข้อมูล',30]],
+    [['quiz',3,'ตอบควิซหน้าบูธถูก 3 ข้อ',70],['lotus',2,'ตามหาบัวทองให้เจอ 2 ดอก',70],['booths',8,'เดินชมให้ครบ 8 บูธ',70],['photo',1,'ถ่ายรูปที่จุดถ่ายรูป 1 ครั้ง',60],['say',2,'ส่งข้อความด่วนคุยกับคนในงาน 2 ครั้ง',60],['rain',5,'เก็บกลีบบัวทองจากฝนบัว 5 กลีบ',70],['view',2,'ขึ้นหอชมวิวให้ครบทั้ง 2 ฝั่ง',70],['puzzle',1,'ต่อจิ๊กซอว์สินค้าสำเร็จ 1 ภาพ',60],['hlgame',1,'ทายข้อมูลจริงถูกติดกัน 5 ข้อ',70],['harvest',3,'เก็บเกี่ยวผลผลิต 3 ครั้ง',60],['craft',1,'แปรรูปผลิตภัณฑ์ที่ซุ้มแปรรูป 1 ชิ้น',70]],
+    [['chest',1,'แย่งเปิดหีบสมบัติให้ได้ 1 ใบ',150],['wave',2,'ทักทายผู้เล่นจริง 2 คน',150],['real',realB,'เปิดบูธที่มี “ข้อมูลจริง” ครบทุกบูธ',120],['lotus',5,'เก็บบัวทองครบ 5 ดอก',150],['hot',1,'ทำแต้มที่บูธไฮไลต์ ×2 ให้ได้',120],['quiz',8,'ตอบควิซถูก 8 ข้อ',150],['booths',14,'เดินชมให้ครบทุกบูธ',150],['run',1,'วิ่งเก็บดาวครบ 12 ดวง',120],['suff',1,'ทำครัวเรือนพอเพียงให้สมดุลถึง 30',130],['pquiz',1,'ตอบควิซรู้จักหนองบัวลำภูถูก 8 ข้อขึ้นไป',120]]];
   let sd=[...DAY].reduce((a,c)=>a*31+c.charCodeAt(0),11)>>>0;const M=T.map((L,k)=>L[(sd>>>(k*4))%L.length]);
   const KEY='nbl12-mis3-'+DAY;let st=LSJ(KEY,{p:[{n:0,s:[]},{n:0,s:[]},{n:0,s:[]}],all:false});
   const TAG=['ง่าย','กลาง','ท้าทาย'];
@@ -1598,7 +1622,7 @@ const NET=(function(){if(!FIREBASE_CONFIG||!FIREBASE_CONFIG.databaseURL)return{t
   const ICE={iceServers:[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302']}]};
   const GOALS=[300,1000,2000,5000,10000,20000,50000,100000];
   const SAY=['สวัสดีครับ/ค่ะ 👋','สวยมาก! 😍','อยากซื้อเลย 🛒','น่าอร่อยมาก 😋','มาจากอำเภอไหนครับ/คะ?','ไปบูธถัดไปด้วยกันไหม? 🏃','เจ๋งมาก 👍','ขอบคุณครับ/ค่ะ 🙏'];
-  const FEEDT={share:'แบ่งปันผลผลิตให้เพื่อนบ้าน 🤝',suff:'ครัวเรือนพอเพียง! 🌾',run:'วิ่งเก็บดาวครบ 12 ดวง 🏃',riddle:'ไขปริศนาของดีได้ 🔎',puzzle:'ต่อจิ๊กซอว์สำเร็จ 🧩',hlgame:'ทายข้อมูลจริงแม่นมาก 📊',invite:'ชวนเพื่อนเข้างาน 🤝',mission_all:'ทำภารกิจครบทั้ง 3 ข้อ! 🏅',stamp:'ประทับตราบูธ',lotus:'เก็บบัวทองได้ 🪷',lotus_all:'เก็บบัวทองครบ 5 ดอก! 🏅',quiz_ok:'ตอบควิซถูก 🧠',mission:'ทำภารกิจสำเร็จ 🎯',complete:'สะสมแสตมป์ครบทุกบูธ! 🎉',chest:'เปิดหีบสมบัติได้! 💰',wave:'ทักทายเพื่อนใหม่ 👋',photo:'ถ่ายรูปที่งาน 📸',rank:'เลื่อนขั้น'};
+  const FEEDT={craft:'แปรรูปผลิตภัณฑ์ของดี 🏭',pquiz:'ตอบควิซรู้จักหนองบัวลำภู 📜',share:'แบ่งปันผลผลิตให้เพื่อนบ้าน 🤝',suff:'ครัวเรือนพอเพียง! 🌾',run:'วิ่งเก็บดาวครบ 12 ดวง 🏃',riddle:'ไขปริศนาของดีได้ 🔎',puzzle:'ต่อจิ๊กซอว์สำเร็จ 🧩',hlgame:'ทายข้อมูลจริงแม่นมาก 📊',invite:'ชวนเพื่อนเข้างาน 🤝',mission_all:'ทำภารกิจครบทั้ง 3 ข้อ! 🏅',stamp:'ประทับตราบูธ',lotus:'เก็บบัวทองได้ 🪷',lotus_all:'เก็บบัวทองครบ 5 ดอก! 🏅',quiz_ok:'ตอบควิซถูก 🧠',mission:'ทำภารกิจสำเร็จ 🎯',complete:'สะสมแสตมป์ครบทุกบูธ! 🎉',chest:'เปิดหีบสมบัติได้! 💰',wave:'ทักทายเพื่อนใหม่ 👋',photo:'ถ่ายรูปที่งาน 📸',rank:'เลื่อนขั้น'};
   function loadFB(){if(window.firebase&&firebase.database&&firebase.auth)return Promise.resolve();const v='10.12.2',b=`https://cdn.jsdelivr.net/npm/firebase@${v}/`;const s=u=>new Promise((res,rej)=>{const e=document.createElement('script');e.src=b+u;e.onload=res;e.onerror=rej;document.head.appendChild(e)});
     return s('firebase-app-compat.js').then(()=>Promise.all([s('firebase-auth-compat.js'),s('firebase-database-compat.js')]))}
   function fail(e,where){console.warn('firebase',where,e);const m=String(e&&(e.code||e.message)||e);if(/permission|denied/i.test(m)&&!banned){if(status!=='denied'){status='denied';ui();toast('⚠ ระบบผู้เล่นออนไลน์ถูกปิดกั้น · ต้องวางกฎ Rules ใน Firebase')}}}
@@ -1749,8 +1773,10 @@ const SPK=(function(){const L=[];const cab=new THREE.MeshStandardMaterial({color
     const cones=[];[[.22,.2],[.1,-.25]].forEach(([r,y])=>{const rim=new THREE.Mesh(new THREE.TorusGeometry(r,.025,8,32),goldM);rim.position.y=y;front.add(rim);const c=new THREE.Mesh(new THREE.ConeGeometry(r*.92,.08,32,1,true),grill);c.rotation.x=-Math.PI/2;c.position.set(0,y,.0);front.add(c);cones.push(c)});
     const led=new THREE.Mesh(new THREE.BoxGeometry(.5,.03,.02),new THREE.MeshBasicMaterial({color:0xFF5C9E,toneMapped:false}));led.position.set(0,-.45,.01);front.add(led);
     const notes=[];for(let n=0;n<6;n++){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:noteT[(n+k)%4],transparent:true,depthWrite:false,toneMapped:false,opacity:0}));s.scale.set(.32,.32,1);g.add(s);notes.push({s,y:n/6*2.4,dx:(Math.random()-.5)*.6,ph:Math.random()*6})}
-    L.push({g,cones,led,notes,k})}
-  function tick(dt,t){const on=MUSIC.playing,lv=MUSIC.level;L.forEach(o=>{const pulse=on?1+lv*.35*(1+Math.sin(t*14+o.k)):1;o.cones.forEach(c=>c.scale.set(1,1,pulse));o.led.material.color.setHSL(.93,1,on?.45+lv*.4:.25);
+    const hit=new THREE.Mesh(new THREE.BoxGeometry(1,2.4,1),new THREE.MeshBasicMaterial({visible:false}));hit.position.y=1.2;hit.userData.spk=1;hit.userData.i=-1;g.add(hit);clickables.push(hit);const icon=new THREE.Sprite(new THREE.SpriteMaterial({map:blank,transparent:true,depthWrite:false,toneMapped:false}));icon.scale.set(.42,.42,1);icon.position.y=2.35;g.add(icon);
+    L.push({g,cones,led,notes,k,icon})}
+  const SPI={};const spI=e=>SPI[e]||(SPI[e]=cv(128,128,(x,w,h)=>{x.fillStyle='rgba(255,255,255,.95)';x.beginPath();x.arc(64,64,54,0,7);x.fill();x.strokeStyle='#E8BE68';x.lineWidth=6;x.stroke();x.font='60px sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(e,64,70)}));
+  function tick(dt,t){const on=MUSIC.playing,lv=MUSIC.level;L.forEach(o=>{const im=spI(on?'🔊':'🔇');if(o.icon.material.map!==im){o.icon.material.map=im;o.icon.material.needsUpdate=true}o.icon.position.y=2.35+Math.sin(t*2+o.k)*.05;const pulse=on?1+lv*.35*(1+Math.sin(t*14+o.k)):1;o.cones.forEach(c=>c.scale.set(1,1,pulse));o.led.material.color.setHSL(.93,1,on?.45+lv*.4:.25);
     o.notes.forEach(n=>{n.y+=dt*(.5+lv*.8)*(on?1:0);if(n.y>2.6){n.y=0;n.dx=(Math.random()-.5)*.7}const life=n.y/2.6;const op=on?Math.min(1,.4+lv*2)*Math.sin(life*Math.PI):0;n.s.material.opacity+=(op-n.s.material.opacity)*Math.min(1,dt*4);
       n.s.position.set(n.dx*life+Math.sin(t*2+n.ph)*.08,2.05+n.y,.35+life*.9);const sc=.24+lv*.3+life*.12;n.s.scale.set(sc,sc,1)})})}
   return{tick}})();
@@ -1788,7 +1814,7 @@ const HL=(function(){const CYC=15,DUR=5;let lastSlot=-1,booth=-1;
 /* ================= อีโมจิลอย (คนอื่นในงานเห็นด้วยเมื่อออนไลน์) ================= */
 const EMO=(function(){const L=[];const tex={};const T=e=>tex[e]||(tex[e]=cv(128,128,(x,w,h)=>{x.font='96px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(e,w/2,h/2+6)}));
   function spawnAt(e,p){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:T(e),transparent:true,depthWrite:false,toneMapped:false}));s.position.copy(p);s.scale.set(.32,.32,1);scene.add(s);L.push({s,t:0,dx:(Math.random()-.5)*.4})}
-  function mine(e){const f=new THREE.Vector3(-Math.sin(cam.yaw),0,-Math.cos(cam.yaw));for(let k=0;k<3;k++)setTimeout(()=>spawnAt(e,cam.pos.clone().addScaledVector(f,3.2).add(new THREE.Vector3((Math.random()-.5)*1.2,-.55,0))),k*120);try{NET.emote&&NET.emote(e)}catch(x){}try{MISSION.hit('emote')}catch(x){}try{PLAYER.log('emote')}catch(x){}}
+  function mine(e){const f=new THREE.Vector3(-Math.sin(cam.yaw),0,-Math.cos(cam.yaw));for(let k=0;k<3;k++)setTimeout(()=>spawnAt(e,cam.pos.clone().addScaledVector(f,3.2).add(new THREE.Vector3((Math.random()-.5)*1.2,-.55,0))),k*120);try{NET.emote&&NET.emote(e)}catch(x){}try{VIEW.wave()}catch(x){}try{MISSION.hit('emote')}catch(x){}try{PLAYER.log('emote')}catch(x){}}
   function tick(dt){for(let i=L.length-1;i>=0;i--){const o=L[i];o.t+=dt;o.s.position.y+=dt*.9;o.s.position.x+=o.dx*dt;const sc=.32+Math.min(.2,o.t*.4);o.s.scale.set(sc,sc,1);o.s.material.opacity=Math.max(0,1-o.t/2.2);if(o.t>2.2){scene.remove(o.s);o.s.material.dispose();L.splice(i,1)}}}
   document.querySelectorAll('#emo button:not(.qcb)').forEach(b=>b.onclick=()=>mine(b.textContent));
   return{spawnAt,tick}})();
@@ -1957,8 +1983,10 @@ const GAMES=(function(){const K='nbl12-game-'+DAY;let G=LSJ(K,{hl:0,rid:null,run
     <button type="button" data-g="hl"><i>📊</i><b>ทายข้อมูลจริง</b><small>มากกว่าหรือน้อยกว่า? · สถิติ ${best.hl} ข้อ</small></button>
     <button type="button" data-g="rid"><i>🔎</i><b>ล่าปริศนาของดี</b><small>วันนี้ ${R.ok.length}/${R.L.length} ข้อ · ครบรับตั๋ว</small></button>
     <button type="button" data-g="run"><i>🏃</i><b>วิ่งเก็บดาว</b><small>เก็บ 12 ดวงให้ไวที่สุด · ${best.run?'สถิติ '+fmtT(best.run):'ยังไม่เคยวิ่ง'}</small></button>
-    <button type="button" data-g="pz"><i>🧩</i><b>ต่อจิ๊กซอว์สินค้า</b><small>${Object.keys(G.pz).length}/${ITEMS.length} ภาพวันนี้</small></button></div><div id="runTop"></div>`);
-    M.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>({hl:hlStart,rid:ridDraw,run:()=>{show(`<h3>🏃 วิ่งเก็บดาว</h3><p class="g-note">ดาว 12 ดวงอยู่รอบลานและหลังบูธ เดินชนดาวเพื่อเก็บ (Shift = วิ่ง, Space = กระโดด) ระบบจับเวลาตั้งแต่ GO!</p><div class="g-act"><button class="tb p" id="rnGo" type="button">เริ่มเลย!</button></div><div id="runTop"></div>`);$('#rnGo').onclick=runStart;drawTop()},pz:pzPick})[b.dataset.g]());drawTop()}
+    <button type="button" data-g="pz"><i>🧩</i><b>ต่อจิ๊กซอว์สินค้า</b><small>${Object.keys(G.pz).length}/${ITEMS.length} ภาพวันนี้</small></button>
+    <button type="button" data-g="pv"><i>📜</i><b>ควิซรู้จักหนองบัวลำภู</b><small>ประวัติ ฟอสซิล 6 อำเภอ · 10 ข้อ</small></button>
+    <button type="button" data-g="gd"><i>🏭</i><b>ไร่ของดี + ซุ้มแปรรูป</b><small>ปลูก ข้าว อ้อย ผักหวาน กล้วย กาแฟ แล้วแปรรูป</small></button></div><div id="runTop"></div>`);
+    M.querySelectorAll('[data-g]').forEach(b=>b.onclick=()=>({hl:hlStart,rid:ridDraw,run:()=>{show(`<h3>🏃 วิ่งเก็บดาว</h3><p class="g-note">ดาว 12 ดวงอยู่รอบลานและหลังบูธ เดินชนดาวเพื่อเก็บ (Shift = วิ่ง, Space = กระโดด) ระบบจับเวลาตั้งแต่ GO!</p><div class="g-act"><button class="tb p" id="rnGo" type="button">เริ่มเลย!</button></div><div id="runTop"></div>`);$('#rnGo').onclick=runStart;drawTop()},pz:pzPick,pv:()=>{hide();PROV.open();PROV.quiz()},gd:()=>{hide();GOODS.open()}})[b.dataset.g]());drawTop()}
   $('#bGame').onclick=()=>{enter();hub()};setTimeout(ridUI,0);
   return{tick,hub,get running(){return!!run}}})();
 
@@ -1970,7 +1998,7 @@ const GAMES=(function(){const K='nbl12-game-'+DAY;let G=LSJ(K,{hl:0,rid:null,run
    ===================================================================== */
 const SUFF=(function(){const aF=Math.PI,rF=22.0;const now=()=>Date.now();
   const CR={rice:['ข้าวหอมมรกต','🌾',4,4,6],veg:['ผักหวานป่า','🥬',2,2,4],corn:['ข้าวโพด','🌽',1.5,2,3],chili:['พริก','🌶️',3,2,5],egpl:['มะเขือ','🍆',3,2,5]};/* ชื่อ, emoji, นาที, ผลผลิต, มูลค่า */
-  const IT=Object.assign(Object.fromEntries(Object.entries(CR).map(([k,v])=>[k,[v[0],v[1],v[4]]])),{egg:['ไข่ไก่','🥚',4],degg:['ไข่เป็ด','🥚',5]});
+  const IT=Object.assign(Object.fromEntries(Object.entries(CR).map(([k,v])=>[k,[v[0],v[1],v[4]]])),{egg:['ไข่ไก่','🥚',4],degg:['ไข่เป็ด','🥚',5],mill:['ข้าวหอมมรกตบรรจุถุง','🍚',24],pot:['น้ำตาลอ้อยแท้','🍬',26],dry:['กล้วยตากลุ่มภู','🌞',22],roast:['กาแฟคั่วภูซาง','☕',30],pack:['ผักหวานป่าแพ็กสด','🥗',16]});
   const KEY='nbl12-suff';let st=LSJ(KEY,null);if(!st||!st.plots)st={w:6,wT:now(),pondT:0,plots:[{c:null},{c:null},{c:null},{c:null},{c:null},{c:null}],hen:0,duck:now(),inv:{corn:2},food:40,share:20,save:20,mT:now(),tier:{}};
   const save=()=>LS(KEY,st);const TIERS=[[30,'🌱 เริ่มพอเพียง',50],[60,'🌾 ครัวเรือนพอเพียง',100],[90,'🏅 ต้นแบบเศรษฐกิจพอเพียง',200]];
   /* แปลง 0–1 = นา, 2–5 = สวนผสม */
@@ -2057,13 +2085,144 @@ const SUFF=(function(){const aF=Math.PI,rF=22.0;const now=()=>Date.now();
   const SB=$('#sfB');SB.addEventListener('pointerdown',()=>{busy=true});addEventListener('pointerup',()=>setTimeout(()=>{busy=false},60));
   SB.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;busy=false;lastH='';const D=b.dataset;if(D.plant){plant(pick,D.plant);pick=-1}else if(D.use)use(D.use,D.how);else if(b.id==='sfGo'){$('#sf').classList.remove('on');go()}panel()});
   $('#sfX').onclick=()=>{$('#sf').classList.remove('on');pick=-1};
-  function go(){enter();stopTour();closeCard();mode='walk';$('#bModeL').textContent='มุมสูง';$('#bMode').classList.add('on');const r=rF-2.9,a=aF;const pos=new THREE.Vector3(Math.sin(a)*r,EYE,Math.cos(a)*r);tweenTo({pos,yaw:a+Math.PI,pitch:-.35},2.4,()=>{walk.pos.copy(pos);toast('🌾 แปลงเกษตรพอเพียงของคุณ · แตะหนอง นา สวน หรือบ้าน')})}
+  function go(){enter();stopTour();closeCard();mode='walk';$('#bModeL').textContent='มุมสูง';$('#bMode').classList.add('on');const r=rF-4.2,a=aF;const pos=new THREE.Vector3(Math.sin(a)*r,EYE,Math.cos(a)*r);tweenTo({pos,yaw:a+Math.PI,pitch:-.35},2.4,()=>{walk.pos.copy(pos);toast('🌾 แปลงเกษตรพอเพียงของคุณ · แตะหนอง นา สวน หรือบ้าน')})}
   $('#bSuff').onclick=()=>{enter();open()};
   let t1=0;function tick(dt,t){t1+=dt;if(t1>1){t1=0;sync();panel()}ducks.forEach((d,i)=>{const a=t*.4+i*Math.PI;d.position.set(Math.sin(a)*.55,Math.sin(t*2+i)*.01,Math.cos(a)*.55);d.rotation.y=a+Math.PI/2});
     hens.forEach(o=>{const d=Math.hypot(o.tx-o.x,o.tz-o.z);if(d<.05||Math.random()<dt*.2){o.tx=3.1+Math.random()*1.6;o.tz=.1+Math.random()*1.5}else{o.x+=(o.tx-o.x)/d*dt*.35;o.z+=(o.tz-o.z)/d*dt*.35;o.h.rotation.y=Math.atan2(o.tx-o.x,o.tz-o.z)}o.h.position.set(o.x,Math.abs(Math.sin(t*8+o.ph))*.02,o.z)});
     PL.forEach((o,k)=>{if(o.ic.visible)o.ic.position.y=1.25+Math.sin(t*2.5+k)*.05})}
+  window.__suffAdd=(id,n)=>{st.inv[id]=(st.inv[id]||0)+n;save();sync();lastH='';panel()};
   setTimeout(sync,500);
   return{tick,act,open,go}})();
+
+
+/* =====================================================================
+   🌾 ไร่ของดีลุ่มภู + ซุ้มแปรรูป (อีกฝั่งของโถง ตรงข้ามแปลงพอเพียง)
+   ปลูก ข้าว อ้อย ผักหวานป่า กล้วย กาแฟ → แปรรูปเป็นผลิตภัณฑ์จริงของจังหวัด → เข้ายุ้งฉาง (แบ่ง 3 ห่วงได้)
+   ===================================================================== */
+const GOODS=(function(){const aG=0,rG=22.0;const now=()=>Date.now();
+  /* พืช: [ชื่อ, emoji, นาที, ผลผลิต, ไม้ยืนต้น(เก็บซ้ำ)] */
+  const CR={rice:['ข้าวหอมมรกต','🌾',5,3,0],cane:['อ้อย','🎋',6,3,0],veg:['ผักหวานป่า','🥬',3,2,0],banana:['กล้วย','🍌',5,3,1],coffee:['กาแฟภูซาง','🫘',7,3,1]};
+  /* ซุ้มแปรรูป: [id, สถานี, วัตถุดิบ, จำนวน, ผลิตภัณฑ์, emoji, วินาที, มูลค่า] */
+  const RC=[['mill','โรงสีชุมชน','rice',3,'ข้าวหอมมรกตบรรจุถุง','🍚',120,24],['pot','หม้อเคี่ยวน้ำตาล','cane',3,'น้ำตาลอ้อยแท้','🍬',180,26],['dry','ลานตากกล้วย','banana',3,'กล้วยตากลุ่มภู','🌞',120,22],['roast','เตาคั่วกาแฟ','coffee',3,'กาแฟคั่วภูซาง','☕',180,30],['pack','โต๊ะแพ็กผักสด','veg',2,'ผักหวานป่าแพ็กสด','🥗',60,16]];
+  const KEY='nbl12-goods';let st=LSJ(KEY,null);if(!st||!st.plots)st={plots:{rice:{t0:0},cane:{t0:0},veg:{t0:0},banana:{t0:0},coffee:{t0:0}},raw:{},jobs:{},made:{}};const save=()=>LS(KEY,st);
+  const prog=id=>{const p=st.plots[id];return p.t0?Math.min(1,(now()-p.t0)/(CR[id][2]*60000)):0};
+  const fmtS=s=>{s=Math.max(0,Math.ceil(s));return s>=60?Math.floor(s/60)+' นาที '+(s%60?s%60+' วิ':''):s+' วิ'};
+  const G=new THREE.Group();G.position.set(Math.sin(aG)*rG,0,Math.cos(aG)*rG);G.rotation.y=aG+Math.PI;scene.add(G);
+  const M=(c,o)=>new THREE.MeshStandardMaterial(Object.assign({color:c,roughness:.75},o||{}));const reg=(m,d)=>{m.userData.goods=d;m.userData.i=-1;clickables.push(m);return m};
+  const hb=(w,h,d,x,y,z,data)=>{const m=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),new THREE.MeshBasicMaterial({visible:false}));m.position.set(x,y,z);G.add(m);return reg(m,data)};
+  const icT={};const ic=e=>icT[e]||(icT[e]=cv(128,128,(x,w,h)=>{x.fillStyle='rgba(255,255,255,.95)';x.beginPath();x.arc(64,64,54,0,7);x.fill();x.strokeStyle='#E8BE68';x.lineWidth=6;x.stroke();x.font='62px sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(e,64,70)}));
+  const spr=(x,y,z)=>{const s=new THREE.Sprite(new THREE.SpriteMaterial({map:blank,transparent:true,depthWrite:false,toneMapped:false}));s.scale.set(.5,.5,1);s.position.set(x,y,z);s.visible=false;G.add(s);return s};
+  const setI=(s,e)=>{s.visible=!!e;if(e&&s.material.map!==ic(e)){s.material.map=ic(e);s.material.needsUpdate=true}};
+  const gr=new THREE.Mesh(new THREE.BoxGeometry(11.6,.08,4),M(0xA8D67E,{roughness:.95}));gr.position.y=.04;G.add(gr);
+  const wM=M(0xFFFFFF,{roughness:.6});[-1.95,1.95].forEach(z=>{[.25,.5].forEach(y=>{const r=new THREE.Mesh(new THREE.BoxGeometry(11.6,.05,.05),wM);r.position.set(0,y,z);G.add(r)});for(let i=0;i<=24;i++){if(z>0&&i>10&&i<14)continue;const p=new THREE.Mesh(new THREE.BoxGeometry(.06,.62,.06),wM);p.position.set(-5.8+i*11.6/24,.31,z);G.add(p)}});
+  /* แปลง 5 ชนิด (ซ้าย) */
+  const PL={};[['rice',-5.05,true],['cane',-3.95],['veg',-2.85],['banana',-1.65],['coffee',-.45]].forEach(([id,x,paddy])=>{const g=new THREE.Group();g.position.set(x,0,0);G.add(g);const w=1.0,d=3.2;
+    const bed=new THREE.Mesh(new THREE.BoxGeometry(w,.16,d),M(paddy?0x6B8F7A:0x7A5236,{roughness:paddy?.3:1}));bed.position.y=.08;g.add(bed);const pl=new THREE.Group();pl.position.y=.17;g.add(pl);
+    const lab=new THREE.Sprite(new THREE.SpriteMaterial({map:cv(256,64,(c,W,H)=>{c.fillStyle='rgba(46,125,91,.92)';c.beginPath();c.roundRect?c.roundRect(4,6,W-8,H-12,24):c.rect(4,6,W-8,H-12);c.fill();c.fillStyle='#fff';c.font='600 30px Kanit, sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(CR[id][1]+' '+CR[id][0],W/2,H/2+2,W-16)}),transparent:true,depthWrite:false,toneMapped:false}));lab.scale.set(1.15,.29,1);lab.position.set(x,.75,1.75);G.add(lab);
+    hb(w,1.4,d,x,.6,0,{t:'plot',id});PL[id]={g,pl,ic:spr(x,2.2,0),key:''}});
+  /* ซุ้มแปรรูป (ขวา) */
+  const B=new THREE.Group();B.position.set(3.1,0,-.2);G.add(B);const woodM=M(0xB8875A),roofM=M(0xD50654);
+  const floor=new THREE.Mesh(new THREE.BoxGeometry(5,.12,3),M(0xE8D8C0));floor.position.y=.06;B.add(floor);
+  [[-2.35,-1.35],[2.35,-1.35],[-2.35,1.35],[2.35,1.35]].forEach(([x,z])=>{const p=new THREE.Mesh(new THREE.CylinderGeometry(.08,.09,2.6,10),woodM);p.position.set(x,1.3,z);B.add(p)});
+  const roof=new THREE.Mesh(new THREE.CylinderGeometry(.02,3.6,1.1,4,1),roofM);roof.rotation.y=Math.PI/4;roof.scale.z=.62;roof.position.y=3.15;B.add(roof);const eave=new THREE.Mesh(new THREE.BoxGeometry(5.2,.12,3.2),M(0xFFF4E4));eave.position.y=2.62;B.add(eave);
+  const sgn=new THREE.Mesh(new THREE.PlaneGeometry(3.8,.62),new THREE.MeshBasicMaterial({map:cv(640,104,(x,w,h)=>{x.fillStyle='#2E7D5B';x.fillRect(0,0,w,h);x.strokeStyle='#E8BE68';x.lineWidth=6;x.strokeRect(3,3,w-6,h-6);x.fillStyle='#fff';x.font='600 50px Kanit, sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('🏭 ซุ้มแปรรูปของดีลุ่มภู',w/2,h/2+3)}),toneMapped:false}));sgn.position.set(0,2.62,1.62);B.add(sgn);
+  const STN={};RC.forEach((r,k)=>{const x=-1.95+k*.98;const g=new THREE.Group();g.position.set(x,0,-.2);B.add(g);const tb=new THREE.Mesh(new THREE.BoxGeometry(.82,.8,.8),M(0xFFF4E4));tb.position.y=.46;g.add(tb);
+    let prop;if(r[0]==='mill'){prop=new THREE.Mesh(new THREE.CylinderGeometry(.24,.24,.22,16),M(0x9C9C9C));prop.position.y=1.0}else if(r[0]==='pot'){prop=new THREE.Mesh(new THREE.SphereGeometry(.27,16,10,0,Math.PI*2,Math.PI/2,Math.PI/2),M(0x4A4A4A,{metalness:.5}));prop.position.y=1.12}
+    else if(r[0]==='dry'){prop=new THREE.Mesh(new THREE.BoxGeometry(.7,.04,.6),M(0xC9A86A));prop.position.y=.9;for(let i=0;i<6;i++){const b=new THREE.Mesh(new THREE.CylinderGeometry(.03,.03,.22,6),M(0xB07A2C));b.rotation.z=Math.PI/2;b.position.set(-.2+(i%3)*.2,.94,-.12+Math.floor(i/3)*.24);g.add(b)}}
+    else if(r[0]==='roast'){prop=new THREE.Mesh(new THREE.CylinderGeometry(.2,.2,.5,16),M(0x7A3E1E,{metalness:.4}));prop.rotation.z=Math.PI/2;prop.position.y=1.08}else{prop=new THREE.Mesh(new THREE.BoxGeometry(.5,.18,.35),M(0x93D96F));prop.position.y=.95}
+    g.add(prop);const sm=new THREE.Mesh(new THREE.SphereGeometry(.12,10,8),M(0xFFFFFF,{transparent:true,opacity:.6}));sm.position.y=1.5;sm.visible=false;g.add(sm);
+    const lb=new THREE.Sprite(new THREE.SpriteMaterial({map:cv(256,64,(c,W,H)=>{c.fillStyle='rgba(213,6,84,.9)';c.beginPath();c.roundRect?c.roundRect(4,6,W-8,H-12,24):c.rect(4,6,W-8,H-12);c.fill();c.fillStyle='#fff';c.font='600 28px Kanit, sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(r[5]+' '+r[1],W/2,H/2+2,W-16)}),transparent:true,depthWrite:false,toneMapped:false}));lb.scale.set(.95,.24,1);lb.position.set(0,.55,.55);g.add(lb);
+    STN[r[0]]={g,sm,ic:null}});
+  const shopI=spr(3.1,3.9,-.2);hb(5,2.6,3,3.1,1.3,-.2,{t:'shop'});
+  /* พืชแต่ละชนิด */
+  function crop(id,pr){const o=PL[id],g=o.pl;while(g.children.length)g.remove(g.children[0]);const stage=pr>=1?3:pr>=.55?2:pr>=.2?1:st.plots[id].t0?0:-1;if(stage<0)return;const s=stage===0?.25:stage===1?.45:stage===2?.75:1;
+    for(let i=0;i<(id==='banana'||id==='coffee'?2:6);i++){const q=new THREE.Group();const tree=id==='banana'||id==='coffee';q.position.set(tree?0:((i%2)-.5)*.45,0,tree?(i-.5)*1.5:(Math.floor(i/2)-1)*.95);q.scale.setScalar(s);g.add(q);
+      if(id==='rice')for(let j=0;j<7;j++){const b=new THREE.Mesh(new THREE.CylinderGeometry(.01,.014,.55,4),M(stage===3?0xD8B85A:0x6FB04A));const a=j/7*Math.PI*2;b.position.set(Math.sin(a)*.05,.27,Math.cos(a)*.05);b.rotation.set(Math.cos(a)*.3,0,-Math.sin(a)*.3);q.add(b)}
+      if(id==='cane')for(let j=0;j<3;j++){const c=new THREE.Mesh(new THREE.CylinderGeometry(.03,.035,1.5,6),M(stage===3?0xB8D46A:0x7FB04A));c.position.set((j-1)*.08,.75,(j%2)*.06);g.add&&q.add(c);const l=new THREE.Mesh(new THREE.ConeGeometry(.05,.6,4),M(0x5FA040));l.position.set((j-1)*.08,1.5,(j%2)*.06);q.add(l)}
+      if(id==='veg'){const b=new THREE.Mesh(new THREE.IcosahedronGeometry(.22,1),M(0x4FA040,{flatShading:true}));b.position.y=.25;q.add(b);if(stage===3)for(let j=0;j<4;j++){const t=new THREE.Mesh(new THREE.ConeGeometry(.04,.12,6),M(0xB6E08A));const a=j/4*Math.PI*2;t.position.set(Math.sin(a)*.18,.42,Math.cos(a)*.18);q.add(t)}}
+      if(id==='banana'){const t=new THREE.Mesh(new THREE.CylinderGeometry(.09,.13,1.4,8),M(0x8DAE5A));t.position.y=.7;q.add(t);for(let k=0;k<5;k++){const l=new THREE.Mesh(new THREE.SphereGeometry(.6,10,6),M(0x4FA040));l.scale.set(.22,.06,1);const a=k/5*Math.PI*2;l.position.set(Math.sin(a)*.45,1.45,Math.cos(a)*.45);l.rotation.y=a;l.rotation.x=.45;q.add(l)}if(stage===3)for(let k=0;k<5;k++){const b=new THREE.Mesh(new THREE.CylinderGeometry(.04,.03,.25,6),M(0xF2C14E));b.position.set(.16+(k%3-1)*.07,1.05-Math.floor(k/3)*.13,.12);b.rotation.z=.4;q.add(b)}}
+      if(id==='coffee'){const t=new THREE.Mesh(new THREE.CylinderGeometry(.06,.08,.8,6),M(0x6B4A35));t.position.y=.4;q.add(t);const c=new THREE.Mesh(new THREE.IcosahedronGeometry(.5,1),M(0x2E7D3A,{flatShading:true}));c.scale.y=1.2;c.position.y=1.05;q.add(c);if(stage===3)for(let k=0;k<10;k++){const b=new THREE.Mesh(new THREE.SphereGeometry(.05,6,4),M(0xD02C2C));const a=k*2.4;b.position.set(Math.sin(a)*.45,.8+(k%4)*.15,Math.cos(a)*.45);q.add(b)}}}
+    if(stage===3){const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color:0xFFE08A,transparent:true,opacity:.5,depthWrite:false,blending:THREE.AdditiveBlending,toneMapped:false}));sp.scale.set(2,2,1);sp.position.y=.6;g.add(sp)}}
+  const jobDone=id=>{const j=st.jobs[id];return j&&now()-j.t0>=RC.find(r=>r[0]===id)[6]*1000};
+  function sync(){Object.keys(CR).forEach(id=>{const pr=prog(id),p=st.plots[id];const key=p.t0?(pr>=1?3:pr>=.55?2:pr>=.2?1:0):-1;if(key!==PL[id].key){PL[id].key=key;crop(id,pr)}setI(PL[id].ic,!p.t0?'🌱':pr>=1?'✨':'')});
+    let any=false;RC.forEach(r=>{const j=st.jobs[r[0]];STN[r[0]].sm.visible=!!j&&!jobDone(r[0]);if(jobDone(r[0]))any=true});const canMake=RC.some(r=>!st.jobs[r[0]]&&(st.raw[r[2]]||0)>=r[3]);setI(shopI,any?'✨':canMake?'🏭':'')}
+  function plot(id){enter();const p=st.plots[id],c=CR[id];if(!p.t0){p.t0=now();save();sync();toast(`🌱 ปลูก${c[0]}แล้ว · อีก ${c[2]} นาทีเก็บเกี่ยวได้`);return}
+    const pr=prog(id);if(pr>=1){st.raw[id]=(st.raw[id]||0)+c[3];p.t0=c[4]?now():0;save();sync();toast(`${c[1]} เก็บ${c[0]} ×${c[3]} · นำไปแปรรูปที่ซุ้มแปรรูปด้านขวา${c[4]?' (ต้นไม้ออกผลใหม่ให้อีก)':''}`);try{PLAYER.add(4,'harvest');MISSION.hit('harvest')}catch(e){}try{window.__chime()}catch(e){}return}
+    toast(`${c[1]} ${c[0]} โต ${Math.round(pr*100)}% · อีก ${fmtS((c[2]*60000-(now()-p.t0))/1000)}`)}
+  /* แผงซุ้มแปรรูป */
+  let lastH='',busy=false;
+  function open(){enter();$('#gd').classList.add('on');lastH='';panel()}
+  function panel(){const P=$('#gd');if(!P||!P.classList.contains('on'))return;const made=Object.keys(st.made).length;
+    let h=`<p class="sf-t">ปลูกวัตถุดิบในไร่ของดี → แปรรูปเป็น <b>ผลิตภัณฑ์จริงของหนองบัวลำภู</b> → ส่งเข้ายุ้งฉางแปลงพอเพียง แล้วเลือก กินเอง · แบ่งปัน · ขาย ได้ตามหลัก 3 ห่วง</p>
+      <h4>🧺 วัตถุดิบ <small>เก็บเกี่ยวจากไร่ด้านซ้าย</small></h4><div class="gd-raw">${Object.keys(CR).map(id=>`<span>${CR[id][1]} ${CR[id][0]} <b>×${st.raw[id]||0}</b></span>`).join('')}</div>
+      <h4>🏭 สถานีแปรรูป</h4><div class="gd-st">${RC.map(r=>{const j=st.jobs[r[0]],ok=(st.raw[r[2]]||0)>=r[3],dn=jobDone(r[0]);return`<div class="${dn?'ok':''}"><i>${r[5]}</i><div><b>${r[4]}</b><small>${r[1]} · ใช้${CR[r[2]][0]} ${r[3]} → 1 ชิ้น · ${fmtS(r[6])}</small>${j&&!dn?`<div class="lb-bar"><i style="width:${Math.min(100,(now()-j.t0)/(r[6]*10))}%"></i></div>`:''}</div>
+        ${dn?`<button type="button" class="tb p" data-get="${r[0]}">เก็บ</button>`:j?`<em>${fmtS(r[6]-(now()-j.t0)/1000)}</em>`:`<button type="button" class="tb ${ok?'p':''}" data-make="${r[0]}" ${ok?'':'disabled'}>แปรรูป</button>`}</div>`}).join('')}</div>
+      <h4>🏆 ตู้โชว์ผลิตภัณฑ์ของฉัน <small>${made}/${RC.length} · ทำครบทุกชนิดรับตั๋วสุ่มรางวัล</small></h4><div class="gd-show">${RC.map(r=>`<span class="${st.made[r[0]]?'ok':''}">${r[5]}<small>${st.made[r[0]]?r[4]:'ยังไม่เคยทำ'}</small></span>`).join('')}</div>
+      <div class="fm-go"><button type="button" class="tb" id="gdGo">🚶 ไปไร่ของดี</button><button type="button" class="tb" id="gdBarn">🏠 เปิดยุ้งฉาง (3 ห่วง)</button></div>`;
+    if(busy||h===lastH)return;lastH=h;$('#gdB').innerHTML=h}
+  const GB=$('#gdB');GB.addEventListener('pointerdown',()=>{busy=true});addEventListener('pointerup',()=>setTimeout(()=>{busy=false},60));
+  GB.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;busy=false;lastH='';const D=b.dataset;
+    if(D.make){const r=RC.find(x=>x[0]===D.make);if((st.raw[r[2]]||0)<r[3])return;st.raw[r[2]]-=r[3];st.jobs[r[0]]={t0:now()};save();sync();toast(`${r[5]} เริ่มทำ${r[4]} · ${fmtS(r[6])}`)}
+    else if(D.get){const r=RC.find(x=>x[0]===D.get);delete st.jobs[r[0]];const first=!st.made[r[0]];st.made[r[0]]=1;save();sync();try{window.__suffAdd&&__suffAdd(r[0],1,r[4],r[5],r[7])}catch(e){}try{PLAYER.add(first?30:8,'craft');MISSION.hit('craft')}catch(e){}
+      prz('prize-chest.webp',`${r[5]} ${r[4]}`,first?'ผลิตภัณฑ์ใหม่เข้าตู้โชว์! +30 แต้ม':'+8 แต้ม · เข้ายุ้งฉางแล้ว');if(first&&RC.every(x=>st.made[x[0]]))setTimeout(()=>REWARD.give('ทำผลิตภัณฑ์ครบทุกชนิด'),1500)}
+    else if(b.id==='gdGo'){$('#gd').classList.remove('on');go()}else if(b.id==='gdBarn'){$('#gd').classList.remove('on');SUFF.open()}panel()});
+  $('#gdX').onclick=()=>$('#gd').classList.remove('on');
+  function go(){enter();stopTour();closeCard();mode='walk';$('#bModeL').textContent='มุมสูง';$('#bMode').classList.add('on');const r=rG-4.2,a=aG;const pos=new THREE.Vector3(Math.sin(a)*r,EYE,Math.cos(a)*r);tweenTo({pos,yaw:a+Math.PI,pitch:-.3},2.4,()=>{walk.pos.copy(pos);toast('🌾 ไร่ของดีลุ่มภู · แตะแปลงเพื่อปลูก/เก็บ · แตะซุ้มเพื่อแปรรูป')})}
+  function act(d){if(d.t==='plot')plot(d.id);else open()}
+  let t1=0;function tick(dt,t){t1+=dt;if(t1>1){t1=0;sync();panel()}RC.forEach((r,k)=>{const s=STN[r[0]].sm;if(s.visible){s.position.y=1.5+((t*.6+k*.3)%1)*.8;s.material.opacity=.6*(1-((t*.6+k*.3)%1))}});Object.values(PL).forEach((o,k)=>{if(o.ic.visible)o.ic.position.y=2.2+Math.sin(t*2.5+k)*.05})}
+  setTimeout(sync,600);
+  return{tick,act,open,go}})();
+
+/* =====================================================================
+   📜 ซุ้มรู้จักหนองบัวลำภู: เรื่องเล่า ประวัติ ฟอสซิล ของดี 6 อำเภอ + ควิซ 10 ข้อ
+   ===================================================================== */
+const PROV=(function(){
+  const F=[['🏛','เป็นจังหวัดเมื่อ พ.ศ. 2536','แยกออกจากจังหวัดอุดรธานี ในปีเดียวกับจังหวัดอำนาจเจริญและสระแก้ว'],
+    ['🗺','6 อำเภอ','เมืองหนองบัวลำภู · นากลาง · โนนสัง · ศรีบุญเรือง · สุวรรณคูหา · นาวัง'],
+    ['🏯','นครเขื่อนขันธ์กาบแก้วบัวบาน','ชื่อเมืองเก่าราว พ.ศ. 2106 สมัยพระไชยเชษฐาธิราชแห่งล้านช้าง เป็นเมืองหน้าด่านของเวียงจันทน์ ภายหลังรวมกับอุดรธานีก่อนแยกเป็นจังหวัด'],
+    ['👑','ศาลสมเด็จพระนเรศวรมหาราช','ปรากฏบนตราประจำจังหวัด รำลึกการเสด็จมาชุมนุมไพร่พลที่หนองบัวลำภูเมื่อ พ.ศ. 2117 · คำขวัญจังหวัดก็ขึ้นต้นด้วยศาลแห่งนี้'],
+    ['🪷','ดอกบัว','ดอกไม้ประจำจังหวัด ปลูกในหนองน้ำหลังศาลสมเด็จพระนเรศวรฯ เป็นที่มาของชื่อ "หนองบัว"'],
+    ['🌳','ต้นพะยูง','ต้นไม้ประจำจังหวัด ไม้เนื้อแข็งคุณค่าสูงของป่าอีสาน'],
+    ['🐚','หอยหินกาบคู่ 150 ล้านปี','ยุคจูราสสิกตอนปลาย พบที่บ้านห้วยเดื่อ ต.โนนทัน อ.เมือง จัดแสดงในพิพิธภัณฑ์หอยหินและไดโนเสาร์'],
+    ['🦕','ฟอสซิลไดโนเสาร์ 130 ล้านปี','พบที่บ้านห้วยทราย ต.หนองบัว อ.เมือง และยังพบซากจระเข้โบราณ "ชาละวัน" (Chalawan thailandicus)'],
+    ['🪵','ไม้กลายเป็นหิน 100 ล้านปี','พบที่ภูพานน้อย หลักฐานว่าดินแดนนี้เคยเป็นป่าดึกดำบรรพ์'],
+    ['⛰','อุทยานแห่งชาติภูเก้า–ภูพานคำ','ทิวเขาหินปูนและป่าเขียว ถูกกล่าวถึงในคำขวัญจังหวัด'],
+    ['🕳','ถ้ำเอราวัณ อ.นาวัง','ถ้ำใหญ่บนภูเขาหินปูน แหล่งท่องเที่ยวขึ้นชื่อของจังหวัด'],
+    ['🗿','ใบเสมาสมัยทวารวดี','พบที่ภูน้อย อ.สุวรรณคูหา พร้อมโบราณสถานศิลปะขอม'],
+    ['🏺','แหล่งโบราณคดี อ.โนนสัง','บ้านกุดกวางสร้อยและบ้านกุดค้อเมย ร่องรอยชุมชนโบราณ'],
+    ['🥬','เมี่ยงคำลำภู','อาหาร Soft Power ประจำจังหวัด ห่อเครื่องเคียงด้วยใบผักรสชาติสดชื่น'],
+    ['👥','ประชากรราว 5 แสนคน','ราว 504,000 คน (พ.ศ. 2567) บนพื้นที่ราว 4,099 ตารางกิโลเมตร']];
+  const Q=[['หนองบัวลำภูเป็นจังหวัดเมื่อ พ.ศ. ใด',['2536','2525','2545'],0],['หนองบัวลำภูแยกออกมาจากจังหวัดใด',['อุดรธานี','ขอนแก่น','เลย'],0],['หนองบัวลำภูมีกี่อำเภอ',['6 อำเภอ','8 อำเภอ','5 อำเภอ'],0],
+    ['ตราประจำจังหวัดหนองบัวลำภูเป็นรูปอะไร',['ศาลสมเด็จพระนเรศวรมหาราช','ภูเขาหินปูน','ดอกบัวบาน'],0],['ดอกไม้ประจำจังหวัดหนองบัวลำภูคือ',['ดอกบัว','ดอกกระเจียว','ดอกพะยอม'],0],['ต้นไม้ประจำจังหวัดคือ',['พะยูง','ราชพฤกษ์','ยางนา'],0],
+    ['หอยหินกาบคู่ที่บ้านห้วยเดื่อมีอายุราวกี่ล้านปี',['150 ล้านปี','15 ล้านปี','1,500 ล้านปี'],0],['ชื่อเมืองเก่าของหนองบัวลำภูคือ',['นครเขื่อนขันธ์กาบแก้วบัวบาน','เวียงจันทน์','เมืองพานพร้าว'],0],
+    ['ถ้ำเอราวัณอยู่ในอำเภอใด',['นาวัง','นากลาง','โนนสัง'],0],['ใบเสมาสมัยทวารวดีพบที่ภูน้อย อำเภอใด',['สุวรรณคูหา','ศรีบุญเรือง','เมืองหนองบัวลำภู'],0],
+    ['อาหาร Soft Power ประจำจังหวัดคือ',['เมี่ยงคำลำภู','ส้มตำปูปลาร้า','ข้าวจี่'],0],['จระเข้โบราณที่พบฟอสซิลในหนองบัวลำภูชื่ออะไร',['ชาละวัน','ไกรทอง','สยามโมซอรัส'],0],
+    ['อุทยานแห่งชาติที่อยู่ในคำขวัญจังหวัดคือ',['ภูเก้า–ภูพานคำ','ภูกระดึง','ภูเรือ'],0],['สินค้า GI ของ อ.ศรีบุญเรือง ที่ได้จากพืชริมน้ำคือ',['คล้าศรีบุญเรือง','ผ้าไหม','ข้าวหอมมะลิ'],0],
+    ['"ว่านอุษาลำภู" เป็นพืชกลุ่มใด',['กระเจียว ไม้ดอก','สมุนไพรต้มกิน','ไม้เลื้อย'],0],['กาแฟของหนองบัวลำภูที่อยู่ในงานนี้ชื่อ',['กาแฟภูซาง','กาแฟดอยช้าง','กาแฟเขาทะลุ'],0]];
+  const KEY='nbl12-prov-'+DAY;let st=LSJ(KEY,{read:0,best:0});const save=()=>LS(KEY,st);
+  /* ซุ้มข้อมูล 3D: แท่นจอโค้งข้างลานกลาง */
+  const aK=6/14*Math.PI*2,rK=7.6;const g=new THREE.Group();g.position.set(Math.sin(aK)*rK,0,Math.cos(aK)*rK);g.rotation.y=aK+Math.PI;scene.add(g);
+  const base=new THREE.Mesh(new THREE.CylinderGeometry(.9,1,.2,32),goldM);base.position.y=.1;g.add(base);const post=new THREE.Mesh(new THREE.BoxGeometry(.2,1.6,.2),goldM);post.position.y=.9;g.add(post);
+  const scr=new THREE.Mesh(new THREE.BoxGeometry(2.4,1.5,.12),new THREE.MeshStandardMaterial({color:0x2A1220,roughness:.3}));scr.position.y=2.25;g.add(scr);
+  const face=new THREE.Mesh(new THREE.PlaneGeometry(2.25,1.35),new THREE.MeshBasicMaterial({map:cv(900,540,(x,w,h)=>{const gr=x.createLinearGradient(0,0,w,h);gr.addColorStop(0,'#5A1A3A');gr.addColorStop(1,'#2E7D5B');x.fillStyle=gr;x.fillRect(0,0,w,h);x.strokeStyle='#E8BE68';x.lineWidth=10;x.strokeRect(10,10,w-20,h-20);
+    x.fillStyle='#FFE3A0';x.font='italic 600 46px Fraunces, Georgia, serif';x.textAlign='center';x.fillText('Discover Nong Bua Lam Phu',w/2,110);x.fillStyle='#fff';x.font='600 92px Kanit, sans-serif';x.fillText('รู้จักหนองบัวลำภู',w/2,240);
+    x.font='500 40px Kanit, sans-serif';x.fillStyle='#FFE3A0';x.fillText('ประวัติ · ฟอสซิล 150 ล้านปี · 6 อำเภอ',w/2,330);x.fillStyle='#fff';x.font='500 38px Kanit, sans-serif';x.fillText('แตะเพื่ออ่านเรื่องราว + เล่นควิซ 10 ข้อ',w/2,440)}),toneMapped:false}));face.position.set(0,2.25,.065);g.add(face);
+  const hit=new THREE.Mesh(new THREE.BoxGeometry(2.6,3.2,1),new THREE.MeshBasicMaterial({visible:false}));hit.position.y=1.6;hit.userData.prov=1;hit.userData.i=-1;g.add(hit);clickables.push(hit);
+  const halo=new THREE.Sprite(new THREE.SpriteMaterial({map:glowTex,color:0xFFD27A,transparent:true,opacity:.35,depthWrite:false,blending:THREE.AdditiveBlending,toneMapped:false}));halo.scale.set(4,3,1);halo.position.set(0,2.25,-.2);g.add(halo);
+  /* แผง */
+  const B=$('#pvB'),W=$('#pv');let qz=null;
+  function open(){enter();W.classList.add('on');read()}
+  function read(){B.innerHTML=`<p class="sf-t">เรื่องราวจังหวัดที่อยู่ "ลุ่มน้ำและภูเขา" · อ่านครบแล้วลองควิซได้เลย</p><div class="pv-g">${F.map(f=>`<div><i>${f[0]}</i><b>${esc(f[1])}</b><small>${esc(f[2])}</small></div>`).join('')}</div>
+    <p class="pv-src">ที่มา: ข้อมูลประวัติและแหล่งท่องเที่ยวจากสื่อสาธารณะ (แนวหน้า, กรมประชาสัมพันธ์, Wikipedia) · ตรวจทานก่อนใช้นำเสนออย่างเป็นทางการ</p><div class="g-act"><button type="button" class="tb p" id="pvQ">🧠 เล่นควิซ 10 ข้อ ${st.best?'(ดีที่สุด '+st.best+'/10)':''}</button></div>`;
+    $('#pvQ').onclick=quiz;if(!st.read){st.read=1;save();try{PLAYER.add(10,'province');MISSION.hit('province')}catch(e){}}}
+  function quiz(){const L=[...Q].sort(()=>Math.random()-.5).slice(0,10).map(q=>{const o=q[1].map((t,k)=>({t,ok:k===q[2]})).sort(()=>Math.random()-.5);return{q:q[0],o}});qz={L,i:0,s:0};ask()}
+  function ask(){const q=qz.L[qz.i];B.innerHTML=`<h4>🧠 ควิซรู้จักหนองบัวลำภู <small>ข้อ ${qz.i+1}/10 · ถูก ${qz.s}</small></h4><div class="lb-bar"><i style="width:${qz.i*10}%"></i></div><p class="pv-q">${esc(q.q)}</p><div class="pv-o">${q.o.map((o,k)=>`<button type="button" class="tb" data-k="${k}">${esc(o.t)}</button>`).join('')}</div>`;
+    B.querySelectorAll('[data-k]').forEach(b=>b.onclick=()=>{const o=q.o[+b.dataset.k];B.querySelectorAll('[data-k]').forEach((x,k)=>{x.disabled=true;if(q.o[k].ok)x.classList.add('p')});if(o.ok){qz.s++;try{window.__chime()}catch(e){}}else b.classList.add('bad');setTimeout(()=>{qz.i++;qz.i<10?ask():end()},900)})}
+  function end(){const s=qz.s;const nb=s>st.best;if(nb){st.best=s;save()}const pts=s*3+(s===10?20:0);try{PLAYER.add(pts,'pquiz');if(s>=8)MISSION.hit('pquiz')}catch(e){}if(s===10)try{REWARD.give('ควิซรู้จักหนองบัวลำภูเต็ม 10')}catch(e){}
+    B.innerHTML=`<div class="g-end"><b>${s}/10</b><span>${s===10?'🏆 รู้จริงเรื่องหนองบัวลำภู!':s>=8?'👏 เก่งมาก!':s>=5?'ดีเลย ลองอีกครั้ง':'อ่านเรื่องราวแล้วลองใหม่'}${nb?' · สถิติใหม่':''}</span><small>ได้ +${pts} แต้ม${s===10?' + ตั๋วสุ่มรางวัล':''}</small></div><div class="g-act"><button type="button" class="tb p" id="pvA">เล่นอีกครั้ง</button><button type="button" class="tb" id="pvR">อ่านเรื่องราว</button></div>`;$('#pvA').onclick=quiz;$('#pvR').onclick=read}
+  $('#pvX').onclick=()=>W.classList.remove('on');
+  function tick(t){halo.material.opacity=.3+Math.sin(t*2)*.1}
+  return{open,quiz,tick}})();
 
 window.__cam=cam;
 
@@ -2078,15 +2237,20 @@ const VIEW=(function(){let view=LS('nbl12-view')==='tp'?'tp':'fp',dist=+LS('nbl1
   function zoom(d){if(view!=='tp'){if(d>0){dist=2.4;set('tp')}return}dist=dist+d;if(dist<1.5){dist=2.4;set('fp');return}dist=Math.min(9,dist);LS('nbl12-tpd',String(dist))}
   const tmp=new THREE.Vector3(),tgt=new THREE.Vector3();let last=new THREE.Vector3(),spd=0;
   /* คืนค่าตำแหน่งกล้องจริง (ใช้ตอน render) */
-  function apply(feet,moving,dt){const tp=view==='tp'&&mode==='walk'&&!tw;if(me)me.visible=tp;
+  let face=false,fOff=0;
+  function setFace(v){face=v;$('#bFace').classList.toggle('on',v);if(v){fOff=0;build();me.userData.ch.wave();toast('🙂 ดูหน้าตัวละคร · ลากเพื่อหมุนรอบตัว · เดินหรือกด C เพื่อออก')}}
+  function apply(feet,moving,dt){if(face&&(moving||mode!=='walk'||tw))setFace(false);const tp=(view==='tp'||face)&&mode==='walk'&&!tw;if(me)me.visible=tp;
     if(!tp){camera.position.copy(cam.pos);camera.rotation.set(cam.pitch,cam.yaw,0,'YXZ');return}
     build();me.position.set(cam.pos.x,feet,cam.pos.z);me.userData.ch.update(dt,moving?1:0,performance.now()/1000,null);let dy=cam.yaw+Math.PI-me.rotation.y;dy=Math.atan2(Math.sin(dy),Math.cos(dy));me.rotation.y+=dy*Math.min(1,dt*10);
     
+    if(face){const an=cam.yaw+fOff,fx=-Math.sin(an),fz=-Math.cos(an),cy=feet+(me.userData.ch.height||1.4)*.55;tmp.set(cam.pos.x+fx*3.4,cy+.35,cam.pos.z+fz*3.4);camera.position.copy(tmp);camera.lookAt(cam.pos.x,cy,cam.pos.z);return}
     tgt.set(cam.pos.x,cam.pos.y-.15,cam.pos.z);const p=Math.max(-1.1,Math.min(.5,cam.pitch));const bx=Math.sin(cam.yaw),bz=Math.cos(cam.yaw);let d=dist;
     tmp.set(tgt.x+bx*d*Math.cos(p),tgt.y-d*Math.sin(p)+.35,tgt.z+bz*d*Math.cos(p));const r=Math.hypot(tmp.x,tmp.z);if(r>25.2){const k=25.2/r;tmp.x*=k;tmp.z*=k}const rr=Math.min(r,25.2);if(tmp.y<.35)tmp.y=.35;if(tmp.y>wallH-.5)tmp.y=wallH-.5;
     camera.position.copy(tmp);camera.lookAt(tgt)}
   $('#bView').onclick=toggle;setTimeout(()=>$('#bView').classList.toggle('on',view==='tp'),0);
-  return{toggle,zoom,apply,get tp(){return view==='tp'},get mode(){return view}}})();
+  $('#bFace').onclick=()=>{if(mode!=='walk'){enter();setMode('walk',true)}setFace(!face)};
+  return{toggle,zoom,apply,setFace,wave:()=>{if(me)me.userData.ch.wave()},get face(){return face},get fOff(){return fOff},set fOff(v){fOff=v},get tp(){return view==='tp'},get mode(){return view}}})();
+window.VIEW_=VIEW;
 
 window.__CHEST=CHEST;window.__NET=NET;
 
