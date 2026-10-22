@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="th">
 <head>
-<meta charset="utf-8">
+<meta charset="utf-8"><meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>ห้องนิทรรศการ · 12 Plus+</title>
 <meta name="description" content="ห้องนิทรรศการเสมือนจริง สินค้าอัตลักษณ์หนองบัวลำภู เดินชมได้ทั้งบนคอมพิวเตอร์ iPad และมือถือ">
@@ -562,6 +562,9 @@ const FIREBASE_CONFIG={
 };
 /* วันจัดงานจริง (ผู้เข้าชมวันนี้ได้วอลเปเปอร์ Limited 3 “สิบสองสมบัติลุ่มภู”) รูปแบบ 'YYYY-MM-DD' เช่น ['2026-11-20','2026-11-21'] */
 const EVENT_DAYS=[];
+/* เวอร์ชันไฟล์: ถ้าเครื่องผู้ชมยังจำไฟล์เก่า (cache) จะเช็กแล้วโหลดเวอร์ชันใหม่ให้เอง */
+const BUILD='v24';
+(function(){try{fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/const BUILD='([^']+)'/);if(m&&m[1]!==BUILD){const k='nbl12-reload-'+m[1];if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');const q=new URLSearchParams(location.search);q.set('v',m[1]);location.replace(location.pathname+'?'+q.toString())}}}).catch(()=>{})}catch(e){}})();
 const VISITOR_MODELS=[];   /* ตัวละครคนเสมือนจริงจาก Mixamo (.glb ที่ฝังท่า Walking/Idle) เช่น ['models/visitor-1.glb','models/visitor-2.glb'] · ว่าง = ใช้หุ่น models/Xbot.glb */
 const GAS_URL='https://script.google.com/macros/s/AKfycbwRX5IPjn-Zj2vCb_jlsLJuGpddhpLYbJnFC_5m2Yb2xV6A-cpUV5u0CkTMC4K8ykGK/exec';
 /* ทีมอำเภอ (แข่งสะสมแต้ม) · ชื่อ + สีป้ายชื่อ */
@@ -2116,27 +2119,17 @@ const GOODS=(function(){const aG=0,rG=22.0;const now=()=>Date.now();
   const gr=new THREE.Mesh(new THREE.BoxGeometry(11.6,.08,4),M(0xA8D67E,{roughness:.95}));gr.position.y=.04;G.add(gr);
   const wM=M(0xFFFFFF,{roughness:.6});[-1.95,1.95].forEach(z=>{[.25,.5].forEach(y=>{const r=new THREE.Mesh(new THREE.BoxGeometry(11.6,.05,.05),wM);r.position.set(0,y,z);G.add(r)});for(let i=0;i<=24;i++){if(z>0&&i>10&&i<14)continue;const p=new THREE.Mesh(new THREE.BoxGeometry(.06,.62,.06),wM);p.position.set(-5.8+i*11.6/24,.31,z);G.add(p)}});
   /* แปลง 5 ชนิด (ซ้าย) */
-  const PL={};[['rice',-5.05,true],['cane',-3.95],['veg',-2.85],['banana',-1.65],['coffee',-.45]].forEach(([id,x,paddy])=>{const g=new THREE.Group();g.position.set(x,0,0);G.add(g);const w=1.0,d=3.2;
+  const PL={};[['rice',-4.6,true],['cane',-2.3],['veg',0],['banana',2.3],['coffee',4.6]].forEach(([id,x,paddy])=>{const g=new THREE.Group();g.position.set(x,0,.15);G.add(g);const w=1.6,d=2.9;
     const bed=new THREE.Mesh(new THREE.BoxGeometry(w,.16,d),M(paddy?0x6B8F7A:0x7A5236,{roughness:paddy?.3:1}));bed.position.y=.08;g.add(bed);const pl=new THREE.Group();pl.position.y=.17;g.add(pl);
     const lab=new THREE.Sprite(new THREE.SpriteMaterial({map:cv(256,64,(c,W,H)=>{c.fillStyle='rgba(46,125,91,.92)';c.beginPath();c.roundRect?c.roundRect(4,6,W-8,H-12,24):c.rect(4,6,W-8,H-12);c.fill();c.fillStyle='#fff';c.font='600 30px Kanit, sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(CR[id][1]+' '+CR[id][0],W/2,H/2+2,W-16)}),transparent:true,depthWrite:false,toneMapped:false}));lab.scale.set(1.15,.29,1);lab.position.set(x,.75,1.75);G.add(lab);
-    hb(w,1.4,d,x,.6,0,{t:'plot',id});PL[id]={g,pl,ic:spr(x,2.2,0),key:''}});
-  /* ซุ้มแปรรูป (ขวา) */
-  const B=new THREE.Group();B.position.set(3.1,0,-.2);G.add(B);const woodM=M(0xB8875A),roofM=M(0xD50654);
-  const floor=new THREE.Mesh(new THREE.BoxGeometry(5,.12,3),M(0xE8D8C0));floor.position.y=.06;B.add(floor);
-  [[-2.35,-1.35],[2.35,-1.35],[-2.35,1.35],[2.35,1.35]].forEach(([x,z])=>{const p=new THREE.Mesh(new THREE.CylinderGeometry(.08,.09,2.6,10),woodM);p.position.set(x,1.3,z);B.add(p)});
-  const roof=new THREE.Mesh(new THREE.CylinderGeometry(.02,3.6,1.1,4,1),roofM);roof.rotation.y=Math.PI/4;roof.scale.z=.62;roof.position.y=3.15;B.add(roof);const eave=new THREE.Mesh(new THREE.BoxGeometry(5.2,.12,3.2),M(0xFFF4E4));eave.position.y=2.62;B.add(eave);
-  const sgn=new THREE.Mesh(new THREE.PlaneGeometry(3.8,.62),new THREE.MeshBasicMaterial({map:cv(640,104,(x,w,h)=>{x.fillStyle='#2E7D5B';x.fillRect(0,0,w,h);x.strokeStyle='#E8BE68';x.lineWidth=6;x.strokeRect(3,3,w-6,h-6);x.fillStyle='#fff';x.font='600 50px Kanit, sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('🏭 ซุ้มแปรรูปของดีลุ่มภู',w/2,h/2+3)}),toneMapped:false}));sgn.position.set(0,2.62,1.62);B.add(sgn);
-  const STN={};RC.forEach((r,k)=>{const x=-1.95+k*.98;const g=new THREE.Group();g.position.set(x,0,-.2);B.add(g);const tb=new THREE.Mesh(new THREE.BoxGeometry(.82,.8,.8),M(0xFFF4E4));tb.position.y=.46;g.add(tb);
-    let prop;if(r[0]==='mill'){prop=new THREE.Mesh(new THREE.CylinderGeometry(.24,.24,.22,16),M(0x9C9C9C));prop.position.y=1.0}else if(r[0]==='pot'){prop=new THREE.Mesh(new THREE.SphereGeometry(.27,16,10,0,Math.PI*2,Math.PI/2,Math.PI/2),M(0x4A4A4A,{metalness:.5}));prop.position.y=1.12}
-    else if(r[0]==='dry'){prop=new THREE.Mesh(new THREE.BoxGeometry(.7,.04,.6),M(0xC9A86A));prop.position.y=.9;for(let i=0;i<6;i++){const b=new THREE.Mesh(new THREE.CylinderGeometry(.03,.03,.22,6),M(0xB07A2C));b.rotation.z=Math.PI/2;b.position.set(-.2+(i%3)*.2,.94,-.12+Math.floor(i/3)*.24);g.add(b)}}
-    else if(r[0]==='roast'){prop=new THREE.Mesh(new THREE.CylinderGeometry(.2,.2,.5,16),M(0x7A3E1E,{metalness:.4}));prop.rotation.z=Math.PI/2;prop.position.y=1.08}else{prop=new THREE.Mesh(new THREE.BoxGeometry(.5,.18,.35),M(0x93D96F));prop.position.y=.95}
-    g.add(prop);const sm=new THREE.Mesh(new THREE.SphereGeometry(.12,10,8),M(0xFFFFFF,{transparent:true,opacity:.6}));sm.position.y=1.5;sm.visible=false;g.add(sm);
-    const lb=new THREE.Sprite(new THREE.SpriteMaterial({map:cv(256,64,(c,W,H)=>{c.fillStyle='rgba(213,6,84,.9)';c.beginPath();c.roundRect?c.roundRect(4,6,W-8,H-12,24):c.rect(4,6,W-8,H-12);c.fill();c.fillStyle='#fff';c.font='600 28px Kanit, sans-serif';c.textAlign='center';c.textBaseline='middle';c.fillText(r[5]+' '+r[1],W/2,H/2+2,W-16)}),transparent:true,depthWrite:false,toneMapped:false}));lb.scale.set(.95,.24,1);lb.position.set(0,.55,.55);g.add(lb);
-    STN[r[0]]={g,sm,ic:null}});
-  const shopI=spr(3.1,3.9,-.2);hb(5,2.6,3,3.1,1.3,-.2,{t:'shop'});
+    hb(w,1.4,d,x,.6,.15,{t:'plot',id});PL[id]={g,pl,ic:spr(x,2.2,.15),key:''}});
+  /* (เอาซุ้ม 3D ออกตามคำขอ เพื่อไม่บังวิว) · แปรรูปผ่านแผง: แตะป้ายไร่ด้านหลัง หรือมุมเกม */
+  const STN={};RC.forEach(r=>{STN[r[0]]={sm:{visible:false,position:{y:0},material:{opacity:0}}}});
+  const bs=new THREE.Mesh(new THREE.PlaneGeometry(3.4,.72),new THREE.MeshBasicMaterial({map:cv(680,144,(x,w,h)=>{const g=x.createLinearGradient(0,0,w,0);g.addColorStop(0,'#C98A1E');g.addColorStop(1,'#2E7D5B');x.fillStyle=g;x.fillRect(4,4,w-8,h-8);x.strokeStyle='#FFE3A0';x.lineWidth=6;x.strokeRect(4,4,w-8,h-8);x.fillStyle='#fff';x.textAlign='center';x.textBaseline='middle';x.font='600 50px Kanit, sans-serif';x.fillText('ไร่ของดีลุ่มภู',w/2,56);x.font='500 32px Kanit, sans-serif';x.fillStyle='#FFE3A0';x.fillText('แตะป้ายนี้เพื่อแปรรูปผลิตภัณฑ์',w/2,108)}),toneMapped:false}));
+  bs.position.set(0,1.25,-1.97);G.add(bs);[-1.5,1.5].forEach(x=>{const p=new THREE.Mesh(new THREE.CylinderGeometry(.04,.04,1.6,6),wM);p.position.set(x,.8,-2);G.add(p)});reg(bs,{t:'shop'});const shopI=spr(0,2.0,-1.95);
   /* พืชแต่ละชนิด */
   function crop(id,pr){const o=PL[id],g=o.pl;while(g.children.length)g.remove(g.children[0]);const stage=pr>=1?3:pr>=.55?2:pr>=.2?1:st.plots[id].t0?0:-1;if(stage<0)return;const s=stage===0?.25:stage===1?.45:stage===2?.75:1;
-    for(let i=0;i<(id==='banana'||id==='coffee'?2:6);i++){const q=new THREE.Group();const tree=id==='banana'||id==='coffee';q.position.set(tree?0:((i%2)-.5)*.45,0,tree?(i-.5)*1.5:(Math.floor(i/2)-1)*.95);q.scale.setScalar(s);g.add(q);
+    for(let i=0;i<(id==='banana'||id==='coffee'?2:6);i++){const q=new THREE.Group();const tree=id==='banana'||id==='coffee';q.position.set(tree?0:((i%2)-.5)*.7,0,tree?(i-.5)*1.3:(Math.floor(i/2)-1)*.85);q.scale.setScalar(s);g.add(q);
       if(id==='rice')for(let j=0;j<7;j++){const b=new THREE.Mesh(new THREE.CylinderGeometry(.01,.014,.55,4),M(stage===3?0xD8B85A:0x6FB04A));const a=j/7*Math.PI*2;b.position.set(Math.sin(a)*.05,.27,Math.cos(a)*.05);b.rotation.set(Math.cos(a)*.3,0,-Math.sin(a)*.3);q.add(b)}
       if(id==='cane')for(let j=0;j<3;j++){const c=new THREE.Mesh(new THREE.CylinderGeometry(.03,.035,1.5,6),M(stage===3?0xB8D46A:0x7FB04A));c.position.set((j-1)*.08,.75,(j%2)*.06);g.add&&q.add(c);const l=new THREE.Mesh(new THREE.ConeGeometry(.05,.6,4),M(0x5FA040));l.position.set((j-1)*.08,1.5,(j%2)*.06);q.add(l)}
       if(id==='veg'){const b=new THREE.Mesh(new THREE.IcosahedronGeometry(.22,1),M(0x4FA040,{flatShading:true}));b.position.y=.25;q.add(b);if(stage===3)for(let j=0;j<4;j++){const t=new THREE.Mesh(new THREE.ConeGeometry(.04,.12,6),M(0xB6E08A));const a=j/4*Math.PI*2;t.position.set(Math.sin(a)*.18,.42,Math.cos(a)*.18);q.add(t)}}
@@ -2147,7 +2140,7 @@ const GOODS=(function(){const aG=0,rG=22.0;const now=()=>Date.now();
   function sync(){Object.keys(CR).forEach(id=>{const pr=prog(id),p=st.plots[id];const key=p.t0?(pr>=1?3:pr>=.55?2:pr>=.2?1:0):-1;if(key!==PL[id].key){PL[id].key=key;crop(id,pr)}setI(PL[id].ic,!p.t0?'🌱':pr>=1?'✨':'')});
     let any=false;RC.forEach(r=>{const j=st.jobs[r[0]];STN[r[0]].sm.visible=!!j&&!jobDone(r[0]);if(jobDone(r[0]))any=true});const canMake=RC.some(r=>!st.jobs[r[0]]&&(st.raw[r[2]]||0)>=r[3]);setI(shopI,any?'✨':canMake?'🏭':'')}
   function plot(id){enter();const p=st.plots[id],c=CR[id];if(!p.t0){p.t0=now();save();sync();toast(`🌱 ปลูก${c[0]}แล้ว · อีก ${c[2]} นาทีเก็บเกี่ยวได้`);return}
-    const pr=prog(id);if(pr>=1){st.raw[id]=(st.raw[id]||0)+c[3];p.t0=c[4]?now():0;save();sync();toast(`${c[1]} เก็บ${c[0]} ×${c[3]} · นำไปแปรรูปที่ซุ้มแปรรูปด้านขวา${c[4]?' (ต้นไม้ออกผลใหม่ให้อีก)':''}`);try{PLAYER.add(4,'harvest');MISSION.hit('harvest')}catch(e){}try{window.__chime()}catch(e){}return}
+    const pr=prog(id);if(pr>=1){st.raw[id]=(st.raw[id]||0)+c[3];p.t0=c[4]?now():0;save();sync();toast(`${c[1]} เก็บ${c[0]} ×${c[3]} · แตะป้ายไร่ด้านหลังเพื่อแปรรูป${c[4]?' (ต้นไม้ออกผลใหม่ให้อีก)':''}`);try{PLAYER.add(4,'harvest');MISSION.hit('harvest')}catch(e){}try{window.__chime()}catch(e){}return}
     toast(`${c[1]} ${c[0]} โต ${Math.round(pr*100)}% · อีก ${fmtS((c[2]*60000-(now()-p.t0))/1000)}`)}
   /* แผงซุ้มแปรรูป */
   let lastH='',busy=false;
@@ -2167,7 +2160,7 @@ const GOODS=(function(){const aG=0,rG=22.0;const now=()=>Date.now();
       prz('prize-chest.webp',`${r[5]} ${r[4]}`,first?'ผลิตภัณฑ์ใหม่เข้าตู้โชว์! +30 แต้ม':'+8 แต้ม · เข้ายุ้งฉางแล้ว');if(first&&RC.every(x=>st.made[x[0]]))setTimeout(()=>REWARD.give('ทำผลิตภัณฑ์ครบทุกชนิด'),1500)}
     else if(b.id==='gdGo'){$('#gd').classList.remove('on');go()}else if(b.id==='gdBarn'){$('#gd').classList.remove('on');SUFF.open()}panel()});
   $('#gdX').onclick=()=>$('#gd').classList.remove('on');
-  function go(){enter();stopTour();closeCard();mode='walk';$('#bModeL').textContent='มุมสูง';$('#bMode').classList.add('on');const r=rG-4.2,a=aG;const pos=new THREE.Vector3(Math.sin(a)*r,EYE,Math.cos(a)*r);tweenTo({pos,yaw:a+Math.PI,pitch:-.3},2.4,()=>{walk.pos.copy(pos);toast('🌾 ไร่ของดีลุ่มภู · แตะแปลงเพื่อปลูก/เก็บ · แตะซุ้มเพื่อแปรรูป')})}
+  function go(){enter();stopTour();closeCard();mode='walk';$('#bModeL').textContent='มุมสูง';$('#bMode').classList.add('on');const r=rG-4.2,a=aG;const pos=new THREE.Vector3(Math.sin(a)*r,EYE,Math.cos(a)*r);tweenTo({pos,yaw:a+Math.PI,pitch:-.3},2.4,()=>{walk.pos.copy(pos);toast('🌾 ไร่ของดีลุ่มภู · แตะแปลงเพื่อปลูก/เก็บ · แตะป้ายด้านหลังเพื่อแปรรูป')})}
   function act(d){if(d.t==='plot')plot(d.id);else open()}
   let t1=0;function tick(dt,t){t1+=dt;if(t1>1){t1=0;sync();panel()}RC.forEach((r,k)=>{const s=STN[r[0]].sm;if(s.visible){s.position.y=1.5+((t*.6+k*.3)%1)*.8;s.material.opacity=.6*(1-((t*.6+k*.3)%1))}});Object.values(PL).forEach((o,k)=>{if(o.ic.visible)o.ic.position.y=2.2+Math.sin(t*2.5+k)*.05})}
   setTimeout(sync,600);
