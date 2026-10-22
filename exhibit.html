@@ -155,13 +155,6 @@ body.rec .recb{display:flex}
 [hidden]{display:none!important}
 .tb:disabled{opacity:.45;cursor:not-allowed;transform:none}
 /* music notes / now playing / mission / online / gift */
-.notes{position:fixed;inset:0;z-index:8;pointer-events:none;overflow:hidden}
-.nt{position:absolute;bottom:-60px;font-family:serif;font-weight:700;line-height:1;animation:ntf linear forwards;filter:drop-shadow(0 4px 10px rgba(213,6,84,.35));will-change:transform,opacity}
-.nt.c1{background:linear-gradient(135deg,#FF9CC6,#D50654);-webkit-background-clip:text;background-clip:text;color:transparent}
-.nt.c2{background:linear-gradient(135deg,#FFE7A8,#C99A3E);-webkit-background-clip:text;background-clip:text;color:transparent}
-.nt.c3{background:linear-gradient(135deg,#FFFFFF,#F3B6D0);-webkit-background-clip:text;background-clip:text;color:transparent}
-.nt.c4{background:linear-gradient(135deg,#F6C1FF,#8E3FA8);-webkit-background-clip:text;background-clip:text;color:transparent}
-@keyframes ntf{0%{opacity:0;transform:translate(0,0) rotate(0) scale(.6)}10%{opacity:1}50%{transform:translate(calc(var(--dx)*.5),-50vh) rotate(var(--r)) scale(1)}90%{opacity:.9}100%{opacity:0;transform:translate(var(--dx),-105vh) rotate(calc(var(--r)*-1)) scale(1.1)}}
 .np{position:fixed;left:max(14px,env(safe-area-inset-left));bottom:calc(max(14px,env(safe-area-inset-bottom)) + 104px);z-index:11;display:none;align-items:center;gap:10px;padding:8px 10px 8px 14px;border-radius:16px;font-family:var(--f-head)}
 .np.on{display:flex}.np b{display:block;font-size:13.5px}.np small{display:block;font-size:11px;color:var(--muted);font-family:var(--f-latin);font-style:italic}
 .np button{width:34px;height:34px;border-radius:10px;border:1px solid var(--line);background:none;cursor:pointer;font-size:15px;color:var(--ink)}
@@ -260,6 +253,23 @@ body.pres .stp{display:none}
 .fb a b{display:block;padding:10px 14px;font-family:var(--f-head)}
 @media (max-width:600px){.card{top:auto;height:62dvh;bottom:calc(max(10px,env(safe-area-inset-bottom)) + 100px);transform:translateY(calc(100% + 140px))}.card .hd{height:130px}}
 @media (prefers-reduced-motion:reduce){.card,.intro{transition:none}}
+.hl{position:fixed;left:50%;top:max(12px,env(safe-area-inset-top));transform:translate(-50%,100px);z-index:9;padding:5px 14px;border-radius:999px;font-family:var(--f-head);font-size:12.5px;white-space:nowrap;max-width:calc(100vw - 28px);overflow:hidden;text-overflow:ellipsis;pointer-events:none}
+.hl b{color:#D50654}
+.emo{position:fixed;right:max(12px,env(safe-area-inset-right));top:50%;transform:translateY(-50%);z-index:10;display:flex;flex-direction:column;gap:4px;padding:6px;border-radius:999px}
+.emo button{width:40px;height:40px;border:0;border-radius:50%;background:transparent;font-size:22px;cursor:pointer;transition:transform .15s}
+.emo button:hover{transform:scale(1.18)}.emo button:active{transform:scale(.9)}
+.ph{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;background:rgba(20,6,14,.55);padding:16px}
+.ph.on{display:flex}
+.ph-card{width:min(440px,100%);max-height:calc(100dvh - 32px);overflow:auto;padding:14px;border-radius:20px}
+.ph-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.ph-f{display:flex;gap:8px;justify-content:center;margin-top:8px}
+#phImg{display:flex;justify-content:center}
+.ph-live{position:relative;width:240px;height:240px;border-radius:50%;overflow:hidden;border:6px solid #E8BE68;background:#3A1A2A}
+.ph-v{width:100%;height:100%;object-fit:cover;transform:scaleX(-1)}
+.ph-l{position:absolute;right:-6px;bottom:-6px;width:70px}
+.ph-out{width:100%;border-radius:12px}
+body.pres .emo,body.pres .hl,body.cardon .emo{display:none!important}
+@media (max-width:600px){.hl{transform:translate(-50%,88px);font-size:11.5px}body.touch .hl{transform:translate(-50%,142px)}.emo{top:auto;bottom:calc(max(10px,env(safe-area-inset-bottom)) + 220px);transform:none}.emo button{width:34px;height:34px;font-size:19px}}
 </style>
 </head>
 <body>
@@ -273,6 +283,8 @@ body.pres .stp{display:none}
   <button class="tb" id="bTour" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16l13-8z"/></svg><span class="l">ทัวร์อัตโนมัติ</span></button>
   <button class="tb p" id="bMake" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span class="l">สร้างนิทรรศการ</span></button>
   <button class="tb" id="bMic" type="button" hidden><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg><span class="l" id="bMicL">เปิดไมค์</span></button>
+  <button class="tb" id="bTod" type="button" aria-label="ช่วงเวลา กลางวัน/เย็น/กลางคืน"><span id="bTodI" style="font-size:18px;line-height:1">🌤</span><span class="l" id="bTodL">กลางวัน</span></button>
+  <button class="tb" id="bPhoto" type="button" aria-label="ถ่ายรูปที่งาน"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3v11H4z"/><circle cx="12" cy="13" r="3.5"/></svg><span class="l">ถ่ายรูป</span></button>
   <button class="tb" id="bSnd" type="button" aria-label="เปิด/ปิดเพลง" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path id="sndW" d="M16 9.5a3.5 3.5 0 0 1 0 5M18.5 7a7 7 0 0 1 0 10"/><path id="sndX" d="M16 9l5 6M21 9l-5 6"/></svg></button>
   <button class="tb" id="bPres" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span class="l">นำเสนอ</span></button>
   <button class="tb" id="bRec" type="button" aria-label="บันทึกวิดีโอทัวร์"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5" fill="currentColor" stroke="none"/></svg><span class="l" id="bRecL">บันทึกวิดีโอ</span></button>
@@ -342,8 +354,10 @@ body.pres .stp{display:none}
   <p style="text-align:right;margin:12px 0 0"><button class="tb" id="hX" type="button">เข้าใจแล้ว</button></p>
 </div>
 <div class="toast glass" id="toast"></div>
-<div class="notes" id="notes" aria-hidden="true"></div>
 <div class="np glass" id="np"><span class="eq" id="npEq"><i></i><i></i><i></i><i></i><i></i></span><span><b id="npT">เพลงประกอบ</b><small>12 Plus+ Virtual Expo</small></span><button type="button" id="npN" aria-label="เพลงถัดไป">⏭</button></div>
+<div class="hl glass" id="hl" hidden></div>
+<div class="emo glass" id="emo" aria-label="ส่งอีโมจิ"><button type="button">👏</button><button type="button">❤️</button><button type="button">🔥</button><button type="button">😍</button><button type="button">🎉</button></div>
+<div class="ph" id="ph" role="dialog" aria-label="ถ่ายรูปที่งาน"><div class="ph-card glass"><div class="ph-h"><b>📸 จุดถ่ายรูป 12 Plus+</b><button class="tb" id="phX" type="button" aria-label="ปิด">✕</button></div><div id="phImg"></div><p class="note">ภาพจะใช้มุมกล้องปัจจุบันในงาน + ใบหน้าคุณในกรอบบัว</p><div class="ph-f"><button class="tb p" id="phShot" type="button">📸 ถ่ายเลย</button><button class="tb" id="phShare" type="button" hidden>บันทึก / แชร์</button></div></div></div>
 <div class="mis glass" id="mis"><span id="misT">🎯 ภารกิจวันนี้</span></div>
 <button class="onl glass" id="onl" type="button" hidden title="แตะเพื่อปิด/เปิดเสียงผู้ชมคนอื่น"><i></i>ออนไลน์ <b id="onlN">1</b> คน</button>
 <div class="gift" id="gift" role="dialog" aria-modal="true"></div>
@@ -374,7 +388,15 @@ body.pres .stp{display:none}
 const VIDEOS={};
 const MUSIC_LIST=['music/bgm-1.mp3','music/bgm-2.mp3','music/bgm-3.mp3','music/bgm-4.mp3'];   /* เพลงประกอบ เล่นวนสุ่มลำดับ */
 /* ผู้ชมออนไลน์ + คุยด้วยเสียง: วางค่า config จาก Firebase (Project settings → Your apps → Web app) · ว่าง = ปิด */
-const FIREBASE_CONFIG={/* apiKey:'…', authDomain:'…', databaseURL:'https://xxxx-default-rtdb.asia-southeast1.firebasedatabase.app', projectId:'…', appId:'…' */};
+const FIREBASE_CONFIG={
+  apiKey:'AIzaSyDCA_VMVvg2dNPwr0SiwJZkyrBtlXK9WBQ',
+  authDomain:'nbl12-expo.firebaseapp.com',
+  databaseURL:'https://nbl12-expo-default-rtdb.asia-southeast1.firebasedatabase.app',
+  projectId:'nbl12-expo',
+  storageBucket:'nbl12-expo.firebasestorage.app',
+  messagingSenderId:'25254739553',
+  appId:'1:25254739553:web:2188dabd3f1d73b7c8b420'
+};
 const VISITOR_MODELS=[];   /* ตัวละครคนเสมือนจริงจาก Mixamo (.glb ที่ฝังท่า Walking/Idle) เช่น ['models/visitor-1.glb','models/visitor-2.glb'] · ว่าง = ใช้หุ่น models/Xbot.glb */
 const GAS_URL='https://script.google.com/macros/s/AKfycbwRX5IPjn-Zj2vCb_jlsLJuGpddhpLYbJnFC_5m2Yb2xV6A-cpUV5u0CkTMC4K8ykGK/exec';
 const PX=(typeof P!=='undefined'?P:[]),DSX_=(typeof DATASETS!=='undefined'?DATASETS:[]);
@@ -485,14 +507,14 @@ const PLAYER=(function(){const ls=(k,v)=>{try{if(v===undefined)return localStora
   const inp=$('#pName');if(inp){inp.value=name;inp.oninput=inp.onchange=()=>{name=inp.value.trim().slice(0,24);ls('nbl12-pname',name)}}
   function ui(){const e=$('#ptN');if(e)e.textContent=pts.toLocaleString('th-TH')}
   function pop(n){const d=document.createElement('div');d.className='pop-pts';d.textContent='+'+n;document.body.appendChild(d);setTimeout(()=>d.remove(),1300)}
-  function add(n,ev,extra){pts+=n;ls('nbl12-pts-'+new Date().toISOString().slice(0,10),pts);ui();if(n)pop(n);log(ev,extra)}
+  function add(n,ev,extra){try{if(n>0&&extra&&extra.b!=null&&window.__HOT&&window.__HOT(extra.b)){n*=2;extra=Object.assign({x2:1},extra)}}catch(e){}pts+=n;ls('nbl12-pts-'+new Date().toISOString().slice(0,10),pts);ui();if(n)pop(n);log(ev,extra)}
   function log(ev,extra){Qe.push(Object.assign({ev,t:new Date().toISOString()},extra||{}));if(Qe.length>=8)flush()}
   function flush(final){if(!GAS_URL||!Qe.length&&!final)return;const body=JSON.stringify({action:'log',pid:id,name:name||'ผู้เข้าชม',ex:Q.get('ex')||'',pts,stamps:STAMP.count(),lotus:(window.HUNT?HUNT.n:0),secs:Math.round((Date.now()-t0)/1000),ua:/iPad|iPhone|Android/i.test(navigator.userAgent)?'mobile':'desktop',events:Qe.splice(0)});
     try{if(final&&navigator.sendBeacon){navigator.sendBeacon(GAS_URL,new Blob([body],{type:'text/plain'}));return}fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body}).catch(()=>{})}catch(e){}}
   setInterval(()=>flush(true),30000);addEventListener('pagehide',()=>flush(true));document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flush(true)});
   function top(){if(!GAS_URL)return Promise.resolve([]);const u=new URL(GAS_URL);u.searchParams.set('action','top');return fetch(u.toString()).then(r=>r.json()).then(j=>j.items||[]).catch(()=>[])}
   setTimeout(()=>{ui();log('enter',{ref:document.referrer.slice(0,80)})},0);
-  return{add,log,flush,top,get id(){return id},get name(){return name||'ผู้เข้าชม'},get pts(){return pts}}})();
+  return{add,log,flush,top,get name(){return name||'ผู้ชม'},get id(){return id},get name(){return name||'ผู้เข้าชม'},get pts(){return pts}}})();
 
 /* ================= สะสมแสตมป์ (Expo Passport) ================= */
 const STAMP=(function(){const KEY='nbl12-stamps-'+(Q.get('ex')||Q.get('p')||'all');let got=new Set();try{got=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){}
@@ -842,7 +864,7 @@ const HERO=(function(){const list=[];const coneT=cv(64,256,(x,w,h)=>{const g=x.c
       /* หันภาพเข้าหากล้องแบบแกนตั้ง + โยกเล็กน้อยให้ดูมีมิติ */
       const a=Math.atan2(camPos.x-h.base.x,camPos.z-h.base.z);h.bb.rotation.y=a+Math.sin(t*.8+h.i)*.1;h.bb.position.y=(h.bb.scale.y/2+.05)+Math.sin(t*1.2+h.i)*.015;
       const P=h.pts.geometry.attributes.position;for(let k=0;k<P.count;k++){let y=P.getY(k)+dt*.18;if(y>1.6)y=0;P.setY(k,y)}P.needsUpdate=true;
-      const want=(hot===h.i?(DK?.85:.6):(DK?.55:.32));h.cone.material.opacity+=(want-h.cone.material.opacity)*Math.min(1,dt*6)}}
+      const hb=window.__HLB===h.i;const want=Math.min(1,(hot===h.i||hb?(DK?.85:.6):(DK?.55:.32))*(window.__GLOW>1?1+(window.__GLOW-1)*.35:1)*(hb?1+.25*Math.sin(t*6):1));h.cone.material.opacity+=(want-h.cone.material.opacity)*Math.min(1,dt*6)}}
   return{add,tick}})();
 
 /* ---------- กลีบบัวโปรยทั่วโถง + ลำแสงไฟเวทีกวาด ---------- */
@@ -1088,7 +1110,7 @@ function loop(){const dt=Math.min(.05,clock.getDelta()),t=clock.elapsedTime;
     if(f||s){fwd.set(-Math.sin(cam.yaw),0,-Math.cos(cam.yaw));rgt.set(Math.cos(cam.yaw),0,-Math.sin(cam.yaw));const sp=(keys.ShiftLeft||keys.ShiftRight?6:3.6)*dt;cam.pos.addScaledVector(fwd,f*sp).addScaledVector(rgt,s*sp);if(cardI>=0&&!tour)closeCard()}
     cam.pos.y=EYE;collide(cam.pos)}
   camera.position.copy(cam.pos);camera.rotation.set(cam.pitch,cam.yaw,0,'YXZ');
-  HERO.tick(dt,t,cam.pos,hot);AMB.tick(dt,t);try{MUSIC.tick();NOTES.tick(dt);NOTE3.tick(dt,t);SCREEN.tick(dt);NET.tick(dt)}catch(e){};HUNT.tick(t);BANNERS.forEach(b=>{b.rotation.z=Math.sin(t*.8+b.userData.sw)*.025});movePeople(dt,t);spinners.forEach(s=>{s.g.rotation.y=Math.sin(t*.6+s.ph)*.12;s.g.position.y=(s.y||1.62)+Math.sin(t*1.5+s.ph)*.035});
+  HERO.tick(dt,t,cam.pos,hot);AMB.tick(dt,t);try{MUSIC.tick();SPK.tick(dt,t);HL.tick(dt,t);EMO.tick(dt);SCREEN.tick(dt);NET.tick(dt)}catch(e){};HUNT.tick(t);BANNERS.forEach(b=>{b.rotation.z=Math.sin(t*.8+b.userData.sw)*.025});movePeople(dt,t);spinners.forEach(s=>{s.g.rotation.y=Math.sin(t*.6+s.ph)*.12;s.g.position.y=(s.y||1.62)+Math.sin(t*1.5+s.ph)*.035});
   MAP.rotation.y=Math.sin(t*.1)*.06;band.rotation.y=-t*.08;glows.forEach((m,k)=>{m.material.color.offsetHSL(0,0,0)});
   if(mode==='walk'&&!tw){let ni=-1,nd=7.5;BOOTH.forEach((b,i)=>{const d=Math.hypot(cam.pos.x-b.stand.x,cam.pos.z-b.stand.z);if(d<nd){nd=d;ni=i}});
     if(ni!==near){near=ni;if(ni>=0){where.innerHTML=`บูธ <b>${pad2(BOOTH[ni].p.id)}</b> · ${esc(BOOTH[ni].p.name)} · ${ni+1}/${N}`;where.classList.add('on');syncDock(ni)}else where.classList.remove('on')}}
@@ -1181,19 +1203,10 @@ const MUSIC=(function(){const N0=MUSIC_LIST.length;let i=Math.floor(Math.random(
   return{start,tick,toggle,get level(){return level},get playing(){return !au.paused}}})();
 
 /* โน้ตดนตรีลอย (หน้าจอ) */
-const NOTES=(function(){const box=$('#notes');const G=['♪','♫','♬','♩','𝄞'];let acc=0;
-  function spawn(big){const s=document.createElement('span');s.textContent=G[Math.floor(Math.random()*G.length)];const x=Math.random()*100;s.style.left=x+'vw';
-    const sz=(big?38:22)+Math.random()*26;s.style.fontSize=sz+'px';s.style.setProperty('--dx',((Math.random()-.5)*160)+'px');s.style.setProperty('--r',((Math.random()-.5)*60)+'deg');s.style.animationDuration=(6+Math.random()*5)+'s';
-    s.className='nt '+['c1','c2','c3','c4'][Math.floor(Math.random()*4)];box.appendChild(s);setTimeout(()=>s.remove(),11500)}
-  function tick(dt){if(!MUSIC.playing||document.hidden)return;acc+=dt*(1.2+MUSIC.level*9);while(acc>1){acc-=1;spawn(MUSIC.level>.35)}}
-  return{tick}})();
+
 
 /* โน้ตลอยในฉาก 3D รอบโต๊ะแผนที่ */
-const NOTE3=(function(){const G=['♪','♫','♬','♩'];const T=G.map((g,k)=>cv(128,128,(x,w,h)=>{const gr=x.createLinearGradient(0,0,w,h);gr.addColorStop(0,k%2?'#FFE3A0':'#FF8DB8');gr.addColorStop(1,k%2?'#C99A3E':'#D50654');x.fillStyle=gr;x.font='700 110px serif';x.textAlign='center';x.textBaseline='middle';x.shadowColor='rgba(255,255,255,.9)';x.shadowBlur=10;x.fillText(g,w/2,h/2+6)}));
-  const L=[];for(let k=0;k<26;k++){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:T[k%4],transparent:true,depthWrite:false,toneMapped:false,opacity:0}));s.scale.set(.5,.5,1);scene.add(s);L.push({s,a:Math.random()*6.28,r:3.2+Math.random()*2.6,y:Math.random()*6,v:.4+Math.random()*.5,ph:Math.random()*6})}
-  function tick(dt,t){const on=MUSIC.playing,lv=MUSIC.level;L.forEach(o=>{o.y+=dt*o.v*(on?1:0);if(o.y>7.5)o.y=.6;o.a+=dt*.15;const op=on?Math.min(1,.35+lv*2)*Math.sin(Math.min(1,o.y/7.5)*Math.PI):0;o.s.material.opacity+=(op-o.s.material.opacity)*Math.min(1,dt*3);
-    o.s.position.set(Math.sin(o.a)*o.r,o.y+Math.sin(t*2+o.ph)*.15,Math.cos(o.a)*o.r);const sc=.4+lv*.6;o.s.scale.set(sc,sc,1)})}
-  return{tick}})();
+
 
 /* ---------- กล่องรางวัล: วอลเปเปอร์บัวทอง 4 แบบ (สุ่ม) ---------- */
 const REWARD=(function(){const W=[['wall-1','รุ่งอรุณลุ่มภู','Lotus Valley Dawn'],['wall-2','แมนดาลาบัวทอง','Golden Mandala'],['wall-3','โดมฟ้าดอกบัว','Sky Oculus'],['wall-4','ราตรีธงขิด','Royal Khit Night']];
@@ -1271,7 +1284,7 @@ const SCREEN=(function(){const c=document.createElement('canvas');c.width=1024;c
    ===================================================================== */
 const NET=(function(){if(!FIREBASE_CONFIG||!FIREBASE_CONFIG.databaseURL)return{tick(){},on:false};
   const ROOM=(Q.get('ex')||Q.get('p')||'main').replace(/[^\w-]/g,'').slice(0,24)||'main';
-  const others=new Map();let db=null,meRef=null,last={x:0,z:0,y:0,t:0},online=0,micOn=false,stream=null,deaf=false;
+  const others=new Map();let db=null,FX=null,meRef=null,last={x:0,z:0,y:0,t:0},online=0,micOn=false,stream=null,deaf=false;
   const peers=new Map();/* pid -> {pc,gain,el,src} */
   const ICE={iceServers:[{urls:['stun:stun.l.google.com:19302','stun:stun1.l.google.com:19302']}]};
   function loadFB(){const v='10.12.2',b=`https://cdn.jsdelivr.net/npm/firebase@${v}/`;const s=u=>new Promise((res,rej)=>{const e=document.createElement('script');e.src=b+u;e.onload=res;e.onerror=rej;document.head.appendChild(e)});
@@ -1294,6 +1307,7 @@ const NET=(function(){if(!FIREBASE_CONFIG||!FIREBASE_CONFIG.databaseURL)return{t
     P.on('child_changed',s=>{const o=others.get(s.key),d=s.val()||{};if(!o)return;o.pos.set(d.x||0,0,d.z||0);o.yaw=d.y||0;if(d.n!==o.name||!!d.m!==o.mic){o.name=d.n;o.mic=!!d.m;setTag(o)}o.seen=Date.now()});
     P.on('child_removed',s=>{const o=others.get(s.key);if(o){scene.remove(o.g);others.delete(s.key)}hang(s.key);online=others.size+1;ui()});
     base.child('sig/'+PLAYER.id).on('child_added',s=>{const m=s.val();s.ref.remove();onSig(m).catch(()=>{})});
+    const t0=Date.now();FX=base.child('fx');FX.limitToLast(8).on('child_added',s=>{const d=s.val()||{};if(d.p===PLAYER.id||!d.e||(d.t||0)<t0-3000)return;const o=others.get(d.p);if(o&&window.EMO)EMO.spawnAt(d.e,o.g.position.clone().add(new THREE.Vector3(0,2.5,0)))});
     online=1;ui();toast('🟢 เชื่อมต่อแล้ว · เห็นผู้ชมคนอื่นในงานแบบสด')}).catch(e=>console.warn('firebase',e))}
   function push(force){if(!meRef)return;const p=cam.pos,now=Date.now();const moved=Math.hypot(p.x-last.x,p.z-last.z)>.15||Math.abs(cam.yaw-last.y)>.1;if(!force&&!moved&&now-last.t<5000)return;if(!force&&now-last.t<220)return;
     last={x:p.x,z:p.z,y:cam.yaw,t:now};const away=mode!=='walk';meRef.set({n:PLAYER.name,x:+(away?(Math.sin(cam.yaw+Math.PI)*6):p.x).toFixed(2),z:+(away?(Math.cos(cam.yaw+Math.PI)*6):p.z).toFixed(2),y:+cam.yaw.toFixed(2),m:micOn?1:0,t:firebase.database.ServerValue.TIMESTAMP})}
@@ -1325,7 +1339,82 @@ const NET=(function(){if(!FIREBASE_CONFIG||!FIREBASE_CONFIG.databaseURL)return{t
       const p=peers.get([...others.entries()].find(e=>e[1]===o)?.[0]);if(p&&p.gain){const dist=Math.hypot(o.g.position.x-cam.pos.x,o.g.position.z-cam.pos.z);p.gain.gain.value=deaf?0:Math.max(0,Math.min(1,1.2-dist/12))}});
     if(now-vT>2000){vT=now;voiceTick()}}
   $('#bMic').onclick=mic;$('#onl').onclick=()=>{deaf=!deaf;$('#onl').classList.toggle('deaf',deaf);toast(deaf?'🔇 ปิดเสียงผู้ชมคนอื่นแล้ว':'🔊 เปิดเสียงผู้ชมคนอื่น')};
-  return{start,tick,on:true}})();
+  let eT=0;function emote(e){if(!FX||Date.now()-eT<700)return;eT=Date.now();const r=FX.push({p:PLAYER.id,e,t:Date.now()});setTimeout(()=>r.remove().catch(()=>{}),6000)}
+  return{start,tick,emote,on:true}})();
+
+
+/* ================= ลำโพง 6 ตัวรอบลาน: โน้ตดนตรีออกจากลำโพง (แทนโน้ตลอยบนจอ) ================= */
+const SPK=(function(){const L=[];const cab=new THREE.MeshStandardMaterial({color:0x1E1218,roughness:.45,metalness:.2});const grill=new THREE.MeshStandardMaterial({color:0x2E2228,roughness:.9});
+  const noteT=['♪','♫','♬','♩'].map((g,k)=>cv(128,128,(x,w,h)=>{const gr=x.createLinearGradient(0,0,w,h);gr.addColorStop(0,k%2?'#FFE3A0':'#FF9CC6');gr.addColorStop(1,k%2?'#C99A3E':'#D50654');x.fillStyle=gr;x.font='700 110px serif';x.textAlign='center';x.textBaseline='middle';x.shadowColor='rgba(255,255,255,.95)';x.shadowBlur=12;x.fillText(g,w/2,h/2+6)}));
+  const NS=6,RS=5.7;for(let k=0;k<NS;k++){const a=(k+.5)/NS*Math.PI*2+.18;const g=new THREE.Group();g.position.set(Math.sin(a)*RS,0,Math.cos(a)*RS);g.rotation.y=a;scene.add(g);
+    const st=new THREE.Mesh(new THREE.CylinderGeometry(.05,.05,.9,10),goldM);st.position.y=.45;g.add(st);const ft=new THREE.Mesh(new THREE.CylinderGeometry(.3,.34,.05,24),goldM);ft.position.y=.025;g.add(ft);
+    const box=new THREE.Mesh(new THREE.BoxGeometry(.6,1.05,.5),cab);box.position.y=1.42;box.castShadow=true;g.add(box);
+    const front=new THREE.Group();front.position.set(0,1.42,.255);g.add(front);
+    const cones=[];[[.22,.2],[.1,-.25]].forEach(([r,y])=>{const rim=new THREE.Mesh(new THREE.TorusGeometry(r,.025,8,32),goldM);rim.position.y=y;front.add(rim);const c=new THREE.Mesh(new THREE.ConeGeometry(r*.92,.08,32,1,true),grill);c.rotation.x=-Math.PI/2;c.position.set(0,y,.0);front.add(c);cones.push(c)});
+    const led=new THREE.Mesh(new THREE.BoxGeometry(.5,.03,.02),new THREE.MeshBasicMaterial({color:0xFF5C9E,toneMapped:false}));led.position.set(0,-.45,.01);front.add(led);
+    const notes=[];for(let n=0;n<6;n++){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:noteT[(n+k)%4],transparent:true,depthWrite:false,toneMapped:false,opacity:0}));s.scale.set(.32,.32,1);g.add(s);notes.push({s,y:n/6*2.4,dx:(Math.random()-.5)*.6,ph:Math.random()*6})}
+    L.push({g,cones,led,notes,k})}
+  function tick(dt,t){const on=MUSIC.playing,lv=MUSIC.level;L.forEach(o=>{const pulse=on?1+lv*.35*(1+Math.sin(t*14+o.k)):1;o.cones.forEach(c=>c.scale.set(1,1,pulse));o.led.material.color.setHSL(.93,1,on?.45+lv*.4:.25);
+    o.notes.forEach(n=>{n.y+=dt*(.5+lv*.8)*(on?1:0);if(n.y>2.6){n.y=0;n.dx=(Math.random()-.5)*.7}const life=n.y/2.6;const op=on?Math.min(1,.4+lv*2)*Math.sin(life*Math.PI):0;n.s.material.opacity+=(op-n.s.material.opacity)*Math.min(1,dt*4);
+      n.s.position.set(n.dx*life+Math.sin(t*2+n.ph)*.08,2.05+n.y,.35+life*.9);const sc=.24+lv*.3+life*.12;n.s.scale.set(sc,sc,1)})})}
+  return{tick}})();
+
+/* ================= ช่วงเวลาในงาน: กลางวัน / เย็น / กลางคืน ================= */
+const TOD=(function(){let hemi=null,sunL=null;scene.traverse(o=>{if(o.isHemisphereLight)hemi=o;if(o.isDirectionalLight)sunL=o});
+  const base={exp:renderer.toneMappingExposure,hemi:hemi?hemi.intensity:1,sun:sunL?sunL.intensity:2,fog:scene.fog.color.clone(),pano:pano.color.clone()};
+  const M={day:{n:'กลางวัน',i:'🌤',exp:1,hemi:1,sun:1,fog:base.fog,pano:base.pano,glow:1},
+    eve:{n:'ยามเย็น',i:'🌇',exp:.82,hemi:.6,sun:.45,fog:new THREE.Color(0xE9B9A8),pano:new THREE.Color(0xF2C2A6),glow:1.6,sunC:0xFFB27A},
+    night:{n:'กลางคืน',i:'🌙',exp:.62,hemi:.25,sun:.12,fog:new THREE.Color(0x1A0E1C),pano:new THREE.Color(0x4A3A66),glow:2.6,sunC:0x9FB4FF}};
+  let cur=LS('nbl12-tod')||'day';
+  function apply(k){cur=k;const m=M[k];renderer.toneMappingExposure=base.exp*m.exp;if(hemi)hemi.intensity=base.hemi*m.hemi;if(sunL){sunL.intensity=base.sun*m.sun;sunL.color.set(m.sunC||0xFFF4E8)}
+    scene.fog.color.copy(m.fog);scene.background=m.fog.clone();pano.color.copy(m.pano);centerGlow.intensity=(DK?40:22)*m.glow;
+    window.__GLOW=m.glow;$('#bTodI').textContent=m.i;$('#bTodL').textContent=m.n;LS('nbl12-tod',k)}
+  $('#bTod').onclick=()=>{const ks=Object.keys(M);apply(ks[(ks.indexOf(cur)+1)%ks.length]);toast(M[cur].i+' '+M[cur].n)};
+  setTimeout(()=>apply(cur),0);return{apply}})();
+
+/* ================= ช่วงไฮไลต์: ทุก 15 นาที บูธหนึ่งได้แต้ม ×2 นาน 5 นาที + พลุกลีบบัว ================= */
+const HL=(function(){const CYC=15,DUR=5;let lastSlot=-1,booth=-1;
+  const petal=cv(64,64,(x,w,h)=>{x.translate(32,32);const g=x.createLinearGradient(0,-28,0,28);g.addColorStop(0,'#FFF1D6');g.addColorStop(1,'#F06EA6');x.fillStyle=g;x.beginPath();x.ellipse(0,0,12,26,0,0,Math.PI*2);x.fill()});
+  const NP=LOW?160:320;const pos=new Float32Array(NP*3),vel=new Float32Array(NP*3),life=new Float32Array(NP);const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.BufferAttribute(pos,3));
+  const pts=new THREE.Points(geo,new THREE.PointsMaterial({map:petal,size:.28,transparent:true,depthWrite:false,alphaTest:.05,toneMapped:false}));pts.frustumCulled=false;scene.add(pts);
+  function burst(x0,y0,z0){for(let k=0;k<NP;k++){const a=Math.random()*6.28,e=Math.random()*1.2+.2,sp=4+Math.random()*5;pos[k*3]=x0;pos[k*3+1]=y0;pos[k*3+2]=z0;vel[k*3]=Math.cos(a)*Math.cos(e)*sp;vel[k*3+1]=Math.sin(e)*sp+2;vel[k*3+2]=Math.sin(a)*Math.cos(e)*sp;life[k]=3+Math.random()*2}geo.attributes.position.needsUpdate=true;try{window.__chime()}catch(e){}}
+  function slot(){const d=new Date();return Math.floor((d.getHours()*60+d.getMinutes())/CYC)}
+  function active(){const d=new Date();return(d.getMinutes()%CYC)<DUR}
+  function pick(s){let h=(s*2654435761+[...DAY].reduce((a,c)=>a+c.charCodeAt(0),0))>>>0;return h%ITEMS.length}
+  function isHot(bid){return active()&&booth>=0&&ITEMS[booth]&&ITEMS[booth].id===bid}
+  let fT=0;function tick(dt,t){const s=slot();if(s!==lastSlot){lastSlot=s;booth=pick(s);if(active()&&t>2){burst(0,7,0);toast(`⚡ ช่วงไฮไลต์! บูธ ${ITEMS[booth].name} แต้ม ×2 อีก 5 นาที`)}}
+    const on=active(),e=$('#hl');window.__HLB=on?booth:-1;if(on){const d=new Date(),left=(DUR-(d.getMinutes()%CYC))*60-d.getSeconds();e.hidden=false;e.innerHTML=`⚡ ไฮไลต์ <b>${esc(ITEMS[booth].name)}</b> แต้ม ×2 · ${Math.floor(left/60)}:${String(left%60).padStart(2,'0')}`;fT+=dt;if(fT>40){fT=0;burst(0,7,0)}}
+    else{const d=new Date(),nx=(CYC-(d.getMinutes()%CYC))*60-d.getSeconds();e.hidden=false;e.innerHTML=`✨ ไฮไลต์ถัดไปใน ${Math.floor(nx/60)}:${String(nx%60).padStart(2,'0')}`}
+    let any=false;for(let k=0;k<NP;k++){if(life[k]<=0)continue;any=true;life[k]-=dt;vel[k*3+1]-=dt*3.2;vel[k*3]*=.985;vel[k*3+2]*=.985;pos[k*3]+=vel[k*3]*dt;pos[k*3+1]=Math.max(.05,pos[k*3+1]+vel[k*3+1]*dt);pos[k*3+2]+=vel[k*3+2]*dt;if(life[k]<=0)pos[k*3+1]=-50}
+    if(any)geo.attributes.position.needsUpdate=true}
+  window.__HOT=isHot;return{tick,isHot,get booth(){return active()?booth:-1}}})();
+
+/* ================= อีโมจิลอย (คนอื่นในงานเห็นด้วยเมื่อออนไลน์) ================= */
+const EMO=(function(){const L=[];const tex={};const T=e=>tex[e]||(tex[e]=cv(128,128,(x,w,h)=>{x.font='96px "Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji",sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText(e,w/2,h/2+6)}));
+  function spawnAt(e,p){const s=new THREE.Sprite(new THREE.SpriteMaterial({map:T(e),transparent:true,depthWrite:false,toneMapped:false}));s.position.copy(p);s.scale.set(.32,.32,1);scene.add(s);L.push({s,t:0,dx:(Math.random()-.5)*.4})}
+  function mine(e){const f=new THREE.Vector3(-Math.sin(cam.yaw),0,-Math.cos(cam.yaw));for(let k=0;k<3;k++)setTimeout(()=>spawnAt(e,cam.pos.clone().addScaledVector(f,3.2).add(new THREE.Vector3((Math.random()-.5)*1.2,-.55,0))),k*120);try{NET.emote&&NET.emote(e)}catch(x){}try{PLAYER.log('emote')}catch(x){}}
+  function tick(dt){for(let i=L.length-1;i>=0;i--){const o=L[i];o.t+=dt;o.s.position.y+=dt*.9;o.s.position.x+=o.dx*dt;const sc=.32+Math.min(.2,o.t*.4);o.s.scale.set(sc,sc,1);o.s.material.opacity=Math.max(0,1-o.t/2.2);if(o.t>2.2){scene.remove(o.s);o.s.material.dispose();L.splice(i,1)}}}
+  document.querySelectorAll('#emo button').forEach(b=>b.onclick=()=>mine(b.textContent));
+  return{spawnAt,tick}})();
+window.EMO=EMO;
+
+/* ================= จุดถ่ายรูป: ภาพงาน 3D + กล้องหน้า (ถ้าอนุญาต) + กรอบ 12 Plus+ ================= */
+const PHOTO=(function(){let vid=null,strm=null;
+  async function open(){const m=$('#ph');m.classList.add('on');$('#phImg').innerHTML='<p class="note">กำลังเปิดกล้อง… (ถ้าไม่อนุญาต จะถ่ายเฉพาะภาพงาน)</p>';
+    try{strm=await navigator.mediaDevices.getUserMedia({video:{facingMode:'user',width:720,height:720},audio:false});vid=document.createElement('video');vid.srcObject=strm;vid.muted=true;vid.playsInline=true;await vid.play()}catch(e){vid=null}
+    $('#phImg').innerHTML='';const live=document.createElement('div');live.className='ph-live';if(vid){vid.className='ph-v';live.appendChild(vid)}live.insertAdjacentHTML('beforeend','<img src="img/expo-lotus.webp" class="ph-l" alt="">');$('#phImg').appendChild(live)}
+  function shot(){renderer.render(scene,camera);const src=renderer.domElement;const W=1080,H=1350;const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');
+    const k=Math.max(W/src.width,H/src.height);x.drawImage(src,(W-src.width*k)/2,(H-src.height*k)/2,src.width*k,src.height*k);
+    if(vid){const r=300,cx=W/2,cy=H-470;x.save();x.beginPath();x.arc(cx,cy,r,0,7);x.clip();const vw=vid.videoWidth,vh=vid.videoHeight,s=Math.max(2*r/vw,2*r/vh);x.translate(cx,cy);x.scale(-1,1);x.drawImage(vid,-vw*s/2,-vh*s/2,vw*s,vh*s);x.restore();
+      x.lineWidth=14;x.strokeStyle='#E8BE68';x.beginPath();x.arc(cx,cy,r+7,0,7);x.stroke();x.lineWidth=4;x.strokeStyle='#FFFFFF';x.beginPath();x.arc(cx,cy,r+18,0,7);x.stroke()}
+    const g=x.createLinearGradient(0,H-260,0,H);g.addColorStop(0,'rgba(60,10,35,0)');g.addColorStop(1,'rgba(60,10,35,.9)');x.fillStyle=g;x.fillRect(0,H-260,W,260);
+    x.strokeStyle='#E8BE68';x.lineWidth=12;x.strokeRect(24,24,W-48,H-48);x.lineWidth=3;x.strokeStyle='rgba(255,255,255,.8)';x.strokeRect(44,44,W-88,H-88);
+    x.textAlign='center';x.fillStyle='#FFE3A0';x.font='italic 600 46px Fraunces, Georgia, serif';x.fillText('12 Plus+ Virtual Expo',W/2,H-150);
+    x.fillStyle='#fff';x.font='600 52px Kanit, sans-serif';x.fillText(PLAYER.name+' · ของดีลุ่มภู',W/2,H-88);
+    const fin=()=>{const out=$('#phImg');out.innerHTML='';const im=new Image();im.src=c.toDataURL('image/jpeg',.9);im.className='ph-out';out.appendChild(im);$('#phShare').hidden=false;$('#phShare').onclick=()=>SHARE.canvas(c,'ถ่ายรูปที่งาน 12 Plus+ Virtual Expo');try{PLAYER.add(10,'photo')}catch(e){}};
+    const lo=new Image();lo.onload=()=>{x.drawImage(lo,W-230,60,170,170);fin()};lo.onerror=fin;lo.src='img/expo-lotus.webp'}
+  function close(){$('#ph').classList.remove('on');$('#phShare').hidden=true;if(strm)strm.getTracks().forEach(t=>t.stop());strm=null;vid=null}
+  $('#bPhoto').onclick=open;$('#phShot').onclick=shot;$('#phX').onclick=close;return{open}})();
 
 window.QUIZ=QUIZ;window.MISSION=MISSION;window.REWARD=REWARD;window.SHARE=SHARE;window.__chime=()=>SND.chime();
 window.EXPO={goBooth,stopTour,setMode,cam,orbit,goMap,people:PEOPLE};
