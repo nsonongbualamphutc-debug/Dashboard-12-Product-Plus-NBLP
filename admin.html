@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ผู้ดูแลงาน · 12 Plus+ Virtual Expo</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@400;500;600;700&family=Sarabun:wght@400;500;600&display=swap">
+<style>
+:root{--pink:#D50654;--ink:#2C1A23;--muted:#7A5A6A;--bg:#F6EEF2;--card:#fff;--line:rgba(213,6,84,.16);--gold:#C99A3E}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#FBE9F2;--muted:#C7A3B7;--bg:#160A12;--card:#22121C;--line:rgba(255,140,194,.22)}}
+:root[data-theme="dark"]{--ink:#FBE9F2;--muted:#C7A3B7;--bg:#160A12;--card:#22121C;--line:rgba(255,140,194,.22)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:'Sarabun',sans-serif;font-size:15px}
+h1,h2,h3,b,button{font-family:'Kanit',sans-serif}
+.wrap{max-width:1200px;margin:0 auto;padding:16px}
+header{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+header h1{margin:0;font-size:22px}header small{color:var(--muted)}
+.st{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border-radius:99px;background:var(--card);border:1px solid var(--line);font-size:13px}.st i{width:9px;height:9px;border-radius:50%;background:#E8A33D}.st.ok i{background:#2E9E5B}
+.kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin-bottom:14px}
+.kpi div{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px}.kpi small{color:var(--muted);font-size:13px}.kpi b{display:block;font-size:28px;color:var(--pink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:12px}
+.c{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px 16px;min-width:0}.c h2{margin:0 0 10px;font-size:17px}
+table{width:100%;border-collapse:collapse;font-size:14px}th,td{text-align:left;padding:6px 6px;border-bottom:1px solid var(--line)}th{font-family:'Kanit';font-weight:500;color:var(--muted);font-size:12.5px}td.n{text-align:right;font-variant-numeric:tabular-nums}
+.tw{max-height:420px;overflow:auto}
+button,.btn{height:40px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer;font-size:14px}
+button.p{background:linear-gradient(135deg,#E8559A,#D50654);color:#fff;border:0}button.s{height:30px;padding:0 10px;font-size:12.5px}button.d{color:#B42318;border-color:rgba(180,35,24,.3)}
+input,select,textarea{height:40px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);padding:0 12px;font:inherit;width:100%}
+textarea{height:70px;padding:10px 12px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}.row>*{flex:1 1 auto}.row button{flex:0 0 auto}
+.bar{height:10px;border-radius:99px;background:rgba(127,127,127,.15);overflow:hidden}.bar i{display:block;height:100%;border-radius:99px}
+.dl{display:grid;grid-template-columns:130px 1fr 60px;gap:8px;align-items:center;font-size:14px;margin:4px 0}
+.note{color:var(--muted);font-size:13px;line-height:1.55}
+.warn{background:rgba(232,163,61,.12);border:1px solid rgba(232,163,61,.5);border-radius:14px;padding:12px 14px;margin-bottom:14px;font-size:14px;line-height:1.6}
+code{background:rgba(127,127,127,.15);padding:2px 6px;border-radius:6px;font-size:12.5px;word-break:break-all}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#2A1220;color:#fff;padding:10px 18px;border-radius:12px;opacity:0;transition:.3s;pointer-events:none;z-index:9}.toast.on{opacity:1}
+.win{font-size:22px;color:var(--pink);font-family:'Kanit';font-weight:600;min-height:30px;margin-top:8px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header><div><h1>🛠 ผู้ดูแลงาน · Virtual Expo</h1><small>ดูสด · ประกาศ · จับรางวัล · ระงับผู้ใช้ · ส่งออกรายชื่อ</small></div>
+  <div class="row" style="margin:0"><span class="st" id="st"><i></i><span id="stT">กำลังเชื่อมต่อ…</span></span><a class="btn" href="exhibit.html?stage=1" target="_blank" style="display:inline-flex;align-items:center;text-decoration:none">🖥 เปิดจอเวที</a></div></header>
+<div class="warn" id="adm" hidden></div>
+<div class="kpi"><div><small>ออนไลน์ตอนนี้</small><b id="kOn">0</b></div><div><small>ผู้เล่นวันนี้</small><b id="kPl">0</b></div><div><small>แต้มรวมทุกคน</small><b id="kTot">0</b></div><div><small>กดสนใจสินค้า (ครั้ง)</small><b id="kInt">0</b></div><div><small>หีบสมบัติที่ถูกเปิด</small><b id="kCh">0</b></div></div>
+<div class="grid">
+  <section class="c"><h2>📣 ประกาศถึงทุกคนในงาน</h2>
+    <textarea id="aMsg" maxlength="120" placeholder="เช่น อีก 10 นาทีจับรางวัลผู้โชคดี อย่าเพิ่งออกจากงานนะครับ"></textarea>
+    <div class="row"><button class="p" id="aSend">ส่งประกาศ</button><button id="aBurst">🎆 จุดพลุทั้งงาน</button></div>
+    <div class="row"><select id="cdMin"><option value="3">3 นาที</option><option value="5" selected>5 นาที</option><option value="10">10 นาที</option><option value="15">15 นาที</option></select><button id="cdGo">⏱ นับถอยหลังจับรางวัล</button><button id="cdStop" class="s">หยุด</button></div>
+  </section>
+  <section class="c"><h2>🎁 จับรางวัลผู้โชคดี</h2>
+    <p class="note">สุ่มจากผู้เล่นวันนี้ที่มีแต้มถึงเกณฑ์ (ไม่ซ้ำคนที่เคยได้วันนี้) · ชื่อจะขึ้นเต็มจอทุกเครื่องพร้อมพลุ</p>
+    <div class="row"><label style="flex:0 0 auto">แต้มขั้นต่ำ</label><input id="drMin" type="number" value="100" min="0" style="max-width:110px"><select id="drOn"><option value="all">ทุกคนวันนี้</option><option value="on">เฉพาะคนที่ออนไลน์อยู่</option></select><button class="p" id="drGo">🎲 สุ่มเลย</button></div>
+    <div class="win" id="drW"></div>
+    <div class="row"><button id="top3">🏆 ประกาศ Top 3 วันนี้</button><button id="csv">⬇ ส่งออกรายชื่อ (CSV)</button></div>
+    <div class="tw" style="max-height:160px;margin-top:8px"><table><thead><tr><th>เวลา</th><th>ผู้โชคดี</th><th>อำเภอ</th></tr></thead><tbody id="wins"></tbody></table></div>
+  </section>
+  <section class="c"><h2>🏁 แข่งอำเภอวันนี้</h2><div id="dist"></div></section>
+  <section class="c"><h2>💗 สินค้าที่คนสนใจวันนี้</h2><div id="int"></div></section>
+  <section class="c"><h2>👥 ออนไลน์ตอนนี้</h2><div class="tw"><table><thead><tr><th>ชื่อ</th><th>อำเภอ</th><th class="n">แต้ม</th><th></th></tr></thead><tbody id="on"></tbody></table></div></section>
+  <section class="c"><h2>🏆 อันดับแต้มวันนี้ (ทั้งหมด)</h2><div class="tw"><table><thead><tr><th>#</th><th>ชื่อ</th><th>อำเภอ</th><th class="n">แต้ม</th><th></th></tr></thead><tbody id="sc"></tbody></table></div></section>
+  <section class="c"><h2>⛔ ผู้ใช้ที่ถูกระงับ</h2><div class="tw" style="max-height:200px"><table><tbody id="ban"></tbody></table></div><p class="note">ระงับแล้ว: ชื่อและแต้มของคนนั้นหายจากงานทันที และเขียนข้อมูลออนไลน์ไม่ได้อีก (ยังเดินชมแบบออฟไลน์ได้)</p></section>
+</div>
+<p class="note" style="margin-top:14px">รหัสเครื่องนี้ (UID): <code id="uid">-</code></p>
+</div>
+<div class="toast" id="toast"></div>
+<script src="data.js"></script>
+<script>
+const FIREBASE_CONFIG={apiKey:'AIzaSyDCA_VMVvg2dNPwr0SiwJZkyrBtlXK9WBQ',authDomain:'nbl12-expo.firebaseapp.com',databaseURL:'https://nbl12-expo-default-rtdb.asia-southeast1.firebasedatabase.app',projectId:'nbl12-expo',storageBucket:'nbl12-expo.firebasestorage.app',messagingSenderId:'25254739553',appId:'1:25254739553:web:2188dabd3f1d73b7c8b420'};
+const DIST=[['mueang','เมืองหนองบัวลำภู','#D50654'],['naklang','นากลาง','#2E7D5B'],['nonsang','โนนสัง','#C98A1E'],['sriboon','ศรีบุญเรือง','#7B3FA8'],['suwan','สุวรรณคูหา','#1F6FB2'],['nawang','นาวัง','#C2410C'],['out','นอกจังหวัด / ทั่วไป','#5A6472']];
+const PX=typeof P!=='undefined'?P:[];
+const DAY=new Date().toISOString().slice(0,10);
+const $=s=>document.querySelector(s),esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const nf=n=>Number(n||0).toLocaleString('th-TH'),dn=k=>(DIST.find(d=>d[0]===k)||[,'-'])[1];
+const toast=t=>{const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2600)};
+let base,ME,players={},scores={},stats={},banned={},drops={},winners={};
+function load(u){return new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://cdn.jsdelivr.net/npm/firebase@10.12.2/'+u;s.onload=res;s.onerror=rej;document.head.appendChild(s)})}
+function err(e){console.warn(e);const m=String(e&&(e.code||e.message)||e);toast(/permission|denied/i.test(m)?'⛔ ไม่มีสิทธิ์ผู้ดูแล · ดูวิธีเพิ่มสิทธิ์ด้านบน':'ผิดพลาด: '+m)}
+(window.firebase&&firebase.database?Promise.resolve():load('firebase-app-compat.js').then(()=>Promise.all([load('firebase-auth-compat.js'),load('firebase-database-compat.js')]))).then(()=>{
+  if(!firebase.apps.length)firebase.initializeApp(FIREBASE_CONFIG);return firebase.auth().signInAnonymously()}).then(r=>{ME=r.user.uid;$('#uid').textContent=ME;
+  const db=firebase.database();base=db.ref('expo/main');
+  db.ref('admins/'+ME).on('value',s=>{const ok=!!s.val();$('#st').classList.toggle('ok',ok);$('#stT').textContent=ok?'ผู้ดูแล · เชื่อมต่อแล้ว':'ดูได้อย่างเดียว (ยังไม่มีสิทธิ์ผู้ดูแล)';
+    const w=$('#adm');w.hidden=ok;if(!ok)w.innerHTML=`<b>เพิ่มสิทธิ์ผู้ดูแลให้เครื่องนี้ (ทำครั้งเดียวต่อเครื่อง/เบราว์เซอร์)</b><br>1) เปิด Firebase Console → Realtime Database → แท็บ Data<br>2) ที่ราก (บรรทัดบนสุด) กด + → Key: <code>admins</code> → กด + อีกชั้น → Key: <code>${ME}</code> Value: <code>true</code> → Add<br>3) กลับมาหน้านี้ สถานะจะเปลี่ยนเป็น "ผู้ดูแล" เอง`},()=>{});
+  base.child('players').on('value',s=>{players=s.val()||{};draw()},err);
+  base.child('scores/'+DAY).on('value',s=>{scores=s.val()||{};draw()},err);
+  base.child('stats/'+DAY).on('value',s=>{stats=s.val()||{};draw()},err);
+  base.child('banned').on('value',s=>{banned=s.val()||{};draw()},()=>{});
+  base.child('drops/'+DAY).on('value',s=>{drops=s.val()||{};draw()},()=>{});
+  base.child('winners/'+DAY).on('value',s=>{winners=s.val()||{};draw()},()=>{});
+}).catch(e=>{$('#stT').textContent='⚠ เชื่อมต่อไม่ได้ (เปิด Anonymous login แล้วหรือยัง?)';err(e)});
+function draw(){const on=Object.entries(players),sc=Object.entries(scores).map(([k,v])=>({k,...v})).sort((a,b)=>(b.p|0)-(a.p|0));
+  $('#kOn').textContent=on.length;$('#kPl').textContent=sc.length;$('#kTot').textContent=nf(stats.total);const it=stats.interest||{};$('#kInt').textContent=nf(Object.values(it).reduce((a,b)=>a+(+b||0),0));$('#kCh').textContent=Object.keys(drops).length;
+  const dv=stats.dist||{},R=DIST.map(([k,n,c])=>({n,c,v:+dv[k]||0})).sort((a,b)=>b.v-a.v),mx=Math.max(1,...R.map(r=>r.v));
+  $('#dist').innerHTML=R.map((r,i)=>`<div class="dl"><span>${i===0&&r.v?'👑 ':''}${esc(r.n)}</span><div class="bar"><i style="width:${r.v/mx*100}%;background:${r.c}"></i></div><b style="text-align:right">${nf(r.v)}</b></div>`).join('');
+  const I=PX.map(p=>({n:p.name,v:+it[p.id]||0,c:p.pa||'#D50654'})).sort((a,b)=>b.v-a.v),mi=Math.max(1,...I.map(r=>r.v));
+  $('#int').innerHTML=I.map(r=>`<div class="dl"><span>${esc(r.n)}</span><div class="bar"><i style="width:${r.v/mi*100}%;background:${r.c}"></i></div><b style="text-align:right">${nf(r.v)}</b></div>`).join('');
+  $('#on').innerHTML=on.map(([k,v])=>`<tr><td>${esc(v.n)}</td><td>${esc(dn(v.d))}</td><td class="n">${nf(v.p)}</td><td><button class="s d" data-ban="${k}" data-n="${esc(v.n)}">ระงับ</button></td></tr>`).join('')||'<tr><td colspan="4" class="note">ยังไม่มีคนออนไลน์</td></tr>';
+  $('#sc').innerHTML=sc.map((r,i)=>`<tr><td>${i+1}</td><td>${esc(r.n)}${players[r.k]?' 🟢':''}</td><td>${esc(dn(r.d))}</td><td class="n">${nf(r.p)}</td><td><button class="s d" data-ban="${r.k}" data-n="${esc(r.n)}">ระงับ</button></td></tr>`).join('')||'<tr><td colspan="5" class="note">ยังไม่มีแต้มวันนี้</td></tr>';
+  $('#ban').innerHTML=Object.entries(banned).map(([k,v])=>`<tr><td>${esc(v&&v.n||k)}</td><td><button class="s" data-unban="${k}">ยกเลิกระงับ</button></td></tr>`).join('')||'<tr><td class="note">ไม่มี</td></tr>';
+  $('#wins').innerHTML=Object.values(winners).sort((a,b)=>b.t-a.t).map(w=>`<tr><td>${new Date(w.t).toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'})}</td><td>${esc(w.n)}</td><td>${esc(dn(w.d))}</td></tr>`).join('');
+  document.querySelectorAll('[data-ban]').forEach(b=>b.onclick=()=>{const k=b.dataset.ban;if(!confirm(`ระงับ "${b.dataset.n}" ? ชื่อและแต้มจะถูกลบออกจากงาน`))return;
+    const u={};u['banned/'+k]={n:b.dataset.n,t:Date.now()};u['players/'+k]=null;u['scores/'+DAY+'/'+k]=null;base.update(u).then(()=>toast('ระงับแล้ว')).catch(err)});
+  document.querySelectorAll('[data-unban]').forEach(b=>b.onclick=()=>base.child('banned/'+b.dataset.unban).remove().then(()=>toast('ยกเลิกแล้ว')).catch(err))}
+const ann=a=>base.child('announce').set(Object.assign({t:Date.now()},a));
+$('#aSend').onclick=()=>{const m=$('#aMsg').value.trim();if(!m)return toast('พิมพ์ข้อความก่อน');ann({kind:'msg',msg:m}).then(()=>{toast('ส่งประกาศแล้ว');$('#aMsg').value=''}).catch(err)};
+$('#aBurst').onclick=()=>ann({kind:'burst',msg:$('#aMsg').value.trim()||'🎆 ขอบคุณทุกคนที่มาร่วมงาน!'}).then(()=>toast('จุดพลุแล้ว')).catch(err);
+$('#cdGo').onclick=()=>base.child('countdown').set({until:Date.now()+(+$('#cdMin').value)*60000,msg:'จับรางวัลผู้โชคดี',t:Date.now()}).then(()=>toast('เริ่มนับถอยหลังแล้ว')).catch(err);
+$('#cdStop').onclick=()=>base.child('countdown').set({until:0,t:Date.now()}).then(()=>toast('หยุดนับถอยหลังแล้ว')).catch(err);
+$('#drGo').onclick=()=>{const min=+$('#drMin').value||0,won=new Set(Object.values(winners).map(w=>w.u));
+  let pool=Object.entries(scores).filter(([k,v])=>(v.p|0)>=min&&!won.has(k)&&!banned[k]);if($('#drOn').value==='on')pool=pool.filter(([k])=>players[k]);
+  if(!pool.length)return toast('ไม่มีผู้มีสิทธิ์ตามเงื่อนไข');let n=0;const W=$('#drW');const spin=setInterval(()=>{W.textContent='🎲 '+pool[Math.floor(Math.random()*pool.length)][1].n;if(++n>18){clearInterval(spin);
+    const a=new Uint32Array(1);crypto.getRandomValues(a);const [k,v]=pool[a[0]%pool.length];W.textContent='🎉 '+v.n+' · '+dn(v.d);
+    base.child('winners/'+DAY).push({u:k,n:v.n,d:v.d||'',p:v.p|0,t:Date.now()}).catch(err);ann({kind:'winner',name:v.n,dist:v.d||'',msg:'ผู้โชคดีประจำรอบ · รับรางวัลที่บูธสำนักงานสถิติ'}).catch(err)}},90)};
+$('#top3').onclick=()=>{const t=Object.values(scores).sort((a,b)=>(b.p|0)-(a.p|0)).slice(0,3);if(!t.length)return toast('ยังไม่มีแต้ม');ann({kind:'msg',msg:'🏆 Top 3 วันนี้: '+t.map((r,i)=>`${['🥇','🥈','🥉'][i]} ${r.n} (${nf(r.p)})`).join('  ')}).then(()=>toast('ประกาศแล้ว')).catch(err)};
+$('#csv').onclick=()=>{const rows=[['อันดับ','ชื่อ','อำเภอ','แต้ม','ออนไลน์อยู่','ได้รางวัล']];const won=new Set(Object.values(winners).map(w=>w.u));
+  Object.entries(scores).map(([k,v])=>({k,...v})).sort((a,b)=>(b.p|0)-(a.p|0)).forEach((r,i)=>rows.push([i+1,r.n,dn(r.d),r.p|0,players[r.k]?'ใช่':'',won.has(r.k)?'ใช่':'']));
+  const csv='﻿'+rows.map(r=>r.map(x=>`"${String(x).replace(/"/g,'""')}"`).join(',')).join('\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));a.download=`expo-players-${DAY}.csv`;a.click()};
+</script>
+</body>
+</html>
