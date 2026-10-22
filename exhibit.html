@@ -152,13 +152,26 @@ body.pres .card{top:max(16px,env(safe-area-inset-top));bottom:calc(max(16px,env(
 body.rec .recb{display:flex}
 #bSnd #sndW{display:none}#bSnd.on #sndW{display:inline}#bSnd.on #sndX{display:none}
 @media (max-width:820px){#bRec,#bPres{display:none}}
+/* player */
+.pname{display:flex;flex-direction:column;gap:4px;margin-top:12px;font-family:var(--f-head);font-size:13px;color:var(--muted)}
+.pname input{height:44px;border-radius:12px;border:1px solid var(--line);padding:0 12px;font:inherit;font-size:16px;background:rgba(255,255,255,.7);color:#2C1A23}
+.pts{display:inline-flex;align-items:center;gap:4px;font-family:var(--f-head);color:#C99A3E;font-weight:600}
+.lb{margin-top:16px;border-top:1px solid var(--line);padding-top:12px}
+.lb h3{margin:0 0 8px;font-family:var(--f-head);font-size:16px}
+.lb ol{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.lb li{display:grid;grid-template-columns:30px 1fr auto auto;gap:8px;align-items:center;padding:7px 10px;border-radius:12px;background:rgba(255,255,255,.35);border:1px solid var(--line);font-size:14px}
+.lb li b{font-family:var(--f-head);color:#D50654}.lb li.me{border-color:#D50654;background:rgba(213,6,84,.08)}
+.lb li .rk{font-family:var(--f-latin);font-style:italic;font-size:18px;color:#C99A3E;text-align:center}
+.lb li small{color:var(--muted)}
+.pop-pts{position:fixed;left:50%;top:36%;transform:translateX(-50%);z-index:61;font-family:var(--f-head);font-weight:700;font-size:34px;color:#C99A3E;text-shadow:0 2px 0 #fff,0 6px 16px rgba(0,0,0,.25);pointer-events:none;animation:pp 1.2s ease-out forwards}
+@keyframes pp{0%{opacity:0;transform:translate(-50%,10px)}20%{opacity:1}100%{opacity:0;transform:translate(-50%,-50px)}}
 /* stamp rally */
 .stp{position:fixed;right:max(14px,env(safe-area-inset-right));top:calc(max(12px,env(safe-area-inset-top)) + 58px);z-index:11;display:flex;align-items:center;gap:10px;padding:6px 14px 6px 6px;border-radius:999px;cursor:pointer;border:1px solid var(--line);font-family:var(--f-head);font-size:14px;color:var(--ink)}
 .stp .rg{width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:conic-gradient(#D50654 calc(var(--p)*1%),rgba(213,6,84,.14) 0);font-size:12px;font-weight:600;color:#D50654}
 .stp .rg i{width:30px;height:30px;border-radius:50%;background:var(--glass-b);display:grid;place-items:center;font-style:normal}
 .stp b{color:#D50654}
 .stp.pop{animation:stpop .7s}@keyframes stpop{30%{transform:scale(1.15)}}
-.card.on~.stp{opacity:0;pointer-events:none}
+body.cardon .stp{opacity:0;pointer-events:none}
 body.pres .stp{display:none}
 .pass{position:fixed;inset:0;z-index:45;display:none;place-items:center;padding:16px;background:rgba(30,10,20,.5)}
 .pass.on{display:grid}
@@ -235,6 +248,7 @@ body.pres .stp{display:none}
     <p id="inSub">บูธจัดแสดงสินค้าอัตลักษณ์รอบลานดอกบัว เลือกบูธจากมุมสูง หรือเดินชมทีละบูธ แตะที่บูธเพื่อดูเรื่องราวและข้อมูลจริงจากหน่วยงาน</p>
     <div class="stats"><div><b id="stN">14</b><span>บูธสินค้า</span></div><div><b id="stR">0</b><span>บูธมีข้อมูลจริง</span></div><div><b id="stG">0</b><span>สินค้า GI</span></div></div>
     <div class="load"><i id="loadBar"></i></div>
+    <label class="pname"><span>ชื่อที่แสดงในงาน</span><input id="pName" maxlength="24" placeholder="เช่น น้องฟ้า สำนักงานสถิติ" autocomplete="nickname"></label>
     <div class="acts"><button class="tb p go" id="bGo" type="button" disabled>กำลังเตรียมงาน…</button><button class="tb go" id="bTour2" type="button" disabled>▶ ทัวร์อัตโนมัติ</button></div>
     <div class="hint" id="hint"></div>
   </div>
@@ -274,7 +288,7 @@ body.pres .stp{display:none}
   <p style="text-align:right;margin:12px 0 0"><button class="tb" id="hX" type="button">เข้าใจแล้ว</button></p>
 </div>
 <div class="toast glass" id="toast"></div>
-<button class="stp glass" id="stp" type="button" style="--p:0"><span class="rg"><i id="stpN">0</i></span><span>แสตมป์ <b id="stpC">0/14</b><br><small style="color:var(--muted);font-size:11.5px">เดินชมครบ รับใบประกาศ · 🪷 บัวทอง <b id="lotN" style="color:#C99A3E">0/5</b></small></span></button>
+<button class="stp glass" id="stp" type="button" style="--p:0"><span class="rg"><i id="stpN">0</i></span><span>แสตมป์ <b id="stpC">0/14</b><br><small style="color:var(--muted);font-size:11.5px">🪷 บัวทอง <b id="lotN" style="color:#C99A3E">0/5</b> · <span class="pts">★ <span id="ptN">0</span></span></small></span></button>
 <div class="stamp-fx" id="stfx"></div>
 <div class="pass" id="pass" role="dialog" aria-modal="true" aria-labelledby="psT"><div class="box glass">
   <small>Expo Passport</small><h2 id="psT">สมุดแสตมป์ “นักชิมของดีลุ่มภู”</h2>
@@ -346,8 +360,8 @@ function openCard(i){const p=ITEMS[i];if(!p)return;try{STAMP.add(i)}catch(e){}ca
     <h3>ข้อมูลจากหน่วยงาน ${F.length?`<span class="pill">● ข้อมูลจริง ${F.length} ชุด</span>`:'<span class="pill w">รอไฟล์ข้อมูล</span>'}</h3>
     <div class="kp">${F.length?F.slice(0,4).map(f=>`<div><small>${esc(f.item)} · ปี ${f.y}</small><b>${fmt(f.v)}</b><em>${esc(f.u)}</em></div>`).join(''):'<div class="wait">ยังไม่มีไฟล์ข้อมูลจากหน่วยงาน · บูธพร้อมจัดแสดงแล้ว</div>'}</div>
     <h3>เรื่องราว</h3><p class="st">${esc(p.story||'')}</p>`;
-  $('#cGo').href=`p${pad2(p.id)}.html`;c.classList.add('on');syncDock(i);try{window.__chime&&window.__chime()}catch(e){}if(document.body.classList.contains('pres')){$('#pNow').textContent=`บูธ ${pad2(p.id)} · ${p.name}  (${i+1}/${ITEMS.length})`}}
-function closeCard(){$('#card').classList.remove('on');cardI=-1}
+  $('#cGo').href=`p${pad2(p.id)}.html`;c.classList.add('on');document.body.classList.add('cardon');syncDock(i);try{window.__chime&&window.__chime()}catch(e){}if(document.body.classList.contains('pres')){$('#pNow').textContent=`บูธ ${pad2(p.id)} · ${p.name}  (${i+1}/${ITEMS.length})`}}
+function closeCard(){$('#card').classList.remove('on');document.body.classList.remove('cardon');cardI=-1}
 
 /* ---------- ปุ่มทั่วไป + ผู้สร้างนิทรรศการ ---------- */
 function bindUI(){
@@ -401,25 +415,46 @@ if(GAS.ok){$('#mkPub').hidden=false;$('#mkPub').onclick=()=>{const ids=[...$('#m
   .catch(()=>{$('#mkPub').disabled=false;toast('เผยแพร่ไม่สำเร็จ · ตรวจสอบการเชื่อม Google Sheets')})}}
 
 
+
+/* ================= ผู้เล่น · แต้ม · สถิติการเข้าชม (ส่งไป Google Sheets) ================= */
+const PLAYER=(function(){const ls=(k,v)=>{try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v)}catch(e){return null}};
+  let id=ls('nbl12-pid');if(!id){id=Math.random().toString(36).slice(2,10)+Date.now().toString(36).slice(-4);ls('nbl12-pid',id)}
+  let name=ls('nbl12-pname')||'';let pts=+(ls('nbl12-pts-'+new Date().toISOString().slice(0,10))||0);const t0=Date.now();const Qe=[];
+  const inp=$('#pName');if(inp){inp.value=name;inp.oninput=inp.onchange=()=>{name=inp.value.trim().slice(0,24);ls('nbl12-pname',name)}}
+  function ui(){const e=$('#ptN');if(e)e.textContent=pts.toLocaleString('th-TH')}
+  function pop(n){const d=document.createElement('div');d.className='pop-pts';d.textContent='+'+n;document.body.appendChild(d);setTimeout(()=>d.remove(),1300)}
+  function add(n,ev,extra){pts+=n;ls('nbl12-pts-'+new Date().toISOString().slice(0,10),pts);ui();if(n)pop(n);log(ev,extra)}
+  function log(ev,extra){Qe.push(Object.assign({ev,t:new Date().toISOString()},extra||{}));if(Qe.length>=8)flush()}
+  function flush(final){if(!GAS_URL||!Qe.length&&!final)return;const body=JSON.stringify({action:'log',pid:id,name:name||'ผู้เข้าชม',ex:Q.get('ex')||'',pts,stamps:STAMP.count(),lotus:(window.HUNT?HUNT.n:0),secs:Math.round((Date.now()-t0)/1000),ua:/iPad|iPhone|Android/i.test(navigator.userAgent)?'mobile':'desktop',events:Qe.splice(0)});
+    try{if(final&&navigator.sendBeacon){navigator.sendBeacon(GAS_URL,new Blob([body],{type:'text/plain'}));return}fetch(GAS_URL,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body}).catch(()=>{})}catch(e){}}
+  setInterval(()=>flush(true),30000);addEventListener('pagehide',()=>flush(true));document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden')flush(true)});
+  function top(){if(!GAS_URL)return Promise.resolve([]);const u=new URL(GAS_URL);u.searchParams.set('action','top');return fetch(u.toString()).then(r=>r.json()).then(j=>j.items||[]).catch(()=>[])}
+  setTimeout(()=>{ui();log('enter',{ref:document.referrer.slice(0,80)})},0);
+  return{add,log,flush,top,get id(){return id},get name(){return name||'ผู้เข้าชม'},get pts(){return pts}}})();
+
 /* ================= สะสมแสตมป์ (Expo Passport) ================= */
 const STAMP=(function(){const KEY='nbl12-stamps-'+(Q.get('ex')||Q.get('p')||'all');let got=new Set();try{got=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){}
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify([...got]))}catch(e){}};
   function ui(){const n=got.size,N2=ITEMS.length;$('#stpN').textContent=n;$('#stpC').textContent=`${n}/${N2}`;$('#stp').style.setProperty('--p',Math.round(n/N2*100))}
-  function add(i){const id=ITEMS[i].id;if(got.has(id))return;got.add(id);save();ui();const b=$('#stp');b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');
+  function add(i){const id=ITEMS[i].id;try{PLAYER.log('booth',{b:id})}catch(e){}if(got.has(id))return;got.add(id);save();ui();try{PLAYER.add(10,'stamp',{b:id});if(got.size===ITEMS.length)PLAYER.add(100,'complete')}catch(e){}const b=$('#stp');b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');
     const fx=$('#stfx');fx.innerHTML=`<div><img src="img/icon-${pad2(id)}.webp" alt=""><br>${got.size}/${ITEMS.length}</div>`;fx.classList.remove('on');void fx.offsetWidth;fx.classList.add('on');
     if(got.size===ITEMS.length)setTimeout(()=>{toast('🎉 สะสมครบทุกบูธแล้ว! รับใบประกาศได้เลย');open()},1500)}
   function open(){const g=$('#psG');g.innerHTML=ITEMS.map((p,i)=>`<div class="s ${got.has(p.id)?'ok':''}" style="--c:${p.pa}" data-i="${i}"><div><img src="img/icon-${pad2(p.id)}.webp" alt=""><br><span>${esc(p.name.replace(/^GI /,''))}</span></div></div>`).join('');
     g.querySelectorAll('.s').forEach(d=>d.onclick=()=>{$('#pass').classList.remove('on');window.EXPO&&EXPO.goBooth(+d.dataset.i,true)});
-    const done=got.size>=ITEMS.length;$('#psF').innerHTML=done?`<input id="psName" maxlength="40" placeholder="พิมพ์ชื่อของคุณ"><button class="tb p" id="psMake" type="button">สร้างใบประกาศ</button><button class="tb" id="psX" type="button">ปิด</button>`:`<span style="color:var(--muted)">เหลืออีก <b style="color:#D50654">${ITEMS.length-got.size}</b> บูธ</span><span class="sp" style="flex:1"></span><button class="tb" id="psReset" type="button">เริ่มใหม่</button><button class="tb p" id="psX" type="button">เดินชมต่อ</button>`;
+    const done=got.size>=ITEMS.length;$('#psF').innerHTML=done?`<input id="psName" maxlength="40" placeholder="พิมพ์ชื่อของคุณ" value="${esc(PLAYER.name==="ผู้เข้าชม"?"":PLAYER.name)}"><button class="tb p" id="psMake" type="button">สร้างใบประกาศ</button><button class="tb" id="psX" type="button">ปิด</button>`:`<span style="color:var(--muted)">เหลืออีก <b style="color:#D50654">${ITEMS.length-got.size}</b> บูธ</span><span class="sp" style="flex:1"></span><button class="tb" id="psReset" type="button">เริ่มใหม่</button><button class="tb p" id="psX" type="button">เดินชมต่อ</button>`;
     $('#psC').style.display='none';$('#psX').onclick=()=>$('#pass').classList.remove('on');
+    let lb=$('#psLB');if(!lb){lb=document.createElement('div');lb.id='psLB';lb.className='lb';$('#pass .box').appendChild(lb)}
+    lb.innerHTML=`<h3>🏆 อันดับนักชิมวันนี้ <small style="color:var(--muted);font-weight:400">· คุณ ${esc(PLAYER.name)} ★ ${PLAYER.pts.toLocaleString('th-TH')} แต้ม</small></h3><p class="note" style="margin:0">${GAS_URL?'กำลังโหลด…':'อันดับจะแสดงเมื่อเชื่อม Google Sheets'}</p>`;
+    PLAYER.flush(true);setTimeout(()=>PLAYER.top().then(L0=>{if(!L0.length){lb.querySelector('.note').textContent='ยังไม่มีอันดับวันนี้ · เป็นคนแรกเลย!';return}
+      lb.innerHTML=lb.querySelector('h3').outerHTML+'<ol>'+L0.slice(0,10).map((r,k)=>`<li class="${r.pid===PLAYER.id?'me':''}"><span class="rk">${k+1}</span><span>${esc(r.name)}</span><small>🎫 ${r.stamps} · 🪷 ${r.lotus}</small><b>★ ${Number(r.pts).toLocaleString('th-TH')}</b></li>`).join('')+'</ol>'}),1200);
     if($('#psReset'))$('#psReset').onclick=()=>{got.clear();save();ui();try{HUNT.reset()}catch(e){}open()};
     if($('#psMake'))$('#psMake').onclick=cert;$('#pass').classList.add('on')}
-  function cert(){const nm=($('#psName').value||'').trim()||'ผู้เข้าชม';const c=$('#psC'),x=c.getContext('2d'),W=c.width,H=c.height;
+  function cert(){const nm=($('#psName').value||'').trim()||PLAYER.name;try{PLAYER.log('certificate')}catch(e){}const c=$('#psC'),x=c.getContext('2d'),W=c.width,H=c.height;
     const bg=x.createLinearGradient(0,0,W,H);bg.addColorStop(0,'#FFF7FA');bg.addColorStop(1,'#F8DCE8');x.fillStyle=bg;x.fillRect(0,0,W,H);
     x.strokeStyle='#D9B15E';x.lineWidth=14;x.strokeRect(36,36,W-72,H-72);x.lineWidth=3;x.strokeRect(62,62,W-124,H-124);
     const draw=()=>{x.textAlign='center';x.fillStyle='#D50654';x.font='italic 600 54px Fraunces, Georgia, serif';x.fillText('Certificate of Discovery',W/2,262);
       x.fillStyle='#2C1A23';x.font='600 76px Kanit, sans-serif';x.fillText('ใบประกาศ “นักชิมของดีลุ่มภู”',W/2,358);
-      x.fillStyle='#7A5A6A';x.font='400 40px Kanit, sans-serif';x.fillText('มอบให้แก่',W/2,440);x.fillStyle='#B3134F';x.font='600 92px Kanit, sans-serif';x.fillText(nm,W/2,550);
+      x.fillStyle='#7A5A6A';x.font='400 40px Kanit, sans-serif';x.fillText('มอบให้แก่',W/2,440);x.fillStyle='#B3134F';x.font='600 92px Kanit, sans-serif';x.fillText(nm,W/2,550);x.fillStyle='#C99A3E';x.font='600 40px Kanit, sans-serif';x.fillText('★ '+PLAYER.pts.toLocaleString('th-TH')+' แต้ม',W/2,700-24);
       x.fillStyle='#5A3A4A';x.font='400 38px Kanit, sans-serif';x.fillText(`ผู้เดินชมครบ ${ITEMS.length} บูธ ในงาน “${EXNAME}”`,W/2,630);
       ITEMS.forEach((p,k)=>{const im=new Image();im.onload=()=>{const per=Math.min(14,ITEMS.length),cw=Math.min(96,(W-260)/per),row=Math.floor(k/per),col=k%per,n=Math.min(per,ITEMS.length-row*per);const x0=W/2-(n*cw)/2+col*cw;x.save();x.beginPath();x.arc(x0+cw/2,720+row*110+cw/2,cw/2-6,0,7);x.clip();x.drawImage(im,x0+6,720+row*110+6,cw-12,cw-12);x.restore()};im.src=`img/icon-${pad2(p.id)}.webp`});
       if(window.HUNT&&HUNT.n>=HUNT.total()){const lo=new Image();lo.onload=()=>{x.drawImage(lo,W-330,130,200,200);x.fillStyle='#A8742A';x.font='600 30px Kanit, sans-serif';x.fillText('ตราบัวทอง',W-230,360)};lo.src='img/expo-lotus.webp'}
@@ -427,7 +462,7 @@ const STAMP=(function(){const KEY='nbl12-stamps-'+(Q.get('ex')||Q.get('p')||'all
     const s=new Image();s.onload=()=>{x.drawImage(s,W/2-60,80,120,114);draw()};s.onerror=draw;s.src='img/seal.png';
     c.style.display='block';$('#psF').insertAdjacentHTML('beforeend','<button class="tb" id="psSave" type="button">บันทึกรูป</button>');
     $('#psSave').onclick=()=>{try{const a=document.createElement('a');a.href=c.toDataURL('image/png');a.download='certificate-12plus.png';document.body.appendChild(a);a.click();a.remove();toast('บันทึกใบประกาศแล้ว')}catch(e){toast('กดค้างที่รูปเพื่อบันทึก')}}}
-  $('#stp').onclick=open;$('#pass').onclick=e=>{if(e.target.id==='pass')$('#pass').classList.remove('on')};ui();return{add,open}})();
+  $('#stp').onclick=open;$('#pass').onclick=e=>{if(e.target.id==='pass')$('#pass').classList.remove('on')};ui();return{add,open,count:()=>got.size}})();
 
 buildDock();bindUI();
 
@@ -507,7 +542,7 @@ const skyRim=new THREE.Mesh(new THREE.TorusGeometry(9,.16,12,128),goldM);skyRim.
   const W2=c.width,H2=c.height,cx=W2/2,cy=H2*.285;x.textAlign='center';x.textBaseline='middle';x.fillStyle='#B0124F';x.font=`italic 600 ${Math.round(H2*.06)}px Fraunces, Georgia, serif`;x.fillText('12 Plus+ · Virtual Expo',cx,cy-H2*.06);
   x.fillStyle='#3A1F2E';const nm=EXNAME;let fs=Math.round(H2*.085);x.font=`600 ${fs}px Kanit, sans-serif`;while(x.measureText(nm).width>W2*.4&&fs>20){fs-=2;x.font=`600 ${fs}px Kanit, sans-serif`}x.fillText(nm,cx,cy+H2*.035);
   const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;
-  [0,2*Math.PI/3,4*Math.PI/3].forEach(a=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(17,5.67),new THREE.MeshBasicMaterial({map:t,toneMapped:false,color:DK?0x9A8A94:0xFFFFFF}));const r=HALL-2.2;m.position.set(Math.sin(a)*r,wallH-3.3,Math.cos(a)*r);m.lookAt(0,wallH-3.3,0);scene.add(m)});
+  [0,2*Math.PI/3,4*Math.PI/3].forEach(a=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(14,4.67),new THREE.MeshBasicMaterial({map:t,toneMapped:false,color:DK?0x9A8A94:0xFFFFFF}));const r=HALL-3.6;m.position.set(Math.sin(a)*r,wallH-2.75,Math.cos(a)*r);m.lookAt(0,wallH-2.75,0);m.renderOrder=2;scene.add(m)});
   done++;prog();check()};im.onerror=()=>{done++;prog();check()};im.src='img/expo-arch.webp'})();
 /* โคมแขวน: วงแหวนแสง */
 const halo=new THREE.Mesh(new THREE.TorusGeometry(R-1,.05,8,180),new THREE.MeshBasicMaterial({color:DK?0xFF7FB2:0xFFE3EE,toneMapped:false}));halo.rotation.x=Math.PI/2;halo.position.y=wallH-1.4;scene.add(halo);
@@ -717,7 +752,7 @@ const BANNERS=[];
 /* ---------- ลายแมนดาลาบัวทองบนพื้นรอบโต๊ะแผนที่ + ธงผ้าไหมแขวนรอบโถง ---------- */
 {const dm=new THREE.MeshBasicMaterial({map:blank,transparent:true,depthWrite:false,toneMapped:false,opacity:DK?.55:.9});const dc=new THREE.Mesh(new THREE.PlaneGeometry(13.2,13.2),dm);dc.rotation.x=-Math.PI/2;dc.position.y=.011;scene.add(dc);img('img/expo-mandala.webp',1024,t=>{dm.map=t;dm.needsUpdate=true})}
 {const bm=new THREE.MeshBasicMaterial({map:blank,transparent:true,alphaTest:.05,side:THREE.DoubleSide,toneMapped:false,color:DK?0xB8A8B0:0xFFFFFF});img('img/expo-banner.webp',900,t=>{bm.map=t;bm.needsUpdate=true});
-  const NB=12;for(let k=0;k<NB;k++){const a=(k+.5)/NB*Math.PI*2;const m=new THREE.Mesh(new THREE.PlaneGeometry(1.15,3.45),bm);const r=HALL-3.4;m.position.set(Math.sin(a)*r,wallH-2.3,Math.cos(a)*r);m.lookAt(0,wallH-2.3,0);m.userData.sw=k;scene.add(m);BANNERS.push(m)}}
+  const NB=12;const ARCH=[0,2*Math.PI/3,4*Math.PI/3];for(let k=0;k<NB;k++){const a=(k+.5)/NB*Math.PI*2;if(ARCH.some(z=>Math.abs(Math.atan2(Math.sin(a-z),Math.cos(a-z)))<.42))continue;const m=new THREE.Mesh(new THREE.PlaneGeometry(1.15,3.45),bm);const r=HALL-3.4;m.position.set(Math.sin(a)*r,wallH-2.3,Math.cos(a)*r);m.lookAt(0,wallH-2.3,0);m.userData.sw=k;scene.add(m);BANNERS.push(m)}}
 
 const HERO=(function(){const list=[];const coneT=cv(64,256,(x,w,h)=>{const g=x.createLinearGradient(0,0,0,h);g.addColorStop(0,'rgba(255,246,230,0)');g.addColorStop(.12,'rgba(255,246,230,.55)');g.addColorStop(1,'rgba(255,246,230,0)');x.fillStyle=g;x.fillRect(0,0,w,h)});
   const spark=cv(64,64,(x,w,h)=>{const g=x.createRadialGradient(32,32,0,32,32,32);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(.25,'rgba(255,230,170,.8)');g.addColorStop(1,'rgba(255,230,170,0)');x.fillStyle=g;x.fillRect(0,0,w,h)});
@@ -872,7 +907,11 @@ const PEOPLE=[];
       Object.values(act).forEach(a=>{a.enabled=true;a.setEffectiveWeight(0);a.play()});act.walk&&act.walk.setEffectiveWeight(1);
       mixer.update(Math.random()*3);
       const r=R-5.0+((k*53)%10)/10*1.5,dir=k%3===0?-1:1;
+      const tag=new THREE.Sprite(new THREE.SpriteMaterial({map:nameTag(NAMES[(k*7+new Date().getDate())%NAMES.length]),transparent:true,depthWrite:false,toneMapped:false}));tag.scale.set(1.1,.275,1);tag.position.y=2.05;tag.renderOrder=6;holder.add(tag);
       PEOPLE.push({g:holder,mixer,act,cur:'walk',r,a:k/NP*Math.PI*2,v:dir*(.04+((k*29)%10)/500),ph:k})}}).catch(e=>console.warn('visitors',e))})();
+const NAMES=['น้องฟ้า','พี่ต้น','แพรวา','ภูมิ','มายด์','คุณสมชาย','ป้าบุญมี','ลุงทอง','เจน','กอล์ฟ','ใบเตย','ครูแอน','Mint','Ploy','Ton','Nicha','บอส','น้ำหวาน','พี่เอก','ฝน'];
+function nameTag(txt,col){return cv(512,128,(x,w,h)=>{x.font='600 52px Kanit, sans-serif';const tw=Math.min(w-20,x.measureText(txt).width+64);x.fillStyle='rgba(30,18,24,.72)';x.beginPath();x.roundRect?x.roundRect((w-tw)/2,18,tw,h-36,46):x.rect((w-tw)/2,18,tw,h-36);x.fill();
+  x.fillStyle=col||'#7BE0A6';x.beginPath();x.arc((w-tw)/2+30,h/2,9,0,7);x.fill();x.fillStyle='#fff';x.textAlign='center';x.textBaseline='middle';x.fillText(txt,w/2+10,h/2+2)})}
 function fadeTo(q,n){if(q.cur===n||!q.act[n])return;const from=q.act[q.cur],to=q.act[n];to.reset();to.setEffectiveWeight(1);to.play();if(from)from.crossFadeTo(to,.45,false);q.cur=n}
 function movePeople(dt,t){for(const q of PEOPLE){/* เดิน → หยุดชมบูธ (ยืน/พยักหน้า) → เดินต่อ */const cyc=(t*.08+q.ph*.37)%1;const walking=cyc<.6;
     if(walking){q.a+=q.v*dt;fadeTo(q,'walk')}else fadeTo(q,cyc<.78?'idle':(q.ph%2?'agree':'idle'));
@@ -884,16 +923,19 @@ function movePeople(dt,t){for(const q of PEOPLE){/* เดิน → หยุ�
 
 
 /* ================= ภารกิจตามหาดอกบัวทอง 5 ดอก ================= */
-const HUNT=(function(){const KEY='nbl12-lotus';let got=new Set();try{got=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){}
+const HUNT=(function(){const KEY='nbl12-lotus-'+new Date().toISOString().slice(0,10);let got=new Set();try{got=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch(e){}
   const save=()=>{try{localStorage.setItem(KEY,JSON.stringify([...got]))}catch(e){}};
   const mat=new THREE.SpriteMaterial({map:blank,transparent:true,depthWrite:false,toneMapped:false});img('img/expo-lotus.webp',384,t=>{mat.map=t;mat.needsUpdate=true});
   const halo=new THREE.SpriteMaterial({map:glowTex,color:0xFFD27A,transparent:true,opacity:.7,depthWrite:false,blending:THREE.AdditiveBlending,toneMapped:false});
   /* จุดซ่อน: หลังเสาป้าย, ข้างบูธ, บนโต๊ะแผนที่, ใต้ธง, ริมทางเดินด้านนอก */
-  const spots=[[BOOTH[2]&&BOOTH[2].a,R+2.6,.6],[BOOTH[6]&&BOOTH[6].a,8.4,3.55],[0.9,3.2,1.5],[BOOTH[10]&&BOOTH[10].a,R-2.4,2.9],[BOOTH[12]&&BOOTH[12].a+Math.PI/N,R+.2,.45]];
-  const L=[];spots.forEach((sp,k)=>{if(sp[0]==null)return;const a=sp[0]+(k===0?Math.PI/N:0),r=sp[1];const g=new THREE.Group();g.position.set(Math.sin(a)*r,sp[2],Math.cos(a)*r);scene.add(g);
+  /* จุดซ่อนที่เป็นไปได้ 14 แบบ × ทุกบูธ → สุ่มด้วยเมล็ดของวันนี้ ทุกคนวันเดียวกันได้ตำแหน่งเดียวกัน แต่เปลี่ยนทุกวัน */
+  const day=new Date().toISOString().slice(0,10);let sd=[...day].reduce((a,c)=>a*31+c.charCodeAt(0),7)>>>0;const rnd=()=>{sd=(sd*1664525+1013904223)>>>0;return sd/4294967296};
+  const kinds=[[R+2.6,.6,Math.PI/N],[8.4*.82,2.95,0],[R-2.4,2.9,0],[R+.2,.45,Math.PI/N],[R-5,1.3,Math.PI/N],[HALL-3,.5,.12],[3.2,1.5,.5]];
+  const used=new Set(),spots=[];while(spots.length<5){const bi=Math.floor(rnd()*N),ki=Math.floor(rnd()*kinds.length),key=bi+'-'+ki;if(used.has(key)||[...used].some(u=>u.split('-')[0]==bi))continue;used.add(key);const kd=kinds[ki];spots.push([BOOTH[bi]&&BOOTH[bi].a+kd[2],kd[0],kd[1]])}
+  const L=[];spots.forEach((sp,k)=>{if(sp[0]==null)return;const a=sp[0],r=sp[1];const g=new THREE.Group();g.position.set(Math.sin(a)*r,sp[2],Math.cos(a)*r);scene.add(g);
     const hs=new THREE.Sprite(halo);hs.scale.set(1.1,1.1,1);g.add(hs);const s=new THREE.Sprite(mat);s.scale.set(.55,.55,1);s.userData.hunt=k;g.add(s);clickables.push(s);s.userData.i=-1;L.push({g,s,k});if(got.has(k))g.visible=false});
   function ui(){const e=$('#lotN');if(e)e.textContent=`${got.size}/${L.length}`}
-  function take(k){if(got.has(k))return;got.add(k);save();const o=L.find(x=>x.k===k);if(o)o.g.visible=false;ui();try{SND.chime()}catch(e){}
+  function take(k){if(got.has(k))return;got.add(k);save();try{PLAYER.add(50,'lotus',{k});if(got.size>=L.length)PLAYER.add(150,'lotus_all')}catch(e){}const o=L.find(x=>x.k===k);if(o)o.g.visible=false;ui();try{SND.chime()}catch(e){}
     const fx=$('#stfx');fx.innerHTML=`<div><img src="img/expo-lotus.webp" alt=""><br>บัวทอง ${got.size}/${L.length}</div>`;fx.classList.remove('on');void fx.offsetWidth;fx.classList.add('on');
     toast(got.size>=L.length?'🏆 เจอดอกบัวทองครบแล้ว! ใบประกาศของคุณจะมีตราบัวทองพิเศษ':`เจอดอกบัวทอง ${got.size}/${L.length} · ยังซ่อนอยู่อีก ${L.length-got.size} ดอก`)}
   function tick(t){L.forEach(o=>{if(!o.g.visible)return;o.s.position.y=Math.sin(t*2+o.k)*.08;o.s.material.rotation=Math.sin(t+o.k)*.15})}
@@ -960,7 +1002,7 @@ function jmove(e){const r=joy.getBoundingClientRect();let dx=e.clientX-(r.left+r
 /* ---------- เข้าสู่งาน ---------- */
 let entered=false;
 function enter(){if(entered)return;entered=true;$('#intro').classList.add('off');$('#veil').classList.add('off')}
-$('#bGo').onclick=()=>{enter();orbit.auto=false;setMode('walk')};
+$('#bGo').onclick=()=>{const v=($('#pName').value||'').trim();if(v){try{localStorage.setItem('nbl12-pname',v)}catch(e){}}enter();orbit.auto=false;setMode('walk')};
 
 /* ================= วงลูป ================= */
 const clock=new THREE.Clock();const fwd=new THREE.Vector3(),rgt=new THREE.Vector3();const where=$('#where');let near=-2;
