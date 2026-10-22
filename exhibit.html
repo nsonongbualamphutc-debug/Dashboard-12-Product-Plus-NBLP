@@ -271,6 +271,12 @@ body.pres .stp{display:none}
 body.pres .emo,body.pres .hl,body.cardon .emo{display:none!important}
 @media (max-width:600px){.hl{transform:translate(-50%,88px);font-size:11.5px}body.touch .hl{transform:translate(-50%,142px)}.emo{top:auto;bottom:calc(max(10px,env(safe-area-inset-bottom)) + 220px);transform:none}.emo button{width:34px;height:34px;font-size:19px}}
 .onl em{font-style:normal;opacity:.6;font-size:11px}.onl.bad i{background:#E8A33D;box-shadow:0 0 0 3px rgba(232,163,61,.25)}
+.lm-card{width:min(760px,100%);max-height:92vh;overflow:auto}.lm-n{margin-left:auto;margin-right:8px;opacity:.7;font-size:.85em}
+.lm-img{position:relative;aspect-ratio:1.9/1;border-radius:14px;overflow:hidden;background:#0002}.lm-img img{width:100%;height:100%;object-fit:cover;display:block}
+.lm-ar{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;border:0;background:rgba(0,0,0,.45);color:#fff;font-size:28px;line-height:1;cursor:pointer}.lm-ar.l{left:8px}.lm-ar.r{right:8px}
+.lm-tx{padding:10px 2px 4px}.lm-s{color:var(--accent,#C2185B);font-weight:600;font-size:1.05em}.lm-tx b{display:block;margin-top:2px}.lm-tx p{margin:4px 0 0;opacity:.8;font-size:.92em}
+.lm-th{display:flex;gap:6px;overflow-x:auto;padding:8px 0;scrollbar-width:thin}.lm-th button{flex:0 0 auto;border:2px solid transparent;border-radius:8px;padding:0;background:none;cursor:pointer;opacity:.65}.lm-th button.on{border-color:var(--accent,#C2185B);opacity:1}.lm-th img{width:76px;height:40px;object-fit:cover;border-radius:6px;display:block}
+.lm-ft{display:flex;align-items:center;gap:8px;justify-content:space-between;flex-wrap:wrap}.lm-ft small{opacity:.7}
 .lb{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;background:rgba(20,6,14,.5);padding:16px}.lb.on{display:flex}
 .lb-card{width:min(440px,100%);max-height:calc(100dvh - 32px);overflow:auto;padding:16px;border-radius:20px;color:var(--ink)}
 .lb-h{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-family:var(--f-head);font-size:17px}
@@ -506,6 +512,10 @@ img.md{width:30px;height:30px;object-fit:contain;display:block;margin:-4px auto}
 <div class="runh glass" id="runH" hidden><b id="runT">3…</b><button class="tb" id="runX" type="button">หยุด</button></div>
 <div class="lb" id="gm" role="dialog" aria-label="มุมเกม"><div class="lb-card glass gm-card"><div class="lb-h"><b>🎮 มุมเกม</b><button class="tb" id="gmX" type="button" aria-label="ปิด">✕</button></div><div id="gmB"></div></div></div>
 <div class="lb" id="gd" role="dialog" aria-label="ซุ้มแปรรูปของดี"><div class="lb-card glass"><div class="lb-h"><b>🏭 ไร่ของดี + ซุ้มแปรรูป</b><button class="tb" id="gdX" type="button" aria-label="ปิด">✕</button></div><div id="gdB"></div></div></div>
+<div class="lb" id="lm" role="dialog" aria-label="แลนด์มาร์กหนองบัวลำภู"><div class="lb-card glass gm-card lm-card"><div class="lb-h"><b>🏞 เที่ยวหนองบัวลำภู</b><span id="lmN" class="lm-n"></span><button class="tb" id="lmX" type="button" aria-label="ปิด">✕</button></div>
+<div class="lm-img"><img id="lmI" alt="" onerror="this.style.visibility='hidden'" onload="this.style.visibility='visible'"><button id="lmP" class="lm-ar l" type="button" aria-label="ก่อนหน้า">‹</button><button id="lmF" class="lm-ar r" type="button" aria-label="ถัดไป">›</button></div>
+<div class="lm-tx"><div id="lmS" class="lm-s"></div><b id="lmT"></b><p id="lmD"></p></div><div id="lmTh" class="lm-th"></div>
+<div class="lm-ft"><small>เปลี่ยนภาพอัตโนมัติทุก 30 วินาที · คำขวัญจังหวัดหนองบัวลำภู</small><button class="tb" id="lmPv" type="button">📜 รู้จักจังหวัด</button></div></div></div>
 <div class="lb" id="pv" role="dialog" aria-label="รู้จักหนองบัวลำภู"><div class="lb-card glass gm-card"><div class="lb-h"><b>📜 รู้จักหนองบัวลำภู</b><button class="tb" id="pvX" type="button" aria-label="ปิด">✕</button></div><div id="pvB"></div></div></div>
 <div class="lb" id="sf" role="dialog" aria-label="แปลงเกษตรพอเพียง"><div class="lb-card glass"><div class="lb-h"><b>🌾 แปลงเกษตรพอเพียง</b><button class="tb" id="sfX" type="button" aria-label="ปิด">✕</button></div><div id="sfB"></div></div></div>
 <button class="tdown" id="bDown" type="button" hidden>🛗 ลงจากหอชมวิว</button>
@@ -563,7 +573,7 @@ const FIREBASE_CONFIG={
 /* วันจัดงานจริง (ผู้เข้าชมวันนี้ได้วอลเปเปอร์ Limited 3 “สิบสองสมบัติลุ่มภู”) รูปแบบ 'YYYY-MM-DD' เช่น ['2026-11-20','2026-11-21'] */
 const EVENT_DAYS=[];
 /* เวอร์ชันไฟล์: ถ้าเครื่องผู้ชมยังจำไฟล์เก่า (cache) จะเช็กแล้วโหลดเวอร์ชันใหม่ให้เอง */
-const BUILD='v24';
+const BUILD='v27';
 (function(){try{fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/const BUILD='([^']+)'/);if(m&&m[1]!==BUILD){const k='nbl12-reload-'+m[1];if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');const q=new URLSearchParams(location.search);q.set('v',m[1]);location.replace(location.pathname+'?'+q.toString())}}}).catch(()=>{})}catch(e){}})();
 const VISITOR_MODELS=[];   /* ตัวละครคนเสมือนจริงจาก Mixamo (.glb ที่ฝังท่า Walking/Idle) เช่น ['models/visitor-1.glb','models/visitor-2.glb'] · ว่าง = ใช้หุ่น models/Xbot.glb */
 const GAS_URL='https://script.google.com/macros/s/AKfycbwRX5IPjn-Zj2vCb_jlsLJuGpddhpLYbJnFC_5m2Yb2xV6A-cpUV5u0CkTMC4K8ykGK/exec';
@@ -1329,7 +1339,7 @@ const ray=new THREE.Raycaster(),mv=new THREE.Vector2();let hot=-1,hvT=0;
 canvas.addEventListener('pointermove',e=>{if(e.pointerType!=='mouse'||drag&&drag.moved>5)return;const now=performance.now();if(now-hvT<70)return;hvT=now;const r=canvas.getBoundingClientRect();mv.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(mv,camera);
   const h=ray.intersectObjects(clickables,false)[0];hot=h?h.object.userData.i:-1;canvas.style.cursor=h?'pointer':''});
 function pick(cx,cy){const r=canvas.getBoundingClientRect();mv.set((cx-r.left)/r.width*2-1,-(cy-r.top)/r.height*2+1);ray.setFromCamera(mv,camera);
-  const h=ray.intersectObjects(clickables,false).find(x=>x.object.visible&&(!x.object.parent||x.object.parent.visible));if(h){if(h.object.userData.hunt!=null){HUNT.take(h.object.userData.hunt);return}if(h.object.userData.chest){window.__CHEST&&__CHEST.take();return}if(h.object.userData.rain){window.__RAIN&&__RAIN.take(h.object);return}const U=h.object.userData;if(U.tower!=null){TOWER.go(U.tower);return}if(U.suff){SUFF.act(U.suff);return}if(U.goods){GOODS.act(U.goods);return}if(U.prov){PROV.open();return}if(U.spk){$('#bSnd').click();toast(MUSIC.playing?'🔊 เปิดเพลงแล้ว':'🔇 ปิดเพลงแล้ว');return}enter();stopTour();goBooth(h.object.userData.i,true)}}
+  const h=ray.intersectObjects(clickables,false).find(x=>x.object.visible&&(!x.object.parent||x.object.parent.visible));if(h){if(h.object.userData.hunt!=null){HUNT.take(h.object.userData.hunt);return}if(h.object.userData.chest){window.__CHEST&&__CHEST.take();return}if(h.object.userData.rain){window.__RAIN&&__RAIN.take(h.object);return}const U=h.object.userData;if(U.tower!=null){TOWER.go(U.tower);return}if(U.suff){SUFF.act(U.suff);return}if(U.goods){GOODS.act(U.goods);return}if(U.prov){PROV.open();return}if(U.land){LAND.open(U.land-1);return}if(U.spk){$('#bSnd').click();toast(MUSIC.playing?'🔊 เปิดเพลงแล้ว':'🔇 ปิดเพลงแล้ว');return}enter();stopTour();goBooth(h.object.userData.i,true)}}
 /* จอยสติ๊ก */
 const joy=$('#joy'),knob=joy.querySelector('i');let jid=null,joyV={x:0,y:0};
 joy.addEventListener('pointerdown',e=>{jid=e.pointerId;joy.setPointerCapture(jid);jmove(e);stopTour();tw=null;if(mode==='orbit'){enter();setMode('walk',true)}});
@@ -1375,7 +1385,7 @@ function loop(){const dt=Math.min(.05,clock.getDelta()),t=clock.elapsedTime;
     vy-=14*dt;feet+=vy*dt;if(feet<=sh){if(sh-feet>.02&&vy<0&&sh-feet<.75)feet=sh;feet=Math.max(feet,sh);vy=0;grounded=true}else grounded=feet-sh<.03;
     cam.pos.y=feet+EYE}
   VIEW.apply(Math.max(0,cam.pos.y-EYE),moving,dt);TOWER.hud(cam.pos.y-EYE);
-  HERO.tick(dt,t,cam.pos,hot);AMB.tick(dt,t);try{MUSIC.tick();SPK.tick(dt,t);HL.tick(dt,t);EMO.tick(dt);CHEST.tick(dt,t);RAIN.tick(dt,t);TOWER.tick(t);GAMES.tick(dt,t);SUFF.tick(dt,t);GOODS.tick(dt,t);PROV.tick(t);SCREEN.tick(dt);NET.tick(dt)}catch(e){};HUNT.tick(t);BANNERS.forEach(b=>{b.rotation.z=Math.sin(t*.8+b.userData.sw)*.025});movePeople(dt,t);spinners.forEach(s=>{s.g.rotation.y=Math.sin(t*.6+s.ph)*.12;s.g.position.y=(s.y||1.62)+Math.sin(t*1.5+s.ph)*.035});
+  HERO.tick(dt,t,cam.pos,hot);AMB.tick(dt,t);try{MUSIC.tick();SPK.tick(dt,t);HL.tick(dt,t);EMO.tick(dt);CHEST.tick(dt,t);RAIN.tick(dt,t);TOWER.tick(t);GAMES.tick(dt,t);SUFF.tick(dt,t);GOODS.tick(dt,t);PROV.tick(t);LAND.tick(dt,t);SCREEN.tick(dt);NET.tick(dt)}catch(e){};HUNT.tick(t);BANNERS.forEach(b=>{b.rotation.z=Math.sin(t*.8+b.userData.sw)*.025});movePeople(dt,t);spinners.forEach(s=>{s.g.rotation.y=Math.sin(t*.6+s.ph)*.12;s.g.position.y=(s.y||1.62)+Math.sin(t*1.5+s.ph)*.035});
   MAP.rotation.y=Math.sin(t*.1)*.06;band.rotation.y=-t*.08;glows.forEach((m,k)=>{m.material.color.offsetHSL(0,0,0)});
   if(mode==='walk'&&!tw){let ni=-1,nd=7.5;BOOTH.forEach((b,i)=>{const d=Math.hypot(cam.pos.x-b.stand.x,cam.pos.z-b.stand.z);if(d<nd){nd=d;ni=i}});
     if(ni!==near){near=ni;if(ni>=0){where.innerHTML=`บูธ <b>${pad2(BOOTH[ni].p.id)}</b> · ${esc(BOOTH[ni].p.name)} · ${ni+1}/${N}`;where.classList.add('on');syncDock(ni)}else where.classList.remove('on')}}
@@ -2216,6 +2226,64 @@ const PROV=(function(){
   $('#pvX').onclick=()=>W.classList.remove('on');
   function tick(t){halo.material.opacity=.3+Math.sin(t*2)*.1}
   return{open,quiz,tick}})();
+
+/* จอแลนด์มาร์กหนองบัวลำภู ยกสูงเหนือบูธบนผนัง (ไม่ถูกบัง) · สลับภาพทุก 30 วิ (3 จอเปลี่ยนพร้อมกันตามลำดับคำขวัญ 1→5) · แตะจอ = เปิดแกลเลอรี */
+const LAND=(function(){
+  const SL=['ศาลสมเด็จพระนเรศวรมหาราช','อุทยานแห่งชาติภูเก้าภูพานคำ','แผ่นดินธรรมหลวงปู่ขาว','เด่นสกาวถ้ำเอราวัณ','นครเขื่อนขันธ์กาบแก้วบัวบาน'];
+  const P=[[0,'ศาลสมเด็จพระนเรศวรมหาราช','ริมหนองบัว กลางเมืองหนองบัวลำภู เชิงภูพานเป็นฉากหลัง'],
+    [0,'ศาลฯ ยามค่ำคืน','ลานกว้างประดับไฟ ไหว้สักการะและพักผ่อนได้ยามเย็น'],
+    [2,'วัดใต้หน้าผาหินปูน','วัดสายปฏิบัติในอ้อมหน้าผา ร่มรื่น เงียบสงบ'],
+    [2,'เจดีย์พิพิธภัณฑ์หลวงปู่ขาว อนาลโย','สถาปัตยกรรมสีขาวรูปทรงร่วมสมัย เก็บเรื่องราวของหลวงปู่ขาว'],
+    [3,'ซุ้มประตูวัดถ้ำเอราวัณ','ช้างสามเศียรบนซุ้มทางเข้า อำเภอนากลาง'],
+    [3,'ช้างเอราวัณ วัดถ้ำเอราวัณ','ประติมากรรมช้างเอราวัณสีขาว จุดสักการะหน้าทางขึ้นถ้ำ'],
+    [3,'วิวจากผาหินปูน','มองเห็นทุ่งนาและหมู่บ้านกว้างสุดตา จากเขาหินปูนย่านถ้ำเอราวัณ'],
+    [1,'ธารน้ำในผืนป่าภูเก้า–ภูพานคำ','ป่าดิบแล้ง ลำธาร โขดหินปกคลุมมอส'],
+    [1,'พิพิธภัณฑ์หอยหิน 150 ล้านปี','ซุ้มหินแกะสลัก ทางเข้าแหล่งฟอสซิลหอยน้ำจืดยุคจูราสสิก'],
+    [1,'ลานไดโนเสาร์ ภูเก้า','แหล่งเรียนรู้บรรพชีวินวิทยา ครอบครัวถ่ายรูปได้ทั้งวัน'],
+    [1,'ทะเลสาบเชิงภูเก้า','ผืนน้ำกว้าง เรือประมงพื้นบ้าน และแนวเขาภูเก้าสุดขอบฟ้า'],
+    [4,'สิมไม้เก่าแก่','งานไม้แบบอีสานดั้งเดิม ร่องรอยวิถีชุมชนลุ่มน้ำ'],
+    [4,'เกษตรวิถีชุมชน','แปลงผักริมทางเดิน ซุ้มพักหลังคาหญ้าคา บ้านดินและโอ่งน้ำ']].map((p,f)=>p.concat(f)).sort((a,b)=>a[0]-b[0]||a[3]-b[3]);
+  /* เรียงตามลำดับคำขวัญ 1→5 ไม่สลับ */
+  const BY=SL.map((_,l)=>P.map((p,j)=>p[0]===l?j:-1).filter(j=>j>=0));
+  const N=P.length,src=i=>'img/land-'+String(P[i][3]+1).padStart(2,'0')+'.webp',PER=30;
+  const AN=[1.05,3.14,5.24],RS=HALL-1.75,HH=4.0,TH=.3,Y0=6.7;
+  const TL=new THREE.TextureLoader(),cache={};
+  function tex(i,cb){if(i<0){if(!cache[i]){const t=slT(-1-i);t.wrapS=THREE.RepeatWrapping;t.repeat.x=-1;t.offset.x=1;cache[i]=t}cb(cache[i]);return}if(cache[i]){cache[i].then?cache[i].then(cb):cb(cache[i]);return}cache[i]=new Promise(res=>TL.load(src(i),t=>{t.colorSpace=THREE.SRGBColorSpace;t.wrapS=THREE.RepeatWrapping;t.repeat.x=-1;t.offset.x=1;t.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());cache[i]=t;res(t)},undefined,()=>{cache[i]=null;res(null)}));cache[i].then(t=>t&&cb(t))}
+  const slT=L=>cv(1216,640,(x,w,h)=>{const g=x.createLinearGradient(0,0,w,h);g.addColorStop(0,'#5A1038');g.addColorStop(1,'#1F4A3A');x.fillStyle=g;x.fillRect(0,0,w,h);x.strokeStyle='#E8C26A';x.lineWidth=8;x.strokeRect(22,22,w-44,h-44);x.textAlign='center';x.textBaseline='middle';x.fillStyle='#FFE3A0';x.font='600 40px Kanit, sans-serif';x.fillText('คำขวัญจังหวัดหนองบัวลำภู',w/2,70);
+    SL.forEach((t,j)=>{const y=140+j*82,on=j===L;if(on){x.fillStyle='rgba(255,227,160,.18)';x.fillRect(90,y-37,w-180,74)}x.fillStyle=on?'#FFE3A0':'rgba(255,255,255,.62)';x.font=(on?'600 54px':'400 44px')+' Kanit, sans-serif';x.fillText((j+1)+'. '+t,w/2,y)})});
+  const dim=DK?0xB8AEB4:0xFFFFFF;
+  const capT=(i)=>{const L=i<0?-1-i:P[i][0];return cv(1024,150,(x,w,h)=>{const g=x.createLinearGradient(0,0,w,0);g.addColorStop(0,'rgba(120,20,70,.92)');g.addColorStop(1,'rgba(40,90,70,.92)');x.fillStyle=g;x.fillRect(0,0,w,h);x.fillStyle='#FFE3A0';x.fillRect(0,0,w,5);x.textAlign='center';x.textBaseline='middle';x.fillStyle='#FFE3A0';x.font='600 46px Kanit, sans-serif';x.fillText('คำขวัญ '+(L+1)+'/5 · “'+SL[L]+'”',w/2,52);x.fillStyle='#fff';x.font='400 36px Kanit, sans-serif';x.fillText(i<0?'คำขวัญประจำจังหวัดหนองบัวลำภู':P[i][1],w/2,112)})};
+  const S=[];
+  AN.forEach((a,k)=>{const g=new THREE.Group();scene.add(g);
+    const geo=new THREE.CylinderGeometry(RS,RS,HH,24,1,true,a-TH/2,TH);
+    const mA=new THREE.MeshBasicMaterial({map:blank,side:THREE.BackSide,toneMapped:false,color:dim,transparent:true,opacity:1});
+    const mB=mA.clone();mB.opacity=0;mB.depthWrite=false;
+    const A=new THREE.Mesh(geo,mA),B=new THREE.Mesh(geo,mB);A.position.y=B.position.y=Y0+HH/2;B.renderOrder=1;g.add(A,B);
+    const fr=new THREE.Mesh(new THREE.CylinderGeometry(RS+.06,RS+.06,HH+.3,24,1,true,a-TH/2-.012,TH+.024),new THREE.MeshStandardMaterial({color:DK?0x3A2A34:0x6B3A52,side:THREE.BackSide,roughness:.6}));fr.position.y=A.position.y;g.add(fr);
+    const cm=new THREE.MeshBasicMaterial({map:blank,toneMapped:false,transparent:true,opacity:.95,depthWrite:false});const cap=new THREE.Mesh(new THREE.PlaneGeometry(5.2,.76),cm);cap.renderOrder=3;
+    const rc=RS-.25,cy=Y0+.5;cap.position.set(Math.sin(a)*rc,cy,Math.cos(a)*rc);cap.lookAt(0,cy,0);g.add(cap);
+    [A,cap].forEach(m=>{m.userData.land=k+1;m.userData.i=-1;clickables.push(m)});
+    S.push({A,B,cm,cur:null,fade:0});
+  });
+  function show(k,i,inst){const s=S[k];tex(i,t=>{if(!t)return;if(inst||s.cur==null){s.A.material.map=t;s.A.material.needsUpdate=true;s.A.material.opacity=1;s.B.material.opacity=0;s.fade=0}else{if(s.fade>0){s.A.material.map=s.B.material.map;s.A.material.needsUpdate=true}s.B.material.map=t;s.B.material.needsUpdate=true;s.B.material.opacity=0;s.fade=.0001}const old=s.cm.map;s.cm.map=capT(i);s.cm.needsUpdate=true;if(old&&old!==blank)old.dispose();s.cur=i})}
+  const idxAt=(k,c)=>{const L=c%SL.length,a=BY[L],r=Math.floor(c/SL.length);if(a.length<AN.length){return k===1?-1-L:a[(k>1?k-1:k)%a.length]}return a[(r*AN.length+k)%a.length]};
+  let cyc=AN.map(()=>-1),t0=null;
+  function tick(dt,t){for(let k=0;k<S.length;k++){if(t0==null)t0=t;const c=Math.floor((t-t0)/PER);if(c!==cyc[k]){const first=cyc[k]<0;cyc[k]=c;show(k,idxAt(k,c),first);const n=idxAt(k,c+1);if(n>=0)tex(n,()=>{})}const s=S[k];if(s.fade>0){s.fade=Math.min(1,s.fade+dt/1.4);s.B.material.opacity=s.fade;s.A.material.opacity=1;if(s.fade>=1){s.A.material.map=s.B.material.map;s.A.material.needsUpdate=true;s.B.material.opacity=0;s.fade=0}}}}
+  /* แกลเลอรี */
+  const W=$('#lm');let gi=0,gt=null;
+  const seen=new Set(LSJ('nbl12-land',[]));function draw(){const p=P[gi];if(!seen.has(gi)){seen.add(gi);try{localStorage.setItem('nbl12-land',JSON.stringify([...seen]));PLAYER.add(2,'land',{j:gi});if(seen.size===N){PLAYER.add(30,'land_all');toast('🏞 ชมแลนด์มาร์กครบ '+N+' ภาพ +30')}}catch(e){}}$('#lmI').src=src(gi);$('#lmI').alt=p[1];$('#lmS').textContent='คำขวัญ '+(p[0]+1)+'/5 · “'+SL[p[0]]+'”';$('#lmT').textContent=p[1];$('#lmD').textContent=p[2];$('#lmN').textContent=(gi+1)+' / '+N;
+    $('#lmTh').innerHTML=P.map((q,j)=>'<button type="button" data-j="'+j+'" class="'+(j===gi?'on':'')+'" aria-label="'+esc(q[1])+'"><img loading="lazy" src="img/land-'+String(q[3]+1).padStart(2,'0')+'-s.webp" alt=""></button>').join('');
+    const on=$('#lmTh .on');on&&on.scrollIntoView&&on.scrollIntoView({block:'nearest',inline:'center'})}
+  function go(d){gi=(gi+d+N)%N;draw();arm()}
+  function arm(){clearInterval(gt);gt=setInterval(()=>{if(W.classList.contains('on'))go(1)},PER*1000)}
+  function open(k){try{enter()}catch(e){}const cu=k!=null&&S[k]?S[k].cur:null;gi=cu==null?0:cu>=0?cu:(BY[-1-cu][0]||0);W.classList.add('on');draw();arm();}
+  $('#lmX').onclick=()=>{W.classList.remove('on');clearInterval(gt)};W.addEventListener('click',e=>{if(e.target===W){W.classList.remove('on');clearInterval(gt)}});
+  $('#lmP').onclick=()=>go(-1);$('#lmF').onclick=()=>go(1);
+  $('#lmTh').addEventListener('click',e=>{const b=e.target.closest('button[data-j]');if(b){gi=+b.dataset.j;draw();arm()}});
+  $('#lmPv').onclick=()=>{W.classList.remove('on');clearInterval(gt);PROV.open()};
+  return {tick,open};
+})();
+window.__LAND=LAND;
 
 window.__cam=cam;
 
