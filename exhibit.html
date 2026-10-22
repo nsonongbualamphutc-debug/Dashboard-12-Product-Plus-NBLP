@@ -165,7 +165,7 @@ body.rec .recb{display:flex}
 .onl i{width:9px;height:9px;border-radius:50%;background:#2E9E5B;box-shadow:0 0 0 3px rgba(46,158,91,.2);animation:bp 1.6s infinite}.onl.deaf{opacity:.6;text-decoration:line-through}
 #bMic.on{background:#2E9E5B;color:#fff;border-color:transparent}
 .stp.hasgift .rg{background:conic-gradient(#C99A3E calc(var(--p)*1%),rgba(201,154,62,.2) 0)}
-.stp.hasgift::after{content:"🎁";position:absolute;top:-8px;left:-6px;font-size:20px;animation:bp 1.2s infinite}
+.stp.hasgift::after{content:"🎟";position:absolute;top:-8px;left:-6px;font-size:20px;animation:bp 1.2s infinite}
 .stp{position:fixed}
 .gift{position:fixed;inset:0;z-index:70;display:none;place-items:center;padding:16px;background:radial-gradient(circle at 50% 45%,rgba(255,214,150,.45),rgba(30,10,20,.78))}
 .gift.on{display:grid}
@@ -353,6 +353,23 @@ body.pres .feed,body.pres .wave,body.cardon .wave,body.cardon .qc{display:none!i
 
 @media (max-width:1440px){#bView .l{display:none}#bView{padding:0 11px}}
 .tdown{position:fixed;left:50%;bottom:calc(max(14px,env(safe-area-inset-bottom)) + 110px);transform:translateX(-50%);z-index:13;height:50px;padding:0 24px;border-radius:999px;border:2px solid #fff;background:linear-gradient(135deg,#E8559A,#D50654);color:#fff;font-family:var(--f-head);font-size:16px;cursor:pointer;box-shadow:0 10px 26px -8px rgba(213,6,84,.7)}
+
+.gtk{width:min(300px,70vw);animation:gshake .9s ease-in-out 1}.gtk img{width:100%;display:block;filter:drop-shadow(0 16px 30px rgba(0,0,0,.4))}.gift.open .gtk{display:none}
+.gc-im{position:relative}.gc-im em{position:absolute;left:12px;top:12px;font-style:normal;font-family:var(--f-head);font-size:13px;padding:4px 12px;border-radius:99px;background:rgba(0,0,0,.55);color:#fff;backdrop-filter:blur(6px)}
+.gcard.r1{box-shadow:0 0 0 3px #D9D9E0,0 30px 80px -20px rgba(0,0,0,.6)}.gcard.r2{box-shadow:0 0 0 3px #E8BE68,0 0 40px rgba(232,190,104,.6),0 30px 80px -20px rgba(0,0,0,.6)}
+.gcard.r3,.gcard.r4{box-shadow:0 0 0 3px #FF8DB8,0 0 60px rgba(255,141,184,.8),0 30px 80px -20px rgba(0,0,0,.6);animation:gpop .6s cubic-bezier(.2,1.4,.4,1),rare 2s ease-in-out .6s infinite alternate}
+@keyframes rare{to{box-shadow:0 0 0 3px #E8BE68,0 0 90px rgba(232,190,104,.9),0 30px 80px -20px rgba(0,0,0,.6)}}
+.gcard.lim .gc-im em{background:linear-gradient(135deg,#E8BE68,#D50654)}
+.wl-tk{height:24px;vertical-align:middle}.wl-rate{margin:-2px 0 8px;font-size:11.5px;color:var(--muted)}
+.wg{grid-template-columns:repeat(auto-fill,minmax(78px,1fr))!important}.wg3{grid-template-columns:repeat(3,1fr)!important}
+.wi i{position:absolute;top:4px;left:4px;font-style:normal;font-size:10px;padding:1px 6px;border-radius:99px;background:rgba(0,0,0,.55);color:#fff}
+.wi.r2.ok{border-color:#E8BE68}.wi.r3.ok,.wi.r4.ok{border-color:#FF8DB8;box-shadow:0 0 12px rgba(255,141,184,.6)}.wi.lim{border-color:rgba(232,190,104,.5)}.wi.lim.ok{border-color:#E8BE68;box-shadow:0 0 14px rgba(232,190,104,.7)}.wi.lim i{background:linear-gradient(135deg,#E8BE68,#D50654)}
+.wl-lim{margin-top:14px!important}
+img.md{width:30px;height:30px;object-fit:contain;display:block;margin:-4px auto}#stgTop img.md{width:38px;height:38px}img.tro{width:20px;height:20px;object-fit:contain;vertical-align:-4px;margin-right:4px}
+.rku-m{padding-top:76px}.rk-m{position:absolute;left:50%;top:-58px;transform:translateX(-50%);width:120px;filter:drop-shadow(0 10px 20px rgba(0,0,0,.4))}
+.rk0{filter:grayscale(1) sepia(.7) saturate(1.4) hue-rotate(-12deg) brightness(.9) drop-shadow(0 10px 20px rgba(0,0,0,.4))}.rk1{filter:grayscale(1) brightness(1.18) drop-shadow(0 10px 20px rgba(0,0,0,.4))}.rk2{filter:hue-rotate(150deg) saturate(1.2) drop-shadow(0 10px 20px rgba(0,0,0,.4))}.rk4{filter:saturate(1.35) drop-shadow(0 0 24px rgba(255,214,120,.95))}
+.przpop{position:fixed;left:50%;top:40%;transform:translate(-50%,-50%);z-index:33;pointer-events:none;text-align:center;font-family:var(--f-head);color:#fff;animation:rku 3.2s ease forwards;text-shadow:0 2px 12px rgba(0,0,0,.6)}.przpop img{width:min(260px,60vw);display:block;margin:0 auto;filter:drop-shadow(0 16px 30px rgba(0,0,0,.45))}.przpop b{display:block;font-size:28px}.przpop small{font-size:16px;color:#FFE3A0}
+.win{background:linear-gradient(rgba(40,8,24,.35),rgba(20,6,14,.75)),url(img/prize-winbg.jpg) center/cover!important}.win-h{display:block;width:min(240px,55vw);margin:12px auto 0;border-radius:18px;box-shadow:0 0 0 4px #E8BE68,0 20px 50px rgba(0,0,0,.5)}
 </style>
 </head>
 <body>
@@ -455,7 +472,7 @@ body.pres .feed,body.pres .wave,body.cardon .wave,body.cardon .qc{display:none!i
 <div class="feed" id="feed" aria-live="polite"></div>
 <button class="wave glass" id="wave" type="button" hidden></button>
 <div class="qc glass" id="qc"><div id="qcList"></div></div>
-<div class="win" id="win"><div class="win-c"><small>🎁 ประกาศผู้โชคดี</small><b id="winN"></b><span id="winD"></span><p id="winM"></p></div></div>
+<div class="win" id="win"><div class="win-c"><small>🎁 ประกาศผู้โชคดี</small><b id="winN"></b><span id="winD"></span><img class="win-h" src="img/prize-hamper.jpg" alt="กระเช้าของดีลุ่มภู"><p id="winM"></p></div></div>
 <div class="stg" id="stg"><div class="stg-l"><h2>🏆 อันดับวันนี้</h2><ol id="stgTop"></ol></div><div class="stg-r"><h2>🏁 แข่งอำเภอ</h2><div id="stgDist"></div><h2>🎯 เป้าหมายร่วม</h2><div id="stgGoal"></div><div class="stg-feed" id="stgFeed"></div></div><div class="stg-q"><div id="stgQr"></div><b>สแกนเข้าร่วมงาน</b><small>ออนไลน์ <span id="stgOn">0</span> คน · 12 Plus+ Virtual Expo</small></div></div>
 <div class="emo glass" id="emo" aria-label="ส่งอีโมจิ"><button type="button">👏</button><button type="button">❤️</button><button type="button">🔥</button><button type="button">😍</button><button type="button">🎉</button><button type="button" id="qcB" class="qcb" aria-label="ข้อความด่วน">💬</button></div>
 <div class="ph" id="ph" role="dialog" aria-label="ถ่ายรูปที่งาน"><div class="ph-card glass"><div class="ph-h"><b>📸 จุดถ่ายรูป 12 Plus+</b><button class="tb" id="phX" type="button" aria-label="ปิด">✕</button></div><div id="phImg"></div><p class="note">ภาพจะใช้มุมกล้องปัจจุบันในงาน + ใบหน้าคุณในกรอบบัว</p><div class="ph-f"><button class="tb p" id="phShot" type="button">📸 ถ่ายเลย</button><button class="tb" id="phShare" type="button" hidden>บันทึก / แชร์</button></div></div></div>
@@ -500,6 +517,8 @@ const FIREBASE_CONFIG={
   messagingSenderId:'25254739553',
   appId:'1:25254739553:web:2188dabd3f1d73b7c8b420'
 };
+/* วันจัดงานจริง (ผู้เข้าชมวันนี้ได้วอลเปเปอร์ Limited 3 “สิบสองสมบัติลุ่มภู”) รูปแบบ 'YYYY-MM-DD' เช่น ['2026-11-20','2026-11-21'] */
+const EVENT_DAYS=[];
 const VISITOR_MODELS=[];   /* ตัวละครคนเสมือนจริงจาก Mixamo (.glb ที่ฝังท่า Walking/Idle) เช่น ['models/visitor-1.glb','models/visitor-2.glb'] · ว่าง = ใช้หุ่น models/Xbot.glb */
 const GAS_URL='https://script.google.com/macros/s/AKfycbwRX5IPjn-Zj2vCb_jlsLJuGpddhpLYbJnFC_5m2Yb2xV6A-cpUV5u0CkTMC4K8ykGK/exec';
 /* ทีมอำเภอ (แข่งสะสมแต้ม) · ชื่อ + สีป้ายชื่อ */
@@ -549,6 +568,7 @@ function syncDock(i){document.querySelectorAll('.dk[data-i]').forEach((d,k)=>d.c
 
 /* ---------- การ์ดข้อมูล ---------- */
 let cardI=-1;
+function prz(img,t,s){const d=document.createElement('div');d.className='przpop';d.innerHTML=`<img src="img/${img}" alt=""><b>${t}</b><small>${s||''}</small>`;document.body.appendChild(d);setTimeout(()=>d.remove(),3200)}
 /* ---------- สนใจสินค้า (นับรวมทุกคนวันนี้ → รายงานผู้บริหาร) ---------- */
 const INTK='nbl12-int-'+new Date().toISOString().slice(0,10);
 function intHTML(p){let mine=[];try{mine=JSON.parse(localStorage.getItem(INTK)||'[]')}catch(e){}const n=window.__NET&&__NET.intCount?__NET.intCount(p.id):0;const on=mine.includes(p.id);
@@ -1382,22 +1402,46 @@ const MUSIC=(function(){const N0=MUSIC_LIST.length;let i=Math.floor(Math.random(
 
 
 /* ---------- กล่องรางวัล: วอลเปเปอร์บัวทอง 4 แบบ (สุ่ม) ---------- */
-const REWARD=(function(){const W=[['wall-1','รุ่งอรุณลุ่มภู','Lotus Valley Dawn'],['wall-2','แมนดาลาบัวทอง','Golden Mandala'],['wall-3','โดมฟ้าดอกบัว','Sky Oculus'],['wall-4','ราตรีธงขิด','Royal Khit Night']];
-  let own=new Set(LSJ('nbl12-walls',[]));let tickets=+(LS('nbl12-tickets')||0);const save=()=>{LS('nbl12-walls',[...own]);LS('nbl12-tickets',String(tickets))};
-  function give(why){tickets++;save();ui();toast(`🎁 ได้กล่องรางวัล 1 กล่อง (${why}) · เปิดได้ที่สมุดแสตมป์`);try{PLAYER.log('ticket',{why})}catch(e){}}
+const REWARD=(function(){
+  /* วอลเปเปอร์: [ไฟล์, ชื่อไทย, ชื่ออังกฤษ, ความหายาก 1=ธรรมดา 2=หายาก 3=ตำนาน] */
+  const W=[['wall-1','รุ่งอรุณลุ่มภู','Lotus Valley Dawn',1],['wall-5','ทุ่งบัวยามเช้า','Lotus Morning',1],['wall-6','ไร่อ้อยยามเย็น','Sugarcane Sunset',1],['wall-7','สวนกล้วยหลังฝน','Banana Grove',1],
+    ['wall-2','แมนดาลาบัวทอง','Golden Mandala',2],['wall-3','โดมฟ้าดอกบัว','Sky Oculus',2],['wall-4','ราตรีธงขิด','Royal Khit Night',2],['wall-8','ทะเลหมอกภูหินปูน','Karst Mist',2],['wall-9','เห็ดป่าแสงเวทมนตร์','Enchanted Mushrooms',2],['wall-10','กาแฟภูเขา','Highland Coffee',2],
+    ['wall-11','บัวทองคำยามค่ำคืน','Golden Lotus Night',3]];
+  const SP=['wall-12','จักรวาลบัวทอง','Lotus Cosmos',4];/* รางวัลพิเศษ: สะสมครบทุกใบ */
+  const LIM=[['lim-1','บัวทองยามเย็น','Golden Hour Lotus','เปิดหีบสมบัติได้ระหว่างช่วงไฮไลต์ ×2'],['lim-2','ราตรีโคมลอย','Night of Lanterns','ติด Top 3 อันดับแต้มประจำวัน (มีผู้เล่น 5 คนขึ้นไป)'],['lim-3','สิบสองสมบัติลุ่มภู','Twelve Treasures','เข้าร่วมในวันจัดงานจริง']];
+  const RN=['','ธรรมดา','หายาก','ตำนาน','พิเศษ'],RS=['','⭐','⭐⭐','⭐⭐⭐','💎'];
+  let own=new Set(LSJ('nbl12-walls',[]));let tickets=+(LS('nbl12-tickets')||0);let lim=LSJ('nbl12-lim',{});
+  const save=()=>{LS('nbl12-walls',[...own]);LS('nbl12-tickets',String(tickets));LS('nbl12-lim',lim)};
+  function give(why){tickets++;save();ui();toast(`🎟 ได้ตั๋วสุ่มรางวัล 1 ใบ (${why}) · เปิดได้ที่สมุดแสตมป์`);try{PLAYER.log('ticket',{why})}catch(e){}}
   function ui(){const e=$('#tkN');if(e)e.textContent=tickets;$('#stp').classList.toggle('hasgift',tickets>0)}
-  function open(){if(tickets<=0){toast('ยังไม่มีกล่องรางวัล · ทำภารกิจเพื่อรับ');return}tickets--;const pool=W.filter(w=>!own.has(w[0]));const dup=!pool.length;const w=(dup?W:pool)[Math.floor(Math.random()*(dup?W:pool).length)];own.add(w[0]);save();ui();
+  function roll(){const r=Math.random();const tier=r<.08?3:r<.40?2:1;let pool=W.filter(w=>w[3]===tier&&!own.has(w[0]));if(!pool.length)pool=W.filter(w=>!own.has(w[0]));if(!pool.length)return{w:W[Math.floor(Math.random()*W.length)],dup:true};return{w:pool[Math.floor(Math.random()*pool.length)],dup:false}}
+  function card(w,sub,extra){return`<div class="gcard r${w[3]}"><div class="gc-im"><img src="img/${w[0]}.jpg" alt="" onerror="this.style.visibility='hidden'"><em>${RS[w[3]]} ${RN[w[3]]}</em></div><div class="gc-t"><small>${sub}</small><b>${w[1]}</b><i>${w[2]}</i></div>${extra}</div>`}
+  function reveal(html,big){const m=$('#gift');m.innerHTML=`<div class="gtk"><img src="img/prize-ticket.webp" alt=""></div>${html}`;m.classList.remove('open');m.classList.add('on');m.classList.toggle('big',!!big);setTimeout(()=>m.classList.add('open'),1300);try{window.__chime&&window.__chime()}catch(e){}if(big)setTimeout(()=>{try{__burst()}catch(e){}},1400);
+    m.onclick=e=>{if(e.target===m)m.classList.remove('on','open')};m.querySelectorAll('[data-x]').forEach(b=>b.onclick=()=>m.classList.remove('on','open'));m.querySelectorAll('[data-save]').forEach(b=>b.onclick=()=>saveImg(b.dataset.save))}
+  function open(){if(tickets<=0){toast('ยังไม่มีตั๋วสุ่มรางวัล · ทำภารกิจเพื่อรับ');return}tickets--;const{w,dup}=roll();own.add(w[0]);save();ui();
     try{PLAYER.log('reward',{w:w[0]});if(dup)PLAYER.add(30,'reward_dup')}catch(e){}
-    const m=$('#gift');m.innerHTML=`<div class="gbox"><div class="gb-lid"></div><div class="gb-body"></div><div class="gb-rib"></div></div><div class="gcard"><img src="img/${w[0]}.jpg" alt="" onerror="this.style.visibility='hidden'"><div class="gc-t"><small>${dup?'ได้ซ้ำ · +30 แต้ม':'ปลดล็อกวอลเปเปอร์ใหม่!'}</small><b>${w[1]}</b><i>${w[2]}</i></div>
-      <div class="gc-a"><button class="tb p" id="gSave" type="button">บันทึกวอลเปเปอร์</button><button class="tb" id="gX" type="button">เก็บไว้ก่อน</button></div><p class="gc-n">สะสมแล้ว ${own.size}/4 แบบ</p></div>`;
-    m.classList.add('on');setTimeout(()=>m.classList.add('open'),1300);try{window.__chime&&window.__chime()}catch(e){}
-    $('#gX').onclick=()=>m.classList.remove('on','open');$('#gSave').onclick=()=>saveImg(w[0]);m.onclick=e=>{if(e.target===m)m.classList.remove('on','open')}}
+    reveal(card(w,dup?'ได้ซ้ำ · รับ +30 แต้มแทน':'ปลดล็อกวอลเปเปอร์ใหม่!',`<div class="gc-a"><button class="tb p" data-save="${w[0]}" type="button">บันทึกวอลเปเปอร์</button><button class="tb" data-x="1" type="button">เก็บไว้ก่อน</button></div><p class="gc-n">สะสมแล้ว ${W.filter(x=>own.has(x[0])).length}/${W.length} แบบ · ครบทุกใบรับ “${SP[1]}”</p>`),w[3]>=3);
+    if(!own.has(SP[0])&&W.every(x=>own.has(x[0]))){own.add(SP[0]);save();setTimeout(()=>reveal(card(SP,'🏆 สะสมครบทุกใบ! รางวัลพิเศษ',`<div class="gc-a"><button class="tb p" data-save="${SP[0]}" type="button">บันทึกวอลเปเปอร์</button><button class="tb" data-x="1" type="button">ปิด</button></div>`),true),4200)}}
+  /* Limited: ได้ครั้งเดียว มีเลขลำดับประจำตัว */
+  function limited(id){if(lim[id])return;const L=LIM.find(x=>x[0]===id);if(!L)return;const no=1+([...(PLAYER.id+id)].reduce((a,c)=>a*31+c.charCodeAt(0),7)>>>0)%9999;lim[id]={no,t:Date.now()};save();try{PLAYER.log('limited',{w:id});PLAYER.add(100,'limited')}catch(e){}
+    setTimeout(()=>reveal(limCard(L,'💎 ได้รับ LIMITED COLLECTION!'),true),600)}
+  function limCard(L,sub){const o=lim[L[0]];return`<div class="gcard r4 lim"><div class="gc-im"><img src="img/${L[0]}-lock.jpg" alt=""><em>💎 LIMITED · #${String(o.no).padStart(4,'0')}</em></div><div class="gc-t"><small>${sub}</small><b>${L[1]}</b><i>${L[2]} · ชุดหน้าจอล็อก + หน้าหลัก</i></div>
+    <div class="gc-a"><button class="tb p" data-save="${L[0]}-lock" type="button">🔒 บันทึกหน้าจอล็อก</button><button class="tb p" data-save="${L[0]}-home" type="button">📱 บันทึกหน้าหลัก</button></div><div class="gc-a" style="padding-top:0"><button class="tb" data-x="1" type="button">ปิด</button></div></div>`}
   function saveImg(id){const url=`img/${id}.jpg`;fetch(url).then(r=>r.blob()).then(b=>{const f=new File([b],`12plus-${id}.jpg`,{type:'image/jpeg'});
-      if(navigator.canShare&&navigator.canShare({files:[f]}))return navigator.share({files:[f],title:'วอลเปเปอร์บัวทอง 12 Plus+'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f.name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},3000)})
+      if(navigator.canShare&&navigator.canShare({files:[f]}))return navigator.share({files:[f],title:'วอลเปเปอร์ 12 Plus+'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f.name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},3000)})
     .then(()=>toast('บันทึกแล้ว · ตั้งเป็นวอลเปเปอร์ได้เลย')).catch(()=>{window.open(url,'_blank')})}
-  function gallery(){return`<div class="wl"><h3>🎁 วอลเปเปอร์บัวทอง <small>${own.size}/4 · กล่องรางวัล <b id="tkN">${tickets}</b></small>${tickets?'<button class="tb p" id="gOpen" type="button">เปิดกล่อง</button>':''}</h3><div class="wg">${W.map(w=>`<button type="button" class="wi ${own.has(w[0])?'ok':''}" data-w="${w[0]}"><img src="img/${w[0]}-s.jpg" alt="" onerror="this.style.visibility='hidden'"><span>${own.has(w[0])?w[1]:'🔒 ยังไม่ปลดล็อก'}</span></button>`).join('')}</div></div>`}
-  function bind(root){const b=root.querySelector('#gOpen');if(b)b.onclick=()=>{$('#pass').classList.remove('on');open()};root.querySelectorAll('.wi.ok').forEach(x=>x.onclick=()=>saveImg(x.dataset.w))}
-  setTimeout(ui,0);return{give,open,gallery,bind,get tickets(){return tickets}}})();
+  function gallery(){const n=W.filter(x=>own.has(x[0])).length;const all=[...W,SP];
+    return`<div class="wl"><h3><img class="wl-tk" src="img/prize-ticket.webp" alt=""> วอลเปเปอร์สะสม <small>${n}/${W.length} · ตั๋ว <b id="tkN">${tickets}</b> ใบ</small>${tickets?'<button class="tb p" id="gOpen" type="button">เปิดตั๋วสุ่ม</button>':''}</h3>
+      <p class="wl-rate">โอกาสสุ่ม: ⭐ ธรรมดา 60% · ⭐⭐ หายาก 32% · ⭐⭐⭐ ตำนาน 8% · ครบทุกใบรับ 💎 ${SP[1]}</p>
+      <div class="wg">${all.map(w=>`<button type="button" class="wi r${w[3]} ${own.has(w[0])?'ok':''}" data-w="${w[0]}"><img src="img/${w[0]}-s.jpg" alt="" onerror="this.style.visibility='hidden'"><i>${RS[w[3]]}</i><span>${own.has(w[0])?w[1]:w[3]===4?'💎 สะสมครบเพื่อปลดล็อก':'🔒 ยังไม่ปลดล็อก'}</span></button>`).join('')}</div>
+      <h3 class="wl-lim">💎 Limited Collection <small>${LIM.filter(x=>lim[x[0]]).length}/3 · ชุดหน้าจอล็อก + หน้าหลัก</small></h3>
+      <div class="wg wg3">${LIM.map(L=>{const o=lim[L[0]];return`<button type="button" class="wi lim ${o?'ok':''}" data-lim="${L[0]}"><img src="img/${L[0]}-lock-s.jpg" alt="" onerror="this.style.visibility='hidden'"><i>${o?'#'+String(o.no).padStart(4,'0'):'LIMITED'}</i><span>${o?L[1]:'🔒 '+L[3]}</span></button>`}).join('')}</div></div>`}
+  function bind(root){const b=root.querySelector('#gOpen');if(b)b.onclick=()=>{$('#pass').classList.remove('on');open()};root.querySelectorAll('.wi.ok[data-w]').forEach(x=>x.onclick=()=>saveImg(x.dataset.w));
+    root.querySelectorAll('.wi.ok[data-lim]').forEach(x=>x.onclick=()=>{$('#pass').classList.remove('on');const L=LIM.find(l=>l[0]===x.dataset.lim);reveal(limCard(L,'💎 LIMITED COLLECTION ของคุณ'))})}
+  /* Limited 3: วันจัดงานจริง (ตั้งใน EVENT_DAYS) */
+  setTimeout(()=>{ui();try{if(EVENT_DAYS.includes(new Date().toLocaleDateString('sv-SE',{timeZone:'Asia/Bangkok'})))setTimeout(()=>limited('lim-3'),9000)}catch(e){}},0);
+  return{give,open,gallery,bind,limited,get tickets(){return tickets}}})();
+window.REWARD=REWARD;
 
 /* ---------- ภารกิจรายวัน ---------- */
 const MISSION=(function(){const realB=Math.max(1,ITEMS.filter(p=>hasData(p.id)).length);
@@ -1539,7 +1583,7 @@ const NET=(function(){if(!FIREBASE_CONFIG||!FIREBASE_CONFIG.databaseURL)return{t
   const myD=()=>PLAYER.dist;
   /* ---------- แผงผู้เล่น: เป้าหมายร่วม · แข่งอำเภอ · คนในงาน · อันดับ ---------- */
   function goalHTML(){const g=nextGoal(total),pv=prevGoal(total);const pc=Math.min(100,(total-pv)/Math.max(1,g-pv)*100);return`<div class="lb-goal"><div class="lb-bar"><i style="width:${pc.toFixed(1)}%"></i></div><div class="lb-gt"><b>${fmtN(total)}</b> / ${fmtN(g)} แต้ม</div></div>`}
-  function distHTML(){const R=distRows(),mx=Math.max(1,...R.map(r=>r.v));return`<div class="lb-dist">${R.map((r,k)=>`<div class="${r.k===myD()?'me':''}"><span>${k===0&&r.v>0?'👑 ':''}${esc(r.n)}</span><div><i style="width:${(r.v/mx*100).toFixed(1)}%;background:${r.c}"></i></div><em>${fmtN(r.v)}</em></div>`).join('')}</div>`}
+  function distHTML(){const R=distRows(),mx=Math.max(1,...R.map(r=>r.v));return`<div class="lb-dist">${R.map((r,k)=>`<div class="${r.k===myD()?'me':''}"><span>${k===0&&r.v>0?'<img class="tro" src="img/prize-trophy.webp" alt="">':''}${esc(r.n)}</span><div><i style="width:${(r.v/mx*100).toFixed(1)}%;background:${r.c}"></i></div><em>${fmtN(r.v)}</em></div>`).join('')}</div>`}
   function panel(){const P=$('#lb');if(!P||!P.classList.contains('on'))return;
     const on=[{id:ME,n:PLAYER.name,m:micOn,d:myD(),me:1},...[...others.entries()].map(([k,o])=>({id:k,n:o.name,m:o.mic,d:o.d}))];
     const isOn=id=>id===ME||others.has(id);
@@ -1547,7 +1591,7 @@ const NET=(function(){if(!FIREBASE_CONFIG||!FIREBASE_CONFIG.databaseURL)return{t
       `<h4>🎯 เป้าหมายร่วมของทุกคนวันนี้</h4>${goalHTML()}<small class="lb-s">ครบเป้าเมื่อไร พลุจุดให้ทุกคนในงานพร้อมกัน</small>`+
       `<h4>🏁 แข่งอำเภอวันนี้ <small>(คุณอยู่ทีม ${esc(dn(myD()))})</small></h4>${distHTML()}`+
       `<h4>👥 อยู่ในงานตอนนี้ ${on.length} คน</h4><div class="lb-on">${on.map(r=>`<span class="${r.me?'me':''}"><i style="background:${(DIST.find(x=>x[0]===r.d)||[,,'#2E9E5B'])[2]}"></i>${r.m?'🎙 ':''}${esc(r.n)}${r.me?' (คุณ)':''}</span>`).join('')}</div>`+
-      `<h4>🏆 อันดับแต้มวันนี้</h4><ol class="lb-top">${board.length?board.map((r,k)=>`<li class="${r.id===ME?'me':''}"><b>${k+1}</b><span>${isOn(r.id)?'<i class="d"></i>':''}${esc(r.name||'ผู้ชม')}<small>${rankOf(r.pts).t} · ${esc(dn(r.d))}</small></span><em>★ ${fmtN(r.pts)}</em></li>`).join(''):'<li class="e">ยังไม่มีใครสะสมแต้มวันนี้ · เป็นคนแรกเลย!</li>'}</ol>`;
+      `<h4>🏆 อันดับแต้มวันนี้</h4><ol class="lb-top">${board.length?board.map((r,k)=>`<li class="${r.id===ME?'me':''}"><b>${k<3?`<img class="md" src="img/prize-top${k+1}.webp" alt="${k+1}">`:k+1}</b><span>${isOn(r.id)?'<i class="d"></i>':''}${esc(r.name||'ผู้ชม')}<small>${rankOf(r.pts).t} · ${esc(dn(r.d))}</small></span><em>★ ${fmtN(r.pts)}</em></li>`).join(''):'<li class="e">ยังไม่มีใครสะสมแต้มวันนี้ · เป็นคนแรกเลย!</li>'}</ol>`;
     $('#lbDeaf').textContent=deaf?'🔊 เปิดเสียงผู้ชมคนอื่น':'🔇 ปิดเสียงผู้ชมคนอื่น'}
   $('#onl').onclick=()=>{$('#lb').classList.add('on');panel()};$('#lbX').onclick=()=>$('#lb').classList.remove('on');
   $('#lbDeaf').onclick=()=>{deaf=!deaf;$('#onl').classList.toggle('deaf',deaf);toast(deaf?'🔇 ปิดเสียงผู้ชมคนอื่นแล้ว':'🔊 เปิดเสียงผู้ชมคนอื่น');panel()};
@@ -1555,10 +1599,10 @@ const NET=(function(){if(!FIREBASE_CONFIG||!FIREBASE_CONFIG.databaseURL)return{t
   let qrDone=false;function stage(){if(!STAGE)return;
     if(!qrDone){qrDone=true;const u=location.href.replace(/([?&])stage=1&?/,'$1').replace(/[?&]$/,'');try{new QRCode($('#stgQr'),{text:u,width:220,height:220,correctLevel:QRCode.CorrectLevel.M})}catch(e){}}
     $('#stgOn').textContent=others.size;$('#stgGoal').innerHTML=goalHTML();$('#stgDist').innerHTML=distHTML();
-    $('#stgTop').innerHTML=board.length?board.slice(0,8).map((r,k)=>`<li><b>${['🥇','🥈','🥉'][k]||k+1}</b><span>${esc(r.name||'ผู้ชม')}<small>${esc(dn(r.d))}</small></span><em>★ ${fmtN(r.pts)}</em></li>`).join(''):'<li class="e">รอผู้เล่นคนแรก…</li>';
+    $('#stgTop').innerHTML=board.length?board.slice(0,8).map((r,k)=>`<li><b>${k<3?`<img class="md" src="img/prize-top${k+1}.webp" alt="${k+1}">`:k+1}</b><span>${esc(r.name||'ผู้ชม')}<small>${esc(dn(r.d))}</small></span><em>★ ${fmtN(r.pts)}</em></li>`).join(''):'<li class="e">รอผู้เล่นคนแรก…</li>';
     $('#stgFeed').innerHTML=feedL.slice(-5).map(f=>`<div>${esc(f)}</div>`).join('')}
   /* ---------- ประกาศจากผู้ดูแล ---------- */
-  function showAnn(a){const e=$('#ann');if(a.kind==='winner'){e.classList.remove('on');const w=$('#win');$('#winN').textContent=a.name||'';$('#winD').textContent=a.dist?('อำเภอ'+dn(a.dist)).replace('อำเภออำเภอ','อำเภอ'):'';$('#winM').textContent=a.msg||'ผู้โชคดีประจำรอบ';w.classList.add('on');
+  function showAnn(a){const e=$('#ann');if(a.kind==='winner'){e.classList.remove('on');const w=$('#win');$('#winN').textContent=a.name||'';$('#winD').textContent=a.dist?('อำเภอ'+dn(a.dist)).replace('อำเภออำเภอ','อำเภอ'):'';$('#winM').textContent=(a.msg||'ผู้โชคดีประจำรอบ')+' · รับกระเช้าของดีลุ่มภู';w.classList.add('on');
       try{window.__burst&&(__burst(),setTimeout(__burst,900),setTimeout(__burst,1800))}catch(x){}try{window.__chime()}catch(x){}setTimeout(()=>w.classList.remove('on'),12000);return}
     if(a.kind==='countdown'){cd=+a.until||0;if(a.msg)e.dataset.cdm=a.msg;return}
     if(a.kind==='burst'){try{__burst();setTimeout(__burst,700)}catch(x){}}
@@ -1577,7 +1621,7 @@ const NET=(function(){if(!FIREBASE_CONFIG||!FIREBASE_CONFIG.databaseURL)return{t
       if(/^q\d$/.test(d.e)){if(o)bubble(o,SAY[+d.e.slice(1)]||'');return}
       if(d.e==='wave'){if(o){bubble(o,'👋');if(d.to===ME){toast(`👋 ${o.name} ทักทายคุณ!`);const W=LSJ('nbl12-waver-'+DAY,[]);if(!W.includes(d.p)){W.push(d.p);LS('nbl12-waver-'+DAY,W);PLAYER.add(15,'wave_r')}}}return}
       if(o&&window.EMO)EMO.spawnAt(d.e,o.g.position.clone().add(new THREE.Vector3(0,2.6,0)))},e=>fail(e,'fx'));
-    base.child('scores/'+DAY).orderByChild('p').limitToLast(10).on('value',s=>{board=[];s.forEach(c=>{const v=c.val()||{};board.push({id:c.key,name:v.n,pts:v.p|0,d:v.d||''})});board.reverse();try{SCREEN.live(board)}catch(e){}ui()},e=>fail(e,'scores'));
+    base.child('scores/'+DAY).orderByChild('p').limitToLast(10).on('value',s=>{board=[];s.forEach(c=>{const v=c.val()||{};board.push({id:c.key,name:v.n,pts:v.p|0,d:v.d||''})});board.reverse();try{SCREEN.live(board)}catch(e){}try{const rk=board.findIndex(r=>r.id===ME);if(board.length>=5&&rk>=0&&rk<3)REWARD.limited('lim-2')}catch(e){}ui()},e=>fail(e,'scores'));
     base.child('stats/'+DAY+'/total').on('value',s=>{const v=+s.val()||0;if(totalOK){const g=GOALS.find(x=>x>total&&x<=v);if(g){toast(`🎆 ทุกคนในงานช่วยกันสะสมครบ ${fmtN(g)} แต้มแล้ว!`);try{__burst();setTimeout(__burst,800)}catch(e){}}}total=v;totalOK=true;ui()},e=>fail(e,'total'));
     base.child('stats/'+DAY+'/dist').on('value',s=>{const old=distRows()[0];dist=s.val()||{};const nw=distRows()[0];if(old&&nw&&old.k!==nw.k&&nw.v>0&&Date.now()-t0>4000)toast(`🏁 ${nw.n} แซงขึ้นนำ!`);ui()},e=>fail(e,'dist'));
     base.child('stats/'+DAY+'/interest').on('value',s=>{interest=s.val()||{};try{window.__intUpd&&__intUpd()}catch(e){}},()=>{});
@@ -1740,7 +1784,7 @@ const CHEST=(function(){const CYC=10,ON0=3,ON1=7;const g=new THREE.Group();g.vis
   function now(){const d=new Date();return{m:d.getHours()*60+d.getMinutes(),s:d.getSeconds()}}
   function setSlot(s){slot=s;state='on';const[x,z]=where(s);g.position.set(x,0,z);g.visible=true;lid.rotation.x=0;beam.visible=true;unwatch();unwatch=NET.watchDrop?NET.watchDrop(s,(v,me)=>{if(state==='on'||state==='claiming'){if(!me){state='gone';toast(`💰 ${v.n} เปิดหีบสมบัติได้ก่อน! รอบหน้าอีกไม่กี่นาที`);openT=0.01}}}):()=>{};
     toast('💰 หีบสมบัติปรากฏในงานแล้ว! ตามลำแสงสีทอง คนแรกที่แตะได้ +100');try{window.__chime()}catch(e){}}
-  function take(){if(state!=='on')return;state='claiming';NET.claim(slot).then(ok=>{if(ok){state='mine';openT=.01;PLAYER.add(100,'chest');try{MISSION.hit('chest')}catch(e){}toast('🎉 คุณเปิดหีบสมบัติได้! +100 แต้ม');try{__burst()}catch(e){}try{window.REWARD&&REWARD.give('หีบสมบัติ')}catch(e){}}else if(state==='claiming'){state='gone';openT=.01}})}
+  function take(){if(state!=='on')return;state='claiming';NET.claim(slot).then(ok=>{if(ok){state='mine';openT=.01;PLAYER.add(100,'chest');try{if(window.__HLB>=0)REWARD.limited('lim-1')}catch(e){}prz('prize-chest.webp','💰 เปิดหีบสมบัติได้!','+100 แต้ม');try{MISSION.hit('chest')}catch(e){}toast('🎉 คุณเปิดหีบสมบัติได้! +100 แต้ม');try{__burst()}catch(e){}try{window.REWARD&&REWARD.give('หีบสมบัติ')}catch(e){}}else if(state==='claiming'){state='gone';openT=.01}})}
   window.__chestSync=()=>{if(state==='on')setSlot(slot)};
   function tick(dt,t){const{m,s}=now(),k=m%CYC,sl=Math.floor(m/CYC);const on=k>=ON0&&k<ON1;
     if(k===ON0-1&&warned!==sl){warned=sl;toast('💰 อีก 1 นาที หีบสมบัติจะปรากฏ! เตรียมตัวให้พร้อม')}
@@ -1847,7 +1891,7 @@ const AVPICK=(function(){let st=avParse(LS('nbl12-av'));if(!st){st={c:Math.floor
   return{get code(){return code()},get style(){return st}}})();
 window.__AVPICK=AVPICK;
 
-window.__rankUp=t=>{const d=document.createElement('div');d.className='rankup';d.innerHTML=`<small>เลื่อนขั้นเป็น</small><b>${t}</b>`;document.body.appendChild(d);setTimeout(()=>d.remove(),3200);try{__burst()}catch(e){}try{window.__chime()}catch(e){}try{NET.gained&&NET.gained('rank',0,{r:t})}catch(e){}};
+window.__rankUp=t=>{const i=Math.max(0,RANKS.findIndex(r=>t.includes(r[1])));const d=document.createElement('div');d.className='rankup rku-m';d.innerHTML=`<img class="rk-m rk${i}" src="img/prize-medal.webp" alt=""><small>เลื่อนขั้นเป็น</small><b>${t}</b>`;document.body.appendChild(d);setTimeout(()=>d.remove(),3200);try{__burst()}catch(e){}try{window.__chime()}catch(e){}try{NET.gained&&NET.gained('rank',0,{r:t})}catch(e){}};
 window.__netGain=NET.gained||null;
 window.QUIZ=QUIZ;window.MISSION=MISSION;window.REWARD=REWARD;window.SHARE=SHARE;window.__chime=()=>SND.chime();
 window.EXPO={goBooth,stopTour,setMode,cam,orbit,goMap,people:PEOPLE};
