@@ -352,6 +352,7 @@ body.pres .feed,body.pres .wave,body.cardon .wave,body.cardon .qc{display:none!i
 #bView.on{background:#D50654;color:#fff}
 
 @media (max-width:1440px){#bView .l{display:none}#bView{padding:0 11px}}
+.tdown{position:fixed;left:50%;bottom:calc(max(14px,env(safe-area-inset-bottom)) + 110px);transform:translateX(-50%);z-index:13;height:50px;padding:0 24px;border-radius:999px;border:2px solid #fff;background:linear-gradient(135deg,#E8559A,#D50654);color:#fff;font-family:var(--f-head);font-size:16px;cursor:pointer;box-shadow:0 10px 26px -8px rgba(213,6,84,.7)}
 </style>
 </head>
 <body>
@@ -447,6 +448,7 @@ body.pres .feed,body.pres .wave,body.cardon .wave,body.cardon .qc{display:none!i
 <div class="chestp glass" id="chest" hidden></div>
 <div class="cdn glass" id="cdn" hidden></div>
 <div class="ann glass" id="ann"></div>
+<button class="tdown" id="bDown" type="button" hidden>🛗 ลงจากหอชมวิว</button>
 <button class="jmp" id="bJump" type="button" aria-label="กระโดด">⤒<small>กระโดด</small></button>
 
 <div class="lb" id="mp" role="dialog" aria-label="ภารกิจและกิจกรรม"><div class="lb-card glass"><div class="lb-h"><b>🎯 ภารกิจ · กิจกรรม</b><button class="tb" id="mpX" type="button" aria-label="ปิด">✕</button></div><div id="mpB"></div></div></div>
@@ -1260,7 +1262,7 @@ let vy=0,grounded=true,jumpQ=false,moving=false;
 const clock=new THREE.Clock();const fwd=new THREE.Vector3(),rgt=new THREE.Vector3();const where=$('#where');let near=-2;
 function resize(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.fov=w<h?70:55;camera.updateProjectionMatrix()}
 addEventListener('resize',resize);resize();
-function collide(p){const r=Math.hypot(p.x,p.z);if(r<4.7){const k=4.7/(r||1);p.x*=k;p.z*=k}if(r>HALL-1.8){const k=(HALL-1.8)/r;p.x*=k;p.z*=k}
+function collide(p){const r=Math.hypot(p.x,p.z);if(p.y-EYE>1.2){if(r>HALL-1.8){const k=(HALL-1.8)/r;p.x*=k;p.z*=k}return}if(r<4.7){const k=4.7/(r||1);p.x*=k;p.z*=k}if(r>HALL-1.8){const k=(HALL-1.8)/r;p.x*=k;p.z*=k}
   for(const q of TOTEMS){const dx=p.x-q.x,dz=p.z-q.z,d=Math.hypot(dx,dz);if(d<.9&&d>0){p.x=q.x+dx/d*.9;p.z=q.z+dz/d*.9}}
   const v=new THREE.Vector3();for(const b of BOOTH){v.set(p.x,0,p.z);b.g.worldToLocal(v);if(Math.abs(v.x)<3.1&&v.z>-2.6&&v.z<2.6){v.z=2.6;b.g.localToWorld(v);p.x=v.x;p.z=v.z}}}
 function loop(){const dt=Math.min(.05,clock.getDelta()),t=clock.elapsedTime;
@@ -1280,7 +1282,7 @@ function loop(){const dt=Math.min(.05,clock.getDelta()),t=clock.elapsedTime;
     if((keys.Space||jumpQ)&&grounded){vy=5.4;grounded=false;keys.Space=0;try{MISSION.hit('jump')}catch(e){}}jumpQ=false;
     vy-=14*dt;feet+=vy*dt;if(feet<=sh){if(sh-feet>.02&&vy<0&&sh-feet<.75)feet=sh;feet=Math.max(feet,sh);vy=0;grounded=true}else grounded=feet-sh<.03;
     cam.pos.y=feet+EYE}
-  VIEW.apply(Math.max(0,cam.pos.y-EYE),moving,dt);
+  VIEW.apply(Math.max(0,cam.pos.y-EYE),moving,dt);TOWER.hud(cam.pos.y-EYE);
   HERO.tick(dt,t,cam.pos,hot);AMB.tick(dt,t);try{MUSIC.tick();SPK.tick(dt,t);HL.tick(dt,t);EMO.tick(dt);CHEST.tick(dt,t);RAIN.tick(dt,t);TOWER.tick(t);SCREEN.tick(dt);NET.tick(dt)}catch(e){};HUNT.tick(t);BANNERS.forEach(b=>{b.rotation.z=Math.sin(t*.8+b.userData.sw)*.025});movePeople(dt,t);spinners.forEach(s=>{s.g.rotation.y=Math.sin(t*.6+s.ph)*.12;s.g.position.y=(s.y||1.62)+Math.sin(t*1.5+s.ph)*.035});
   MAP.rotation.y=Math.sin(t*.1)*.06;band.rotation.y=-t*.08;glows.forEach((m,k)=>{m.material.color.offsetHSL(0,0,0)});
   if(mode==='walk'&&!tw){let ni=-1,nd=7.5;BOOTH.forEach((b,i)=>{const d=Math.hypot(cam.pos.x-b.stand.x,cam.pos.z-b.stand.z);if(d<nd){nd=d;ni=i}});
@@ -1386,14 +1388,14 @@ const REWARD=(function(){const W=[['wall-1','รุ่งอรุณลุ่�
   function ui(){const e=$('#tkN');if(e)e.textContent=tickets;$('#stp').classList.toggle('hasgift',tickets>0)}
   function open(){if(tickets<=0){toast('ยังไม่มีกล่องรางวัล · ทำภารกิจเพื่อรับ');return}tickets--;const pool=W.filter(w=>!own.has(w[0]));const dup=!pool.length;const w=(dup?W:pool)[Math.floor(Math.random()*(dup?W:pool).length)];own.add(w[0]);save();ui();
     try{PLAYER.log('reward',{w:w[0]});if(dup)PLAYER.add(30,'reward_dup')}catch(e){}
-    const m=$('#gift');m.innerHTML=`<div class="gbox"><div class="gb-lid"></div><div class="gb-body"></div><div class="gb-rib"></div></div><div class="gcard"><img src="img/${w[0]}.jpg" alt=""><div class="gc-t"><small>${dup?'ได้ซ้ำ · +30 แต้ม':'ปลดล็อกวอลเปเปอร์ใหม่!'}</small><b>${w[1]}</b><i>${w[2]}</i></div>
+    const m=$('#gift');m.innerHTML=`<div class="gbox"><div class="gb-lid"></div><div class="gb-body"></div><div class="gb-rib"></div></div><div class="gcard"><img src="img/${w[0]}.jpg" alt="" onerror="this.style.visibility='hidden'"><div class="gc-t"><small>${dup?'ได้ซ้ำ · +30 แต้ม':'ปลดล็อกวอลเปเปอร์ใหม่!'}</small><b>${w[1]}</b><i>${w[2]}</i></div>
       <div class="gc-a"><button class="tb p" id="gSave" type="button">บันทึกวอลเปเปอร์</button><button class="tb" id="gX" type="button">เก็บไว้ก่อน</button></div><p class="gc-n">สะสมแล้ว ${own.size}/4 แบบ</p></div>`;
     m.classList.add('on');setTimeout(()=>m.classList.add('open'),1300);try{window.__chime&&window.__chime()}catch(e){}
     $('#gX').onclick=()=>m.classList.remove('on','open');$('#gSave').onclick=()=>saveImg(w[0]);m.onclick=e=>{if(e.target===m)m.classList.remove('on','open')}}
   function saveImg(id){const url=`img/${id}.jpg`;fetch(url).then(r=>r.blob()).then(b=>{const f=new File([b],`12plus-${id}.jpg`,{type:'image/jpeg'});
       if(navigator.canShare&&navigator.canShare({files:[f]}))return navigator.share({files:[f],title:'วอลเปเปอร์บัวทอง 12 Plus+'});const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=f.name;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},3000)})
     .then(()=>toast('บันทึกแล้ว · ตั้งเป็นวอลเปเปอร์ได้เลย')).catch(()=>{window.open(url,'_blank')})}
-  function gallery(){return`<div class="wl"><h3>🎁 วอลเปเปอร์บัวทอง <small>${own.size}/4 · กล่องรางวัล <b id="tkN">${tickets}</b></small>${tickets?'<button class="tb p" id="gOpen" type="button">เปิดกล่อง</button>':''}</h3><div class="wg">${W.map(w=>`<button type="button" class="wi ${own.has(w[0])?'ok':''}" data-w="${w[0]}"><img src="img/${w[0]}-s.jpg" alt=""><span>${own.has(w[0])?w[1]:'🔒 ยังไม่ปลดล็อก'}</span></button>`).join('')}</div></div>`}
+  function gallery(){return`<div class="wl"><h3>🎁 วอลเปเปอร์บัวทอง <small>${own.size}/4 · กล่องรางวัล <b id="tkN">${tickets}</b></small>${tickets?'<button class="tb p" id="gOpen" type="button">เปิดกล่อง</button>':''}</h3><div class="wg">${W.map(w=>`<button type="button" class="wi ${own.has(w[0])?'ok':''}" data-w="${w[0]}"><img src="img/${w[0]}-s.jpg" alt="" onerror="this.style.visibility='hidden'"><span>${own.has(w[0])?w[1]:'🔒 ยังไม่ปลดล็อก'}</span></button>`).join('')}</div></div>`}
   function bind(root){const b=root.querySelector('#gOpen');if(b)b.onclick=()=>{$('#pass').classList.remove('on');open()};root.querySelectorAll('.wi.ok').forEach(x=>x.onclick=()=>saveImg(x.dataset.w))}
   setTimeout(ui,0);return{give,open,gallery,bind,get tickets(){return tickets}}})();
 
@@ -1779,7 +1781,7 @@ const TOWER=(function(){const TOP=7.2,PR=3.2,CORE=1.05;const L=[];const KEY='nbl
   /* ความสูงที่ยืนได้: ยอดหอ (ถ้าเท้าอยู่สูงพอ) หรือพื้น */
   function standH(x,z,feet){for(const o of L){const d=Math.hypot(x-o.c.x,z-o.c.z);if(d<PR&&feet>=TOP-.7)return TOP}return 0}
   function clamp(p,feet){for(const o of L){const dx=p.x-o.c.x,dz=p.z-o.c.z,d=Math.hypot(dx,dz)||1e-6;
-      if(feet>=TOP-.7){if(d>PR-.3){p.x=o.c.x+dx/d*(PR-.3);p.z=o.c.z+dz/d*(PR-.3)}if(d<CORE+.35&&false){}}
+      if(feet>=TOP-.7){if(d<PR+1.5&&d>PR-.3){p.x=o.c.x+dx/d*(PR-.3);p.z=o.c.z+dz/d*(PR-.3)}}
       else if(d<CORE+.35){p.x=o.c.x+dx/d*(CORE+.35);p.z=o.c.z+dz/d*(CORE+.35)}}}
   let riding=null;
   function start(o,up){if(riding)return;riding={o,up,t:0,x:o.lift.x,z:o.lift.z};o.armed=false;stopTour();closeCard();toast(up?'🛗 กำลังขึ้นหอชมวิว…':'🛗 กำลังลงจากหอ…');try{window.__chime()}catch(e){}}
@@ -1789,7 +1791,12 @@ const TOWER=(function(){const TOP=7.2,PR=3.2,CORE=1.05;const L=[];const KEY='nbl
         cam.pos.set(r.x,y+EYE,r.z);o.car.position.y=y;if(r.t>=1){riding=null;if(r.up){toast('🗼 ยอดหอชมวิว · เดินรอบ ๆ ดูวิวทั้งงาน · ยืนในวงชมพูเพื่อลง');if(!seen.includes(o.k)){seen.push(o.k);LS(KEY,seen);try{PLAYER.add(15,'view');MISSION.hit('view',o.k)}catch(e){}}}}return true}
     for(const o of L){const inn=inLift(o,cam.pos);if(!inn){o.armed=true;continue}if(!o.armed)continue;if(feet<.3)start(o,true);else if(feet>TOP-.3)start(o,false)}return false}
   function tick(t){L.forEach(o=>{const s=.85+Math.sin(t*3)*.15;o.pad.scale.set(s,s,1);o.padT.scale.set(s,s,1);o.sg.position.y=2.9+Math.sin(t*2)*.05;if(!riding)o.car.position.y+=((o.armed?0:o.car.position.y)-o.car.position.y)*.0})}
-  return{standH,clamp,walkTick,tick,go,TOP,get riding(){return!!riding}}})();
+  /* ปุ่มลงจากหอ (กันผู้เล่นหาทางลงไม่เจอ) */
+  function nearest(){let b=null,bd=1e9;L.forEach(o=>{const d=Math.hypot(cam.pos.x-o.c.x,cam.pos.z-o.c.z);if(d<bd){bd=d;b=o}});return b}
+  function down(){const o=nearest();if(!o||riding)return;riding={o,up:false,t:0,x:o.lift.x,z:o.lift.z};o.armed=false;toast('🛗 กำลังลงจากหอ…')}
+  $('#bDown').onclick=down;
+  function hud(feet){const b=$('#bDown');const show=mode==='walk'&&!riding&&feet>TOP-1;if(b.hidden===show)b.hidden=!show}
+  return{standH,clamp,walkTick,tick,go,down,hud,TOP,get riding(){return!!riding}}})();
 
 window.__cam=cam;
 
