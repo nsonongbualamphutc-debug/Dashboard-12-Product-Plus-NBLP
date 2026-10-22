@@ -2,7 +2,7 @@
    12 Plus+ · pages3.js — สื่อนำเสนอสินค้า (brief.html)
    slicer 3 มุมมอง:  สรุปสินค้า (A4) · แนะนำสินค้า (อินโฟขายของ) · หนังสือสินค้า (Lookbook พลิกหน้า)
    ===================================================================== */
-const BV=[['brief','สรุปสินค้า','Summary','print'],['promo','แนะนำสินค้า','Showcase','star'],['book','หนังสือสินค้า','Lookbook','report'],['tag','ป้าย QR','QR tags','grid']];
+const BV=[['brief','สรุปสินค้า','Summary','print'],['promo','แนะนำสินค้า','Showcase','star'],['book','หนังสือสินค้า','Lookbook','report'],['tag','ป้าย QR','QR tags','grid'],['expo','งานแสดงสินค้า 3D','Virtual Expo','globe']];
 const absUrl=q=>location.href.replace(/[?#].*$/,'').replace(/[^/]*$/,'')+q;
 const vaP=p=>{const v=VA[p.id];return v?{s:v.slice(0,3).map(x=>({t:L(x[0],x[1]),v:x[2]})),u:L(v[3],v[4])}:null};
 const fP=v=>v>=1000?nf.format(Math.round(v)):v>=10?nf.format(Math.round(v)):v.toFixed(2).replace(/\.?0+$/,'');
@@ -29,7 +29,7 @@ PAGE_R.brief=page=>{
     </div>
   </div>
   <div id="bv" class="bv-${v}"></div>`;
-  $$('[data-bv]',page).forEach(b=>b.onclick=()=>go({page:'brief',q:new URLSearchParams('v='+b.dataset.bv+(b.dataset.bv==='book'||b.dataset.bv==='tag'?'':'&p='+pid))}));
+  $$('[data-bv]',page).forEach(b=>b.onclick=()=>b.dataset.bv==='expo'?(location.href='exhibit.html'):go({page:'brief',q:new URLSearchParams('v='+b.dataset.bv+(b.dataset.bv==='book'||b.dataset.bv==='tag'?'':'&p='+pid))}));
   const sel=$('#bSel');if(sel)sel.onchange=e=>go({page:'brief',q:new URLSearchParams('v='+v+'&p='+e.target.value)});
   const box=$('#bv');
   if(v==='brief'){_briefA4(box);const t=$('.ph-title',box);if(t){$$('.row',t).forEach(r=>{r.querySelector('#bSel')?.remove()});const r=$('.row',t);t.replaceWith(Object.assign(document.createElement('div'),{className:'sx-act no-print',innerHTML:r?r.innerHTML:''}))}}

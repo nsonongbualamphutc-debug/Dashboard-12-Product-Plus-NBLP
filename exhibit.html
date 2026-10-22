@@ -1,0 +1,810 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ห้องนิทรรศการ · 12 Plus+</title>
+<meta name="description" content="ห้องนิทรรศการเสมือนจริง สินค้าอัตลักษณ์หนองบัวลำภู เดินชมได้ทั้งบนคอมพิวเตอร์ iPad และมือถือ">
+<meta name="theme-color" content="#FCE9EF">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;1,9..144,400;1,9..144,600&family=Kanit:wght@300;400;500;600;700&family=Sarabun:wght@400;500;600&display=swap">
+<style>
+:root{--pink:#D50654;--pink-2:#E8559A;--ink:#2C1A23;--muted:#7A5A6A;--glass:rgba(255,255,255,.78);--glass-b:rgba(255,255,255,.9);--line:rgba(213,6,84,.16);--shadow:0 18px 50px -18px rgba(90,20,50,.45);--f-head:'Kanit',sans-serif;--f-body:'Sarabun','Kanit',sans-serif;--f-latin:'Fraunces',Georgia,serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#FBE9F2;--muted:#C7A3B7;--glass:rgba(29,15,25,.78);--glass-b:rgba(29,15,25,.92);--line:rgba(255,140,194,.22);--shadow:0 18px 50px -18px rgba(0,0,0,.8)}}
+:root[data-theme="dark"]{--ink:#FBE9F2;--muted:#C7A3B7;--glass:rgba(29,15,25,.78);--glass-b:rgba(29,15,25,.92);--line:rgba(255,140,194,.22);--shadow:0 18px 50px -18px rgba(0,0,0,.8)}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;background:#F4E6EC;color:var(--ink);font-family:var(--f-body);-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+#c{position:fixed;inset:0;width:100%;height:100%;display:block;touch-action:none;cursor:grab}
+#c.drag{cursor:grabbing}
+button{font:inherit;color:inherit}
+.glass{background:var(--glass);-webkit-backdrop-filter:blur(14px) saturate(1.3);backdrop-filter:blur(14px) saturate(1.3);border:1px solid var(--line);box-shadow:var(--shadow)}
+/* top bar */
+.top{position:fixed;left:max(14px,env(safe-area-inset-left));right:max(14px,env(safe-area-inset-right));top:max(12px,env(safe-area-inset-top));display:flex;align-items:center;gap:10px;z-index:10;pointer-events:none}
+.top>*{pointer-events:auto}
+.back{display:inline-flex;align-items:center;gap:8px;padding:0 14px;height:44px;border-radius:14px;text-decoration:none;color:var(--ink);font-family:var(--f-head);font-size:14.5px;white-space:nowrap}
+.back img{width:26px;height:26px}
+.ttl{padding:7px 16px;border-radius:14px;min-width:0;flex:0 1 auto}
+.ttl small{display:block;font-family:var(--f-latin);font-style:italic;font-size:12px;color:var(--pink-2);letter-spacing:.04em}
+.ttl b{display:block;font-family:var(--f-head);font-weight:600;font-size:17px;line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sp{flex:1}
+.tb{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:44px;min-width:44px;padding:0 14px;border-radius:14px;border:1px solid var(--line);background:var(--glass);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);cursor:pointer;font-family:var(--f-head);font-size:14.5px;white-space:nowrap;box-shadow:var(--shadow);transition:transform .15s,background .15s}
+.tb:hover{transform:translateY(-1px)}
+.tb.p{background:linear-gradient(135deg,#E8559A,#D50654);color:#fff;border-color:transparent}
+.tb.on{background:#D50654;color:#fff}
+.tb svg{width:19px;height:19px;flex:0 0 auto}
+@media (max-width:820px){.tb .l{display:none}.tb{padding:0 11px}.back span{display:none}.ttl b{font-size:15px}}
+@media (max-width:520px){.ttl{display:none}}
+/* dock */
+.dock{position:fixed;left:50%;bottom:max(14px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:10;display:flex;gap:6px;padding:8px;border-radius:20px;max-width:calc(100vw - 28px);overflow-x:auto;scrollbar-width:none}
+.dock::-webkit-scrollbar{display:none}
+.dk{display:flex;flex-direction:column;align-items:center;gap:3px;width:66px;flex:0 0 66px;padding:6px 2px 5px;border-radius:14px;border:1px solid transparent;background:none;cursor:pointer;transition:background .15s,border-color .15s}
+.dk img{width:40px;height:40px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 2px var(--c),0 4px 10px -4px rgba(0,0,0,.4)}
+.dk span{font-family:var(--f-head);font-size:11.5px;line-height:1.15;text-align:center;max-width:62px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dk i{font-style:normal;font-family:var(--f-latin);font-size:10px;color:var(--muted)}
+.dk.on{background:rgba(213,6,84,.1);border-color:rgba(213,6,84,.35)}
+.dk .dot{position:absolute;width:8px;height:8px;border-radius:50%;background:#2E9E5B;margin:-2px 0 0 34px;box-shadow:0 0 0 2px #fff}
+.dk{position:relative}
+/* progress */
+.where{position:fixed;left:max(14px,env(safe-area-inset-left));top:calc(max(12px,env(safe-area-inset-top)) + 54px);z-index:9;padding:6px 12px;border-radius:12px;font-family:var(--f-head);font-size:13px;color:var(--muted);pointer-events:none;opacity:0;transition:opacity .3s}
+.where.on{opacity:1}
+.where b{color:var(--pink)}
+/* card */
+.card{position:fixed;right:max(14px,env(safe-area-inset-right));top:calc(max(12px,env(safe-area-inset-top)) + 58px);bottom:calc(max(14px,env(safe-area-inset-bottom)) + 104px);width:min(400px,calc(100vw - 28px));z-index:12;border-radius:22px;display:flex;flex-direction:column;overflow:hidden;transform:translateX(calc(100% + 40px));transition:transform .45s cubic-bezier(.2,.8,.2,1);background:var(--glass-b)}
+.card.on{transform:none}
+.card .hd{position:relative;height:180px;flex:0 0 auto;background:#ddd center/cover}
+.card .hd::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,transparent 40%,rgba(0,0,0,.55))}
+.card .hd .no{position:absolute;left:18px;bottom:12px;z-index:1;color:#fff;font-family:var(--f-latin);font-style:italic;font-size:34px;line-height:1;text-shadow:0 2px 10px rgba(0,0,0,.4)}
+.card .x{position:absolute;right:10px;top:10px;z-index:2;width:38px;height:38px;border-radius:12px;border:0;background:rgba(255,255,255,.88);cursor:pointer;display:grid;place-items:center;color:#2C1A23}
+.card .bd{padding:16px 18px 18px;overflow-y:auto;flex:1;-webkit-overflow-scrolling:touch}
+.card h2{margin:0;font-family:var(--f-head);font-weight:600;font-size:25px;line-height:1.2}
+.card .en{font-family:var(--f-latin);font-style:italic;color:var(--c,#D50654);font-size:15px}
+.card .tg{margin:8px 0 0;font-family:var(--f-head);font-size:15.5px;line-height:1.5}
+.card .st{margin:10px 0 0;font-size:15px;line-height:1.7;color:var(--muted)}
+.card h3{margin:16px 0 8px;font-family:var(--f-head);font-size:14px;font-weight:500;letter-spacing:.03em;color:var(--muted);display:flex;align-items:center;gap:8px}
+.card h3::after{content:"";flex:1;height:1px;background:var(--line)}
+.kp{display:grid;gap:8px}
+.kp div{padding:10px 12px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.35)}
+.kp small{display:block;font-size:12.5px;color:var(--muted);line-height:1.35}
+.kp b{font-family:var(--f-head);font-size:22px;font-weight:600;color:var(--c,#D50654)}
+.kp em{font-style:normal;font-size:13px;color:var(--muted);margin-left:4px}
+.kp .wait{font-size:14px;color:var(--muted)}
+.pill{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:2px 9px;border-radius:999px;background:rgba(46,158,91,.14);color:#1E7B45;font-family:var(--f-head)}
+.pill.w{background:rgba(122,90,106,.12);color:var(--muted)}
+.card .ft{display:flex;gap:8px;padding:12px 14px;border-top:1px solid var(--line);flex:0 0 auto}
+.card .ft .tb{box-shadow:none;height:42px;flex:1;text-decoration:none}
+/* joystick */
+.joy{position:fixed;left:max(22px,env(safe-area-inset-left));bottom:calc(max(14px,env(safe-area-inset-bottom)) + 110px);width:120px;height:120px;border-radius:50%;z-index:11;display:none;touch-action:none}
+.joy i{position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;background:linear-gradient(135deg,#E8559A,#D50654);box-shadow:0 6px 18px -6px rgba(213,6,84,.8)}
+body.touch .joy{display:block}
+/* intro: แผงลอยเหนือภาพมุมสูงที่หมุนอยู่ */
+.intro{position:fixed;left:max(18px,env(safe-area-inset-left));bottom:calc(max(18px,env(safe-area-inset-bottom)) + 104px);z-index:30;width:min(440px,calc(100vw - 36px));transition:opacity .6s,transform .6s,visibility .6s}
+.intro.off{opacity:0;visibility:hidden;transform:translateY(20px)}
+.intro .in{padding:24px 26px 22px;border-radius:26px;background:var(--glass-b)}
+.intro .row{display:flex;align-items:center;gap:14px}
+.intro img.s{width:58px;height:58px;flex:0 0 auto}
+.intro small{display:block;font-family:var(--f-latin);font-style:italic;color:var(--pink-2);font-size:14px;letter-spacing:.08em}
+.intro h1{margin:2px 0 0;font-family:var(--f-head);font-weight:600;font-size:clamp(24px,3.6vw,34px);line-height:1.15}
+.intro p{margin:12px 0 0;font-size:15.5px;line-height:1.65;color:var(--muted)}
+.intro .acts{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.intro .go{height:50px;padding:0 24px;font-size:16.5px}
+.intro .hint{display:flex;flex-wrap:wrap;gap:6px 14px;margin-top:14px;font-size:13px;color:var(--muted)}
+.intro .hint span{display:inline-flex;align-items:center;gap:5px}
+.intro kbd{font-family:var(--f-head);font-size:12px;border:1px solid var(--line);border-radius:6px;padding:1px 6px;background:rgba(255,255,255,.6);color:#2C1A23}
+.stats{display:flex;gap:10px;margin-top:14px}
+.stats div{flex:1;padding:8px 10px;border-radius:14px;border:1px solid var(--line);background:rgba(255,255,255,.3)}
+.stats b{display:block;font-family:var(--f-head);font-size:24px;line-height:1.1;color:var(--pink)}
+.stats span{font-size:12.5px;color:var(--muted)}
+.load{margin-top:14px;height:4px;border-radius:4px;background:rgba(213,6,84,.12);overflow:hidden}
+.load i{display:block;height:100%;width:0;background:linear-gradient(90deg,#E8559A,#D50654);transition:width .25s}
+.veil{position:fixed;inset:0;z-index:29;background:radial-gradient(1400px 900px at 50% 40%,rgba(255,240,246,0),rgba(40,10,25,.28));pointer-events:none;transition:opacity .8s}
+.veil.off{opacity:0}
+.booting{position:fixed;inset:0;z-index:60;display:grid;place-items:center;background:#F7E8EE;transition:opacity .6s,visibility .6s;font-family:var(--f-head);color:#7A5A6A}
+.booting.off{opacity:0;visibility:hidden}
+.booting .b{text-align:center}.booting img{width:72px;height:72px;animation:bp 1.6s ease-in-out infinite}
+@keyframes bp{50%{transform:scale(1.08)}}
+@media (max-width:600px){.intro{bottom:calc(max(12px,env(safe-area-inset-bottom)) + 96px)}.intro .in{padding:18px}.stats b{font-size:20px}}
+/* maker */
+.mk{position:fixed;inset:0;z-index:40;display:none;place-items:center;padding:16px;background:rgba(30,10,20,.45)}
+.mk.on{display:grid}
+.mk .box{width:min(620px,100%);max-height:calc(100dvh - 32px);display:flex;flex-direction:column;border-radius:24px;overflow:hidden;background:var(--glass-b)}
+.mk header{padding:18px 20px 10px}
+.mk header small{font-family:var(--f-latin);font-style:italic;color:var(--pink-2)}
+.mk header h2{margin:2px 0 0;font-family:var(--f-head);font-weight:600;font-size:22px}
+.mk .bd{padding:6px 20px 14px;overflow-y:auto}
+.mk label.f{display:block;margin:10px 0 6px;font-family:var(--f-head);font-size:14px;color:var(--muted)}
+.mk input[type=text]{width:100%;height:46px;border-radius:12px;border:1px solid var(--line);padding:0 14px;font:inherit;font-size:16px;background:rgba(255,255,255,.7);color:#2C1A23}
+.th{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.th button{height:62px;border-radius:14px;border:2px solid transparent;cursor:pointer;font-family:var(--f-head);font-size:13.5px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.4)}
+.th button[aria-pressed=true]{border-color:#D50654;box-shadow:0 0 0 3px rgba(213,6,84,.25)}
+.pl{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:6px}
+.pl label{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:12px;border:1px solid var(--line);cursor:pointer;font-family:var(--f-head);font-size:13.5px;background:rgba(255,255,255,.35)}
+.pl label img{width:30px;height:30px;border-radius:50%}
+.pl label input{accent-color:#D50654;width:18px;height:18px}
+.pl label .r{margin-left:auto}
+.mk .out{margin-top:12px;display:none;gap:12px;align-items:center;padding:12px;border-radius:14px;border:1px dashed rgba(213,6,84,.4)}
+.mk .out.on{display:flex}
+.mk .out code{flex:1;min-width:0;font-size:12.5px;word-break:break-all;color:var(--muted)}
+.mk .out .qr{width:96px;height:96px;flex:0 0 96px;background:#fff;padding:6px;border-radius:10px}
+.mk .out .qr img,.mk .out .qr canvas{width:100%!important;height:100%!important}
+.mk footer{display:flex;gap:8px;padding:12px 20px 18px;border-top:1px solid var(--line);flex-wrap:wrap}
+.mk footer .tb{box-shadow:none}
+.mk .note{margin:12px 0 0;font-size:12.5px;color:var(--muted);line-height:1.55}
+/* present mode */
+.pbar{position:fixed;left:50%;bottom:max(16px,env(safe-area-inset-bottom));transform:translateX(-50%);z-index:20;display:none;align-items:center;gap:8px;padding:8px;border-radius:18px}
+.pbar span{min-width:180px;text-align:center;font-family:var(--f-head);font-size:15px;padding:0 6px}
+.pbar .tb{box-shadow:none;font-size:20px}
+body.pres .pbar{display:flex}
+body.pres .top,body.pres .dock,body.pres .where,body.pres .joy{display:none!important}
+body.pres .card{top:max(16px,env(safe-area-inset-top));bottom:calc(max(16px,env(safe-area-inset-bottom)) + 76px)}
+.mtabs{display:flex;gap:6px;margin-top:10px}
+.mtabs button{height:36px;padding:0 14px;border-radius:12px;border:1px solid var(--line);background:none;cursor:pointer;font-family:var(--f-head);font-size:14px;color:var(--ink)}
+.mtabs button[aria-selected=true]{background:#D50654;color:#fff;border-color:#D50654}
+.gal{display:grid;gap:8px}
+.gal a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;border:1px solid var(--line);text-decoration:none;color:var(--ink);background:rgba(255,255,255,.35)}
+.gal a b{display:block;font-family:var(--f-head);font-size:15.5px}
+.gal a small{color:var(--muted);font-size:12.5px}
+.gal a .v{margin-left:auto;text-align:right;font-family:var(--f-head);color:var(--pink);font-size:18px;line-height:1.1}
+.gal a .v small{display:block}
+.gal .th{width:44px;height:44px;border-radius:12px;flex:0 0 44px}
+.recb{position:fixed;left:50%;top:max(14px,env(safe-area-inset-top));transform:translateX(-50%);z-index:70;display:none;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(192,57,43,.92);color:#fff;font-family:var(--f-head);font-size:14px}
+.recb i{width:10px;height:10px;border-radius:50%;background:#fff;animation:bp 1s infinite}
+body.rec .recb{display:flex}
+#bSnd #sndW{display:none}#bSnd.on #sndW{display:inline}#bSnd.on #sndX{display:none}
+@media (max-width:820px){#bRec,#bPres{display:none}}
+/* help */
+.help{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:35;width:min(440px,calc(100vw - 32px));padding:20px 22px;border-radius:22px;display:none;background:var(--glass-b)}
+.help.on{display:block}
+.help h3{margin:0 0 10px;font-family:var(--f-head);font-weight:600}
+.help ul{margin:0;padding-left:18px;line-height:1.9;font-size:15px}
+/* toast */
+.toast{position:fixed;left:50%;top:80px;transform:translateX(-50%) translateY(-10px);z-index:50;padding:10px 18px;border-radius:14px;font-family:var(--f-head);font-size:14.5px;opacity:0;transition:.25s;pointer-events:none;background:var(--glass-b)}
+.toast.on{opacity:1;transform:translateX(-50%)}
+/* fallback 2.5D */
+.fb{position:fixed;inset:0;overflow-y:auto;padding:90px 16px 120px;display:none;background:linear-gradient(180deg,#FCEFF4,#F4E1EA)}
+.fb.on{display:block}
+.fb .g{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:18px}
+.fb a{display:block;border-radius:18px;overflow:hidden;background:#fff;text-decoration:none;color:#2C1A23;box-shadow:var(--shadow)}
+.fb a img{width:100%;aspect-ratio:2/3;object-fit:cover;display:block}
+.fb a b{display:block;padding:10px 14px;font-family:var(--f-head)}
+@media (max-width:600px){.card{top:auto;height:62dvh;bottom:calc(max(10px,env(safe-area-inset-bottom)) + 100px);transform:translateY(calc(100% + 140px))}.card .hd{height:130px}}
+@media (prefers-reduced-motion:reduce){.card,.intro{transition:none}}
+</style>
+</head>
+<body>
+<canvas id="c" aria-label="ห้องนิทรรศการสามมิติ"></canvas>
+
+<div class="top">
+  <a class="back glass" href="brief.html"><img src="img/seal.png" alt=""><span>สื่อนำเสนอ</span></a>
+  <div class="ttl glass"><small>Virtual Exhibition · 12 Plus+</small><b id="exName">สินค้าอัตลักษณ์หนองบัวลำภู</b></div>
+  <span class="sp"></span>
+  <button class="tb" id="bMode" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg><span class="l" id="bModeL">มุมสูง</span></button>
+  <button class="tb" id="bTour" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4v16l13-8z"/></svg><span class="l">ทัวร์อัตโนมัติ</span></button>
+  <button class="tb p" id="bMake" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg><span class="l">สร้างนิทรรศการ</span></button>
+  <button class="tb" id="bSnd" type="button" aria-label="เสียงบรรยากาศ" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9v6h4l5 4V5L8 9z"/><path id="sndW" d="M16 9.5a3.5 3.5 0 0 1 0 5M18.5 7a7 7 0 0 1 0 10"/><path id="sndX" d="M16 9l5 6M21 9l-5 6"/></svg></button>
+  <button class="tb" id="bPres" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg><span class="l">นำเสนอ</span></button>
+  <button class="tb" id="bRec" type="button" aria-label="บันทึกวิดีโอทัวร์"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3.5" fill="currentColor" stroke="none"/></svg><span class="l" id="bRecL">บันทึกวิดีโอ</span></button>
+  <button class="tb" id="bFs" type="button" aria-label="เต็มจอ"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+  <button class="tb" id="bHelp" type="button" aria-label="วิธีใช้"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/></svg></button>
+</div>
+<div class="where glass" id="where"></div>
+<div class="pbar glass" id="pbar"><button class="tb" id="pPrev" type="button" aria-label="บูธก่อนหน้า">‹</button><span id="pNow">นำเสนอ</span><button class="tb p" id="pNext" type="button" aria-label="บูธถัดไป">›</button><button class="tb" id="pExit" type="button">ออก</button></div>
+<div class="recb" id="recb"><i></i><span id="recT">กำลังบันทึก 00:00</span></div>
+
+<nav class="dock glass" id="dock" aria-label="สินค้าในนิทรรศการ"></nav>
+<div class="joy glass" id="joy" aria-hidden="true"><i></i></div>
+
+<aside class="card glass" id="card" aria-live="polite">
+  <div class="hd" id="cHd"><span class="no" id="cNo"></span><button class="x" id="cX" type="button" aria-label="ปิด"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="bd" id="cBd"></div>
+  <div class="ft"><button class="tb" id="cPrev" type="button">‹ ก่อนหน้า</button><a class="tb p" id="cGo" href="#">หน้าสินค้า</a><button class="tb" id="cNext" type="button">ถัดไป ›</button></div>
+</aside>
+
+<div class="veil" id="veil"></div>
+<div class="booting" id="boot"><div class="b"><img src="img/seal.png" alt=""><p>กำลังจัดบูธนิทรรศการ… <span id="bootPct">0%</span></p></div></div>
+<div class="intro" id="intro">
+  <div class="in glass">
+    <div class="row"><img class="s" src="img/seal.png" alt="ตราจังหวัดหนองบัวลำภู"><div><small>VIRTUAL EXPO · 12 PLUS+</small><h1 id="inName">สินค้าอัตลักษณ์หนองบัวลำภู</h1></div></div>
+    <p id="inSub">บูธจัดแสดงสินค้าอัตลักษณ์รอบลานดอกบัว เลือกบูธจากมุมสูง หรือเดินชมทีละบูธ แตะที่บูธเพื่อดูเรื่องราวและข้อมูลจริงจากหน่วยงาน</p>
+    <div class="stats"><div><b id="stN">14</b><span>บูธสินค้า</span></div><div><b id="stR">0</b><span>บูธมีข้อมูลจริง</span></div><div><b id="stG">0</b><span>สินค้า GI</span></div></div>
+    <div class="load"><i id="loadBar"></i></div>
+    <div class="acts"><button class="tb p go" id="bGo" type="button" disabled>กำลังเตรียมงาน…</button><button class="tb go" id="bTour2" type="button" disabled>▶ ทัวร์อัตโนมัติ</button></div>
+    <div class="hint" id="hint"></div>
+  </div>
+</div>
+
+<div class="mk" id="mk" role="dialog" aria-modal="true" aria-labelledby="mkT">
+  <div class="box glass">
+    <header><small>Create an exhibition</small><h2 id="mkT">สร้างนิทรรศการของคุณ</h2><div class="mtabs" role="tablist"><button type="button" role="tab" data-mt="make" aria-selected="true">สร้างใหม่</button><button type="button" role="tab" data-mt="list" aria-selected="false">นิทรรศการทั้งหมด</button></div></header>
+    <div class="bd" id="mkGal" hidden></div>
+    <div class="bd" id="mkForm">
+      <label class="f" for="mkName">ชื่อนิทรรศการ</label>
+      <input type="text" id="mkName" maxlength="60" placeholder="เช่น ของดีลุ่มภู สู่ตลาดโลก">
+      <label class="f" for="mkBy">ผู้จัด / หน่วยงาน</label>
+      <input type="text" id="mkBy" maxlength="60" placeholder="เช่น สำนักงานสถิติจังหวัดหนองบัวลำภู">
+      <label class="f">บรรยากาศห้อง</label>
+      <div class="th" id="mkTh"></div>
+      <label class="f">เลือกสินค้าที่จัดแสดง <span id="mkCnt"></span></label>
+      <div class="pl" id="mkPl"></div>
+      <div class="out" id="mkOut"><div class="qr" id="mkQr"></div><code id="mkUrl"></code></div>
+      <p class="note" id="mkNote">นิทรรศการเก็บไว้ในลิงก์ (แชร์ลิงก์หรือ QR ได้ทันที) · เมื่อเชื่อม Google Sheets แล้ว ปุ่ม “เผยแพร่” จะบันทึกลงหน้ารวมนิทรรศการของทุกคน พร้อมนับผู้เข้าชม</p>
+    </div>
+    <footer><button class="tb p" id="mkPub" type="button" hidden>เผยแพร่</button><button class="tb p" id="mkOpen" type="button">เปิดนิทรรศการนี้</button><button class="tb" id="mkCopy" type="button">คัดลอกลิงก์</button><span class="sp"></span><button class="tb" id="mkClose" type="button">ปิด</button></footer>
+  </div>
+</div>
+
+<div class="help glass" id="help" role="dialog" aria-labelledby="hT">
+  <h3 id="hT">วิธีเดินชม</h3>
+  <ul>
+    <li>คอมพิวเตอร์: <b>W A S D</b> หรือปุ่มลูกศร เพื่อเดิน · ลากเมาส์เพื่อหันมอง</li>
+    <li>iPad / มือถือ: ใช้จอยสติ๊กมุมซ้ายล่างเพื่อเดิน · ปัดหน้าจอเพื่อหันมอง</li>
+    <li>แตะที่ภาพหรือแท่นจัดแสดง เพื่อเปิดการ์ดข้อมูล</li>
+    <li>แตะชื่อสินค้าแถบล่าง เพื่อไปยังชิ้นงานนั้นทันที</li>
+    <li>“ทัวร์อัตโนมัติ” พาเดินชมทีละบูธ · “นำเสนอ” ซ่อนเมนู ใช้รีโมต/คลิกเกอร์ หรือปุ่ม → ← Space เปลี่ยนบูธ</li>
+    <li>“บันทึกวิดีโอ” อัดทัวร์ครบทุกบูธเป็นไฟล์วิดีโอ · แผนที่กลางลาน: แตะหมุดเพื่อไปบูธนั้น</li>
+  </ul>
+  <p style="text-align:right;margin:12px 0 0"><button class="tb" id="hX" type="button">เข้าใจแล้ว</button></p>
+</div>
+<div class="toast glass" id="toast"></div>
+<div class="fb" id="fb"><div class="g" id="fbG"></div></div>
+
+
+<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="data.js"></script>
+<script>
+/* =====================================================================
+   12 Plus+ · Virtual Expo — ลานดอกบัว + บูธสินค้า 14 บูธรอบวง
+   ทุกบูธมองเห็นได้จากกลางลาน · มุมสูง (หมุนดูทั้งงาน) ⇄ เดินชม (บุคคลที่ 1)
+   ลิงก์นิทรรศการ: exhibit.html?name=...&p=2,6,13&theme=lotus|gold|night
+   ===================================================================== */
+/* ===== ตั้งค่า =====
+   VIDEOS: ใส่คลิปให้จอใหญ่ในบูธ เช่น {2:'img/vid-02.mp4', 6:'img/vid-06.mp4'} (mp4 H.264 ไม่เกิน ~8 MB)
+   GAS_URL: ลิงก์ Web app ของ Google Apps Script (ไฟล์ gas/Code.gs) เพื่อเก็บนิทรรศการของผู้ใช้ลง Google Sheets */
+const VIDEOS={};
+const VISITOR_MODELS=[];   /* ตัวละครคนเสมือนจริงจาก Mixamo (.glb ที่ฝังท่า Walking/Idle) เช่น ['models/visitor-1.glb','models/visitor-2.glb'] · ว่าง = ใช้หุ่น models/Xbot.glb */
+const GAS_URL='';
+const PX=(typeof P!=='undefined'?P:[]),DSX_=(typeof DATASETS!=='undefined'?DATASETS:[]);
+const pad2=n=>String(n).padStart(2,'0');
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=s=>document.querySelector(s);
+const nf=new Intl.NumberFormat('th-TH');
+const fmt=v=>Math.abs(v)>=1e6?(Math.round(v/1e5)/10).toLocaleString('th-TH')+' ล้าน':(v%1?(+v).toLocaleString('th-TH',{maximumFractionDigits:1}):nf.format(v));
+const toast=t=>{const e=$('#toast');e.textContent=t;e.classList.add('on');clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove('on'),2400)};
+const isTouch=matchMedia('(pointer:coarse)').matches||'ontouchstart'in window;if(isTouch)document.body.classList.add('touch');
+const Q=new URLSearchParams(location.search);
+const hasData=id=>DSX_.some(d=>d.pid===id&&d.rows&&d.rows.length);
+let ids=(Q.get('p')||'').split(',').map(x=>+x).filter(x=>PX.some(p=>p.id===x));
+const ITEMS=ids.length?ids.map(i=>PX.find(p=>p.id===i)):PX.slice();
+const EXNAME=(Q.get('name')||'').trim().slice(0,60)||'สินค้าอัตลักษณ์หนองบัวลำภู';
+const THEMES={
+  lotus:{floor:'#F3ECE8',floor2:'#E9DCD8',wall:0xF4E9EE,ceil:0xFBF6F8,fog:0xF2E4EA,hemi:[0xFFFFFF,0xE6D2CB,1.0],sun:2.3,exp:1.0,pool:0x8FC9D0,glass:0xFFFFFF,booth:0xFBF7F5,trim:0xD9B15E,bg:'#F2E4EA'},
+  gold:{floor:'#EFE4D6',floor2:'#E2D1BC',wall:0xF1E4D2,ceil:0xFFF8EE,fog:0xEEDFCB,hemi:[0xFFF2DC,0xC9A27A,1.0],sun:2.4,exp:1.02,pool:0x7FB5A8,glass:0xFFF6E6,booth:0xFBF5EC,trim:0xC99A3E,bg:'#EEDFCB'},
+  night:{floor:'#24151D',floor2:'#1B0F16',wall:0x2A1823,ceil:0x150A10,fog:0x120810,hemi:[0x8E6A80,0x120810,.55],sun:.9,exp:1.0,pool:0x1F4C5A,glass:0xFFB6D3,booth:0x2E1C27,trim:0xE8BE68,bg:'#120810'}};
+const TK=THEMES[Q.get('theme')]?Q.get('theme'):'lotus';const T=THEMES[TK];
+if(TK==='night')document.documentElement.dataset.theme='dark';
+
+/* ---------- ข้อความหน้าแรก ---------- */
+$('#exName').textContent=EXNAME;$('#inName').textContent=EXNAME;document.title=EXNAME+' · Virtual Expo 12 Plus+';
+$('#stN').textContent=ITEMS.length;$('#stR').textContent=ITEMS.filter(p=>hasData(p.id)).length;$('#stG').textContent=ITEMS.filter(p=>p.gi).length;
+if(Q.get('name'))$('#inSub').textContent=`นิทรรศการ ${ITEMS.length} บูธ รอบลานดอกบัว · เลือกบูธจากมุมสูง หรือเดินชมทีละบูธ แตะที่บูธเพื่อดูเรื่องราวและข้อมูลจริง`;
+$('#hint').innerHTML=isTouch?'<span>🕹️ จอยสติ๊ก = เดิน</span><span>👆 ปัดจอ = หันมอง/หมุน</span><span>✋ แตะบูธ = ดูข้อมูล</span>':'<span><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd> เดิน</span><span>ลากเมาส์ = หันมอง/หมุน</span><span>ล้อเมาส์ = ซูม</span><span>คลิกบูธ = ดูข้อมูล</span>';
+
+/* ---------- ข้อมูลจริงของแต่ละสินค้า ---------- */
+function facts(p){return DSX_.filter(d=>d.pid===p.id&&d.rows&&d.rows.length).map(d=>{const ys=[...new Set(d.rows.map(r=>r[0]))].sort();const ly=ys[ys.length-1];
+  const types=[...new Set(d.rows.map(r=>r[2]).filter(Boolean))];
+  if(d.form==='pair'&&types.length){const t=types[types.length-1];return{item:d.item+' · '+t,v:d.rows.filter(r=>r[0]===ly&&r[2]===t).reduce((a,r)=>a+(+r[3]||0),0),u:d.unit,y:ly}}
+  return{item:d.item,v:d.rows.filter(r=>r[0]===ly).reduce((a,r)=>a+(+r[3]||0),0),u:d.unit,y:ly}})}
+
+/* ---------- แถบบูธด้านล่าง ---------- */
+function buildDock(){$('#dock').innerHTML=`<button class="dk" type="button" style="--c:#D50654" data-map="1" aria-label="แผนที่จังหวัด"><img src="img/seal.png" alt="" style="object-fit:contain;background:#fff"><span>แผนที่</span><i>6 อำเภอ</i></button>`+ITEMS.map((p,i)=>`<button class="dk" type="button" style="--c:${p.pa}" data-i="${i}" aria-label="${esc(p.name)}"><img src="img/icon-${pad2(p.id)}.webp" alt="">${hasData(p.id)?'<b class="dot" title="มีข้อมูลจริง"></b>':''}<span>${esc(p.name.replace(/^GI /,''))}</span><i>No.${pad2(p.id)}</i></button>`).join('');
+  document.querySelectorAll('.dk').forEach(b=>b.onclick=()=>{if(b.dataset.map){window.EXPO&&(EXPO.stopTour(),EXPO.goMap());return}if(window.EXPO)EXPO.goBooth(+b.dataset.i,true);else location.href='p'+pad2(ITEMS[+b.dataset.i].id)+'.html'})}
+function syncDock(i){document.querySelectorAll('.dk[data-i]').forEach((d,k)=>d.classList.toggle('on',k===i));const a=document.querySelectorAll('.dk[data-i]')[i];if(a&&a.scrollIntoView)try{a.scrollIntoView({block:'nearest',inline:'center',behavior:'smooth'})}catch(e){}}
+
+/* ---------- การ์ดข้อมูล ---------- */
+let cardI=-1;
+function openCard(i){const p=ITEMS[i];if(!p)return;cardI=i;const c=$('#card');c.style.setProperty('--c',p.pa);
+  $('#cHd').style.backgroundImage=`url(img/kv-${pad2(p.id)}.webp)`;$('#cNo').textContent=pad2(p.id);const F=facts(p);
+  $('#cBd').innerHTML=`<h2>${esc(p.name)}</h2><div class="en">${esc(p.en)}</div><p class="tg">${esc(p.tagline||'')}</p>
+    <h3>ข้อมูลจากหน่วยงาน ${F.length?`<span class="pill">● ข้อมูลจริง ${F.length} ชุด</span>`:'<span class="pill w">รอไฟล์ข้อมูล</span>'}</h3>
+    <div class="kp">${F.length?F.slice(0,4).map(f=>`<div><small>${esc(f.item)} · ปี ${f.y}</small><b>${fmt(f.v)}</b><em>${esc(f.u)}</em></div>`).join(''):'<div class="wait">ยังไม่มีไฟล์ข้อมูลจากหน่วยงาน · บูธพร้อมจัดแสดงแล้ว</div>'}</div>
+    <h3>เรื่องราว</h3><p class="st">${esc(p.story||'')}</p>`;
+  $('#cGo').href=`p${pad2(p.id)}.html`;c.classList.add('on');syncDock(i);try{window.__chime&&window.__chime()}catch(e){}if(document.body.classList.contains('pres')){$('#pNow').textContent=`บูธ ${pad2(p.id)} · ${p.name}  (${i+1}/${ITEMS.length})`}}
+function closeCard(){$('#card').classList.remove('on');cardI=-1}
+
+/* ---------- ปุ่มทั่วไป + ผู้สร้างนิทรรศการ ---------- */
+function bindUI(){
+  $('#bHelp').onclick=()=>$('#help').classList.toggle('on');$('#hX').onclick=()=>$('#help').classList.remove('on');
+  $('#bFs').onclick=()=>{const d=document.documentElement;if(!document.fullscreenElement&&!document.webkitFullscreenElement){const f=d.requestFullscreen||d.webkitRequestFullscreen;f?f.call(d):toast('อุปกรณ์นี้ไม่รองรับเต็มจอ · เพิ่มลงหน้าจอโฮมแทนได้')}else(document.exitFullscreen||document.webkitExitFullscreen).call(document)};
+  $('#cX').onclick=()=>{closeCard();window.EXPO&&EXPO.stopTour()};
+  $('#cNext').onclick=()=>{window.EXPO&&(EXPO.stopTour(),EXPO.goBooth((cardI+1)%ITEMS.length,true))};
+  $('#cPrev').onclick=()=>{window.EXPO&&(EXPO.stopTour(),EXPO.goBooth((cardI-1+ITEMS.length)%ITEMS.length,true))};
+  const TH={lotus:['ชมพูดอกบัว','linear-gradient(135deg,#F7C6D9,#D50654)'],gold:['ทองยามเย็น','linear-gradient(135deg,#F1D59A,#A8742A)'],night:['ราตรีลุ่มภู','linear-gradient(135deg,#3A2230,#130911)']};
+  let th=TK;const sel=new Set(ITEMS.map(p=>p.id));
+  $('#mkTh').innerHTML=Object.entries(TH).map(([k,[n,bg]])=>`<button type="button" data-th="${k}" aria-pressed="${k===th}" style="background:${bg}">${n}</button>`).join('');
+  $('#mkPl').innerHTML=PX.map(p=>`<label><input type="checkbox" value="${p.id}" ${sel.has(p.id)?'checked':''}><img src="img/icon-${pad2(p.id)}.webp" alt=""><span>${esc(p.name)}</span>${hasData(p.id)?'<span class="r" title="มีข้อมูลจริง" style="color:#1E7B45">●</span>':''}</label>`).join('');
+  $('#mkName').value=Q.get('name')||'';
+  const cnt=()=>{$('#mkCnt').textContent=`(${$('#mkPl').querySelectorAll('input:checked').length} บูธ)`};cnt();
+  $('#mkPl').onchange=()=>{cnt();$('#mkOut').classList.remove('on')};
+  $('#mkTh').onclick=e=>{const b=e.target.closest('[data-th]');if(!b)return;th=b.dataset.th;$('#mkTh').querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed',x===b))};
+  const url=()=>{const ids=[...$('#mkPl').querySelectorAll('input:checked')].map(i=>i.value);const u=new URL(location.href.split('?')[0]);const n=$('#mkName').value.trim();if(n)u.searchParams.set('name',n);if(ids.length&&ids.length<PX.length)u.searchParams.set('p',ids.join(','));if(th!=='lotus')u.searchParams.set('theme',th);return u.toString()};
+  const show=()=>{if(!$('#mkPl').querySelectorAll('input:checked').length){toast('เลือกสินค้าอย่างน้อย 1 บูธ');return null}const u=url();$('#mkUrl').textContent=u;$('#mkOut').classList.add('on');
+    const q=$('#mkQr');q.innerHTML='';try{new QRCode(q,{text:u,width:200,height:200,correctLevel:QRCode.CorrectLevel.M})}catch(e){}return u};
+  $('#bMake').onclick=()=>{$('#mk').classList.add('on');setTimeout(()=>$('#mkName').focus(),50)};
+  $('#mkClose').onclick=()=>$('#mk').classList.remove('on');$('#mk').onclick=e=>{if(e.target.id==='mk')$('#mk').classList.remove('on')};
+  $('#mkOpen').onclick=()=>{const u=show();if(u)location.href=u};
+  $('#mkCopy').onclick=()=>{const u=show();if(!u)return;(navigator.clipboard?navigator.clipboard.writeText(u):Promise.reject()).then(()=>toast('คัดลอกลิงก์แล้ว · ส่งต่อหรือสแกน QR ได้เลย')).catch(()=>toast('เลือกลิงก์ด้านบนแล้วคัดลอกได้เลย'))};
+  addEventListener('keydown',e=>{if(e.key==='Escape'){closeCard();$('#help').classList.remove('on');$('#mk').classList.remove('on')}})}
+
+/* ================= Google Sheets: เผยแพร่ / หน้ารวมนิทรรศการ / นับผู้เข้าชม ================= */
+const GAS={
+  ok:!!GAS_URL,
+  get(params){const u=new URL(GAS_URL);Object.entries(params).forEach(([k,v])=>u.searchParams.set(k,v));return fetch(u.toString(),{redirect:'follow'}).then(r=>r.json())},
+  post(body){return fetch(GAS_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(body),redirect:'follow'}).then(r=>r.json())}};
+/* เปิดจากลิงก์สั้น ?ex=ID → ดึงค่าแล้วเปิดนิทรรศการ */
+if(GAS.ok&&Q.get('ex')&&!Q.get('name')){GAS.get({action:'get',id:Q.get('ex')}).then(j=>{if(j&&j.item){const it=j.item;const u=new URL(location.href);u.searchParams.set('name',it.name||'');if(it.p)u.searchParams.set('p',it.p);if(it.theme&&it.theme!=='lotus')u.searchParams.set('theme',it.theme);location.replace(u.toString())}}).catch(()=>{})}
+else if(GAS.ok&&Q.get('ex')){GAS.get({action:'view',id:Q.get('ex')}).catch(()=>{})}
+function galTab(which){document.querySelectorAll('[data-mt]').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.mt===which)));
+  $('#mkForm').hidden=which!=='make';$('#mkGal').hidden=which!=='list';['#mkPub','#mkOpen','#mkCopy'].forEach(s=>$(s).style.display=which==='make'?'':'none');if(which==='list')loadGal()}
+function loadGal(){const g=$('#mkGal');
+  if(!GAS.ok){g.innerHTML=`<div class="note" style="font-size:14.5px;line-height:1.75"><b>ยังไม่ได้เชื่อม Google Sheets</b><br>เมื่อเชื่อมแล้ว หน้านี้จะแสดงนิทรรศการที่ทุกคนเผยแพร่ พร้อมจำนวนผู้เข้าชม<br>วิธีตั้งค่า: เปิดไฟล์ <code>gas/Code.gs</code> ทำตามขั้นตอนด้านบนไฟล์ แล้วนำลิงก์ Web app มาใส่ที่ <code>GAS_URL</code> ใน exhibit.html</div>`;return}
+  g.innerHTML='<p class="note">กำลังโหลดรายการนิทรรศการ…</p>';
+  GAS.get({action:'list'}).then(j=>{const L=(j&&j.items)||[];if(!L.length){g.innerHTML='<p class="note">ยังไม่มีนิทรรศการที่เผยแพร่ · เริ่มสร้างอันแรกได้เลย</p>';return}
+    const TH={lotus:'linear-gradient(135deg,#F7C6D9,#D50654)',gold:'linear-gradient(135deg,#F1D59A,#A8742A)',night:'linear-gradient(135deg,#3A2230,#130911)'};
+    g.innerHTML='<div class="gal">'+L.map(it=>{const n=String(it.p||'').split(',').filter(Boolean).length||PX.length;const u=new URL(location.href.split('?')[0]);u.searchParams.set('ex',it.id);u.searchParams.set('name',it.name||'');if(it.p)u.searchParams.set('p',it.p);if(it.theme&&it.theme!=='lotus')u.searchParams.set('theme',it.theme);
+      return`<a href="${esc(u.toString())}"><span class="gt" style="width:44px;height:44px;border-radius:12px;flex:0 0 44px;background:${TH[it.theme]||TH.lotus}"></span><span><b>${esc(it.name||'ไม่มีชื่อ')}</b><small>${esc(it.by||'')} · ${n} บูธ · ${esc(String(it.created||'').slice(0,10))}</small></span><span class="v">${Number(it.views||0).toLocaleString('th-TH')}<small>ผู้ชม</small></span></a>`}).join('')+'</div>'})
+  .catch(()=>{g.innerHTML='<p class="note">โหลดรายการไม่สำเร็จ · ตรวจสอบ GAS_URL และสิทธิ์ “Anyone” ของ Web app</p>'})}
+document.querySelectorAll('[data-mt]').forEach(b=>b.onclick=()=>galTab(b.dataset.mt));
+if(GAS.ok){$('#mkPub').hidden=false;$('#mkPub').onclick=()=>{const ids=[...$('#mkPl').querySelectorAll('input:checked')].map(i=>i.value);const name=$('#mkName').value.trim();
+  if(!name){toast('ตั้งชื่อนิทรรศการก่อนเผยแพร่');$('#mkName').focus();return}if(!ids.length){toast('เลือกสินค้าอย่างน้อย 1 บูธ');return}
+  const th=$('#mkTh').querySelector('[aria-pressed=true]')?.dataset.th||'lotus';$('#mkPub').disabled=true;toast('กำลังเผยแพร่…');
+  GAS.post({action:'save',name,by:$('#mkBy').value.trim(),p:ids.length<PX.length?ids.join(','):'',theme:th}).then(j=>{$('#mkPub').disabled=false;if(!j||!j.ok)throw 0;
+    const u=new URL(location.href.split('?')[0]);u.searchParams.set('ex',j.id);u.searchParams.set('name',name);if(ids.length<PX.length)u.searchParams.set('p',ids.join(','));if(th!=='lotus')u.searchParams.set('theme',th);
+    $('#mkUrl').textContent=u.toString();$('#mkOut').classList.add('on');const q=$('#mkQr');q.innerHTML='';try{new QRCode(q,{text:u.toString(),width:200,height:200})}catch(e){}toast('เผยแพร่แล้ว · อยู่ในหน้านิทรรศการทั้งหมด')})
+  .catch(()=>{$('#mkPub').disabled=false;toast('เผยแพร่ไม่สำเร็จ · ตรวจสอบการเชื่อม Google Sheets')})}}
+
+buildDock();bindUI();
+
+/* ---------- ไม่มี WebGL → หน้ารวมภาพ ---------- */
+function hasGL(){try{const c=document.createElement('canvas');return!!(window.WebGLRenderingContext&&(c.getContext('webgl2')||c.getContext('webgl')))}catch(e){return false}}
+function boot3D(){if(window.__booted)return;window.__booted=1;
+if(!window.THREE||!hasGL()){
+  $('#fb').classList.add('on');$('#fbG').innerHTML=ITEMS.map(p=>`<a href="p${pad2(p.id)}.html"><img src="img/post-${pad2(p.id)}.webp" alt="" loading="lazy"><b>${pad2(p.id)} · ${esc(p.name)}</b></a>`).join('');
+  ['#intro','#veil','#boot'].forEach(s=>$(s).classList.add('off'));$('#c').style.display='none';$('#bTour').hidden=true;$('#bMode').hidden=true}
+else (function(){
+'use strict';
+/* ================= ฉาก ================= */
+const canvas=$('#c');const LOW=isTouch||(navigator.hardwareConcurrency||8)<=4;
+const renderer=new THREE.WebGLRenderer({canvas,antialias:true,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(devicePixelRatio||1,LOW?1.5:1.75));
+renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=T.exp;
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+const scene=new THREE.Scene();scene.background=new THREE.Color(T.fog);scene.fog=new THREE.Fog(T.fog,30,95);
+const camera=new THREE.PerspectiveCamera(55,1,.05,260);
+const N=ITEMS.length;
+const R=Math.max(11,Math.min(17,N*1.15+1));        /* รัศมีวงบูธ */
+const HALL=R+10,EYE=1.62;
+
+/* แผนที่สะท้อน (env) สร้างจากฉากเล็ก ๆ ให้วัสดุเงาดูพรีเมียม */
+(function env(){const pm=new THREE.PMREMGenerator(renderer);const es=new THREE.Scene();
+  const box=new THREE.Mesh(new THREE.BoxGeometry(30,14,30),new THREE.MeshBasicMaterial({color:TK==='night'?0x241520:0xF6EEF2,side:THREE.BackSide}));box.position.y=6;es.add(box);
+  const lp=(c,x,y,z,w,h)=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(w,h),new THREE.MeshBasicMaterial({color:c,side:THREE.DoubleSide}));m.position.set(x,y,z);m.lookAt(0,4,0);es.add(m)};
+  lp(0xFFFFFF,0,12.9,0,14,14);lp(0xFFE1EE,-14.5,6,0,6,8);lp(0xFFF3DD,14.5,6,0,6,8);lp(0xFFD0E3,0,5,-14.5,10,5);
+  scene.environment=pm.fromScene(es,.03).texture;pm.dispose()})();
+
+/* โหลดภาพแบบย่อขนาด (ประหยัดหน่วยความจำบน iPad) */
+let need=0,done=0;const bar=$('#loadBar'),bootP=$('#bootPct');
+const prog=()=>{const k=need?done/need:1;bar.style.width=Math.round(k*100)+'%';bootP.textContent=Math.round(k*100)+'%'};
+const blank=new THREE.DataTexture(new Uint8Array([240,232,236,255]),1,1);blank.needsUpdate=true;
+function img(url,max,cb){need++;const im=new Image();im.decoding='async';im.onload=()=>{let w=im.naturalWidth,h=im.naturalHeight,k=Math.min(1,max/Math.max(w,h));const c=document.createElement('canvas');c.width=Math.round(w*k);c.height=Math.round(h*k);c.getContext('2d').drawImage(im,0,0,c.width,c.height);
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=Math.min(8,renderer.capabilities.getMaxAnisotropy());cb(t);done++;prog();check()};im.onerror=()=>{done++;prog();check()};im.src=url}
+function texMat(url,max,opts={}){const m=new THREE.MeshBasicMaterial(Object.assign({map:blank,toneMapped:false},opts));img(url,max,t=>{m.map=t;m.needsUpdate=true});return m}
+
+/* แคนวาสข้อความ */
+function cv(w,h,draw){const c=document.createElement('canvas');c.width=w;c.height=h;const x=c.getContext('2d');draw(x,w,h);const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;return t}
+const DK=TK==='night';
+
+/* ---------- พื้น ---------- */
+const floorT=cv(1024,1024,(x,w,h)=>{x.fillStyle=T.floor;x.fillRect(0,0,w,h);
+  for(let i=0;i<5200;i++){x.fillStyle=DK?`rgba(255,255,255,${Math.random()*.025})`:`rgba(120,90,100,${Math.random()*.03})`;x.beginPath();x.arc(Math.random()*w,Math.random()*h,Math.random()*2.4,0,7);x.fill()}
+  x.strokeStyle=DK?'rgba(255,255,255,.07)':'rgba(140,100,115,.12)';x.lineWidth=2;for(let k=0;k<=4;k++){x.beginPath();x.moveTo(k*w/4,0);x.lineTo(k*w/4,h);x.stroke();x.beginPath();x.moveTo(0,k*h/4);x.lineTo(w,k*h/4);x.stroke()}
+  for(let k=0;k<7;k++){x.strokeStyle=DK?'rgba(255,255,255,.035)':'rgba(150,110,125,.06)';x.lineWidth=1+Math.random()*2.5;x.beginPath();let px=Math.random()*w,py=0;x.moveTo(px,py);while(py<h){px+=(Math.random()-.5)*90;py+=40+Math.random()*40;x.lineTo(px,py)}x.stroke()}});
+floorT.wrapS=floorT.wrapT=THREE.RepeatWrapping;floorT.repeat.set(HALL/4,HALL/4);
+img('img/expo-floor.webp',1024,t=>{t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(HALL/3.2,HALL/3.2);floor.material.map=t;floor.material.color.set(DK?0x6A5560:0xFFFFFF);floor.material.needsUpdate=true});
+const floor=new THREE.Mesh(new THREE.CircleGeometry(HALL,96),new THREE.MeshStandardMaterial({map:floorT,roughness:.22,metalness:.0,envMapIntensity:.9}));
+floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);
+/* วงลายพื้น: ทางเดินวงแหวนสีชมพู + เส้นทอง */
+const ringPath=new THREE.Mesh(new THREE.RingGeometry(R-5.6,R-3.2,128),new THREE.MeshStandardMaterial({color:DK?0x5A1F3C:0xEBC3D3,roughness:.7}));ringPath.rotation.x=-Math.PI/2;ringPath.position.y=.006;ringPath.receiveShadow=true;scene.add(ringPath);
+[R-5.6,R-3.2,4.6].forEach(r=>{const g=new THREE.Mesh(new THREE.RingGeometry(r-.04,r+.04,160),new THREE.MeshBasicMaterial({color:T.trim}));g.rotation.x=-Math.PI/2;g.position.y=.009;scene.add(g)});
+/* ลายดาวทองกลางลาน (เส้นรัศมี) */
+for(let k=0;k<N;k++){const a=k/N*Math.PI*2;const l=new THREE.Mesh(new THREE.PlaneGeometry(.06,R-5.6-4.6),new THREE.MeshBasicMaterial({color:T.trim,transparent:true,opacity:.55}));l.rotation.x=-Math.PI/2;l.rotation.z=-a;const m=(4.6+R-5.6)/2;l.position.set(Math.sin(a)*m,.008,Math.cos(a)*m);scene.add(l)}
+
+/* ---------- ผนังโถง: วิวลุ่มภูรอบทิศ ---------- */
+const wallH=11;
+const pano=new THREE.MeshBasicMaterial({map:blank,side:THREE.BackSide,toneMapped:false,color:DK?0x5A4650:0xEDE4E8});
+img('img/expo-pano.webp',2048,t=>{t.wrapS=THREE.MirroredRepeatWrapping;t.repeat.set(5,1);pano.map=t;pano.needsUpdate=true});
+const wall=new THREE.Mesh(new THREE.CylinderGeometry(HALL,HALL,wallH,128,1,true),pano);wall.position.y=wallH/2;scene.add(wall);
+/* ระเบียงโค้ง: ราวเสาทองรอบโถง */
+const colM=new THREE.MeshStandardMaterial({color:DK?0x3A2430:0xFBF7F4,roughness:.35,metalness:.05});
+const goldM=new THREE.MeshStandardMaterial({color:T.trim,roughness:.25,metalness:.9});
+const NC=Math.round(HALL*1.4);
+const colG=new THREE.CylinderGeometry(.28,.34,wallH,20);const capG=new THREE.CylinderGeometry(.46,.36,.3,20);
+const cols=new THREE.InstancedMesh(colG,colM,NC),caps=new THREE.InstancedMesh(capG,goldM,NC*2);const mtx=new THREE.Matrix4();
+for(let k=0;k<NC;k++){const a=k/NC*Math.PI*2,r=HALL-1.1;mtx.makeTranslation(Math.sin(a)*r,wallH/2,Math.cos(a)*r);cols.setMatrixAt(k,mtx);mtx.makeTranslation(Math.sin(a)*r,wallH-.15,Math.cos(a)*r);caps.setMatrixAt(k*2,mtx);mtx.makeTranslation(Math.sin(a)*r,.15,Math.cos(a)*r);caps.setMatrixAt(k*2+1,mtx)}
+cols.castShadow=true;scene.add(cols,caps);
+/* เพดาน: วงแหวน + โดมแสงตรงกลาง */
+const ceil=new THREE.Mesh(new THREE.RingGeometry(9,HALL,96),new THREE.MeshStandardMaterial({color:T.ceil,roughness:.9,side:THREE.DoubleSide}));ceil.rotation.x=Math.PI/2;ceil.position.y=wallH;scene.add(ceil);
+const sky=new THREE.Mesh(new THREE.CircleGeometry(9,64),new THREE.MeshBasicMaterial({color:DK?0x6A5A70:0xFFFFFF,toneMapped:false,map:blank}));img('img/expo-dome.webp',1024,t=>{sky.material.map=t;sky.material.needsUpdate=true});sky.rotation.x=Math.PI/2;sky.position.y=wallH+.6;scene.add(sky);
+const skyRim=new THREE.Mesh(new THREE.TorusGeometry(9,.16,12,128),goldM);skyRim.rotation.x=Math.PI/2;skyRim.position.y=wallH;scene.add(skyRim);
+/* ซุ้มประตูเฉลิมฉลอง บนผนังโถง 3 ด้าน (ภาพ expo-arch + ชื่องานบนป้าย) */
+(function(){need++;const im=new Image();im.onload=()=>{const c=document.createElement('canvas');c.width=im.naturalWidth;c.height=im.naturalHeight;const x=c.getContext('2d');x.drawImage(im,0,0);
+  const W2=c.width,H2=c.height,cx=W2/2,cy=H2*.285;x.textAlign='center';x.textBaseline='middle';x.fillStyle='#B0124F';x.font=`italic 600 ${Math.round(H2*.06)}px Fraunces, Georgia, serif`;x.fillText('12 Plus+ · Virtual Expo',cx,cy-H2*.06);
+  x.fillStyle='#3A1F2E';const nm=EXNAME;let fs=Math.round(H2*.085);x.font=`600 ${fs}px Kanit, sans-serif`;while(x.measureText(nm).width>W2*.4&&fs>20){fs-=2;x.font=`600 ${fs}px Kanit, sans-serif`}x.fillText(nm,cx,cy+H2*.035);
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=8;
+  [0,2*Math.PI/3,4*Math.PI/3].forEach(a=>{const m=new THREE.Mesh(new THREE.PlaneGeometry(17,5.67),new THREE.MeshBasicMaterial({map:t,toneMapped:false,color:DK?0x9A8A94:0xFFFFFF}));const r=HALL-2.2;m.position.set(Math.sin(a)*r,wallH-3.3,Math.cos(a)*r);m.lookAt(0,wallH-3.3,0);scene.add(m)});
+  done++;prog();check()};im.onerror=()=>{done++;prog();check()};im.src='img/expo-arch.webp'})();
+/* โคมแขวน: วงแหวนแสง */
+const halo=new THREE.Mesh(new THREE.TorusGeometry(R-1,.05,8,180),new THREE.MeshBasicMaterial({color:DK?0xFF7FB2:0xFFE3EE,toneMapped:false}));halo.rotation.x=Math.PI/2;halo.position.y=wallH-1.4;scene.add(halo);
+
+/* ---------- แสง ---------- */
+scene.add(new THREE.HemisphereLight(T.hemi[0],T.hemi[1],T.hemi[2]));
+const sun=new THREE.DirectionalLight(DK?0xFFC6DD:0xFFF4E8,T.sun);sun.position.set(6,30,8);sun.castShadow=true;
+sun.shadow.mapSize.set(LOW?1024:2048,LOW?1024:2048);const sc=sun.shadow.camera;sc.left=-R-6;sc.right=R+6;sc.top=R+6;sc.bottom=-R-6;sc.near=5;sc.far=60;sun.shadow.bias=-.0004;sun.shadow.normalBias=.02;sun.shadow.radius=4;
+scene.add(sun);
+const centerGlow=new THREE.PointLight(DK?0xFF6FA8:0xFFD9E8,DK?40:22,22,1.6);centerGlow.position.set(0,6,0);scene.add(centerGlow);
+
+/* ---------- ลานกลาง: โต๊ะแผนที่จังหวัด 3D ---------- */
+const BOOTH=[];const clickables=[];const mapLabels=[];const boards=[];const VIDS=[];
+function roundIcon(url,ring,cb){need++;const im=new Image();im.onload=()=>{const c=document.createElement('canvas');c.width=c.height=256;const x=c.getContext('2d');x.beginPath();x.arc(128,128,124,0,7);x.fillStyle=ring;x.fill();x.save();x.beginPath();x.arc(128,128,108,0,7);x.clip();x.drawImage(im,20,20,216,216);x.restore();
+  const t=new THREE.CanvasTexture(c);t.colorSpace=THREE.SRGBColorSpace;cb(t);done++;prog();check()};im.onerror=()=>{done++;prog();check()};im.src=url}
+const plaza=new THREE.Group();scene.add(plaza);
+const rim=new THREE.Mesh(new THREE.CylinderGeometry(4.0,4.2,.55,96),new THREE.MeshStandardMaterial({color:DK?0x3A2430:0xF7F1EE,roughness:.3}));rim.position.y=.275;rim.castShadow=rim.receiveShadow=true;plaza.add(rim);
+const rimTop=new THREE.Mesh(new THREE.TorusGeometry(4.0,.06,8,160),goldM);rimTop.rotation.x=Math.PI/2;rimTop.position.y=.56;plaza.add(rimTop);
+const topGlass=new THREE.Mesh(new THREE.CircleGeometry(3.95,96),new THREE.MeshStandardMaterial({color:DK?0x1A1018:0x2B1F27,roughness:.08,metalness:.4,envMapIntensity:1.3}));topGlass.rotation.x=-Math.PI/2;topGlass.position.y=.565;topGlass.receiveShadow=true;plaza.add(topGlass);
+/* ดอกบัวประดับรอบโต๊ะแผนที่ */
+function lotus(scale,colA,colB){const g=new THREE.Group();
+  const layers=[[10,1.0,.28,colB],[10,.82,.62,colA],[8,.6,.95,colA],[6,.38,1.25,0xFFE2EC]];
+  layers.forEach(([n,len,tilt,col],L)=>{const m=new THREE.MeshStandardMaterial({color:col,roughness:.45,metalness:.0,side:THREE.DoubleSide,emissive:col,emissiveIntensity:DK?.28:.08});
+    for(let k=0;k<n;k++){const a=k/n*Math.PI*2+L*.3;const pe=new THREE.Mesh(new THREE.SphereGeometry(.5,16,10,0,Math.PI*2,0,Math.PI/2),m);
+      pe.scale.set(.42*len,1.55*len,.16*len);const piv=new THREE.Group();piv.rotation.y=a;pe.position.set(0,0,.12+L*.02);pe.rotation.x=tilt;piv.add(pe);g.add(piv)}});
+  const pod=new THREE.Mesh(new THREE.CylinderGeometry(.22,.16,.22,24),new THREE.MeshStandardMaterial({color:0xE8C24A,roughness:.4,emissive:0xC9A227,emissiveIntensity:.25}));pod.position.y=.32;g.add(pod);
+  g.scale.setScalar(scale);return g}
+for(let k=0;k<8;k++){const a=k/8*Math.PI*2+.2;const l=lotus(.42,0xF7B6D0,0xE8559A);l.position.set(Math.sin(a)*4.55,0,Math.cos(a)*4.55);l.rotation.y=k;plaza.add(l)}
+const bigLotus=new THREE.Group();
+/* แผนที่ 3D 6 อำเภอ: ความสูง = สัดส่วนแหล่งผลิตของสินค้าในงาน · หมุดสินค้าปักที่อำเภอหลัก */
+const MAP=new THREE.Group();MAP.position.y=.58;plaza.add(MAP);const DCTR={};
+(function(){if(typeof NBL_GEO==='undefined'||typeof DISTRICTS==='undefined')return;const F=NBL_GEO.features;let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
+  const rings=f=>(f.geometry.type==='MultiPolygon'?f.geometry.coordinates:[f.geometry.coordinates]);
+  F.forEach(f=>rings(f).forEach(pl=>pl[0].forEach(([x,y])=>{x0=Math.min(x0,x);x1=Math.max(x1,x);y0=Math.min(y0,y);y1=Math.max(y1,y)})));
+  const cx=(x0+x1)/2,cy=(y0+y1)/2,k=6.0/Math.max(x1-x0,y1-y0);
+  const DW=DISTRICTS.map((d,di)=>ITEMS.reduce((a,p)=>a+((p.dist&&p.dist[di])||0)/Math.max(1,(p.dist||[]).reduce((s,v)=>s+v,0)),0));const mw=Math.max(...DW,1e-6);
+  const pal=['#F7C6D9','#F29BBE','#E8559A','#D50654','#B8326F','#F4B3CC'];
+  F.forEach(f=>{const di=DISTRICTS.indexOf(f.properties.th);const hgt=.1+.55*((DW[di]||0)/mw);let sx=0,sy=0,n=0;
+    const col=new THREE.Color(pal[(di+6)%6]);const mat=new THREE.MeshStandardMaterial({color:col,roughness:.35,metalness:.05,emissive:col,emissiveIntensity:DK?.25:.06});
+    rings(f).forEach(pl=>{const sh=new THREE.Shape(pl[0].map(([x,y])=>{sx+=x;sy+=y;n++;return new THREE.Vector2((x-cx)*k,(y-cy)*k)}));
+      pl.slice(1).forEach(hole=>sh.holes.push(new THREE.Path(hole.map(([x,y])=>new THREE.Vector2((x-cx)*k,(y-cy)*k)))));
+      const geo=new THREE.ExtrudeGeometry(sh,{depth:hgt,bevelEnabled:true,bevelThickness:.015,bevelSize:.015,bevelSegments:1,curveSegments:2});
+      const m=new THREE.Mesh(geo,mat);m.rotation.x=-Math.PI/2;m.castShadow=m.receiveShadow=true;MAP.add(m);
+      const ed=new THREE.LineSegments(new THREE.EdgesGeometry(geo,30),new THREE.LineBasicMaterial({color:0xFFF1D6,transparent:true,opacity:.75}));ed.rotation.x=-Math.PI/2;MAP.add(ed)});
+    const c={x:(sx/n-cx)*k,z:-(sy/n-cy)*k,h:hgt};DCTR[di]=c;
+    const lb=new THREE.Sprite(new THREE.SpriteMaterial({map:cv(512,128,(x,w,h)=>{x.fillStyle='rgba(43,31,39,.82)';x.beginPath();x.roundRect?x.roundRect(4,14,w-8,h-28,40):x.rect(4,14,w-8,h-28);x.fill();x.fillStyle='#fff';x.font='600 56px Kanit, sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('อ.'+f.properties.th.replace('เมืองหนองบัวลำภู','เมืองฯ'),w/2,h/2+3)}),depthTest:false,toneMapped:false}));
+    lb.scale.set(1.15,.29,1);lb.position.set(c.x,hgt+.3,c.z);lb.renderOrder=5;lb.userData.th=f.properties.th;MAP.add(lb);mapLabels.push(lb)});
+  /* หมุดสินค้า */
+  const cnt={};ITEMS.forEach((p,i)=>{const dd=p.dist||[];let di=dd.indexOf(Math.max(...dd));if(di<0)di=0;const c=DCTR[di];if(!c)return;const n=cnt[di]=(cnt[di]||0)+1;
+    const ang=n*2.4,rr=.2*Math.sqrt(n);const x=c.x+Math.cos(ang)*rr,z=c.z+Math.sin(ang)*rr;const ph=.6+((i*7)%5)*.14;
+    const pole=new THREE.Mesh(new THREE.CylinderGeometry(.012,.012,ph,6),goldM);pole.position.set(x,c.h+ph/2,z);MAP.add(pole);
+    const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:blank,toneMapped:false}));sp.scale.set(.36,.36,1);sp.position.set(x,c.h+ph+.16,z);MAP.add(sp);sp.userData.i=i;clickables.push(sp);
+    roundIcon(`img/icon-${pad2(p.id)}.webp`,p.pa,t=>{sp.material.map=t;sp.material.needsUpdate=true})})})();
+/* วงแหวนป้ายลอย 12 Plus+ */
+const bandT=cv(4096,256,(x,w,h)=>{x.clearRect(0,0,w,h);x.fillStyle=DK?'rgba(255,141,184,.95)':'rgba(213,6,84,.92)';x.font='italic 600 120px Fraunces, Georgia, serif';x.textBaseline='middle';
+  const s='12 Plus+  ·  Nong Bua Lam Phu  ·  '+N+' Identity Products  ·  ';let px=0;while(px<w){x.fillText(s,px,h/2);px+=x.measureText(s).width}});
+bandT.wrapS=THREE.RepeatWrapping;
+const band=new THREE.Mesh(new THREE.CylinderGeometry(2.9,2.9,.5,96,1,true),new THREE.MeshBasicMaterial({map:bandT,transparent:true,side:THREE.FrontSide,toneMapped:false,depthWrite:false}));band.position.y=6.4;scene.add(band);
+const band2=new THREE.Mesh(new THREE.TorusGeometry(2.9,.03,8,160),goldM);band2.rotation.x=Math.PI/2;band2.position.y=6.12;scene.add(band2);
+const band3=band2.clone();band3.position.y=6.68;scene.add(band3);
+
+/* ---------- บูธสินค้า ---------- */
+const TOTEMS=[];const spinners=[];const glows=[];
+const boothM=new THREE.MeshStandardMaterial({color:T.booth,roughness:.42,metalness:.02});
+const darkM=new THREE.MeshStandardMaterial({color:DK?0x150B11:0x2B1F25,roughness:.35,metalness:.4});
+const glassM=new THREE.MeshStandardMaterial({color:T.glass,roughness:.02,metalness:.1,transparent:true,opacity:.16,envMapIntensity:2.2,depthWrite:false});
+const fasciaT=p=>cv(2048,300,(x,w,h)=>{const g=x.createLinearGradient(0,0,w,0);g.addColorStop(0,p.pa);g.addColorStop(1,shade(p.pa,-.28));x.fillStyle=g;x.fillRect(0,0,w,h);
+  x.fillStyle='rgba(255,255,255,.14)';x.fillRect(0,0,w,8);x.fillStyle='rgba(232,190,104,.95)';x.fillRect(0,h-10,w,10);
+  x.fillStyle='rgba(255,255,255,.82)';x.font='italic 600 150px Fraunces, Georgia, serif';x.textBaseline='middle';x.fillText(pad2(p.id),60,h/2+6);
+  const nm=p.name;let fs=nm.length>18?96:nm.length>12?112:128;x.fillStyle='#fff';x.font=`600 ${fs}px Kanit, sans-serif`;x.fillText(nm,300,h/2-22);
+  x.font='italic 400 56px Fraunces, Georgia, serif';x.fillStyle='rgba(255,255,255,.88)';x.fillText(p.en.length>40?p.en.slice(0,40)+'…':p.en,304,h/2+76);
+  if(p.gi){x.fillStyle='#E8BE68';const t='GI';x.font='700 70px Kanit, sans-serif';const tw=x.measureText(t).width+60;x.beginPath();x.roundRect?x.roundRect(w-tw-50,h/2-50,tw,100,50):x.rect(w-tw-50,h/2-50,tw,100);x.fill();x.fillStyle='#3A2A10';x.fillText(t,w-tw-20,h/2+4)}});
+const deskT=p=>cv(1024,512,(x,w,h)=>{x.fillStyle=DK?'#241520':'#FFFDFB';x.fillRect(0,0,w,h);x.fillStyle=p.pa;x.fillRect(0,0,w,14);
+  x.fillStyle=p.pa;x.font='600 34px Kanit, sans-serif';x.fillText('12 PLUS+  ·  No.'+pad2(p.id),48,82);
+  x.fillStyle=DK?'#FBE9F2':'#2C1A23';x.font='500 44px Kanit, sans-serif';let line='',y=160;for(const wd of (p.tagline||'').split(/(\s+)/)){const t=line+wd;if(x.measureText(t).width>920&&line){x.fillText(line.trim(),48,y);y+=60;line=wd.trim();if(y>290)break}else line=t}if(y<=290)x.fillText(line.trim(),48,y);
+  const F=facts(p);x.font='600 38px Kanit, sans-serif';
+  if(F.length){x.fillStyle='#1E7B45';x.fillText('●  ข้อมูลจริงจากหน่วยงาน '+F.length+' ชุด',48,400)}else{x.fillStyle=DK?'#9C7A8C':'#9A7A8A';x.fillText('○  รอไฟล์ข้อมูลจากหน่วยงาน',48,400)}
+  x.fillStyle=DK?'#C7A3B7':'#9A7A8A';x.font='400 32px Kanit, sans-serif';x.fillText(isTouch?'แตะที่บูธเพื่อดูเรื่องราว':'คลิกที่บูธเพื่อดูเรื่องราว',48,462)});
+function shade(hex,k){const n=parseInt(hex.slice(1),16);let r=n>>16&255,g=n>>8&255,b=n&255;const f=v=>Math.max(0,Math.min(255,Math.round(k<0?v*(1+k):v+(255-v)*k)));return'#'+[f(r),f(g),f(b)].map(v=>v.toString(16).padStart(2,'0')).join('')}
+const glowTex=cv(256,256,(x,w,h)=>{const g=x.createRadialGradient(128,128,0,128,128,128);g.addColorStop(0,'rgba(255,255,255,1)');g.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=g;x.fillRect(0,0,w,h)});
+
+/* ---------- จอข้อมูลในบูธ: กราฟจากข้อมูลจริง + QR ไปหน้าสินค้า ---------- */
+const SITE=/github\.io$/.test(location.hostname)||/^localhost|127\./.test(location.hostname)?location.href.replace(/[^/]*$/,''):'https://nsonongbualamphutc-debug.github.io/Dashboard-12-Product-Plus-NBLP/';
+function qrCanvas(text,size){try{if(typeof QRCode==='undefined')return null;const d=document.createElement('div');new QRCode(d,{text,width:size,height:size,correctLevel:QRCode.CorrectLevel.M,colorDark:'#2C1A23',colorLight:'#ffffff'});return d.querySelector('canvas')}catch(e){return null}}
+function dataTex(p){return cv(700,960,(x,w,h)=>{const dk=DK;x.fillStyle=dk?'#1D0F19':'#FFFDFB';x.fillRect(0,0,w,h);x.fillStyle=p.pa;x.fillRect(0,0,w,12);
+  const D=DSX_.filter(d=>d.pid===p.id&&d.rows&&d.rows.length);const ink=dk?'#FBE9F2':'#2C1A23',mut=dk?'#C7A3B7':'#8C6F7D';
+  x.font='600 30px Kanit, sans-serif';x.fillStyle=p.pa;x.fillText('No.'+pad2(p.id)+'  ·  DATA',40,64);
+  if(D.length){const d=D.find(z=>new Set(z.rows.map(r=>r[0])).size>1)||D[0];const ys=[...new Set(d.rows.map(r=>r[0]))].sort();const tot=ys.map(y=>d.rows.filter(r=>r[0]===y).reduce((a,r)=>a+(+r[3]||0),0));
+    x.fillStyle='#1E7B45';x.font='600 26px Kanit, sans-serif';x.fillText('●  ข้อมูลจริงจากหน่วยงาน · '+D.length+' ชุด',40,108);
+    x.fillStyle=ink;x.font='600 38px Kanit, sans-serif';let t=d.item;while(x.measureText(t).width>620&&t.length>8)t=t.slice(0,-2);if(t!==d.item)t+='…';x.fillText(t,40,170);
+    x.fillStyle=p.pa;x.font='700 104px Kanit, sans-serif';const lv=tot[tot.length-1];const vs=fmt(lv);x.fillText(vs,40,292);x.fillStyle=mut;x.font='500 34px Kanit, sans-serif';x.fillText(d.unit+'  ·  ปี '+ys[ys.length-1],40+Math.min(560,x.measureText(vs).width*1.25)+24,292);
+    if(tot.length>1&&tot[tot.length-2]){const g=(lv-tot[tot.length-2])/tot[tot.length-2]*100;x.fillStyle=g>=0?'#1E7B45':'#C0392B';x.font='600 32px Kanit, sans-serif';x.fillText((g>=0?'▲ ':'▼ ')+Math.abs(g).toFixed(1)+'% จากปีก่อน',40,346)}
+    /* กราฟแท่ง */
+    const bx=40,by=390,bw=620,bh=250,mx=Math.max(...tot,1);const gap=24,cw=(bw-gap*(ys.length-1))/ys.length;
+    x.strokeStyle=dk?'rgba(255,255,255,.1)':'rgba(140,100,115,.15)';x.lineWidth=2;for(let k=0;k<=4;k++){const yy=by+bh-bh*k/4;x.beginPath();x.moveTo(bx,yy);x.lineTo(bx+bw,yy);x.stroke()}
+    ys.forEach((y,k)=>{const v=tot[k],hh=Math.max(4,bh*v/mx),xx=bx+k*(cw+gap);const gr=x.createLinearGradient(0,by+bh-hh,0,by+bh);gr.addColorStop(0,k===ys.length-1?'#E8559A':p.pa);gr.addColorStop(1,k===ys.length-1?'#D50654':shade(p.pa,.35));x.fillStyle=gr;
+      x.beginPath();x.roundRect?x.roundRect(xx,by+bh-hh,cw,hh,[10,10,0,0]):x.rect(xx,by+bh-hh,cw,hh);x.fill();x.fillStyle=ink;x.font='600 24px Kanit, sans-serif';x.textAlign='center';x.fillText(fmt(v),xx+cw/2,by+bh-hh-10);x.fillStyle=mut;x.font='500 26px Kanit, sans-serif';x.fillText(String(y),xx+cw/2,by+bh+34);x.textAlign='left'});
+  }else{x.fillStyle=mut;x.font='600 30px Kanit, sans-serif';x.fillText('○  รอไฟล์ข้อมูลจากหน่วยงาน',40,108);
+    x.fillStyle=ink;x.font='600 46px Kanit, sans-serif';x.fillText(p.name.length>14?p.name.slice(0,14)+'…':p.name,40,190);x.font='italic 400 32px Fraunces, Georgia, serif';x.fillStyle=p.pa;x.fillText(p.en.length>30?p.en.slice(0,30)+'…':p.en,40,240);
+    x.fillStyle=mut;x.font='400 30px Sarabun, Kanit, sans-serif';let line='',yy=310;for(const wd of (p.tagline||'').split(/(\s+)/)){const tt=line+wd;if(x.measureText(tt).width>620&&line){x.fillText(line.trim(),40,yy);yy+=44;line=wd.trim();if(yy>530)break}else line=tt}if(yy<=530)x.fillText(line.trim(),40,yy)}
+  /* QR */
+  const q=qrCanvas(SITE+'p'+pad2(p.id)+'.html',220);const qy=h-262;
+  x.fillStyle='#fff';x.fillRect(40,qy,236,236);if(q)x.drawImage(q,48,qy+8,220,220);
+  x.fillStyle=ink;x.font='600 34px Kanit, sans-serif';x.fillText('สแกนดูสินค้า',304,qy+70);x.fillStyle=mut;x.font='400 26px Kanit, sans-serif';x.fillText('เรื่องราว ข้อมูล',304,qy+116);x.fillText('และร้านค้าที่ซื้อได้',304,qy+152);
+  x.fillStyle=p.pa;x.font='500 22px Kanit, sans-serif';x.fillText('12 Plus+ · หนองบัวลำภู',304,qy+214)})}
+ITEMS.forEach((p,i)=>{const a=i/N*Math.PI*2+Math.PI/N;const g=new THREE.Group();g.position.set(Math.sin(a)*R,0,Math.cos(a)*R);g.rotation.y=a+Math.PI;scene.add(g);
+  const pc=new THREE.Color(p.pa);const reg=o=>{o.userData.i=i;clickables.push(o);return o};
+  const mk=(geo,mat,x,y,z,cast=true)=>{const m=new THREE.Mesh(geo,mat);m.position.set(x,y,z);m.castShadow=cast;m.receiveShadow=true;g.add(m);return m};
+  /* แพลตฟอร์ม */
+  const platM=new THREE.MeshStandardMaterial({color:pc.clone().lerp(new THREE.Color(T.booth),DK?.55:.8),roughness:.35});
+  mk(new THREE.BoxGeometry(5.6,.16,4.2),platM,0,.08,.1,false);
+  mk(new THREE.BoxGeometry(5.64,.04,.06),goldM,0,.16,2.2,false);
+  /* ผนังหลัง + จอภาพใหญ่ */
+  reg(mk(new THREE.BoxGeometry(5.4,3.6,.22),boothM,0,1.96,-1.9));
+  const kvm=mk(new THREE.PlaneGeometry(4.6,2.59),texMat(`img/kv-${pad2(p.id)}.webp`,1280),0,2.05,-1.785,false);reg(kvm);
+  if(VIDEOS[p.id]){const v=document.createElement('video');v.src=VIDEOS[p.id];v.muted=true;v.loop=true;v.playsInline=true;v.setAttribute('playsinline','');v.preload='none';v.crossOrigin='anonymous';
+    v.addEventListener('playing',()=>{const vt=new THREE.VideoTexture(v);vt.colorSpace=THREE.SRGBColorSpace;kvm.material.map=vt;kvm.material.needsUpdate=true},{once:true});VIDS.push({v,i})}
+  [[-2.32,2.05],[2.32,2.05]].forEach(([x,y])=>mk(new THREE.BoxGeometry(.05,2.7,.05),new THREE.MeshBasicMaterial({color:pc,toneMapped:false}),x,y,-1.77,false));
+  mk(new THREE.BoxGeometry(4.7,.05,.05),new THREE.MeshBasicMaterial({color:pc,toneMapped:false}),0,.73,-1.77,false);
+  /* ป้ายหัวบูธ */
+  mk(new THREE.BoxGeometry(5.8,.78,.34),darkM,0,4.15,-1.8);
+  reg(mk(new THREE.PlaneGeometry(5.7,.72),new THREE.MeshBasicMaterial({map:fasciaT(p),toneMapped:false}),0,4.15,-1.625,false));
+  /* ปีกซ้าย: โปสเตอร์แนวตั้ง */
+  const wl=new THREE.Group();wl.position.set(-2.62,0,-.75);wl.rotation.y=-.42;g.add(wl);
+  const wlb=new THREE.Mesh(new THREE.BoxGeometry(.16,3.3,2.0),boothM);wlb.position.set(0,1.81,0);wlb.castShadow=wlb.receiveShadow=true;wl.add(wlb);
+  const po=new THREE.Mesh(new THREE.PlaneGeometry(1.5,2.25),texMat(`img/post-${pad2(p.id)}.webp`,900));po.position.set(.085,1.95,0);po.rotation.y=Math.PI/2;wl.add(po);reg(po);
+  /* ปีกขวา: ภาพบรรจุภัณฑ์ + ภาพเรื่องราว */
+  const wr=new THREE.Group();wr.position.set(2.62,0,-.75);wr.rotation.y=.42;g.add(wr);
+  const wrb=new THREE.Mesh(new THREE.BoxGeometry(.16,3.3,2.0),boothM);wrb.position.set(0,1.81,0);wrb.castShadow=wrb.receiveShadow=true;wr.add(wrb);
+  const pk=new THREE.Mesh(new THREE.PlaneGeometry(1.55,1.55),texMat(`img/pack-${pad2(p.id)}.webp`,768));pk.position.set(-.085,2.35,0);pk.rotation.y=-Math.PI/2;wr.add(pk);reg(pk);
+  const sh=new THREE.Mesh(new THREE.BoxGeometry(.5,.05,1.6),goldM);sh.position.set(-.3,1.45,0);wr.add(sh);
+  /* โต๊ะประชาสัมพันธ์ */
+  const desk=mk(new THREE.BoxGeometry(1.9,1.0,.7),boothM,-1.35,.66,1.15);reg(desk);
+  mk(new THREE.BoxGeometry(1.96,.05,.76),goldM,-1.35,1.18,1.15,false);
+  reg(mk(new THREE.PlaneGeometry(1.8,.9),new THREE.MeshBasicMaterial({map:deskT(p),toneMapped:false}),-1.35,.66,1.505,false));
+  /* แท่นตู้กระจก + เหรียญสินค้าหมุน */
+  mk(new THREE.CylinderGeometry(.42,.5,1.0,40),boothM,.55,.66,1.05);
+  mk(new THREE.TorusGeometry(.44,.025,8,48),goldM,.55,1.16,1.05,false).rotation.x=Math.PI/2;
+  const cs=mk(new THREE.BoxGeometry(.8,.92,.8),glassM,.55,1.64,1.05,false);reg(cs);
+  mk(new THREE.BoxGeometry(.84,.03,.84),goldM,.55,2.11,1.05,false);
+  const md=new THREE.Group();md.position.set(.55,1.62,1.05);g.add(md);
+  const icoM=texMat(`img/icon-${pad2(p.id)}.webp`,512);
+  const disc=new THREE.Mesh(new THREE.CylinderGeometry(.3,.3,.05,48),[new THREE.MeshStandardMaterial({color:pc,metalness:.6,roughness:.3}),icoM,icoM]);disc.rotation.x=Math.PI/2;md.add(disc);reg(disc);
+  const dr=new THREE.Mesh(new THREE.TorusGeometry(.31,.025,10,48),goldM);md.add(dr);spinners.push({g:md,ph:i*.8});
+  /* จอข้อมูลจริง + QR (ตั้งบนขาตั้ง หน้าขวาของบูธ) */
+  const ds=new THREE.Group();ds.position.set(1.85,0,1.25);ds.rotation.y=-.38;g.add(ds);
+  const leg=new THREE.Mesh(new THREE.CylinderGeometry(.035,.035,1.0,10),darkM);leg.position.y=.66;ds.add(leg);
+  const ft=new THREE.Mesh(new THREE.CylinderGeometry(.28,.3,.04,24),darkM);ft.position.y=.18;ds.add(ft);
+  const scr=new THREE.Mesh(new THREE.BoxGeometry(1.06,1.42,.06),darkM);scr.position.y=1.86;scr.castShadow=true;ds.add(scr);
+  const scrF=new THREE.Mesh(new THREE.PlaneGeometry(.98,1.34),new THREE.MeshBasicMaterial({map:dataTex(p),toneMapped:false}));scrF.position.set(0,1.86,.032);ds.add(scrF);reg(scrF);boards.push({m:scrF,p});
+  /* เสาไฟสีประจำสินค้า + แสงพื้น */
+  [[-2.75,2.1],[2.75,2.1]].forEach(([x,z])=>{mk(new THREE.BoxGeometry(.12,4.4,.12),darkM,x,2.36,z);const st=mk(new THREE.BoxGeometry(.04,4.0,.04),new THREE.MeshBasicMaterial({color:pc,toneMapped:false}),x,2.36,z+.065,false);glows.push(st)});
+  const pool=new THREE.Mesh(new THREE.PlaneGeometry(6.6,5.4),new THREE.MeshBasicMaterial({map:glowTex,color:pc,transparent:true,opacity:DK?.5:.28,depthWrite:false,toneMapped:false}));pool.rotation.x=-Math.PI/2;pool.position.set(0,.168,.2);g.add(pool);
+  /* ป้ายข้อมูลจริงลอยเหนือบูธ */
+  if(hasData(p.id)){const tg=new THREE.Sprite(new THREE.SpriteMaterial({map:cv(512,128,(x,w,h)=>{x.fillStyle='#1E7B45';x.beginPath();x.roundRect?x.roundRect(0,0,w,h,64):x.rect(0,0,w,h);x.fill();x.fillStyle='#fff';x.font='600 54px Kanit, sans-serif';x.textAlign='center';x.textBaseline='middle';x.fillText('● ข้อมูลจริง',w/2,h/2+4)}),toneMapped:false,depthWrite:false}));tg.scale.set(1.5,.375,1);tg.position.set(0,4.92,-1.8);g.add(tg)}
+  /* เสาป้ายสินค้าวงใน (เห็นได้จากกลางลาน) */
+  const tt=new THREE.Group();const RT=8.4;tt.position.set(Math.sin(a)*RT,0,Math.cos(a)*RT);tt.rotation.y=a;scene.add(tt);
+  const tb=new THREE.Mesh(new THREE.CylinderGeometry(.55,.62,.14,32),goldM);tb.position.y=.07;tb.receiveShadow=true;tt.add(tb);
+  const tp=new THREE.Mesh(new THREE.BoxGeometry(1.25,1.9,.14),boothM);tp.position.y=1.12;tp.castShadow=true;tt.add(tp);
+  [1,-1].forEach(sd=>{const im=new THREE.Mesh(new THREE.PlaneGeometry(1.1,1.65),texMat(`img/post-${pad2(p.id)}.webp`,700));im.position.set(0,1.16,.075*sd);if(sd<0)im.rotation.y=Math.PI;tt.add(im);reg(im)});
+  const tbar=new THREE.Mesh(new THREE.BoxGeometry(1.29,.12,.17),new THREE.MeshBasicMaterial({color:pc,toneMapped:false}));tbar.position.y=2.1;tt.add(tbar);
+  const tmd=new THREE.Group();tmd.position.y=2.55;tt.add(tmd);const tdisc=new THREE.Mesh(new THREE.CylinderGeometry(.3,.3,.04,40),[new THREE.MeshStandardMaterial({color:pc,metalness:.6,roughness:.3}),icoM,icoM]);tdisc.rotation.x=Math.PI/2;tmd.add(tdisc);reg(tdisc);
+  const tr=new THREE.Mesh(new THREE.TorusGeometry(.31,.022,8,40),goldM);tmd.add(tr);spinners.push({g:tmd,ph:i*.8+1,y:2.55});
+  TOTEMS.push(new THREE.Vector3(tt.position.x,0,tt.position.z));
+  /* จุดยืนชม + จุดมอง */
+  const stand=g.localToWorld(new THREE.Vector3(0,EYE,7.4));const look=g.localToWorld(new THREE.Vector3(innerWidth>900?1.3:0,2.0,-1.8));const ctr=g.localToWorld(new THREE.Vector3(0,0,0));
+  BOOTH.push({p,g,a,stand,look,ctr})});
+
+/* ---------- ผู้เข้าชมเสมือน (หุ่นเรียบแบบสถาปัตย์) ---------- */
+/* ---------- ผู้เข้าชมเสมือน: โมเดลคนจริง (rig Mixamo) + ท่าเดิน/ยืน/พยักหน้า ----------
+   ร่าง: VISITOR_MODELS (ถ้ามี) หรือหุ่น models/Xbot.glb · ท่าทาง: ของไฟล์เอง หรือของ Xbot (walk / idle / agree)
+   เปลี่ยนตัวละครเองได้: วางไฟล์ .glb จาก Mixamo ที่ใช้โครงกระดูก mixamorig ลงโฟลเดอร์ models แล้วใส่ชื่อใน VISITOR_MODELS */
+const PEOPLE=[];
+(function(){if(!window.GLTFLoader||!window.SkeletonUtils)return;const loader=new GLTFLoader();
+  const load=u=>new Promise((res,rej)=>loader.load(u,res,undefined,rej));
+  /* สำรอง: บางโฮสต์ไม่เสิร์ฟไฟล์ .glb → โหลดจาก models/xbot-b64.js แทน */
+  const loadXbot=()=>load('models/Xbot.glb').catch(()=>new Promise((res,rej)=>{const sc=document.createElement('script');sc.src='models/xbot-b64.js';sc.onload=()=>{try{const bin=Uint8Array.from(atob(window.XBOT_B64),c=>c.charCodeAt(0));loader.parse(bin.buffer,'models/',res,rej)}catch(e){rej(e)}};sc.onerror=rej;document.head.appendChild(sc)}));
+  const bodies=(VISITOR_MODELS.length?VISITOR_MODELS:['models/Xbot.glb']);
+  Promise.all([Promise.all(bodies.map(u=>(u==='models/Xbot.glb'?loadXbot():load(u)).catch(()=>null))),loadXbot()]).then(([B,X])=>{B=B.filter(Boolean);if(!B.length)return;
+    /* คลิปท่าทาง: ตัดตำแหน่งสะโพกออก ให้เดินอยู่กับที่แล้วเราเลื่อนตัวเอง */
+    /* คลิปของตัวละครเอง (ไฟล์จาก Mixamo ที่ฝังท่าเดิน/ยืนมา) หรือของ Xbot · ตัดตำแหน่งสะโพก ให้เดินอยู่กับที่แล้วเราเลื่อนตัวเอง */
+    const pick=(anims,re)=>{const c=(anims||[]).find(a=>re.test(a.name));if(!c)return null;const k=c.clone();k.tracks=k.tracks.filter(t=>!/Hips\.position/.test(t.name));return k};
+    const clipsFor=gl=>{const own=gl.animations&&gl.animations.some(a=>/walk/i.test(a.name));const A=own?gl.animations:X.animations;
+      return{walk:pick(A,/walk/i),idle:pick(A,/idle|stand|breath/i),agree:pick(A,/agree|nod|talk/i)}};
+    const tints=DK?[0xE8A3C2,0xB9C7E0,0xE9D2A6,0xC9E0CF]:[0xF4B6CF,0xFFFFFF,0xB9CCE6,0xEFD9A8,0xC9E3D1,0xE7C7DA];
+    const NP=LOW?7:12;
+    for(let k=0;k<NP;k++){const gl=B[k%B.length],src=gl.scene;const C=clipsFor(gl);const g=SkeletonUtils.clone(src);
+      g.traverse(o=>{if(o.isMesh){o.castShadow=true;o.receiveShadow=false;o.frustumCulled=false;if(o.material){o.material=o.material.clone();/* ผิวหลักเปลี่ยนสีเป็น “ชุด” ของแต่ละคน ส่วนข้อต่อคงเดิม */if(o.material.color&&!/Joint/i.test(o.material.name||''))o.material.color.set(tints[k%tints.length]);o.material.envMapIntensity=.8}}});
+      src.updateMatrixWorld(true);const box=new THREE.Box3().setFromObject(src,true);const h=(box.max.y-box.min.y)||1.8;const s=(1.58+((k*37)%10)/50)/h;
+      const holder=new THREE.Group();g.scale.setScalar(s);holder.add(g);scene.add(holder);
+      const mixer=new THREE.AnimationMixer(g);const act={};Object.entries(C).forEach(([n,c])=>{if(c)act[n]=mixer.clipAction(c)});
+      Object.values(act).forEach(a=>{a.enabled=true;a.setEffectiveWeight(0);a.play()});act.walk&&act.walk.setEffectiveWeight(1);
+      mixer.update(Math.random()*3);
+      const r=R-5.0+((k*53)%10)/10*1.5,dir=k%3===0?-1:1;
+      PEOPLE.push({g:holder,mixer,act,cur:'walk',r,a:k/NP*Math.PI*2,v:dir*(.04+((k*29)%10)/500),ph:k})}}).catch(e=>console.warn('visitors',e))})();
+function fadeTo(q,n){if(q.cur===n||!q.act[n])return;const from=q.act[q.cur],to=q.act[n];to.reset();to.setEffectiveWeight(1);to.play();if(from)from.crossFadeTo(to,.45,false);q.cur=n}
+function movePeople(dt,t){for(const q of PEOPLE){/* เดิน → หยุดชมบูธ (ยืน/พยักหน้า) → เดินต่อ */const cyc=(t*.08+q.ph*.37)%1;const walking=cyc<.6;
+    if(walking){q.a+=q.v*dt;fadeTo(q,'walk')}else fadeTo(q,cyc<.78?'idle':(q.ph%2?'agree':'idle'));
+    q.mixer.update(dt*(walking?1:.9));
+    q.g.position.x=Math.sin(q.a)*q.r;q.g.position.z=Math.cos(q.a)*q.r;
+    const want=walking?q.a+(q.v>0?Math.PI/2:-Math.PI/2):q.a;let d=want-q.g.rotation.y;d=Math.atan2(Math.sin(d),Math.cos(d));q.g.rotation.y+=d*Math.min(1,dt*4);
+    /* ไม่ให้บังสายตา: ซ่อนคนที่อยู่ใกล้กล้อง หรืออยู่ระหว่างกล้องกับบูธที่กำลังดู */
+    const dx=q.g.position.x-cam.pos.x,dz=q.g.position.z-cam.pos.z,dd=Math.hypot(dx,dz);let hide=dd<3.6;if(!hide&&mode==='walk'&&dd<8){const fx=-Math.sin(cam.yaw),fz=-Math.cos(cam.yaw);const along=(dx*fx+dz*fz),side=Math.abs(dx*fz-dz*fx);hide=along>0&&side<2.0}q.g.visible=!hide}}
+
+/* ================= กล้อง: มุมสูง ⇄ เดินชม ================= */
+let mode='orbit';                                 /* orbit | walk */
+const cam={pos:new THREE.Vector3(),yaw:0,pitch:0};
+const orbit={th:.35,r:1.2,h:4.3,auto:true};
+function orbitState(o=orbit){/* ยืนกลางลาน หันออกหาวงบูธ แล้วค่อย ๆ หมุนรอบ */const p=new THREE.Vector3(-Math.sin(o.th)*o.r,o.h,-Math.cos(o.th)*o.r);return{pos:p,yaw:o.th,pitch:-Math.atan2(o.h-2.1,R-o.r)}}
+Object.assign(cam,orbitState());
+let walk={pos:new THREE.Vector3(0,EYE,10.4),yaw:0,pitch:-.05};
+let tw=null,tour=null;
+const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2;
+const angTo=(f,t)=>Math.atan2(-(t.x-f.x),-(t.z-f.z));
+function tweenTo(to,dur,cb){let dy=to.yaw-cam.yaw;dy=Math.atan2(Math.sin(dy),Math.cos(dy));tw={from:{pos:cam.pos.clone(),yaw:cam.yaw,pitch:cam.pitch},to:{pos:to.pos.clone(),yaw:cam.yaw+dy,pitch:to.pitch},t0:performance.now(),dur:dur*1000,cb}}
+function setMode(m,instant){mode=m;$('#bModeL').textContent=m==='orbit'?'เดินชม':'มุมสูง';$('#bMode').classList.toggle('on',m==='walk');
+  if(m==='orbit'){orbit.th=cam.yaw;tweenTo(orbitState(),instant?0.01:1.8)}
+  else{const p=cam.pos.clone();if(p.length()>R-3.5||p.y>EYE+.5){const a=cam.yaw+Math.PI;walk.pos.set(Math.sin(a)*9.2,EYE,Math.cos(a)*9.2);walk.yaw=a;}tweenTo({pos:walk.pos,yaw:walk.yaw+Math.PI,pitch:-.03},instant?0.01:2.0)}}
+function goBooth(i,open){const b=BOOTH[i];if(!b)return;if(mode!=='walk'){mode='walk';$('#bModeL').textContent='มุมสูง';$('#bMode').classList.add('on')}
+  const yaw=angTo(b.stand,b.look);const pitch=-Math.atan2(EYE-1.9,b.stand.distanceTo(b.look))*.4;
+  const d=cam.pos.distanceTo(b.stand);
+  /* ถ้าต้องเดินข้ามสระกลาง ให้โค้งผ่านทางเดินวงแหวน (ใช้จุดกลางทาง) */
+  const dur=Math.min(3.2,1.0+d*.09);
+  tweenTo({pos:b.stand,yaw,pitch},dur,()=>{walk.pos.copy(b.stand);walk.yaw=yaw;cam.yaw=yaw;if(open)openCard(i)});
+  if(!open)closeCard()}
+function goMap(){mode='orbit';orbit.auto=false;$('#bModeL').textContent='เดินชม';$('#bMode').classList.remove('on');closeCard();
+  const pos=new THREE.Vector3(0,6.2,8.2);tweenTo({pos,yaw:0,pitch:-Math.atan2(5.5,8.2)},2.2,()=>toast('แผนที่ 6 อำเภอ · ความสูง = สัดส่วนแหล่งผลิตของสินค้าในงาน · แตะหมุดเพื่อไปบูธ'))}
+function startTour(){const bt=$('#bTour');bt.classList.add('on');bt.setAttribute('aria-pressed','true');bt.querySelector('.l').textContent='หยุดทัวร์';
+  let i=cardI>=0?cardI:-2;const step=()=>{if(i===-2){i=-1;goMap();tour=setTimeout(step,8500);return}i=(i+1)%BOOTH.length;goBooth(i,true);tour=setTimeout(step,(tw?tw.dur:0)+6500)};tour=1;step()}
+function stopTour(){if(!tour)return;clearTimeout(tour);tour=null;const bt=$('#bTour');bt.classList.remove('on');bt.setAttribute('aria-pressed','false');bt.querySelector('.l').textContent='ทัวร์อัตโนมัติ'}
+$('#bTour').onclick=()=>{enter();tour?stopTour():startTour()};
+$('#bTour2').onclick=()=>{enter();startTour()};
+$('#bMode').onclick=()=>{enter();stopTour();closeCard();setMode(mode==='orbit'?'walk':'orbit')};
+
+/* ---------- อินพุต ---------- */
+const keys={};
+addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('input'))return;if(document.body.classList.contains('pres')||e.code==='PageDown'||e.code==='PageUp')return;keys[e.code]=1;if(/Arrow|Key[WASD]/.test(e.code)){stopTour();tw=null;if(mode==='orbit'&&/Key[WS]|ArrowUp|ArrowDown/.test(e.code)){enter();setMode('walk',true)}}});
+addEventListener('keyup',e=>{keys[e.code]=0});
+let drag=null;const pts=new Map();
+canvas.addEventListener('pointerdown',e=>{pts.set(e.pointerId,{x:e.clientX,y:e.clientY});if(pts.size===1){drag={id:e.pointerId,x:e.clientX,y:e.clientY,yaw:cam.yaw,pitch:cam.pitch,th:orbit.th,h:orbit.h,moved:0};canvas.setPointerCapture(e.pointerId);canvas.classList.add('drag')}else drag=null});
+canvas.addEventListener('pointermove',e=>{const prev=pts.get(e.pointerId);if(prev){if(pts.size===2&&mode==='orbit'){const o=[...pts.values()];const d0=Math.hypot(o[0].x-o[1].x,o[0].y-o[1].y);pts.set(e.pointerId,{x:e.clientX,y:e.clientY});const o2=[...pts.values()];const d1=Math.hypot(o2[0].x-o2[1].x,o2[0].y-o2[1].y);zoom((d0-d1)*.03);return}pts.set(e.pointerId,{x:e.clientX,y:e.clientY})}
+  if(!drag||drag.id!==e.pointerId)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.moved=Math.max(drag.moved,Math.abs(dx)+Math.abs(dy));
+  if(drag.moved>5){tw=null;stopTour();orbit.auto=false;
+    if(mode==='orbit'){orbit.th=drag.th+dx*.004;orbit.h=Math.max(2.4,Math.min(wallH-2,drag.h+dy*.02));Object.assign(cam,orbitState())}
+    else{const k=isTouch?.005:.0035;cam.yaw=drag.yaw-dx*k;cam.pitch=Math.max(-.75,Math.min(.6,drag.pitch-dy*k))}}});
+const up=e=>{pts.delete(e.pointerId);if(!drag||drag.id!==e.pointerId)return;const click=drag.moved<7;drag=null;canvas.classList.remove('drag');if(click)pick(e.clientX,e.clientY)};
+canvas.addEventListener('pointerup',up);canvas.addEventListener('pointercancel',e=>{pts.delete(e.pointerId);drag=null;canvas.classList.remove('drag')});
+function zoom(d){if(mode==='orbit'){orbit.r=Math.max(-2,Math.min(R-7.5,orbit.r-d));orbit.auto=false;Object.assign(cam,orbitState())}else{const f=new THREE.Vector3(-Math.sin(cam.yaw),0,-Math.cos(cam.yaw));cam.pos.addScaledVector(f,-d)}}
+canvas.addEventListener('wheel',e=>{e.preventDefault();tw=null;stopTour();zoom(e.deltaY*.012)},{passive:false});
+const ray=new THREE.Raycaster(),mv=new THREE.Vector2();
+function pick(cx,cy){const r=canvas.getBoundingClientRect();mv.set((cx-r.left)/r.width*2-1,-(cy-r.top)/r.height*2+1);ray.setFromCamera(mv,camera);
+  const h=ray.intersectObjects(clickables,false)[0];if(h){enter();stopTour();goBooth(h.object.userData.i,true)}}
+/* จอยสติ๊ก */
+const joy=$('#joy'),knob=joy.querySelector('i');let jid=null,joyV={x:0,y:0};
+joy.addEventListener('pointerdown',e=>{jid=e.pointerId;joy.setPointerCapture(jid);jmove(e);stopTour();tw=null;if(mode==='orbit'){enter();setMode('walk',true)}});
+joy.addEventListener('pointermove',e=>{if(e.pointerId===jid)jmove(e)});
+const jend=()=>{jid=null;joyV={x:0,y:0};knob.style.transform=''};joy.addEventListener('pointerup',jend);joy.addEventListener('pointercancel',jend);
+function jmove(e){const r=joy.getBoundingClientRect();let dx=e.clientX-(r.left+r.width/2),dy=e.clientY-(r.top+r.height/2);const m=Math.hypot(dx,dy),RR=44;if(m>RR){dx*=RR/m;dy*=RR/m}knob.style.transform=`translate(${dx}px,${dy}px)`;joyV={x:dx/RR,y:dy/RR}}
+
+/* ---------- เข้าสู่งาน ---------- */
+let entered=false;
+function enter(){if(entered)return;entered=true;$('#intro').classList.add('off');$('#veil').classList.add('off')}
+$('#bGo').onclick=()=>{enter();orbit.auto=false;setMode('walk')};
+
+/* ================= วงลูป ================= */
+const clock=new THREE.Clock();const fwd=new THREE.Vector3(),rgt=new THREE.Vector3();const where=$('#where');let near=-2;
+function resize(){const w=innerWidth,h=innerHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.fov=w<h?70:55;camera.updateProjectionMatrix()}
+addEventListener('resize',resize);resize();
+function collide(p){const r=Math.hypot(p.x,p.z);if(r<4.7){const k=4.7/(r||1);p.x*=k;p.z*=k}if(r>HALL-1.8){const k=(HALL-1.8)/r;p.x*=k;p.z*=k}
+  for(const q of TOTEMS){const dx=p.x-q.x,dz=p.z-q.z,d=Math.hypot(dx,dz);if(d<.9&&d>0){p.x=q.x+dx/d*.9;p.z=q.z+dz/d*.9}}
+  const v=new THREE.Vector3();for(const b of BOOTH){v.set(p.x,0,p.z);b.g.worldToLocal(v);if(Math.abs(v.x)<3.1&&v.z>-2.6&&v.z<2.6){v.z=2.6;b.g.localToWorld(v);p.x=v.x;p.z=v.z}}}
+function loop(){const dt=Math.min(.05,clock.getDelta()),t=clock.elapsedTime;
+  if(tw){const k=ease(Math.min(1,(performance.now()-tw.t0)/tw.dur));cam.pos.lerpVectors(tw.from.pos,tw.to.pos,k);
+    /* โค้งผ่านด้านบนเล็กน้อยระหว่างเดินทางไกล ให้ไม่ทะลุสระ */
+    const lift=Math.sin(k*Math.PI)*Math.min(3,tw.from.pos.distanceTo(tw.to.pos)*.12);cam.pos.y+=lift;
+    cam.yaw=tw.from.yaw+(tw.to.yaw-tw.from.yaw)*k;cam.pitch=tw.from.pitch+(tw.to.pitch-tw.from.pitch)*k;
+    if(k>=1){const cb=tw.cb;tw=null;if(mode==='walk'){walk.pos.copy(cam.pos);walk.yaw=cam.yaw}cb&&cb()}}
+  else if(mode==='orbit'){if(orbit.auto){orbit.th+=dt*.05;Object.assign(cam,orbitState())}}
+  else{let f=(keys.KeyW||keys.ArrowUp?1:0)-(keys.KeyS||keys.ArrowDown?1:0)-joyV.y,s=(keys.KeyD?1:0)-(keys.KeyA?1:0)+joyV.x;
+    if(keys.ArrowLeft)cam.yaw+=1.8*dt;if(keys.ArrowRight)cam.yaw-=1.8*dt;
+    if(f||s){fwd.set(-Math.sin(cam.yaw),0,-Math.cos(cam.yaw));rgt.set(Math.cos(cam.yaw),0,-Math.sin(cam.yaw));const sp=(keys.ShiftLeft||keys.ShiftRight?6:3.6)*dt;cam.pos.addScaledVector(fwd,f*sp).addScaledVector(rgt,s*sp);if(cardI>=0&&!tour)closeCard()}
+    cam.pos.y=EYE;collide(cam.pos)}
+  camera.position.copy(cam.pos);camera.rotation.set(cam.pitch,cam.yaw,0,'YXZ');
+  movePeople(dt,t);spinners.forEach(s=>{s.g.rotation.y=t*.7+s.ph;s.g.position.y=(s.y||1.62)+Math.sin(t*1.5+s.ph)*.035});
+  MAP.rotation.y=Math.sin(t*.1)*.06;band.rotation.y=-t*.08;glows.forEach((m,k)=>{m.material.color.offsetHSL(0,0,0)});
+  if(mode==='walk'&&!tw){let ni=-1,nd=7.5;BOOTH.forEach((b,i)=>{const d=Math.hypot(cam.pos.x-b.stand.x,cam.pos.z-b.stand.z);if(d<nd){nd=d;ni=i}});
+    if(ni!==near){near=ni;if(ni>=0){where.innerHTML=`บูธ <b>${pad2(BOOTH[ni].p.id)}</b> · ${esc(BOOTH[ni].p.name)} · ${ni+1}/${N}`;where.classList.add('on');syncDock(ni)}else where.classList.remove('on')}}
+  else if(mode==='orbit'&&near!==-2){near=-2;where.classList.remove('on')}
+  renderer.render(scene,camera);requestAnimationFrame(loop)}
+
+/* ---------- พร้อม ---------- */
+let ready=false;
+function check(){if(ready||done<need)return;ready=true;
+  const go=()=>{$('#boot').classList.add('off');$('#bGo').disabled=false;$('#bGo').textContent='เดินเข้าชมงาน';$('#bTour2').disabled=false};
+  setTimeout(go,150)}
+const fontsReady=(document.fonts&&document.fonts.load)?Promise.all(['600 64px Kanit','500 40px Kanit','400 40px Kanit','italic 600 40px Fraunces','italic 400 40px Fraunces'].map(f=>document.fonts.load(f).catch(()=>0))):Promise.resolve();
+/* วาดข้อความใหม่หลังฟอนต์พร้อม */
+fontsReady.then(()=>{BOOTH.forEach(b=>{b.g.traverse(o=>{if(o.isMesh&&o.material&&o.material.map&&o.material.map.isCanvasTexture&&o.geometry.parameters){const w=o.geometry.parameters.width;if(w===5.7){o.material.map=fasciaT(b.p);o.material.needsUpdate=true}else if(w===1.8){o.material.map=deskT(b.p);o.material.needsUpdate=true}}})});boards.forEach(o=>{o.m.material.map=dataTex(o.p);o.m.material.needsUpdate=true})});
+setTimeout(()=>{if(!ready){need=done;check()}},15000);
+prog();check();
+
+/* ================= เสียงบรรยากาศ (สังเคราะห์สด ไม่ต้องโหลดไฟล์) ================= */
+const SND=(function(){let ac=null,master=null,on=false,timer=null;
+  const PENTA=[220,261.63,293.66,329.63,392,440,523.25,587.33,659.25];          /* A minor pentatonic โทนพิณ/แคนร่วมสมัย */
+  function init(){if(ac)return;const C=window.AudioContext||window.webkitAudioContext;if(!C)return;ac=new C();master=ac.createGain();master.gain.value=0;master.connect(ac.destination);
+    const rev=ac.createConvolver();const len=ac.sampleRate*2.6,buf=ac.createBuffer(2,len,ac.sampleRate);for(let c=0;c<2;c++){const d=buf.getChannelData(c);for(let i=0;i<len;i++)d[i]=(Math.random()*2-1)*Math.pow(1-i/len,2.6)}rev.buffer=buf;
+    const wet=ac.createGain();wet.gain.value=.55;rev.connect(wet);wet.connect(master);SND._rev=rev;
+    /* แพดพื้นหลัง: โดรนแบบแคน (A + E) */
+    [[110,.05],[164.81,.035],[220,.03],[329.63,.012]].forEach(([f,v],k)=>{const o=ac.createOscillator();o.type=k%2?'triangle':'sine';o.frequency.value=f;o.detune.value=(k-1.5)*4;
+      const g=ac.createGain();g.gain.value=v;const lf=ac.createOscillator();lf.frequency.value=.07+k*.03;const lg=ac.createGain();lg.gain.value=v*.45;lf.connect(lg);lg.connect(g.gain);
+      const flt=ac.createBiquadFilter();flt.type='lowpass';flt.frequency.value=900;o.connect(flt);flt.connect(g);g.connect(master);g.connect(rev);o.start();lf.start()})}
+  function pluck(f,v=.12,t0){const t=t0||ac.currentTime;const o=ac.createOscillator();o.type='triangle';o.frequency.value=f;const o2=ac.createOscillator();o2.type='sine';o2.frequency.value=f*2.01;
+    const g=ac.createGain();g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.008);g.gain.exponentialRampToValueAtTime(.0005,t+2.2);
+    const g2=ac.createGain();g2.gain.value=.3;o.connect(g);o2.connect(g2);g2.connect(g);g.connect(master);g.connect(SND._rev);o.start(t);o2.start(t);o.stop(t+2.3);o2.stop(t+2.3)}
+  function phrase(){if(!on)return;const n=1+Math.floor(Math.random()*3);let t=ac.currentTime+.05;let idx=Math.floor(Math.random()*PENTA.length);
+    for(let k=0;k<n;k++){pluck(PENTA[idx],.07+Math.random()*.05,t);t+=.22+Math.random()*.35;idx=Math.max(0,Math.min(PENTA.length-1,idx+(Math.random()<.5?-1:1)*(1+Math.floor(Math.random()*2))))}
+    timer=setTimeout(phrase,2600+Math.random()*3200)}
+  return{toggle(){init();if(!ac)return false;on=!on;ac.resume&&ac.resume();master.gain.cancelScheduledValues(ac.currentTime);master.gain.linearRampToValueAtTime(on?.9:0,ac.currentTime+1.2);clearTimeout(timer);if(on)setTimeout(phrase,800);return on},
+    chime(){if(!ac||!on)return;const t=ac.currentTime;pluck(659.25,.09,t);pluck(987.77,.06,t+.09)},get on(){return on}}})();
+$('#bSnd').onclick=()=>{const v=SND.toggle();$('#bSnd').classList.toggle('on',v);$('#bSnd').setAttribute('aria-pressed',String(v));toast(v?'เปิดเสียงบรรยากาศ':'ปิดเสียง')};
+
+/* ================= โหมดนำเสนอ (รีโมต/คลิกเกอร์) ================= */
+let pI=-1;
+function presGo(d){pI=((cardI>=0?cardI:pI)+d+N)%N;goBooth(pI,true);$('#pNow').textContent=`บูธ ${pad2(ITEMS[pI].id)} · ${ITEMS[pI].name}  (${pI+1}/${N})`}
+function presOn(v){document.body.classList.toggle('pres',v);if(v){enter();stopTour();if(cardI<0)presGo(1);const d=document.documentElement;try{(d.requestFullscreen||d.webkitRequestFullscreen).call(d)}catch(e){}}else{try{document.fullscreenElement&&document.exitFullscreen()}catch(e){}}}
+$('#bPres').onclick=()=>presOn(true);$('#pExit').onclick=()=>presOn(false);$('#pNext').onclick=()=>presGo(1);$('#pPrev').onclick=()=>presGo(-1);
+addEventListener('keydown',e=>{if(e.target.closest&&e.target.closest('input'))return;const pres=document.body.classList.contains('pres');
+  if(e.code==='PageDown'||(pres&&(e.code==='ArrowRight'||e.code==='Space'||e.code==='ArrowDown'))){e.preventDefault();keys[e.code]=0;presGo(1)}
+  else if(e.code==='PageUp'||(pres&&(e.code==='ArrowLeft'||e.code==='ArrowUp'))){e.preventDefault();keys[e.code]=0;presGo(-1)}
+  else if(e.code==='KeyP'&&!pres)presOn(true);else if(e.code==='Escape'&&pres)presOn(false)},true);
+
+/* ================= บันทึกวิดีโอทัวร์ ================= */
+let rec=null;
+function recStart(){if(!canvas.captureStream||!window.MediaRecorder){toast('อุปกรณ์นี้ยังไม่รองรับการบันทึกวิดีโอ · ใช้ Chrome/Edge บนคอมพิวเตอร์');return}
+  const types=['video/mp4;codecs=avc1','video/mp4','video/webm;codecs=vp9','video/webm'];const mime=types.find(t=>MediaRecorder.isTypeSupported(t))||'';
+  const stream=canvas.captureStream(30);const mr=new MediaRecorder(stream,mime?{mimeType:mime,videoBitsPerSecond:8e6}:{});const chunks=[];
+  mr.ondataavailable=e=>{if(e.data&&e.data.size)chunks.push(e.data)};
+  mr.onstop=()=>{document.body.classList.remove('rec');$('#bRecL').textContent='บันทึกวิดีโอ';$('#bRec').classList.remove('on');clearInterval(rec&&rec.tk);
+    const ext=/mp4/.test(mr.mimeType||mime)?'mp4':'webm';const blob=new Blob(chunks,{type:mr.mimeType||mime||'video/webm'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+    a.download=`virtual-expo-12plus-${new Date().toISOString().slice(0,10)}.${ext}`;document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},4000);toast('บันทึกวิดีโอเสร็จแล้ว · ไฟล์กำลังดาวน์โหลด');rec=null};
+  enter();closeCard();mr.start(1000);const t0=Date.now();rec={mr,t0,tk:setInterval(()=>{const s=Math.round((Date.now()-t0)/1000);$('#recT').textContent=`กำลังบันทึก ${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')} · กดปุ่มอีกครั้งเพื่อหยุด`},500),n:0};
+  document.body.classList.add('rec');$('#bRecL').textContent='หยุดบันทึก';$('#bRec').classList.add('on');
+  /* ฉากเปิด: มุมสูงหมุน 6 วินาที แล้วทัวร์ทุกบูธ (บูธละ ~5 วินาที) */
+  setMode('orbit');orbit.auto=true;setTimeout(()=>{if(!rec)return;let i=-1;const step=()=>{if(!rec)return;i++;if(i>=N){setMode('orbit');orbit.auto=true;setTimeout(()=>rec&&rec.mr.stop(),5000);return}goBooth(i,false);rec.to=setTimeout(step,(tw?tw.dur:0)+4200)};step()},6000)}
+function recStop(){if(rec){clearTimeout(rec.to);rec.mr.state!=='inactive'&&rec.mr.stop()}}
+$('#bRec').onclick=()=>rec?recStop():recStart();
+
+/* ================= วิดีโอในบูธ: เล่นเฉพาะบูธที่อยู่ใกล้ ================= */
+function videoTick(){if(!VIDS.length)return;VIDS.forEach(o=>{const b=BOOTH[o.i];const d=cam.pos.distanceTo(b.stand);const want=d<9;if(want&&o.v.paused)o.v.play().catch(()=>{});else if(!want&&!o.v.paused)o.v.pause()})}
+setInterval(videoTick,600);
+
+window.__chime=()=>SND.chime();
+window.EXPO={goBooth,stopTour,setMode,cam,orbit,goMap};
+requestAnimationFrame(loop);
+})();
+}
+window.boot3D=boot3D;setTimeout(()=>{if(!window.__booted)boot3D()},12000);
+</script>
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
+window.THREE=THREE;window.GLTFLoader=GLTFLoader;window.SkeletonUtils=SkeletonUtils;window.boot3D();
+</script>
+</body>
+</html>
