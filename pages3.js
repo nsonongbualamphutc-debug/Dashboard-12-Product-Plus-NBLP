@@ -160,7 +160,7 @@ function bkFaces(){
       <div class="pb-ss"><span>${L('ช่วงเด่น','Best')} <b>${MOF()[pk]}</b></span><div>${p.season.map((w,k)=>`<i class="${k===pk?'pk':''}" style="opacity:${(.18+.82*w/mx).toFixed(2)}"></i>`).join('')}</div></div>
       <div class="pb-shop${s?'':' empty'}">
         <div class="t"><span class="k">${L('ซื้อได้ที่','Where to buy')}</span>${s?`<b>${esc(s.nick)}</b><span class="of">${esc(s.name)}</span><span class="ad">${esc(s.addr)}</span>
-          <div class="ct"><span><em>โทร</em>${esc(s.tel)}</span><span><em>LINE</em>${esc(s.line)}</span><span><em>FB</em>${esc(s.fb)}</span><span><em>IG</em>${esc(s.ig)}</span></div>`
+          <div class="ct"><span><em>โทร</em>${shopV(s.tel)}</span><span><em>LINE</em>${shopV(s.line)}</span><span><em>FB</em>${fbLink(s)}</span><span><em>IG</em>${shopV(s.ig)}</span></div>`
           :`<b>${L('ร้านค้าแนะนำ','Featured shops')}</b><span class="of">${L('กำลังรวบรวมข้อมูลร้านค้า เร็ว ๆ นี้','Shop details coming soon')}</span><span class="ad">${L('ติดตามได้ที่หน้าสินค้าบนแดชบอร์ด','Follow the product page on the dashboard')}</span>`}
           <div class="bt">${s?`<a href="${mapUrl(s)}" target="_blank" rel="noopener">${L('นำทางไปร้าน','Navigate')} ${ic('ext')}</a>`:''}<a href="${pFile(p.id)}">${L('ดูข้อมูลสินค้า','Product page')} ${ic('arrowR')}</a>${sh.length>1?`<a href="${pFile(p.id)}#shops">+${sh.length-1} ${L('ร้าน','shops')}</a>`:''}</div></div>
         <div class="q"><div class="qr" data-qr="${esc(s?mapUrl(s):absUrl(pFile(p.id)))}"></div><small>${s?L('สแกนนำทาง','Scan to go'):L('สแกนดูสินค้า','Scan to view')}</small></div>
