@@ -147,7 +147,7 @@ if(typeof styBlock==='function'){const _sbL=styBlock;styBlock=function(b,i){cons
     <p class="stb-ln">${L('แหล่งที่มา','Source')}: ${esc(ds.source)}</p></details>`;
   return h.replace(/(<form class="stb-api"|<\/article>\s*$)/,t+'$1')}}
 /* คำแปลประเภท/หน่วยจากไฟล์อ้อย */
-try{Object.assign(CAT_EN,{'โรงงานน้ำตาล':'Sugar mills','จุดรับซื้อ':'Buying points','อ้อยสด':'Fresh cane','อ้อยไฟไหม้':'Burnt cane','กากอ้อย':'Bagasse','กากน้ำตาล':'Molasses','ราคาอ้อยขั้นต้น':'Initial price','ราคาอ้อยขั้นสุดท้าย':'Final price'});
+try{Object.assign(CAT_EN,{'โรงงานน้ำตาล':'Sugar mills','จุดรับซื้อ':'Buying points','อ้อยสด':'Fresh cane','อ้อยไฟไหม้':'Burnt cane','กากอ้อย':'Bagasse','กากน้ำตาล':'Molasses','ราคาอ้อยขั้นต้น':'Initial price','ราคาอ้อยขั้นสุดท้าย':'Final price','คล้าสด':'Fresh khla','กระติบข้าว · ในจังหวัด':'Rice baskets · in-province','ตะกร้า · ในจังหวัด':'Baskets · in-province','กระเป๋า · ในจังหวัด':'Bags · in-province','กระติบข้าว · ต่างจังหวัด':'Rice baskets · out-of-province','ตะกร้า · ต่างจังหวัด':'Baskets · out-of-province','กระเป๋า · ต่างจังหวัด':'Bags · out-of-province'});
   Object.assign(UNIT_EN,{'มาตรการ':'measures','แบรนด์':'brands','สายพันธุ์':'varieties','โครงการ':'programmes','ช่องทาง':'channels','ครั้ง':'times'})}catch(e){}
 
 /* ---------- รูปแบบภาพเพิ่มสำหรับข้อมูลจริงแยกประเภท ----------
