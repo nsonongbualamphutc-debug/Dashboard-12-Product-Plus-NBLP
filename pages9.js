@@ -281,3 +281,5 @@ if(typeof sDot==='function'){const _sd=sDot;sDot=function(b){if(b.empty&&!b.real
 if(typeof styBlock==='function'){const _be=styBlock;styBlock=function(b,i){const h=_be(b,i);return b.empty?h.replace('<article class="stb','<article class="stb stb-empty'):h}}
 
 if(typeof styHeadline==='function'){const _hl=styHeadline;styHeadline=function(list){const L0=list.filter(b=>!b.empty);return L0.length?_hl(L0):''}}
+/* ป้ายวงเล็บข้างจุดสถานะ: (ข้อมูลจริง) / (ข้อมูลจำลอง) */
+if(typeof sDot==='function'){const _sdl=sDot;sDot=function(b){const real=!!b.real;return _sdl(b)+`<span class="sdot-l ${real?'real':'sim'}">(${real?L('ข้อมูลจริง','real data'):L('ข้อมูลจำลอง','simulated')})</span>`}}
