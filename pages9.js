@@ -260,3 +260,15 @@ if(typeof styInsight==='function'){const _si0=styInsight;styInsight=function(b){
   const nd=y=>new Set(b.rows.filter(r=>r.year===y&&+r.value>0&&r.dist&&r.dist!=='รวมทั้งจังหวัด').map(r=>r.dist)).size;const a=nd(A.ly),p=nd(A.py);
   if(a<p){h=String(h).replace(/\s*·?\s*ปี \d{4} (เพิ่มขึ้น|ลดลง) <b>[^<]*<\/b> จากปีก่อน/,'').replace(/\s*·?\s*\d{4}: (up|down) <b>[^<]*<\/b>[^·]*/,'').replace(/\s*· เฉลี่ย [^·]*ต่อปี/,'');
     h+=L(` · <span class="note">ปี ${yCE(A.ly)} มีข้อมูล ${a} จาก ${p} อำเภอ</span>`,` · <span class="note">${yCE(A.ly)}: ${a} of ${p} districts reported</span>`)}}catch(e){}return h}}
+
+/* =====================================================================
+   ไม่มีข้อมูล = เว้นว่าง (ไม่มีค่าจำลอง/โครงตัวอย่างให้สับสน)
+   ===================================================================== */
+if(typeof DATA_ONLY!=='undefined'&&DATA_ONLY){
+  const dsHas=ds=>{const st=typeof DSX!=='undefined'&&DSX.store[ds.code];return!!(st&&st.rows.some(r=>+r.value>0))};
+  /* การ์ดชุดข้อมูล: ซ่อนชุดที่ยังไม่มีค่า · ตัดปุ่ม "โครง / ดูตัวอย่าง" */
+  if(typeof dsData==='function'){const _dd=dsData;dsData=function(ds,p){const D=_dd(ds,p);return D&&D.src==='demo'?null:D}}
+  if(typeof dsCard==='function'){const _dc=dsCard;dsCard=function(ds,p){if(!dsHas(ds))return'';return _dc(ds,p).replace(/<div class="seg sm" role="group"><button type="button" data-dsm=[\s\S]*?<\/div>/,'')}}
+  /* มุมผู้ซื้อ: สเปกที่ยังไม่มีข้อมูลจริง ไม่แสดงช่องว่าง */
+  if(typeof specDl==='function'){specDl=function(){return''}}
+}

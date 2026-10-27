@@ -573,7 +573,7 @@ const FIREBASE_CONFIG={
 /* วันจัดงานจริง (ผู้เข้าชมวันนี้ได้วอลเปเปอร์ Limited 3 “สิบสองสมบัติลุ่มภู”) รูปแบบ 'YYYY-MM-DD' เช่น ['2026-11-20','2026-11-21'] */
 const EVENT_DAYS=[];
 /* เวอร์ชันไฟล์: ถ้าเครื่องผู้ชมยังจำไฟล์เก่า (cache) จะเช็กแล้วโหลดเวอร์ชันใหม่ให้เอง */
-const BUILD='v34';
+const BUILD='v35';
 (function(){try{fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/const BUILD='([^']+)'/);if(m&&m[1]!==BUILD){const k='nbl12-reload-'+m[1];if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');const q=new URLSearchParams(location.search);q.set('v',m[1]);location.replace(location.pathname+'?'+q.toString())}}}).catch(()=>{})}catch(e){}})();
 const VISITOR_MODELS=[];   /* ตัวละครคนเสมือนจริงจาก Mixamo (.glb ที่ฝังท่า Walking/Idle) เช่น ['models/visitor-1.glb','models/visitor-2.glb'] · ว่าง = ใช้หุ่น models/Xbot.glb */
 const GAS_URL='https://script.google.com/macros/s/AKfycbwRX5IPjn-Zj2vCb_jlsLJuGpddhpLYbJnFC_5m2Yb2xV6A-cpUV5u0CkTMC4K8ykGK/exec';
@@ -1934,7 +1934,7 @@ const GAMES=(function(){const K='nbl12-game-'+DAY;let G=LSJ(K,{hl:0,rid:null,run
   const M=$('#gmB'),W=$('#gm');function show(h){M.innerHTML=h;W.classList.add('on')}function hide(){W.classList.remove('on');stopRun(true)}
   $('#gmX').onclick=hide;
   /* ---------------- 1) ทายข้อมูลจริง: มากกว่าหรือน้อยกว่า ---------------- */
-  const FACTS=(()=>{const F=[];ITEMS.forEach(p=>{if(p.v>0)F.push({g:'v',n:p.name,t:'มูลค่าทางเศรษฐกิจต่อปี',v:+p.v,u:'บาท',img:p.id,src:'แดชบอร์ด 12 Plus+'});if(p.prod>0)F.push({g:'prod',n:p.name,t:p.prodL||'จำนวนผู้ผลิต',v:+p.prod,u:'ราย',img:p.id,src:'แดชบอร์ด 12 Plus+'})});
+  const FACTS=(()=>{const F=[];/* ใช้เฉพาะข้อมูลจริงจากหน่วยงาน (ไม่ใช้ค่าจำลอง) */
     DSX_.forEach(d=>{const rows=d.rows||[];const by={};rows.forEach(r=>{const key=d.district&&r[1]?r[1]:'ปี '+r[0];const k2=(r[1]?'ปี '+r[0]+' · อ.'+r[1]:'ปี '+r[0])+(r[2]?' · '+r[2]:'');by[k2]=(by[k2]||0)+(+r[3]||0)});
       Object.entries(by).forEach(([k,v])=>{if(v>0)F.push({g:'ds'+d.code+d.item,n:k,t:d.item,v,u:d.unit,img:d.pid,src:'ข้อมูลจริงจากหน่วยงาน'})})});
     return F})();
