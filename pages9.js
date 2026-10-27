@@ -147,7 +147,7 @@ if(typeof styBlock==='function'){const _sbL=styBlock;styBlock=function(b,i){cons
     <p class="stb-ln">${L('แหล่งที่มา','Source')}: ${esc(ds.source)}</p></details>`;
   return h.replace(/(<form class="stb-api"|<\/article>\s*$)/,t+'$1')}}
 /* คำแปลประเภท/หน่วยจากไฟล์อ้อย */
-try{Object.assign(CAT_EN,{'โรงงานน้ำตาล':'Sugar mills','จุดรับซื้อ':'Buying points','อ้อยสด':'Fresh cane','อ้อยไฟไหม้':'Burnt cane','กากอ้อย':'Bagasse','กากน้ำตาล':'Molasses','ราคาอ้อยขั้นต้น':'Initial price','ราคาอ้อยขั้นสุดท้าย':'Final price','คล้าสด':'Fresh khla','ข้าวเจ้า':'Non-glutinous rice','ข้าวเหนียว':'Glutinous rice','ต่างจังหวัด':'Out of province','ราคาขายปลีก':'Retail price','ราคาขายส่ง':'Wholesale price','เกษตรกร':'Farmers','กลุ่มเกษตรกร':'Farmer groups','ข้าวฮาง':'Khao Hang (GABA rice)','น้ำอ้อยสด':'Fresh cane juice','อื่น ๆ (วัสดุปลูกไบโอชา จากชานอ้อย, สุรากลั่นชุมชน)':'Other (bagasse biochar, community spirits)','กระติบข้าว · ในจังหวัด':'Rice baskets · in-province','ตะกร้า · ในจังหวัด':'Baskets · in-province','กระเป๋า · ในจังหวัด':'Bags · in-province','กระติบข้าว · ต่างจังหวัด':'Rice baskets · out-of-province','ตะกร้า · ต่างจังหวัด':'Baskets · out-of-province','กระเป๋า · ต่างจังหวัด':'Bags · out-of-province'});
+try{Object.assign(CAT_EN,{'โรงงานน้ำตาล':'Sugar mills','จุดรับซื้อ':'Buying points','อ้อยสด':'Fresh cane','อ้อยไฟไหม้':'Burnt cane','กากอ้อย':'Bagasse','กากน้ำตาล':'Molasses','ราคาอ้อยขั้นต้น':'Initial price','ราคาอ้อยขั้นสุดท้าย':'Final price','คล้าสด':'Fresh khla','ข้าวเจ้า':'Non-glutinous rice','รายเดี่ยว':'Individual growers','โรงเรือน':'Greenhouse','เพาะกลางแจ้ง':'Open-field','ระบบอื่น ๆ':'Other systems','ซื้อ':'Purchased','ผลิตเอง':'Self-produced','เห็ดฟาง':'Straw mushroom','เห็ดนางฟ้า':'Grey oyster','เห็ดขอนขาว':'Lentinus','เห็ดชนิดอื่น ๆ':'Other species','ขี้เลื่อย':'Sawdust','ฟางข้าว/ซังข้าวโพด':'Rice straw / corn cobs','อื่น ๆ (กากมันสำปะหลัง)':'Other (cassava pulp)','เห็ดสด':'Fresh mushrooms','ผลิตภัณฑ์แปรรูป':'Processed products','ต่างประเทศ':'Abroad','ข้าวเหนียว':'Glutinous rice','ต่างจังหวัด':'Out of province','ราคาขายปลีก':'Retail price','ราคาขายส่ง':'Wholesale price','เกษตรกร':'Farmers','กลุ่มเกษตรกร':'Farmer groups','ข้าวฮาง':'Khao Hang (GABA rice)','น้ำอ้อยสด':'Fresh cane juice','อื่น ๆ (วัสดุปลูกไบโอชา จากชานอ้อย, สุรากลั่นชุมชน)':'Other (bagasse biochar, community spirits)','กระติบข้าว · ในจังหวัด':'Rice baskets · in-province','ตะกร้า · ในจังหวัด':'Baskets · in-province','กระเป๋า · ในจังหวัด':'Bags · in-province','กระติบข้าว · ต่างจังหวัด':'Rice baskets · out-of-province','ตะกร้า · ต่างจังหวัด':'Baskets · out-of-province','กระเป๋า · ต่างจังหวัด':'Bags · out-of-province'});
   Object.assign(UNIT_EN,{'มาตรการ':'measures','แบรนด์':'brands','สายพันธุ์':'varieties','โครงการ':'programmes','ช่องทาง':'channels','ครั้ง':'times'})}catch(e){}
 
 /* ---------- รูปแบบภาพเพิ่มสำหรับข้อมูลจริงแยกประเภท ----------
@@ -170,7 +170,7 @@ try{Object.assign(CAT_EN,{'โรงงานน้ำตาล':'Sugar mills','
       if(A.py){const a=A.v(r=>r.year===A.py);if(a){const g=(t-a)/a*100;s+=L(` · ${g>=0?'เพิ่มขึ้น':'ลดลง'} ${Math.abs(g).toFixed(1)}% จากปีก่อน`,` · ${g>=0?'+':'−'}${Math.abs(g).toFixed(1)}% YoY`)}}return s}
     const L0=A.ts.map(k=>[k,A.v(r=>r.year===A.ly&&r.type===k)]);
     return L(`ปี ${yCE(A.ly)} `,`${yCE(A.ly)}: `)+L0.map(([k,v])=>`${esc(tLab(k))} <b>${fv(v,u)}</b>`).join(' · ')+` ${uLab(u)}`};
-  const _k=styKpi;styKpi=function(b){if(b.form==='pair'){const A=A_(b);const k=A.ts.at(-1);const v=A.v(r=>r.year===A.ly&&r.type===k);return{v:fv(v,b.unit),u:uLab(b.unit)}}return _k(b)};
+  const _k=styKpi;styKpi=function(b){if(b.form==='pair'){const A=A_(b);const k=A.ts[0];const v=A.v(r=>r.year===A.ly&&r.type===k);return{v:fv(v,b.unit),u:uLab(b.unit)}}return _k(b)};
   const _fa=styFacts;styFacts=function(b){if(b.form!=='mix'&&b.form!=='pair')return _fa(b);const A=A_(b),u=b.unit,U=' '+uLab(u);const F=[];
     const t=A.v(r=>r.year===A.ly)||1;
     A.ts.forEach(k=>{const v=A.v(r=>r.year===A.ly&&r.type===k);const pv=A.py?A.v(r=>r.year===A.py&&r.type===k):0;const g=pv?(v-pv)/pv*100:null;
@@ -232,7 +232,7 @@ if(typeof styInsight==='function'){const _i=styInsight;styInsight=function(b){if
    - รายการที่ยังไม่มีข้อมูล / ค่าเป็น 0 ทั้งชุด → ไม่แสดง
    - อำเภอ/ประเภทในกราฟเรียงตามค่ารวมจากมากไปน้อย · ตัดอำเภอ/ประเภทที่เป็น 0 ทั้งหมด
    ===================================================================== */
-function styTidy(b){const R=b.rows;if(!R||!R.length)return b;const tot={},tt={};
+function styTidy(b){const R=b.rows;if(!R||!R.length||b.form==='cal'||b.form==='status')return b;const tot={},tt={};
   R.forEach(r=>{const v=+r.value||0;tot[r.dist]=(tot[r.dist]||0)+v;tt[r.type||'รวม']=(tt[r.type||'รวม']||0)+v});
   const ly=Math.max(...R.filter(r=>+r.value).map(r=>r.year));
   const lyd={};R.forEach(r=>{if(r.year===ly)lyd[r.dist]=(lyd[r.dist]||0)+(+r.value||0)});
@@ -248,3 +248,9 @@ if(typeof storySection==='function'){const _ss=storySection;storySection=functio
   const h=_ss(p);return h.replace(/<p class="sty-note">[\s\S]*?<\/p>/,`<p class="sty-note"><span class="sdot real" aria-hidden="true"></span> ${L(`แสดงเฉพาะข้อมูลจริงจากหน่วยงาน ${list.length} จาก ${p.inds.length} รายการ · เรียงค่าจากมากไปน้อย`,`Agency data only: ${list.length} of ${p.inds.length} items · sorted high to low`)}</p>`)}}
 /* ค่าเฉลี่ยรายอำเภอ: รายการข้างกราฟไม่แสดง % ส่วนแบ่ง (ไม่มีความหมายกับค่าเฉลี่ย) */
 if(typeof styFacts==='function'){const _sf=styFacts;styFacts=function(b){const F=_sf(b);return b.ds&&b.ds.agg==='avg'?F.map(f=>[f[0],String(f[1]).replace(/\s*<small>\(\d+%\)<\/small>/,'')]):F}}
+
+/* ปีที่ไม่มีข้อมูล = เว้นว่าง (ไม่วาดแท่ง 0) */
+if(typeof styCfg0==='function'){const _c2=styCfg0;styCfg0=function(b,big){const c=_c2(b,big);try{const A=styAgg(b.rows);const ys=A.ys;
+  if(c&&c.data&&c.data.datasets&&c.data.labels&&c.data.labels.length===ys.length&&b.form!=='cal'){c.data.datasets.forEach(d=>{if(!Array.isArray(d.data)||d.data.length!==ys.length)return;
+    const kt=A.ts.find(t=>tLab(t)===d.label),kd=A.ds.find(x=>dShort(x)===d.label);
+    d.data=d.data.map((v,i)=>{const y=ys[i];const has=b.rows.some(r=>r.year===y&&+r.value>0&&(kt==null||r.type===kt)&&(kd==null||r.dist===kd)&&(kt!=null||kd!=null||true));return has?v:null})})}}catch(e){}return c}}
