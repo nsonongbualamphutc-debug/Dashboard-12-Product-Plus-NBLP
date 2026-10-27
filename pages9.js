@@ -226,3 +226,25 @@ if(typeof styBlock==='function'){const _sbM=styBlock;styBlock=function(b,i){cons
 if(typeof styKpi==='function'){const _k=styKpi;styKpi=function(b){if(b.ds&&b.ds.agg==='avg'){const A=styAgg(b.rows);const L0=b.rows.filter(r=>r.year===A.ly&&r.value);const av=L0.length?L0.reduce((a,r)=>a+r.value,0)/L0.length:0;return{v:fv(av,b.unit),u:L('เฉลี่ย ','avg ')+uLab(b.unit)}}return _k(b)}}
 if(typeof styInsight==='function'){const _i=styInsight;styInsight=function(b){if(b.ds&&b.ds.agg==='avg'){const A=styAgg(b.rows);const L0=b.rows.filter(r=>r.year===A.ly&&r.value).sort((x,y)=>y.value-x.value);if(!L0.length)return'';const av=L0.reduce((a,r)=>a+r.value,0)/L0.length;
   return L(`ปี ${yCE(A.ly)} เฉลี่ย <b>${fv(av,b.unit)}</b> ${uLab(b.unit)} จาก ${L0.length} อำเภอ · สูงสุด อ.${dShort(L0[0].dist)} <b>${fv(L0[0].value,b.unit)}</b>`,`${yCE(A.ly)} average <b>${fv(av,b.unit)}</b> ${uLab(b.unit)} across ${L0.length} districts · highest ${dShort(L0[0].dist)} <b>${fv(L0[0].value,b.unit)}</b>`)}return _i(b)}}
+
+/* =====================================================================
+   นำเสนอให้อ่านง่าย: แสดงเฉพาะรายการที่มีข้อมูลจริง และเรียงค่าจากมากไปน้อย
+   - รายการที่ยังไม่มีข้อมูล / ค่าเป็น 0 ทั้งชุด → ไม่แสดง
+   - อำเภอ/ประเภทในกราฟเรียงตามค่ารวมจากมากไปน้อย · ตัดอำเภอ/ประเภทที่เป็น 0 ทั้งหมด
+   ===================================================================== */
+function styTidy(b){const R=b.rows;if(!R||!R.length)return b;const tot={},tt={};
+  R.forEach(r=>{const v=+r.value||0;tot[r.dist]=(tot[r.dist]||0)+v;tt[r.type||'รวม']=(tt[r.type||'รวม']||0)+v});
+  const ly=Math.max(...R.filter(r=>+r.value).map(r=>r.year));
+  const lyd={};R.forEach(r=>{if(r.year===ly)lyd[r.dist]=(lyd[r.dist]||0)+(+r.value||0)});
+  let rows=R.filter(r=>(r.dist==='รวมทั้งจังหวัด'||!r.dist||tot[r.dist]>0)&&tt[r.type||'รวม']>0);
+  if((b.form==='rank'||b.form==='tallyd')&&rows.some(r=>r.dist&&r.dist!=='รวมทั้งจังหวัด'))rows=rows.filter(r=>!r.dist||r.dist==='รวมทั้งจังหวัด'||lyd[r.dist]>0);
+  rows=rows.slice().sort((x,y)=>x.year-y.year||(tot[y.dist]||0)-(tot[x.dist]||0)||(tt[y.type||'รวม']||0)-(tt[x.type||'รวม']||0));
+  b.rows=Object.assign(rows,{unit:R.unit,src:R.src,name:R.name});return b}
+const styHasData=b=>b.real&&b.rows&&b.rows.some(r=>+r.value>0);
+if(typeof styItems==='function'){const _si=styItems;styItems=function(p){return _si(p).filter(styHasData).map(styTidy)}}
+if(typeof storySection==='function'){const _ss=storySection;storySection=function(p){const list=styItems(p);
+  if(!list.length){STY.list=[];STY.p=p}
+  if(!list.length)return`<section class="sty sty-empty" id="dsx" style="--pa:${p.pa}"><div class="card" style="padding:28px;text-align:center"><h3 style="margin:0 0 6px">${L('เส้นทางข้อมูล','Data journey')} · ${esc(pname(p))}</h3><p class="note" style="margin:0">${L('อยู่ระหว่างรอข้อมูลจากหน่วยงานเจ้าของข้อมูล · จะแสดงทันทีเมื่อได้รับไฟล์','Awaiting data from the owning agency · will appear as soon as files arrive')}</p></div></section>`;
+  const h=_ss(p);return h.replace(/<p class="sty-note">[\s\S]*?<\/p>/,`<p class="sty-note"><span class="sdot real" aria-hidden="true"></span> ${L(`แสดงเฉพาะข้อมูลจริงจากหน่วยงาน ${list.length} จาก ${p.inds.length} รายการ · เรียงค่าจากมากไปน้อย`,`Agency data only: ${list.length} of ${p.inds.length} items · sorted high to low`)}</p>`)}}
+/* ค่าเฉลี่ยรายอำเภอ: รายการข้างกราฟไม่แสดง % ส่วนแบ่ง (ไม่มีความหมายกับค่าเฉลี่ย) */
+if(typeof styFacts==='function'){const _sf=styFacts;styFacts=function(b){const F=_sf(b);return b.ds&&b.ds.agg==='avg'?F.map(f=>[f[0],String(f[1]).replace(/\s*<small>\(\d+%\)<\/small>/,'')]):F}}

@@ -363,7 +363,7 @@ function styBind(p,root){const sec=$('#dsx',root);if(!sec)return;
   if('IntersectionObserver'in window){const tabs=$$('.sty-tabs [data-ch]',sec);const io2=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const s=e.target.id.slice(3);tabs.forEach(t=>t.classList.toggle('on',t.dataset.ch===s))}}),{rootMargin:'-40% 0px -55% 0px'});$$('.sty-ch',sec).forEach(c=>io2.observe(c))}
   /* ข้อมูลจริงจาก API (resource_id ที่ตั้งไว้ใน DATASETS) */
   STY.list.filter(b=>b.ds&&!b.real&&typeof dsRid==='function'&&dsRid(b.ds)).forEach(b=>dsFetch(b.ds).then(ok=>{if(ok)styRe(b.d.code)}));
-  if(typeof FX!=='undefined'&&FX.glueNode)FX.glueNode($('.sty-hero',sec))}
+  if(typeof FX!=='undefined'&&FX.glueNode&&$('.sty-hero',sec))FX.glueNode($('.sty-hero',sec))}
 
 /* ---------- เสียบเข้าหน้าสินค้า: แทนส่วน "ข้อมูลจากระบบ" ด้วย Data Story ---------- */
 const _prodR7=PAGE_R.product;
