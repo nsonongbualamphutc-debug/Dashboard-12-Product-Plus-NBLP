@@ -547,7 +547,7 @@ img.md{width:30px;height:30px;object-fit:contain;display:block;margin:-4px auto}
 
 <script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.min.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<script src="data.js?v=a0eb96ba"></script>
+<script src="data.js?v=c48a05ec"></script>
 <script>if(/[?&]stage=1/.test(location.search))document.body.classList.add('stage')</script>
 <script>
 /* =====================================================================
@@ -573,7 +573,7 @@ const FIREBASE_CONFIG={
 /* วันจัดงานจริง (ผู้เข้าชมวันนี้ได้วอลเปเปอร์ Limited 3 “สิบสองสมบัติลุ่มภู”) รูปแบบ 'YYYY-MM-DD' เช่น ['2026-11-20','2026-11-21'] */
 const EVENT_DAYS=[];
 /* เวอร์ชันไฟล์: ถ้าเครื่องผู้ชมยังจำไฟล์เก่า (cache) จะเช็กแล้วโหลดเวอร์ชันใหม่ให้เอง */
-const BUILD='v35';
+const BUILD='v37';
 (function(){try{fetch(location.pathname+'?nc='+Date.now(),{cache:'no-store'}).then(r=>r.text()).then(t=>{const m=t.match(/const BUILD='([^']+)'/);if(m&&m[1]!==BUILD){const k='nbl12-reload-'+m[1];if(!sessionStorage.getItem(k)){sessionStorage.setItem(k,'1');const q=new URLSearchParams(location.search);q.set('v',m[1]);location.replace(location.pathname+'?'+q.toString())}}}).catch(()=>{})}catch(e){}})();
 const VISITOR_MODELS=[];   /* ตัวละครคนเสมือนจริงจาก Mixamo (.glb ที่ฝังท่า Walking/Idle) เช่น ['models/visitor-1.glb','models/visitor-2.glb'] · ว่าง = ใช้หุ่น models/Xbot.glb */
 const GAS_URL='https://script.google.com/macros/s/AKfycbwRX5IPjn-Zj2vCb_jlsLJuGpddhpLYbJnFC_5m2Yb2xV6A-cpUV5u0CkTMC4K8ykGK/exec';
