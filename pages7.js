@@ -235,7 +235,7 @@ function styBlock(b,i){const k=styKpi(b);const html=b.form==='cal'||b.form==='st
   <div class="stb-b">
     <aside class="stb-side"><div class="stb-kpi"><em>${L(FORM_TH[b.form],FORM_EN[b.form])} · ${yCE(styAgg(b.rows).ly||2569)}</em><b>${k.v}</b><span>${k.u}</span></div>
       <dl class="stb-f">${styFacts(b).map(([t,x])=>`<div><dt>${t}</dt><dd>${x}</dd></div>`).join('')}</dl>
-      <p class="stb-src">${L('แหล่งที่มา','Source')}: ${esc(b.agency||'')}${b.real?'':`<br><i>${L('ค่าจำลองเพื่อแสดงโครงภาพ','simulated to preview the layout')}</i>`}</p></aside>
+      <p class="stb-src">${L('แหล่งที่มา','Source')}: ${esc(b.agency||'')}${b.real?'':`<br><i>${L('รอข้อมูลจากหน่วยงาน · แสดงเป็นโครงการนำเสนอ','Awaiting agency data · presentation frame')}</i>`}</p></aside>
     <div class="stb-stage">
       <figure class="stb-viz"><div class="stb-cv${html?' html':''}">${html?styHtmlViz(b):`<canvas id="sbc-${b.d.code}" role="img" aria-label="${esc(b.item)}"></canvas>`}</div></figure>
       <div class="stb-tb"><div class="stb-tbh"><span>${ic('table')} ${L('ตารางข้อมูล','Data table')}</span><small>${L('หน่วย','Unit')}: ${esc(uLab(b.unit))}</small></div><div class="scroll-x">${styTable(b)}</div></div>

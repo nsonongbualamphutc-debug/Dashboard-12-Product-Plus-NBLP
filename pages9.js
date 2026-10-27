@@ -241,16 +241,17 @@ function styTidy(b){const R=b.rows;if(!R||!R.length||b.form==='cal'||b.form==='s
   rows=rows.slice().sort((x,y)=>x.year-y.year||(tot[y.dist]||0)-(tot[x.dist]||0)||(tt[y.type||'รวม']||0)-(tt[x.type||'รวม']||0));
   b.rows=Object.assign(rows,{unit:R.unit,src:R.src,name:R.name});return b}
 const styHasData=b=>b.real&&b.rows&&b.rows.some(r=>+r.value>0);
-if(typeof styItems==='function'){const _si=styItems;styItems=function(p){return _si(p).filter(styHasData).map(styTidy)}}
+/* รายการที่ยังไม่มีข้อมูล: แสดงบล็อกเป็น "โครงการนำเสนอ" ค่าเป็น 0 ทั้งหมด (ไม่ใช้ค่าจำลอง) */
+function styZero(b){const R=b.rows||[];const z=R.map(r=>Object.assign({},r,{value:0}));b.rows=Object.assign(z,{unit:R.unit,src:'empty'});b.real=false;b.empty=true;b.srcName='';return b}
+if(typeof styItems==='function'){const _si=styItems;styItems=function(p){return _si(p).map(b=>styHasData(b)?styTidy(b):(b.real?(b.empty=true,b):styZero(b)))}}
 if(typeof storySection==='function'){const _ss=storySection;storySection=function(p){const list=styItems(p);
-  if(!list.length){STY.list=[];STY.p=p}
-  if(!list.length)return`<section class="sty sty-empty" id="dsx" style="--pa:${p.pa}"><div class="card" style="padding:28px;text-align:center"><h3 style="margin:0 0 6px">${L('เส้นทางข้อมูล','Data journey')} · ${esc(pname(p))}</h3><p class="note" style="margin:0">${L('อยู่ระหว่างรอข้อมูลจากหน่วยงานเจ้าของข้อมูล · จะแสดงทันทีเมื่อได้รับไฟล์','Awaiting data from the owning agency · will appear as soon as files arrive')}</p></div></section>`;
-  const h=_ss(p);return h.replace(/<p class="sty-note">[\s\S]*?<\/p>/,`<p class="sty-note"><span class="sdot real" aria-hidden="true"></span> ${L(`แสดงเฉพาะข้อมูลจริงจากหน่วยงาน ${list.length} จาก ${p.inds.length} รายการ · เรียงค่าจากมากไปน้อย`,`Agency data only: ${list.length} of ${p.inds.length} items · sorted high to low`)}</p>`)}}
+  if(false)return`<section class="sty sty-empty" id="dsx" style="--pa:${p.pa}"><div class="card" style="padding:28px;text-align:center"><h3 style="margin:0 0 6px">${L('เส้นทางข้อมูล','Data journey')} · ${esc(pname(p))}</h3><p class="note" style="margin:0">${L('อยู่ระหว่างรอข้อมูลจากหน่วยงานเจ้าของข้อมูล · จะแสดงทันทีเมื่อได้รับไฟล์','Awaiting data from the owning agency · will appear as soon as files arrive')}</p></div></section>`;
+  const h=_ss(p);return h.replace(/<p class="sty-note">[\s\S]*?<\/p>/,`<p class="sty-note"><span class="sdot ${list.some(b=>!b.empty)?'real':'sim'}" aria-hidden="true"></span> ${L(`มีข้อมูลจริงจากหน่วยงาน ${list.filter(b=>!b.empty).length} จาก ${p.inds.length} รายการ · เรียงค่าจากมากไปน้อย · รายการที่ยังไม่มีข้อมูลแสดงเป็นโครงการนำเสนอ (ค่า 0)`,`Agency data: ${list.filter(b=>!b.empty).length} of ${p.inds.length} items · sorted high to low · items without data show the presentation frame (zero)`)}</p>`)}}
 /* ค่าเฉลี่ยรายอำเภอ: รายการข้างกราฟไม่แสดง % ส่วนแบ่ง (ไม่มีความหมายกับค่าเฉลี่ย) */
 if(typeof styFacts==='function'){const _sf=styFacts;styFacts=function(b){const F=_sf(b);return b.ds&&b.ds.agg==='avg'?F.map(f=>[f[0],String(f[1]).replace(/\s*<small>\(\d+%\)<\/small>/,'')]):F}}
 
 /* ปีที่ไม่มีข้อมูล = เว้นว่าง (ไม่วาดแท่ง 0) */
-if(typeof styCfg0==='function'){const _c2=styCfg0;styCfg0=function(b,big){const c=_c2(b,big);try{const A=styAgg(b.rows);const ys=A.ys;
+if(typeof styCfg0==='function'){const _c2=styCfg0;styCfg0=function(b,big){const c=_c2(b,big);if(b.empty)return c;try{const A=styAgg(b.rows);const ys=A.ys;
   if(c&&c.data&&c.data.datasets&&c.data.labels&&c.data.labels.length===ys.length&&b.form!=='cal'){c.data.datasets.forEach(d=>{if(!Array.isArray(d.data)||d.data.length!==ys.length)return;
     const kt=A.ts.find(t=>tLab(t)===d.label),kd=A.ds.find(x=>dShort(x)===d.label);
     d.data=d.data.map((v,i)=>{const y=ys[i];const has=b.rows.some(r=>r.year===y&&+r.value>0&&(kt==null||r.type===kt)&&(kd==null||r.dist===kd)&&(kt!=null||kd!=null||true));return has?v:null})})}}catch(e){}return c}}
@@ -272,3 +273,11 @@ if(typeof DATA_ONLY!=='undefined'&&DATA_ONLY){
   /* มุมผู้ซื้อ: สเปกที่ยังไม่มีข้อมูลจริง ไม่แสดงช่องว่าง */
   if(typeof specDl==='function'){specDl=function(){return''}}
 }
+
+/* บล็อกที่ยังไม่มีข้อมูล: ข้อความ/ป้ายบอกชัดว่า "รอข้อมูล" และจะนำเสนอรูปแบบไหน */
+if(typeof styInsight==='function'){const _ie=styInsight;styInsight=function(b){if(b.empty&&b.real)return L(`<span class="note">หน่วยงานรายงานค่าเป็น 0</span>`,`<span class="note">Agency reported zero</span>`);if(b.empty)return L(`<span class="note">รอข้อมูลจากหน่วยงาน · จะนำเสนอแบบ “${FORM_TH[b.form]||''}”</span>`,`<span class="note">Awaiting agency data · will be shown as “${FORM_EN[b.form]||''}”</span>`);return _ie(b)}}
+if(typeof styKpi==='function'){const _ke=styKpi;styKpi=function(b){if(b.empty)return{v:'0',u:b.real?uLab(b.unit):L('รอข้อมูล','awaiting')};return _ke(b)}}
+if(typeof sDot==='function'){const _sd=sDot;sDot=function(b){if(b.empty&&!b.real)return`<span class="sdot sim" tabindex="0" role="img" aria-label="${L('รอข้อมูลจากหน่วยงาน','Awaiting agency data')}" data-tip="${L('รอข้อมูลจากหน่วยงาน · แสดงเป็นโครงการนำเสนอ (ค่า 0)','Awaiting agency data · presentation frame (zero)')}"></span>`;return _sd(b)}}
+if(typeof styBlock==='function'){const _be=styBlock;styBlock=function(b,i){const h=_be(b,i);return b.empty?h.replace('<article class="stb','<article class="stb stb-empty'):h}}
+
+if(typeof styHeadline==='function'){const _hl=styHeadline;styHeadline=function(list){const L0=list.filter(b=>!b.empty);return L0.length?_hl(L0):''}}

@@ -2380,3 +2380,7 @@ svg.bdg{aspect-ratio:1/1;height:auto;max-width:100%;flex-shrink:0}
 .sdot::after{content:attr(data-tip);position:absolute;left:-8px;bottom:calc(100% + 9px);z-index:30;width:max-content;max-width:min(320px,70vw);padding:7px 10px;border-radius:9px;background:var(--ink);color:var(--surface);font:500 12px/1.45 var(--f-head,inherit);letter-spacing:0;text-transform:none;font-style:normal;white-space:normal;box-shadow:0 6px 18px rgba(0,0,0,.18);opacity:0;transform:translateY(4px);pointer-events:none;transition:opacity .15s,transform .15s}
 .sdot:hover::after,.sdot:focus-visible::after,.sdot:focus::after{opacity:1;transform:none}
 .sdot:focus-visible{box-shadow:0 0 0 3px color-mix(in srgb,var(--good) 22%,transparent),0 0 0 5px var(--ink)}
+
+/* บล็อกที่ยังไม่มีข้อมูล: โครงการนำเสนอ */
+.stb.stb-empty .stb-viz,.stb.stb-empty canvas{opacity:.55;filter:saturate(.4)}
+.stb.stb-empty .stb-kpi b{color:var(--muted)}
