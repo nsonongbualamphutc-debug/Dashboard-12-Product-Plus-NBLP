@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>เอกสารแนบ รายการข้อมูลที่ยังไม่ได้รับ · 12 Plus+</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;600;700&display=swap">
+<style>
+:root{--ui:#7a2a4a}
+*{box-sizing:border-box}
+html,body{margin:0;background:#e9e6e8;color:#111;font-family:'Sarabun','TH Sarabun New',sans-serif}
+.bar{position:sticky;top:0;z-index:5;background:#fff;border-bottom:1px solid #ddd;padding:10px 16px;display:flex;flex-wrap:wrap;gap:10px 14px;align-items:end;font-size:14px}
+.bar label{display:flex;flex-direction:column;gap:3px;color:#444;font-size:12.5px}
+.bar input,.bar select{font:inherit;font-size:14px;padding:6px 9px;border:1px solid #bbb;border-radius:8px;background:#fff;color:#111;max-width:100%}
+.bar .chk{flex-direction:row;align-items:center;gap:6px;font-size:13.5px;color:#222;padding-bottom:7px}
+.bar button{font:inherit;font-size:14.5px;padding:8px 16px;border-radius:99px;border:1px solid var(--ui);background:var(--ui);color:#fff;cursor:pointer}
+.bar button.o{background:#fff;color:var(--ui)}
+.bar .sp{flex:1}
+.hint{width:100%;font-size:12.5px;color:#666;margin:0}
+.sheet{width:210mm;min-height:297mm;margin:16px auto;background:#fff;padding:16mm 18mm 14mm 25mm;box-shadow:0 2px 12px rgba(0,0,0,.12);font-size:15pt;line-height:1.4}
+.att{text-align:right;font-weight:700;font-size:15pt;margin:0 0 3mm}
+.ttl{text-align:center;font-weight:700;font-size:18pt;margin:0;line-height:1.35}
+.sub{text-align:center;margin:1mm 0 5mm;font-size:15pt}
+.info{width:100%;border-collapse:collapse;font-size:14.5pt;margin:0 0 4mm}
+.info td{border:1px solid #000;padding:1.5mm 3mm}
+.info td.k{width:42mm;white-space:nowrap;background:#efefef;font-weight:700}
+table.t{width:100%;border-collapse:collapse;font-size:14pt;line-height:1.3;margin:0 0 4mm}
+table.t th,table.t td{border:1px solid #000;padding:1.4mm 2mm;vertical-align:top}
+table.t th{background:#e4e4e4;font-weight:700;text-align:center;vertical-align:middle}
+table.t td.c{text-align:center}
+table.t td.nw{white-space:nowrap}
+table.t td.code{white-space:nowrap;font-size:12.5pt;text-align:center}
+table.t tr.g td{background:#f3f3f3;font-weight:700}
+table.t tr.tot td{font-weight:700;background:#f3f3f3}
+table.t thead{display:table-header-group}
+table.t tr{break-inside:avoid}
+.link{display:flex;gap:5mm;align-items:center;border:1px solid #000;padding:3mm 4mm;margin:0 0 3mm;break-inside:avoid}
+.link .qr{width:25mm;height:25mm;flex:none}
+.link .qr img,.link .qr canvas{width:25mm!important;height:25mm!important}
+.link div{font-size:14pt;line-height:1.35}
+.link a{color:#000;word-break:break-all;font-size:12.5pt}
+.note{font-size:13.5pt;margin:0;line-height:1.35}
+.sheet.sum table.t{font-size:13pt;line-height:1.2;margin-bottom:3mm}.sheet.sum table.t th,.sheet.sum table.t td{padding:.6mm 2mm}.sheet.sum .sub{margin-bottom:3mm}
+@page{size:A4;margin:14mm 16mm 14mm 22mm}
+@media print{
+  html,body{background:#fff}
+  .bar{display:none}
+  .sheet{margin:0;padding:0;width:auto;min-height:auto;box-shadow:none;break-after:page;page-break-after:always}
+  .sheet:last-child{break-after:auto;page-break-after:auto}
+}
+@media screen and (max-width:860px){.sheet{width:100%;padding:10mm 6mm;font-size:13pt}}
+</style>
+</head>
+<body>
+<div class="bar">
+  <label>หน่วยงาน<select id="ag"></select></label>
+  <label>ข้อมูล ณ วันที่<input id="dt" type="date"></label>
+  <label>กำหนดส่งข้อมูล<input id="due" type="date"></label>
+  <label class="chk"><input type="checkbox" id="sum" checked> แนบตารางสรุปภาพรวม</label>
+  <span class="sp"></span>
+  <button type="button" class="o" onclick="history.length>1?history.back():location.href='report.html'">กลับ</button>
+  <button type="button" onclick="print()">พิมพ์ / บันทึก PDF</button>
+  <p class="hint">เลือก “ทุกหน่วยงานที่ค้าง” เพื่อพิมพ์เอกสารแนบแยกหน่วยงานละชุด (ขึ้นหน้าใหม่ทุกหน่วยงาน) · ลบวันกำหนดส่งออกได้ถ้าไม่ต้องการ · ตอนสั่งพิมพ์เลือกกระดาษ A4</p>
+</div>
+<div id="out"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="data.js?v=c48a05ec"></script>
+<script>
+(function(){
+const LINK='https://drive.google.com/drive/folders/1RXRE0jA7AmHODovnTknQjD1BN1kre8V-';
+const OFFICE='สำนักงานสถิติจังหวัดหนองบัวลำภู';
+const TEL='0 4231 6736';
+const STG=['ต้นน้ำ','กลางน้ำ','ปลายน้ำ'];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s==null?'':s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const AGN=a=>a.replace(/^สนง\./,'สำนักงาน').trim();
+const TM=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+const thN=n=>String(n).replace(/\d/g,c=>'๐๑๒๓๔๕๖๗๘๙'[c]);
+const thD=v=>{if(!v)return'';const d=new Date(v+'T00:00:00');return thN(`${d.getDate()} ${TM[d.getMonth()]} ${d.getFullYear()+543}`)};
+const iso=d=>new Date(d.getTime()-d.getTimezoneOffset()*6e4).toISOString().slice(0,10);
+const DSI={};DATASETS.forEach(x=>DSI[x.code]=x);
+const A=P.flatMap(p=>p.inds.map(d=>{const ds=DSI[d.code];
+  const real=!!(ds&&((ds.rows||[]).some(r=>+r[3])||(ds.list&&ds.list.rows&&ds.list.rows.length)));
+  const ags=[...new Set(String(d.ag||p.agency).split(/\s*[\/,]\s*/).filter(Boolean).map(AGN))];
+  return{p,d,real,ags}}));
+const M={};A.forEach(x=>x.ags.forEach(a=>{const m=M[a]||(M[a]={a,n:0,r:0});m.n++;if(x.real)m.r++}));
+const AG=Object.values(M).sort((a,b)=>(b.n-b.r)-(a.n-a.r)||a.a.localeCompare(b.a,'th'));
+const PEND=AG.filter(m=>m.n>m.r);
+$('#ag').innerHTML=`<option value="*">ทุกหน่วยงานที่ค้าง (${PEND.length} หน่วยงาน)</option>`+PEND.map(m=>`<option value="${esc(m.a)}">${esc(m.a)} · ค้าง ${m.n-m.r}</option>`).join('');
+const q=new URLSearchParams(location.search);
+$('#ag').value=q.get('a')&&M[q.get('a')]?q.get('a'):'*';
+const today=new Date();
+$('#dt').value=iso(today);$('#due').value=iso(new Date(today.getTime()+14*864e5));$('#sum').checked=q.get('sum')!=='0';
+
+function sheet(m){
+  const L=A.filter(x=>!x.real&&x.ags.includes(m.a));
+  const by=[];L.forEach(x=>{let g=by.find(g=>g.p===x.p);if(!g)by.push(g={p:x.p,items:[]});g.items.push(x)});
+  let n=0;
+  const rows=by.map(g=>`<tr class="g"><td colspan="5">สินค้าลำดับที่ ${thN(g.p.id)} ${esc(g.p.name)} (${thN(g.items.length)} รายการ)</td></tr>`+
+    g.items.map(x=>`<tr><td class="c">${thN(++n)}</td><td>${esc(x.d.n)}</td><td class="c">${esc(x.d.u||'-')}</td><td class="c nw">${STG[x.d.s]}</td><td class="code">${esc(x.d.code)}</td></tr>`).join('')).join('');
+  const due=$('#due').value;
+  return`<section class="sheet">
+  <p class="att">เอกสารแนบ</p>
+  <p class="ttl">รายการข้อมูลสินค้าอัตลักษณ์จังหวัดหนองบัวลำภู (12 Plus+)<br>ที่ยังไม่ได้รับจากหน่วยงาน</p>
+  <p class="sub">ข้อมูล ณ วันที่ ${thD($('#dt').value)}</p>
+  <table class="info"><tbody>
+    <tr><td class="k">หน่วยงาน</td><td>${esc(m.a)}</td></tr>
+    <tr><td class="k">สถานะข้อมูล</td><td>รับผิดชอบทั้งหมด ${thN(m.n)} รายการ · ได้รับแล้ว ${thN(m.r)} รายการ · <b>ยังไม่ได้รับ ${thN(L.length)} รายการ</b></td></tr>
+    ${due?`<tr><td class="k">กำหนดส่งข้อมูล</td><td>ภายในวันที่ ${thD(due)}</td></tr>`:''}
+  </tbody></table>
+  <table class="t"><thead><tr><th style="width:12mm">ลำดับ</th><th>รายการข้อมูล</th><th style="width:21mm">หน่วยนับ</th><th style="width:20mm">หมวด</th><th style="width:21mm">รหัส</th></tr></thead><tbody>${rows}</tbody></table>
+  <div class="link"><div class="qr" data-qr="${LINK}"></div><div><b>ช่องทางกรอกข้อมูล</b> Google Drive โฟลเดอร์ “ตารางข้อมูลเกษตรมูลค่าสูง”<br>เลือกโฟลเดอร์ตามชื่อสินค้า แล้วกรอกในไฟล์ตารางตามรายการข้างต้น<br><a href="${LINK}">${LINK}</a></div></div>
+  <p class="note">หมวด: ต้นน้ำ = แหล่งผลิต · กลางน้ำ = แปรรูปและมาตรฐาน · ปลายน้ำ = ตลาดและมูลค่า<br>สอบถามเพิ่มเติม: ${OFFICE} โทร. ${thN(TEL)}</p>
+  </section>`}
+function summary(){
+  const allN=A.length,allR=A.filter(x=>x.real).length;
+  return`<section class="sheet sum">
+  <p class="att">เอกสารแนบ</p>
+  <p class="ttl">สรุปสถานะการได้รับข้อมูลสินค้าอัตลักษณ์จังหวัดหนองบัวลำภู (12 Plus+)</p>
+  <p class="sub">ข้อมูล ณ วันที่ ${thD($('#dt').value)} · ได้รับแล้ว ${thN(allR)} จาก ${thN(allN)} รายการ (ร้อยละ ${thN(Math.round(allR/allN*100))})</p>
+  <p style="margin:0 0 1mm;font-weight:700">ตารางที่ ๑ จำแนกตามหน่วยงาน</p>
+  <table class="t"><thead><tr><th style="width:12mm">ลำดับ</th><th>หน่วยงาน</th><th style="width:22mm">รายการ<br>ทั้งหมด</th><th style="width:22mm">ได้รับแล้ว</th><th style="width:22mm">ยังไม่ได้รับ</th><th style="width:19mm">ร้อยละ<br>ที่ได้รับ</th></tr></thead><tbody>
+  ${AG.map((m,i)=>`<tr><td class="c">${thN(i+1)}</td><td>${esc(m.a)}</td><td class="c">${thN(m.n)}</td><td class="c">${thN(m.r)}</td><td class="c"${m.n>m.r?' style="font-weight:700"':''}>${thN(m.n-m.r)}</td><td class="c">${thN(Math.round(m.r/m.n*100))}</td></tr>`).join('')}
+  </tbody></table>
+  <p style="margin:0 0 1mm;font-weight:700">ตารางที่ ๒ จำแนกตามสินค้าและหมวด (ได้รับแล้ว/ทั้งหมด)</p>
+  <table class="t"><thead><tr><th style="width:12mm">ลำดับ</th><th>สินค้า</th><th style="width:22mm">ต้นน้ำ</th><th style="width:22mm">กลางน้ำ</th><th style="width:22mm">ปลายน้ำ</th><th style="width:22mm">รวม</th></tr></thead><tbody>
+  ${P.slice().sort((a,b)=>a.id-b.id).map(p=>{const X=A.filter(x=>x.p===p);const c=L0=>`${thN(L0.filter(x=>x.real).length)}/${thN(L0.length)}`;return`<tr><td class="c">${thN(p.id)}</td><td>${esc(p.name)}</td>${[0,1,2].map(s=>`<td class="c">${c(X.filter(x=>x.d.s===s))}</td>`).join('')}<td class="c"><b>${c(X)}</b></td></tr>`}).join('')}
+  <tr class="tot"><td></td><td>รวม</td>${[0,1,2].map(s=>{const X=A.filter(x=>x.d.s===s);return`<td class="c">${thN(X.filter(x=>x.real).length)}/${thN(X.length)}</td>`}).join('')}<td class="c">${thN(allR)}/${thN(allN)}</td></tr>
+  </tbody></table>
+  <p class="note">หมายเหตุ: รายการที่รับผิดชอบร่วมกันหลายหน่วยงาน นับให้ทุกหน่วยงานที่เกี่ยวข้องในตารางที่ ๑</p>
+  </section>`}
+function render(){
+  const v=$('#ag').value,list=v==='*'?PEND:AG.filter(m=>m.a===v);
+  $('#out').innerHTML=($('#sum').checked?summary():'')+list.map(sheet).join('');
+  document.querySelectorAll('[data-qr]').forEach(el=>{if(window.QRCode)new QRCode(el,{text:el.dataset.qr,width:256,height:256,correctLevel:QRCode.CorrectLevel.M});else el.remove()});
+}
+['ag','dt','due','sum'].forEach(id=>{$('#'+id).addEventListener('input',render);$('#'+id).addEventListener('change',render)});
+render();
+})();
+</script>
+</body>
+</html>

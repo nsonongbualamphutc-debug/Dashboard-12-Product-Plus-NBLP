@@ -47,6 +47,7 @@ const css=`
 .dst-a .m{font-size:12.5px;color:var(--muted);display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap}
 .dst-a .acts{display:flex;gap:6px;flex-wrap:wrap}
 .dst-a .acts button{font:inherit;font-size:12.5px;padding:6px 10px;border-radius:99px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);cursor:pointer}
+.dst-a .acts .dst-pl{font-size:12.5px;padding:6px 10px;border-radius:99px;border:1px solid var(--pink-500);color:var(--pink-700);text-decoration:none;background:var(--surface)}
 .dst-a .acts button:hover{border-color:var(--pink-500)}
 .dst-a .acts button.pri{background:var(--pink-500);border-color:var(--pink-500);color:#fff}
 .dst-fu{font-size:12px;color:var(--muted)}
@@ -105,7 +106,7 @@ PAGE_R.report=page=>{
   <section class="card"><div class="scroll-x"><table class="dst-mx" id="dstMx"></table></div></section>
 
   <div class="dst-h" id="dstList"><div><h2>${L('รายการข้อมูลทั้งหมด','All data items')}</h2><p class="dst-cnt" id="dstCnt"></p></div>
-    <div class="dst-tools" style="display:flex;gap:8px;flex-wrap:wrap"><button class="btn btn-o sm" type="button" id="dstCsv">${ic('table')} ${L('ดาวน์โหลด CSV','Download CSV')}</button><button class="btn btn-o sm" type="button" id="dstPrint">${ic('print')} ${L('พิมพ์','Print')}</button></div></div>
+    <div class="dst-tools" style="display:flex;gap:8px;flex-wrap:wrap"><a class="btn btn-p sm" href="followup.html" target="_blank" rel="noopener">${ic('print')} ${L('พิมพ์เอกสารติดตามข้อมูล','Print official follow-up')}</a><button class="btn btn-o sm" type="button" id="dstCsv">${ic('table')} ${L('ดาวน์โหลด CSV','Download CSV')}</button><button class="btn btn-o sm" type="button" id="dstPrint">${ic('print')} ${L('พิมพ์','Print')}</button></div></div>
   <div class="dst-f">
     <div class="dst-seg" role="group" aria-label="${L('สถานะ','Status')}"><button type="button" data-seg="all">${L('ทั้งหมด','All')}</button><button type="button" data-seg="real"><i class="dst-dot r"></i>${L('ข้อมูลจริง','Real')}</button><button type="button" data-seg="wait"><i class="dst-dot w"></i>${L('ยังไม่ดำเนินการ','Pending')}</button></div>
     <select id="dstP" aria-label="${L('สินค้า','Product')}"><option value="">${L('ทุกสินค้า','All products')}</option>${P.map(p=>`<option value="${p.id}">${pad2(p.id)} ${esc(pname(p))}</option>`).join('')}</select>
@@ -123,7 +124,7 @@ PAGE_R.report=page=>{
       <div class="dst-bar" title="${pc}%"><i style="width:${pc}%"></i></div>
       <div class="m"><span>${L('สินค้าที่ค้าง','Products pending')}: ${[...m.prods].sort((a,b)=>a-b).map(id=>esc(pname(byId(id)))).join(', ')||'–'}</span></div>
       <div class="dst-fu">${f?L('ทวงถามล่าสุด','Last followed up')+` <b>${thDate(f)}</b>`:L('ยังไม่บันทึกการทวงถาม','No follow-up logged')}</div>
-      ${w?`<div class="acts"><button type="button" class="pri" data-ag="${i}">${L('ดูรายการค้าง','Show pending')}</button><button type="button" data-cp="${i}">${L('คัดลอกหนังสือทวงถาม','Copy follow-up')}</button><button type="button" data-fu="${i}">${L('บันทึกว่าทวงถามแล้ว','Log follow-up')}</button></div>`:''}</div>`}).join('')};
+      ${w?`<div class="acts"><button type="button" class="pri" data-ag="${i}">${L('ดูรายการค้าง','Show pending')}</button><a class="dst-pl" href="followup.html?a=${encodeURIComponent(m.a)}" target="_blank" rel="noopener">${L('พิมพ์เอกสารแนบ','Print attachment')}</a><button type="button" data-cp="${i}">${L('คัดลอกหนังสือทวงถาม','Copy follow-up')}</button><button type="button" data-fu="${i}">${L('บันทึกว่าทวงถามแล้ว','Log follow-up')}</button></div>`:''}</div>`}).join('')};
   drawAg();
 
   const cellCol=(r,n)=>{if(!n)return'transparent';const k=r/n;return`color-mix(in srgb,${k>=1?'#1f9d55':k>=.5?'#5bb974':k>0?'#e0a800':'#e0a800'} ${k>=1?32:k>0?22+k*20:16}%,var(--surface))`};
@@ -164,7 +165,7 @@ PAGE_R.report=page=>{
         `\n\nสามารถกรอกข้อมูลตามแบบฟอร์มตารางข้อมูลเดิม แล้วส่งกลับมายังสำนักงานสถิติจังหวัดหนองบัวลำภู\nขอบคุณครับ`;
       (navigator.clipboard?navigator.clipboard.writeText(t):Promise.reject()).then(()=>toast(L('คัดลอกหนังสือทวงถามแล้ว','Copied'))).catch(()=>{download(`ทวงถาม_${agShort(m.a)}.txt`,t,'text/plain')})}
     if(b.dataset.fu){fu[AG[+b.dataset.fu].a]=Date.now();fSet(fu);drawAg();toast(L('บันทึกวันที่ทวงถามแล้ว','Follow-up logged'))}};
-  $('#dstCsv',page).onclick=()=>download('12plus_data_status.csv','﻿'+[csvRow(['สถานะ','รหัส','ชื่อข้อมูล','หน่วย','สินค้า','หมวด','หน่วยงานรับผิดชอบ','ไฟล์','ปีข้อมูล']),...filt().map(x=>csvRow([x.real?'ข้อมูลจริง':'ยังไม่ดำเนินการ',x.d.code,x.d.n,x.d.u,pname(x.p),STG[x.stage][0]+' · '+CHAPTERS[x.stage].t,x.ags.join(' / '),x.real&&x.ds?x.ds.file:'',x.real&&x.ds?(x.ds.years||[]).join(' '):'']))].join('\n'));
+  $('#dstCsv',page).onclick=()=>download('12plus_data_status.csv',[csvRow(['สถานะ','รหัส','ชื่อข้อมูล','หน่วย','สินค้า','หมวด','หน่วยงานรับผิดชอบ','ไฟล์','ปีข้อมูล']),...filt().map(x=>csvRow([x.real?'ข้อมูลจริง':'ยังไม่ดำเนินการ',x.d.code,x.d.n,x.d.u,pname(x.p),STG[x.stage][0]+' · '+CHAPTERS[x.stage].t,x.ags.join(' / '),x.real&&x.ds?x.ds.file:'',x.real&&x.ds?(x.ds.years||[]).join(' '):'']))].join('\n'));
   $('#dstPrint',page).onclick=()=>print();
   draw();
 };
