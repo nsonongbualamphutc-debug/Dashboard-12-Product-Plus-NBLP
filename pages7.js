@@ -104,6 +104,9 @@ function stySim(d,p,form,ds){const r=rng(styHash(d.code)+11);const T=styBase(d,p
   rows.unit=pct?'%':d.u;return rows}
 
 /* ---------- ทะเบียนบล็อก ---------- */
+/* จุดสถานะข้อมูล: เขียว = ข้อมูลจริงจากหน่วยงาน · เหลือง = ค่าจำลอง · ชี้/แตะเพื่อดูชื่อไฟล์ */
+function sDot(b){const asof=b.ds&&b.ds.asof;const tip=b.real?L('ข้อมูลจริง','Real data')+(b.srcName?' · '+b.srcName:'')+(asof?L(' · ณ ',' · as of ')+asof:''):L('ข้อมูลจำลอง (รอข้อมูลจากหน่วยงาน)','Simulated (awaiting agency data)');
+  return`<span class="sdot ${b.real?'real':'sim'}" tabindex="0" role="img" aria-label="${esc(tip)}" data-tip="${esc(tip)}"></span>`}
 function styItems(p){const ds=c=>DATASETS.find(x=>x.code===c);
   return p.inds.map(d=>{const D=ds(d.code);const form=styForm(d,p,D);const item=D?D.item:d.n.replace(/\s*\(จำแนกอำเภอ\)/,'');
     const real=STY.real[d.code]||(D&&typeof dsData==='function'?(()=>{const x=dsData(D,p);return x&&x.src!=='demo'?Object.assign(x.rows.slice(),{unit:D.unit,src:x.src,name:x.name}):null})():null);
@@ -214,7 +217,7 @@ function styFacts(b){const A=styAgg(b.rows),u=b.unit,U=u==='%'?'':' '+uLab(u);co
 
 /* ---------- HTML บล็อก: ภาพเป็นหลัก มีปุ่มสลับ ภาพ ⇄ ตาราง ---------- */
 function styBlock(b,i){const k=styKpi(b);const html=b.form==='cal'||b.form==='status';const flip=i%2===1;const v=STY.view[b.d.code]||STY.gview||'viz';
-  const badge=b.real?`<span class="pill real">${L('ข้อมูลจริง','Real data')}${b.srcName?' · '+esc(b.srcName):''}</span>`:`<span class="pill sim">${L('ข้อมูลจำลอง','Simulated')}</span>`;
+  const badge=sDot(b);
   return`<article class="stb${flip?' flip':''}" id="sb-${b.d.code}" data-code="${b.d.code}" data-v="${v}" style="--pa:${b.p.pa}">
   <header class="stb-h">
     <div class="stb-k"><span class="stb-no">${b.d.code}</span><span class="stb-en">${esc(L(b.en,FORM_EN[b.form]))}</span>${badge}</div>
@@ -313,7 +316,7 @@ function styShow(start){const p=STY.p;let i=Math.max(0,start||0),timer=null,show
       <button type="button" class="ib" data-ss="x" title="${L('ปิด (Esc)','Close (Esc)')}">${ic('x')}</button></div>
     <div class="ss-bar"><i style="width:${(i+1)/STY.list.length*100}%"></i></div>
     <div class="ss-main${showT?'':' notb'}">
-      <div class="ss-h"><span class="ss-k">${b.d.code} · ${esc(b.en.toUpperCase())} ${b.real?`<span class="pill real">${L('ข้อมูลจริง','Real')}</span>`:`<span class="pill sim">${L('ข้อมูลจำลอง','Simulated')}</span>`}</span>
+      <div class="ss-h"><span class="ss-k">${b.d.code} · ${esc(b.en.toUpperCase())} ${sDot(b)}</span>
         <h2>${esc(L(b.item,b.en))}</h2><p>${styInsight(b)}</p></div>
       <div class="ss-kpi"><b>${k.v}</b><span>${k.u}</span></div>
       <div class="ss-viz">${html?styHtmlViz(b):'<canvas id="ss-cv"></canvas>'}</div>
