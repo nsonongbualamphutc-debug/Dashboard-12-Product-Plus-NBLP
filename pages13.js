@@ -36,7 +36,7 @@ function dirOf(p){if(CACHE[p.id])return CACHE[p.id];
     d.list.rows.forEach(r=>{let name=r[iN],plat=iT>=0?r[iT]:'';
       if(typeof name!=='string')return;name=name.trim().replace(/^\d+\.\s*/,'').replace(/^(shopee|lazada|tiktok|facebook|line)\s*[:：]\s*/i,'').trim();if(/^https?:|^(หมู่|ม\.)\s*\d|^(เข้าร่วม|กิจกรรม|งาน)/.test(name))return;
       if(PLAT.test(name)&&plat&&!PLAT.test(String(plat))){const t=name;name=String(plat).trim();plat=t}
-      if(!name||GENERIC.test(name)||PERSON.test(name)||name.length<2)return;
+      if(!name||GENERIC.test(name)||PERSON.test(name)||name.length<2||/ไม่มีชื่อ|ไม่มีชื้อ|ไม่ระบุ/.test(name))return;if(role==='online'&&/^[ก-๙]+\s+[ก-๙]+$/.test(name)&&!/ผ้า|กลุ่ม|ร้าน|ไทย|ฟาร์ม|สวน|ไร่|กาแฟ|ศูนย์|วิสาหกิจ|แบรนด์|ทอ|จักสาน|ปลา|เห็ด|กล้วย|ข้าว|ว่าน/.test(name))return;
       const url=r.find(v=>isUrl(v));const addr=iA>=0&&r[iA]&&!isUrl(r[iA])?String(r[iA]).trim():'';
       const g=iG>=0?gpsOf(r[iG]):null;const dist=iD>=0?r[iD]||'':'';
       const key=nz(name)+'|'+(role==='online'?'':nz(dist));
@@ -55,6 +55,26 @@ function dirOf(p){if(CACHE[p.id])return CACHE[p.id];
   out.forEach(e=>{const c=CONTACT(e.name);if(c){e.tel=c.tel||'';e.line=c.line||'';e.ig=c.ig||'';if(c.fb&&!/facebook/i.test(e.link||''))e.fb=c.fb;if(c.web&&!e.link)e.link=c.web;if(c.addr&&(!e.addr||e.addr.length<c.addr.length))e.addr=c.addr;if(c.gps&&!e.gps)e.gps=c.gps;e.csrc=c.src}
     const m=String(e.addr||'').match(/โทร\.?\s*([0-9][0-9\- ]{8,12})/);if(m&&!e.tel){e.tel=m[1].trim();e.addr=e.addr.replace(m[0],'').trim()}
     if(!e.fb&&/facebook/i.test(e.link||''))e.fb=e.link});
+  /* รวมรายการที่เป็นที่เดียวกัน: ข้อมูลติดต่อชุดเดียวกัน / ที่อยู่ (มีเลขที่) เดียวกัน / ชื่อแกนเดียวกัน */
+  {const GEN=/^nong\s*bua\s*lam\s*phu\s*brand$/i;
+   out.forEach(e=>{const pm=e.name.match(/^nong\s*bua\s*lam\s*phu\s*brand\s*\((.+)\)\s*$/i);if(pm){e.aka=[e.name];e.name=pm[1].trim()}else if(GEN.test(e.name.trim())){if(e.owner){e.aka=[e.name];e.name=e.owner}else{const t=(e.addr.match(/(?:ต\.|ตำบล)\s*([ก-๙]+)/)||[])[1];e.name+=' · '+(t?'ต.'+t:e.dist?'อ.'+e.dist:'')}}});
+   const par=out.map((_,i)=>i);const f=i=>par[i]===i?i:(par[i]=f(par[i]));const u=(a,b)=>{a=f(a);b=f(b);if(a!==b)par[b]=a};
+   const addrKey=a=>{a=String(a||'');const n=a.match(/(?:^|\s|เลขที่\s*)(\d+(?:\/\d+)?)\s*(?:หมู่ที่|หมู่|ม\.)\s*(\d+)/);const t=(a.match(/(?:ต\.|ตำบล)\s*([ก-๙]+)/)||[])[1];if(n&&t)return n[1]+'|'+n[2]+'|'+t;const h=a.match(/^\s*(?:เลขที่\s*)?(\d+(?:\/\d+)?)\s/);return h&&t?h[1]+'|-|'+t:''};
+   const MAN=(window.SHOPS0||SHOPS)[p.id]||[];const man=n=>{const x=nz(n);const k=MAN.findIndex(m=>nz(m.nick)===x||nz(m.name)===x);return k<0?'':'m:'+k};
+   const K={};out.forEach((e,i)=>{const c=CONTACT(e.name);[man(e.name),c?'c:'+c.k[0]:'',addrKey(e.addr)?'a:'+addrKey(e.addr):'',core(e.name).length>=5?'n:'+core(e.name):''].filter(Boolean).forEach(k=>{if(k in K)u(K[k],i);else K[k]=i})});
+   const bg=t=>{const S=new Set();for(let k=0;k<t.length-1;k++)S.add(t.slice(k,k+2));return S};const big=(a,b)=>{const A=bg(a),B=bg(b);let c=0;A.forEach(x=>{if(B.has(x))c++});return 2*c/Math.max(1,A.size+B.size)};
+   const s2=n=>core(n).replace(/(วิสาหกิจชุมชน|กลุ่ม|บ้าน|จากต้นคล้า|ต้นคล้า|คล้า|ตำบล|ต\.|อำเภอ|ที่|จำกัด)/g,'');
+   const vil=n=>(String(n).replace(/\s+/g,'').match(/(?:บ้าน|ตำบล|ต\.)([ก-๙]{2,})/)||[])[1]||'';
+   const moo=n=>(String(n).match(/(?:ม\.|หมู่ที่|หมู่)\s*(\d+)/)||[])[1];
+   out.forEach((a,i)=>out.forEach((b,j)=>{if(j<=i)return;const ma=moo(a.name),mb=moo(b.name);if(ma&&mb&&ma!==mb)return;const x=s2(a.name),y=s2(b.name);if(/nong\s*bua\s*lam\s*phu\s*brand/i.test(a.name+b.name))return;const va=vil(a.name),vb=vil(b.name);if((va||vb)&&va!==vb&&!(va&&vb&&(va.startsWith(vb)||vb.startsWith(va))))return;const lo=Math.min(x.length,y.length),hi=Math.max(x.length,y.length);if(lo>=6&&(((x.includes(y)||y.includes(x))&&lo/hi>=.6)||(lo>=8&&big(x,y)>=.85)))u(i,j)}));
+   const G={};out.forEach((e,i)=>(G[f(i)]=G[f(i)]||[]).push(e));
+   const pick=L0=>L0.slice().sort((a,b)=>(/กลุ่ม|วิสาหกิจ|บริษัท|สหกรณ์/.test(a.name)?0:1)-(/กลุ่ม|วิสาหกิจ|บริษัท|สหกรณ์/.test(b.name)?0:1)||a.name.length-b.name.length)[0];
+   const res=[];Object.values(G).forEach(L0=>{if(L0.length===1){res.push(L0[0]);return}const m=pick(L0);
+     L0.forEach(e=>{if(e===m)return;e.roles.forEach(r=>m.roles.add(r));e.codes.forEach(c=>m.codes.add(c));e.prods.forEach(x=>m.prods.add(x));
+       ['link','plat','tel','line','ig','fb','hours','owner','csrc'].forEach(k=>{if(!m[k]&&e[k])m[k]=e[k]});if(!m.gps&&e.gps)m.gps=e.gps;if((e.addr||'').length>(m.addr||'').length)m.addr=e.addr;if(!m.members&&e.members)m.members=e.members;if(!m.dist&&e.dist)m.dist=e.dist});
+     const ak=[...new Set(L0.map(e=>e.name).concat(...L0.map(e=>e.aka||[])).filter(n=>nz(n)!==nz(m.name)))];if(ak.length)m.aka=ak;
+     if(m.roles.size>1&&m.roles.has('online')&&!m.link)m.roles.delete('online');res.push(m)});
+   out.length=0;res.forEach(e=>out.push(e))}
   const goodA=a=>!!a&&a.length>=8&&(/\d/.test(a)||/ต\.|ตำบล|อ\.|อำเภอ|ถนน|ถ\./.test(a));
   out.forEach(e=>{e.loc=!!(e.gps||e.addr);const onl=e.roles.has('online')&&e.roles.size===1;
     e.miss=onl?(e.link?[]:['link']):[...(goodA(e.addr)?[]:['addr']),...(e.gps?[]:['gps'])];
@@ -68,9 +88,9 @@ const platName=e=>{const u=e.link||'';return /facebook|fb\./i.test(u)?'Facebook'
 /* เติม SHOPS ให้สื่อนำเสนอและการ์ดเด่น: ร้านที่กรอกเอง + รายการที่ข้อมูลครบที่สุด (รวมไม่เกิน 6) */
 window.SHOPS0=window.SHOPS0||JSON.parse(JSON.stringify(SHOPS));
 P.forEach(p=>{const base=(SHOPS0[p.id]||[]).slice();const have=new Set(base.map(s=>nz(s.nick))).add('');base.forEach(s=>have.add(nz(s.name)));
-  dirOf(p).filter(e=>e.ok&&!have.has(nz(e.name))).slice(0,Math.max(0,6-base.length)).forEach(e=>{have.add(nz(e.name));
+  dirOf(p).filter(e=>e.ok&&!have.has(nz(e.name))&&!(e.aka||[]).some(a=>have.has(nz(a)))&&!base.some(s=>{const c1=CONTACT(s.nick)||CONTACT(s.name),c2=CONTACT(e.name);return c1&&c2&&c1===c2})).slice(0,Math.max(0,6-base.length)).forEach(e=>{have.add(nz(e.name));
     const fb=/facebook/i.test(e.link||'')?e.link:'';
-    base.push({nick:e.name,name:[...e.roles].map(r=>ROLE[r][0]).join(' · ')+(e.prods.size?' · '+[...e.prods].slice(0,3).join(', '):''),addr:e.addr||(e.dist?'อ.'+e.dist+' จ.หนองบัวลำภู':'จ.หนองบัวลำภู'),tel:e.tel||'',line:e.line||'',fb:e.fb||fb||'',fbName:(e.fb||fb)?e.name:'',ig:e.ig||'',map:e.gps?e.gps.join(','):[e.name,e.addr,'หนองบัวลำภู'].filter(Boolean).join(' '),web:fb?'':e.link,auto:1})});
+    base.push({nick:e.name,name:[...e.roles].map(r=>ROLE[r][0]).join(' · ')+(e.prods.size?' · '+[...e.prods].slice(0,3).join(', '):''),addr:e.addr||(e.dist?'อ.'+e.dist+' จ.หนองบัวลำภู':'จ.หนองบัวลำภู'),tel:(e.tel||'').split(/,\s*/)[0],line:e.line||'',fb:e.fb||fb||'',fbName:(e.fb||fb)?e.name:'',ig:e.ig||'',map:e.gps?e.gps.join(','):[e.name,e.addr,'หนองบัวลำภู'].filter(Boolean).join(' '),web:fb?'':e.link,auto:1})});
   if(base.length)SHOPS[p.id]=base});
 /* ---------- ไดเรกทอรีบนหน้าสินค้า ---------- */
 const css=`.sdir{margin-top:20px;border-top:1px dashed var(--line);padding-top:18px}
@@ -108,7 +128,7 @@ const css=`.sdir{margin-top:20px;border-top:1px dashed var(--line);padding-top:1
 @media print{.sdir-f,.sdc .bt{display:none}}`;
 function card(e,i){const st=e.ok?['#1f9d55',L('ข้อมูลครบ','Complete')]:['#e0a800',L('ข้อมูลบางส่วน','Partial')];
   return`<article class="sdc"><div class="rl">${[...e.roles].map(r=>`<span>${L(...ROLE[r])}</span>`).join('')}<span class="sdst"><i style="background:${st[0]}"></i>${st[1]}</span></div>
-  <h5>${esc(e.name)}</h5>
+  <h5>${esc(e.name)}</h5>${e.aka&&e.aka.length?`<p class="ln" style="font-size:11.5px">${L('ชื่ออื่น','Also')}: ${esc(e.aka.slice(0,3).join(' · '))}</p>`:''}
   ${e.addr?`<p class="ln">${ic('map')} ${esc(e.addr)}</p>`:e.dist?`<p class="ln">${ic('map')} อ.${esc(e.dist)}</p>`:''}
   ${e.prods.size?`<p class="ln"><b>${L('สินค้า','Products')}:</b> ${esc([...e.prods].slice(0,6).join(', '))}</p>`:''}
   ${e.tel?`<p class="ln"><b>${L('โทร','Tel')}:</b> ${e.tel.split(/,\s*/).map(t=>`<a href="tel:${t.replace(/[^0-9+]/g,'')}">${esc(t)}</a>`).join(', ')}</p>`:''}
