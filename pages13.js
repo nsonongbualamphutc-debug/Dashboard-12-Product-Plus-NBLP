@@ -16,6 +16,16 @@ function roleOf(item){
 const ci=(C,re,ex)=>C.findIndex(c=>re.test(c)&&!(ex&&ex.test(c)));
 function gpsOf(v){const m=String(v||'').match(/(1[5-9]\.\d{3,})\s*,\s*(10[0-4]\.\d{3,})/);return m?[+m[1],+m[2]]:null}
 const isUrl=v=>/^https?:\/\//i.test(String(v||'').trim());
+
+/* ข้อมูลติดต่อที่ค้นเพิ่มจากแหล่งสาธารณะ (ตรวจสอบ 2 พ.ย. 2569) */
+const CONTACTS=[
+ {k:['กอเงินออร์แกนิคฟาร์ม','กอเงินฟาร์ม'],addr:'253 ม.3 ต.เมืองใหม่ อ.ศรีบุญเรือง จ.หนองบัวลำภู 39180',tel:'042-353-299, 086-103-1560, 093-674-4410',line:'@Gof03',fb:'https://www.facebook.com/share/1BSWvobJDj/',web:'https://www.gof.co.th',src:'yellowpages.co.th/lp/gof'},
+ {k:['ห้วยบง1','ห้วยบงตรา1','ตรา1เดียว','๑เดียว'],tel:'062-230-6733, 081-051-9821',fb:'https://www.facebook.com/numberoneprasom/',src:'banmuang.co.th/news/economy/457525'},
+ {k:['ลุงหวัง'],addr:'247 ม.13 บ.ดงมะไฟ ต.ดงมะไฟ อ.สุวรรณคูหา จ.หนองบัวลำภู',tel:'089-577-0777',src:'banmuang.co.th/news/region/274315'},
+ {k:['เทวาผ้าไทย'],addr:'264 ม.2 บ.นาคำไฮ ถ.เทศบาล 1 อ.เมืองหนองบัวลำภู จ.หนองบัวลำภู 39000',tel:'086-972-9787, 085-636-9104, 095-668-8911',fb:'https://www.facebook.com/nakhamhai264',gps:[17.28638,102.2749],src:'ไดเรกทอรีสถานที่ (ข้อมูลยังไม่ยืนยันโดยเจ้าของ)'},
+ {k:['ภูริษาผ้าไทย'],addr:'32 ม.8 บ.ศรีเมืองใหม่ ต.โคกม่วง อ.ศรีบุญเรือง จ.หนองบัวลำภู 39180',tel:'087-221-0295, 081-592-6185',fb:'https://www.facebook.com/phurisa.phathai/',src:'dip.go.th'},
+ {k:['ขวัญตา','khwanta'],addr:'355 ม.5 ต.โพธิ์ชัย อ.เมืองหนองบัวลำภู จ.หนองบัวลำภู 39000',tel:'098-398-9354',line:'@khwanta',ig:'khwanta.handicraft',fb:'https://www.facebook.com/khwantathai/',src:'ข้อมูลร้านเดิมในระบบ'}];
+function CONTACT(n){const x=nz(n);return CONTACTS.find(c=>c.k.some(k=>x.includes(nz(k))))||null}
 let CACHE={};
 function dirOf(p){if(CACHE[p.id])return CACHE[p.id];
   const M=new Map();
@@ -24,7 +34,7 @@ function dirOf(p){if(CACHE[p.id])return CACHE[p.id];
     const iN=ci(C,/^รายชื่อ/,/ผู้รับซื้อ/),iA=ci(C,/ที่อยู่|ที่ตั้ง|สถานที่/),iG=ci(C,/พิกัด|GPS/i),iP=ci(C,/ชนิดผลิตภัณฑ์|^ผลิตภัณฑ์|ชนิดสินค้า|ประเภทการแปรรูป|ชนิด\/ประเภท/),iT=ci(C,/^ประเภท \(/),iH=ci(C,/วัน.*เวลา|เปิดทำการ/),iM=ci(C,/จำนวนสมาชิก/),iO=C.indexOf('กลุ่ม'),iD=C.indexOf('อำเภอ');
     if(iN<0)return;
     d.list.rows.forEach(r=>{let name=r[iN],plat=iT>=0?r[iT]:'';
-      if(typeof name!=='string')return;name=name.trim();
+      if(typeof name!=='string')return;name=name.trim().replace(/^\d+\.\s*/,'').replace(/^(shopee|lazada|tiktok|facebook|line)\s*[:：]\s*/i,'').trim();if(/^https?:|^(หมู่|ม\.)\s*\d|^(เข้าร่วม|กิจกรรม|งาน)/.test(name))return;
       if(PLAT.test(name)&&plat&&!PLAT.test(String(plat))){const t=name;name=String(plat).trim();plat=t}
       if(!name||GENERIC.test(name)||PERSON.test(name)||name.length<2)return;
       const url=r.find(v=>isUrl(v));const addr=iA>=0&&r[iA]&&!isUrl(r[iA])?String(r[iA]).trim():'';
@@ -39,7 +49,12 @@ function dirOf(p){if(CACHE[p.id])return CACHE[p.id];
       if(!e.dist&&dist)e.dist=dist})});
   // ผสานรายการออนไลน์เข้ากับชื่อเดียวกันที่มีที่ตั้ง
   const L=[...M.values()];const out=[];
+  const core=n=>nz(n).replace(/^(วิสาหกิจชุมชน|วิสากิจชุมชน|กลุ่ม|ไร่|สวน|บริษัท|ร้าน|กาแฟ)+/,'').replace(/จำกัด$/,'');
+  L.forEach(e=>{if(e.link)return;const t=L.find(x=>x!==e&&x.link&&/facebook/i.test(x.link)&&core(x.name).length>=4&&(core(x.name).includes(core(e.name))||core(e.name).includes(core(x.name))));if(t){e.link=t.link;e.plat=e.plat||t.plat}});
   L.forEach(e=>{if(e.roles.has('online')&&e.roles.size===1){const t=L.find(x=>x!==e&&nz(x.name)===nz(e.name)&&!x.roles.has('online'));if(t){t.roles.add('online');t.link=t.link||e.link;t.plat=t.plat||e.plat;e.codes.forEach(c=>t.codes.add(c));return}}out.push(e)});
+  out.forEach(e=>{const c=CONTACT(e.name);if(c){e.tel=c.tel||'';e.line=c.line||'';e.ig=c.ig||'';if(c.fb&&!/facebook/i.test(e.link||''))e.fb=c.fb;if(c.web&&!e.link)e.link=c.web;if(c.addr&&(!e.addr||e.addr.length<c.addr.length))e.addr=c.addr;if(c.gps&&!e.gps)e.gps=c.gps;e.csrc=c.src}
+    const m=String(e.addr||'').match(/โทร\.?\s*([0-9][0-9\- ]{8,12})/);if(m&&!e.tel){e.tel=m[1].trim();e.addr=e.addr.replace(m[0],'').trim()}
+    if(!e.fb&&/facebook/i.test(e.link||''))e.fb=e.link});
   const goodA=a=>!!a&&a.length>=8&&(/\d/.test(a)||/ต\.|ตำบล|อ\.|อำเภอ|ถนน|ถ\./.test(a));
   out.forEach(e=>{e.loc=!!(e.gps||e.addr);const onl=e.roles.has('online')&&e.roles.size===1;
     e.miss=onl?(e.link?[]:['link']):[...(goodA(e.addr)?[]:['addr']),...(e.gps?[]:['gps'])];
@@ -54,8 +69,8 @@ const platName=e=>{const u=e.link||'';return /facebook|fb\./i.test(u)?'Facebook'
 window.SHOPS0=window.SHOPS0||JSON.parse(JSON.stringify(SHOPS));
 P.forEach(p=>{const base=(SHOPS0[p.id]||[]).slice();const have=new Set(base.map(s=>nz(s.nick))).add('');base.forEach(s=>have.add(nz(s.name)));
   dirOf(p).filter(e=>e.ok&&!have.has(nz(e.name))).slice(0,Math.max(0,6-base.length)).forEach(e=>{have.add(nz(e.name));
-    const fb=/facebook/i.test(e.link)?e.link:'';
-    base.push({nick:e.name,name:[...e.roles].map(r=>ROLE[r][0]).join(' · ')+(e.prods.size?' · '+[...e.prods].slice(0,3).join(', '):''),addr:e.addr||(e.dist?'อ.'+e.dist+' จ.หนองบัวลำภู':'จ.หนองบัวลำภู'),tel:'',line:'',fb:fb||'',fbName:fb?e.name:'',ig:'',map:e.gps?e.gps.join(','):[e.name,e.addr,'หนองบัวลำภู'].filter(Boolean).join(' '),web:fb?'':e.link,auto:1})});
+    const fb=/facebook/i.test(e.link||'')?e.link:'';
+    base.push({nick:e.name,name:[...e.roles].map(r=>ROLE[r][0]).join(' · ')+(e.prods.size?' · '+[...e.prods].slice(0,3).join(', '):''),addr:e.addr||(e.dist?'อ.'+e.dist+' จ.หนองบัวลำภู':'จ.หนองบัวลำภู'),tel:e.tel||'',line:e.line||'',fb:e.fb||fb||'',fbName:(e.fb||fb)?e.name:'',ig:e.ig||'',map:e.gps?e.gps.join(','):[e.name,e.addr,'หนองบัวลำภู'].filter(Boolean).join(' '),web:fb?'':e.link,auto:1})});
   if(base.length)SHOPS[p.id]=base});
 /* ---------- ไดเรกทอรีบนหน้าสินค้า ---------- */
 const css=`.sdir{margin-top:20px;border-top:1px dashed var(--line);padding-top:18px}
@@ -96,6 +111,10 @@ function card(e,i){const st=e.ok?['#1f9d55',L('ข้อมูลครบ','Com
   <h5>${esc(e.name)}</h5>
   ${e.addr?`<p class="ln">${ic('map')} ${esc(e.addr)}</p>`:e.dist?`<p class="ln">${ic('map')} อ.${esc(e.dist)}</p>`:''}
   ${e.prods.size?`<p class="ln"><b>${L('สินค้า','Products')}:</b> ${esc([...e.prods].slice(0,6).join(', '))}</p>`:''}
+  ${e.tel?`<p class="ln"><b>${L('โทร','Tel')}:</b> ${e.tel.split(/,\s*/).map(t=>`<a href="tel:${t.replace(/[^0-9+]/g,'')}">${esc(t)}</a>`).join(', ')}</p>`:''}
+  ${e.line||e.ig?`<p class="ln">${e.line?`<b>LINE:</b> ${esc(e.line)} `:''}${e.ig?`<b>IG:</b> ${esc(e.ig)}`:''}</p>`:''}
+  ${e.fb&&e.fb!==e.link?`<p class="ln"><b>FB:</b> <a href="${esc(e.fb)}" target="_blank" rel="noopener">${L('เปิดเพจ','Open page')} ${ic('ext')}</a></p>`:''}
+  ${e.csrc?`<p class="ln" style="font-size:11px">${L('ข้อมูลติดต่อจาก','Contact source')}: ${esc(e.csrc)}</p>`:''}
   ${e.owner?`<p class="ln"><b>${L('กลุ่ม','Group')}:</b> ${esc(e.owner)}</p>`:''}
   ${e.hours?`<p class="ln"><b>${L('เปิด','Open')}:</b> ${esc(e.hours)}</p>`:''}
   ${e.ok?'':`<p class="ln" style="color:#a86b00"><b style="color:inherit">${L('ยังขาด','Missing')}:</b> ${e.miss.map(k=>({link:L('ลิงก์ร้านออนไลน์','store link'),addr:L('ที่อยู่','address'),gps:L('พิกัด GPS','GPS')})[k]).join(', ')}</p>`}
