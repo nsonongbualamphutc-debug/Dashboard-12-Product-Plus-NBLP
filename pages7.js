@@ -13,6 +13,7 @@ Object.assign(IC,{
   file:'<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M14 3v5h5" fill="none" stroke="currentColor" stroke-width="2"/>'
 });
 
+const STY_H=b=>b.form==='cal'||b.form==='status'||!!b.one;
 const STY={view:{},gview:'viz',real:{},drawn:new Set(),io:null,list:[],p:null,flip:{},show:null};
 const STY_YEARS=[2566,2567,2568,2569];
 const STY_SRC='ข้อมูลจำลอง (รอค่าจริงจากหน่วยงาน)';
@@ -216,7 +217,7 @@ function styFacts(b){const A=styAgg(b.rows),u=b.unit,U=u==='%'?'':' '+uLab(u);co
   const mx=A.ys.map(y=>[y,tot(y)]).sort((x,y)=>y[1]-x[1])[0];if(mx)F.push([L('สูงสุด','Peak year'),yCE(mx[0])+' · '+fv(mx[1],u)]);return F}
 
 /* ---------- HTML บล็อก: ภาพเป็นหลัก มีปุ่มสลับ ภาพ ⇄ ตาราง ---------- */
-function styBlock(b,i){const k=styKpi(b);const html=b.form==='cal'||b.form==='status';const flip=i%2===1;const v=STY.view[b.d.code]||STY.gview||'viz';
+function styBlock(b,i){const k=styKpi(b);const html=STY_H(b);const flip=i%2===1;const v=STY.view[b.d.code]||STY.gview||'viz';
   const badge=sDot(b);
   return`<article class="stb${flip?' flip':''}" id="sb-${b.d.code}" data-code="${b.d.code}" data-v="${v}" style="--pa:${b.p.pa}">
   <header class="stb-h">
@@ -307,7 +308,7 @@ function styPng(b){const ch=charts.find(c=>c.canvas&&c.canvas.id==='sbc-'+b.d.co
 function styShow(start){const p=STY.p;let i=Math.max(0,start||0),timer=null,showT=true;
   const ov=document.createElement('div');ov.className='sty-show';ov.style.setProperty('--pa',p.pa);ov.setAttribute('role','dialog');ov.setAttribute('aria-modal','true');document.body.appendChild(ov);document.body.classList.add('sty-on');
   let chart=null;
-  const draw=()=>{const b=STY.list[i];if(chart){try{chart.destroy()}catch(e){}chart=null}const k=styKpi(b),html=b.form==='cal'||b.form==='status';
+  const draw=()=>{const b=STY.list[i];if(chart){try{chart.destroy()}catch(e){}chart=null}const k=styKpi(b),html=STY_H(b);
     const s=b.d.s,inCh=STY.list.filter(x=>x.d.s===s),pos=inCh.indexOf(b)+1;
     ov.innerHTML=`<div class="ss-top"><span class="ss-p">${badge(p,{label:false})}<b>${esc(pname(p))}</b></span><span class="ss-ch">0${s+1} · ${CH_META[s].k} · ${L(CH_META[s].th,'')} <em>${pos}/${inCh.length}</em></span>
       <span class="ss-c">${i+1} / ${STY.list.length}</span>
