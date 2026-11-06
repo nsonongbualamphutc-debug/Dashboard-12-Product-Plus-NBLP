@@ -5,7 +5,7 @@ if(typeof PAGE_R==='undefined')return;
 const SRC=k=>`img/real/${k}.webp`,THB=k=>`img/real/${k}-s.webp`;
 const CAT={product:['ผลงาน / สินค้า','Products'],process:['ฝีมือและกระบวนการ','Craft & process'],people:['ผู้ผลิต','Makers'],place:['แหล่งผลิต','Places'],event:['ตลาดและงานแสดง','Markets & fairs']};
 const CH=[['place','ต้นทาง','At the source','จากพื้นที่และวัตถุดิบในหนองบัวลำภู'],['process','ฝีมือ','Craft','ทุกขั้นตอนทำด้วยมือและภูมิปัญญา'],['product','ผลงาน','The product','คุณภาพที่จับต้องได้ พร้อมส่งต่อ'],['people','คนเบื้องหลัง','The makers','ผู้ผลิตที่ส่งต่อเรื่องราวในทุกชิ้น'],['event','ถึงมือคุณ','To you','พบได้ที่งานแสดงสินค้าและจุดจำหน่าย']];
-const css=`.rs{position:relative;margin:22px 0 26px;border-radius:26px;overflow:hidden;background:#0d0a0c;color:#fff;isolation:isolate;box-shadow:0 30px 70px -30px rgba(0,0,0,.55)}
+const css=`.rs{position:relative;min-width:0;max-width:100%;margin:22px 0 26px;border-radius:26px;overflow:hidden;background:#0d0a0c;color:#fff;isolation:isolate;box-shadow:0 30px 70px -30px rgba(0,0,0,.55)}
 .rs-stage{position:relative;height:min(78vh,680px);min-height:460px}
 .rs-sl{position:absolute;inset:0;margin:0;opacity:0;transition:opacity 1.2s ease}
 .rs-sl.on{opacity:1}
@@ -46,7 +46,7 @@ const css=`.rs{position:relative;margin:22px 0 26px;border-radius:26px;overflow:
 .rs-h3{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:0 0 18px}
 .rs-h3 h3{margin:0;font:600 clamp(22px,2.6vw,32px)/1.15 var(--f-head)}
 .rs-h3 p{margin:6px 0 0;color:rgba(255,255,255,.65);font-size:14px}
-.rs-ch{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,1fr);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin-bottom:38px;scrollbar-width:thin}
+.rs-ch{min-width:0;max-width:100%;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(250px,1fr);gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin-bottom:38px;scrollbar-width:thin}
 .rs-c{scroll-snap-align:start;position:relative;border-radius:20px;overflow:hidden;min-height:340px;background:#000;cursor:pointer}
 .rs-c img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s cubic-bezier(.2,.7,.2,1),filter .6s;filter:saturate(1.05)}
 .rs-c:hover img{transform:scale(1.07)}
