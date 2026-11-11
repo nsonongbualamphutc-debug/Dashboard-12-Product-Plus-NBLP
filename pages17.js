@@ -95,7 +95,7 @@ const ms=document.createElement('style');ms.textContent=mcss;document.head.appen
 const _bv=bookView;bookView=function(box,startP){_bv(box,startP);const bar=box.querySelector('.bk-bar');if(!bar||bar.querySelector('.bkpdf'))return;
   if(!document.getElementById('bkMsg')){const m=document.createElement('div');m.id='bkMsg';m.hidden=true;m.setAttribute('role','status');document.body.appendChild(m)}
   const w=document.createElement('div');w.className='bkpdf';
-  w.innerHTML=`<button type="button" class="bk-b sm" aria-haspopup="menu" aria-expanded="false" title="${L('บันทึก / ดาวน์โหลด PDF','Save / download PDF')}">${PDF_I}PDF</button>
+  w.innerHTML=`<button type="button" class="bk-b sm" aria-haspopup="menu" aria-expanded="false" title="${L('บันทึก / ดาวน์โหลด PDF','Save / download PDF')}">${PDF_I}PDF<span class="bk-lab">PDF</span></button>
   <div class="bkpdf-m" role="menu" hidden>
     <h6>${L('สร้างจากข้อมูลล่าสุดในแดชบอร์ด','From the latest dashboard data')}</h6>
     <button type="button" role="menuitem" data-pm="a4"><i>📄</i><b>${L('ทีละหน้า A4','A4 pages')}<span class="new">${L('ล่าสุด','live')}</span></b><small>${L('32 หน้า · เหมาะสำหรับสั่งพิมพ์','32 pages · print-ready')}</small></button>
