@@ -217,10 +217,10 @@ function trendPanel(b){if(b.empty||b.one||!b.rows||!TREND.concat(['pair']).inclu
   const card=(k,v,s)=>`<div class="tp-c"><span>${k}</span>${v}${s?`<small>${s}</small>`:''}</div>`;
   const C=[card(L('ทิศทาง','Direction'),`<b class="tp-dir ${cl}"><i>${ar}</i>${T.dir}</b>`,`${yCE(T.y0)}–${yCE(T.y1)} · ${T.n} ${L('ปี','yrs')}`),
     card(L('เปลี่ยนแปลงทั้งช่วง','Total change'),g(T.all),`${fv(T.f,u)} → ${fv(T.l,u)}${U}`)];
-  if(T.cagr!=null)C.push(card(L('เฉลี่ยต่อปี (CAGR)','Avg per year (CAGR)'),g(T.cagr),L('อัตราเติบโตทบต้น','compound annual')));
+  if(T.cagr!=null)C.push(card(L('โตเฉลี่ยต่อปี','Avg growth per year'),g(T.cagr),L('คิดแบบทบต้นทุกปี','compounded yearly')));
   C.push(card(L('สูงสุด / ต่ำสุด','Peak / low'),`<b>${yCE(T.hi.y)}</b>`,`${fv(T.hi.v,u)} / ${yCE(T.lo.y)}: ${fv(T.lo.v,u)}${U}`));
   if(T.best||T.worst)C.push(card(L('อำเภอที่น่าจับตา','Districts to watch'),`<b class="tp-ds">${T.best?`<em class="up">▲ ${esc(T.best.n)} ${g(T.best.g)}</em>`:''}${T.worst?`<em class="dn">▼ ${esc(T.worst.n)} ${g(T.worst.g)}</em>`:''}</b>`,L('เทียบปีแรก–ปีล่าสุดที่มีข้อมูล','first vs latest year')));
-  if(T.fc!=null&&T.r2>=.2)C.push(card(L('คาดการณ์ปี ','Projected ')+yCE(T.nx),`<b>~${fv(T.fc,u)}</b>`,L('เส้นแนวโน้ม · ความเชื่อมั่น ','trend fit · ')+(T.r2>=.7?L('สูง','high'):T.r2>=.4?L('ปานกลาง','medium'):L('ต่ำ','low'))+` (R² ${T.r2.toFixed(2)})`));
+  if(T.fc!=null&&T.r2>=.2)C.push(card(L('คาดการณ์ปี ','Projected ')+yCE(T.nx),`<b>~${fv(T.fc,u)}</b>`,L('ประมาณจากแนวโน้มเดิม · ความแม่นยำ ','trend estimate · reliability ')+(T.r2>=.7?L('สูง','high'):T.r2>=.4?L('ปานกลาง','medium'):L('ต่ำ','low'))));
   const nm=esc(L(b.item,b.en)).replace(/^(จำนวน|ปริมาณ|มูลค่า)/,m=>m);
   if(T.weak){return`<section class="tp"><header>${L('วิเคราะห์แนวโน้ม','Trend analysis')}</header><p class="tp-s">${L(`<b>${nm}</b> ปีล่าสุดยังรายงานไม่ครบทุกอำเภอ จึง<b>ยังสรุปแนวโน้มไม่ได้</b> — ตัวเลขที่ลดลง/เพิ่มขึ้นอาจเกิดจากข้อมูลยังไม่ครบ ไม่ใช่การเปลี่ยนแปลงจริง`,`<b>${nm}</b>: latest year is incomplete, so no trend can be concluded yet.`)}</p>${T.partY.length?`<p class="tp-w">⚠ ${L('รอข้อมูล: ','Pending: ')}${esc(T.partY.join(', '))}</p>`:''}</section>`}
   let say=L(`<b>${nm}</b> ช่วงปี ${yCE(T.y0)}–${yCE(T.y1)} ${T.dir}`,`<b>${nm}</b> ${yCE(T.y0)}–${yCE(T.y1)}: ${T.dir.toLowerCase()}`)+(T.cagr!=null?L(` เฉลี่ยปีละ ${g(T.cagr)}`,`, ${g(T.cagr)}/yr`):L(` ${g(T.all)}`,` ${g(T.all)}`));
