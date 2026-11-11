@@ -112,3 +112,33 @@ const _bv=bookView;bookView=function(box,startP){_bv(box,startP);const bar=box.q
   document.addEventListener('keydown',e=>{if(e.key==='Escape')tog(false)});
   const ref=bar.querySelector('#bkFs');bar.insertBefore(w,ref)};
 })();
+
+/* ---------- แก้หนังสือกระพริบบนมือถือ/แท็บเล็ต ----------
+   1) แสดงเฉพาะหน้าที่มองเห็น (หน้าอื่นซ่อน) ลดจำนวนเลเยอร์ 3D ที่ GPU มือถือต้องวาด
+   2) ไม่จัดหน้าใหม่เมื่อแถบที่อยู่ของเบราว์เซอร์ยืด/หด (ความสูงเปลี่ยนแต่ความกว้างเท่าเดิม)
+   3) ปิดฝุ่นแสงเคลื่อนไหวและลดเงาบนจอสัมผัส */
+(function(){
+if(typeof bkGo!=='function'||typeof bkLayout!=='function')return;
+const TOUCH=matchMedia('(hover:none),(pointer:coarse)').matches;
+const st=document.createElement('style');st.textContent=`.spg.far,.leaf.far{visibility:hidden}
+.spg,.leaf,.face{-webkit-transform-style:preserve-3d}
+.face,.spg{-webkit-backface-visibility:hidden;backface-visibility:hidden}
+@media (hover:none),(pointer:coarse){.bk-wrap>.fx-dust{display:none!important}.spg{box-shadow:0 12px 26px -16px rgba(0,0,0,.55)}.leaf.fl .pa-ph,.spg.cur .pa-ph{transform:none!important}.leaf:not(.fl) .face.front .pg::after{display:none}}`;
+document.head.appendChild(st);
+let tmr=null;
+function cull(t,wait){clearTimeout(tmr);const run=()=>{
+    if(BK.mode==='spread'){const L0=document.querySelectorAll('#bk .leaf');L0.forEach((lf,i)=>lf.classList.toggle('far',!(i===t-1||i===t)&&!lf.classList.contains('mv')))}
+    else{const S=document.querySelectorAll('#bkSp .spg');S.forEach((pg,i)=>pg.classList.toggle('far',i<t-1||i>t+1))}};
+  if(wait){/* ระหว่างพลิก: เปิดทุกหน้าที่อยู่ในช่วงที่เคลื่อน */
+    if(BK.mode==='spread')document.querySelectorAll('#bk .leaf').forEach(l=>l.classList.remove('far'));
+    else document.querySelectorAll('#bkSp .spg').forEach((pg,i)=>{if(Math.abs(i-t)<=Math.abs(wait.span)+1)pg.classList.remove('far')});
+    tmr=setTimeout(run,wait.ms)}else run()}
+const _go=bkGo;bkGo=function(t,instant){const prev=BK.cur;
+  if(!instant&&t!==prev)cull(t,{span:t-prev,ms:Math.min(4000,1100+Math.abs(t-prev)*90)});
+  _go(t,instant);if(instant||t===prev)cull(t)};
+let lastK='',lastPW='',lastEl=null;const _ly=bkLayout;bkLayout=function(){const w=document.getElementById('bkWrap'),st=document.getElementById('bkStage');
+  const fs=w&&(document.fullscreenElement===w||w.classList.contains('fs'));const K=st?st.clientWidth+'x'+innerWidth:'';
+  /* จอสัมผัส: ถ้าความกว้างเท่าเดิม (แค่แถบที่อยู่ยืด/หด) ไม่ต้องจัดหน้าใหม่ */
+  if(TOUCH&&w&&!fs&&w===lastEl&&K===lastK&&lastPW){if(w.style.getPropertyValue('--pw')!==lastPW)w.style.setProperty('--pw',lastPW);return}
+  _ly();if(w){lastEl=w;lastK=K;lastPW=w.style.getPropertyValue('--pw')}};
+})();
