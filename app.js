@@ -20,7 +20,7 @@ function fmtBaht(v){if(v==null)return{n:'–',u:''};const a=Math.abs(v);
   if(a>=1e4)return{n:(v/1e3).toLocaleString('th-TH',{maximumFractionDigits:1}),u:L('พันบาท','K THB')};
   return{n:nf.format(Math.round(v)),u:L('บาท','THB')}}
 const fB=v=>{const o=fmtBaht(v);return o.n+(o.u?' '+o.u:'')};
-const fShort=v=>Math.abs(v)>=1e6?(v/1e6).toLocaleString('th-TH',{maximumFractionDigits:1})+L(' ลบ.','M'):Math.abs(v)>=1e3?(v/1e3).toLocaleString('th-TH',{maximumFractionDigits:0})+L(' พัน','K'):nf.format(v);
+const fShort=v=>Math.abs(v)>=1e6?(v/1e6).toLocaleString('th-TH',{maximumFractionDigits:1})+L(' ล้าน','M'):Math.abs(v)>=1e3?(v/1e3).toLocaleString('th-TH',{maximumFractionDigits:0})+L(' พัน','K'):nf.format(v);
 const MO=()=>EN_MODE()?MONTHS_EN:MONTHS, MOF=()=>EN_MODE()?MONTHS_EN:MONTHS_FULL;
 const pname=p=>L(p.name,p.en);
 const pen=(p,k,th)=>EN_MODE()&&EN[p.id]?EN[p.id][k]:th;

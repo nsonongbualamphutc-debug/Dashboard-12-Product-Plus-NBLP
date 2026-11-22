@@ -91,10 +91,10 @@ function dsDraw(ds,p){const D=dsData(ds,p);if(!D||(DSX.view[ds.code]||'viz')!=='
   const sel=DSX.year[ds.code]&&ysd.includes(DSX.year[ds.code])?DSX.year[ds.code]:ysd.at(-1);const col=i=>i===0?p.pa:DSCOL[i%5];
   const tip={callbacks:{label:c=>` ${c.dataset.label||c.label}: ${nf.format(Math.round(c.raw))} ${ds.unit}`}};
   mk('dsT-'+ds.code,{type:'bar',data:{labels:ysd.map(yCE),datasets:A.ts.map((t,i)=>({label:t,data:ysd.map(y=>A.v(r=>r.year===y&&r.type===t)),backgroundColor:col(i),borderRadius:6,stack:'s',maxBarThickness:46}))},
-    options:dsOpts({plugins:{legend:{display:A.ts.length>1,position:'bottom'},tooltip:tip},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,ticks:{callback:v=>fShort(v).replace(' ลบ.','M')}}}})});
+    options:dsOpts({plugins:{legend:{display:A.ts.length>1,position:'bottom'},tooltip:tip},scales:{x:{stacked:true,grid:{display:false}},y:{stacked:true,ticks:{callback:v=>fShort(v).replace(' ล้าน','M')}}}})});
   mk('dsD-'+ds.code,{type:'doughnut',data:{labels:A.ts,datasets:[{data:A.ts.map(t=>A.v(r=>r.year===sel&&r.type===t)),backgroundColor:A.ts.map((_,i)=>col(i)),borderWidth:2,borderColor:css('--surface')}]},options:{maintainAspectRatio:false,cutout:'62%',plugins:{legend:{position:'bottom'},tooltip:tip}}});
   if(ds.district)mk('dsB-'+ds.code,{type:'bar',data:{labels:DISTRICTS.map((d,i)=>L(d.replace('เมืองหนองบัวลำภู','เมืองฯ'),DISTRICTS_EN[i])),datasets:A.ts.map((t,i)=>({label:t,data:DISTRICTS.map(d=>A.v(r=>r.year===sel&&r.dist===d&&r.type===t)),backgroundColor:col(i),borderRadius:5,stack:'s'}))},
-    options:dsOpts({indexAxis:'y',plugins:{legend:{display:false},tooltip:tip},scales:{x:{stacked:true,ticks:{callback:v=>fShort(v).replace(' ลบ.','M')}},y:{stacked:true,grid:{display:false},ticks:{callback:function(v){return this.getLabelForValue(v)}}}}})});
+    options:dsOpts({indexAxis:'y',plugins:{legend:{display:false},tooltip:tip},scales:{x:{stacked:true,ticks:{callback:v=>fShort(v).replace(' ล้าน','M')}},y:{stacked:true,grid:{display:false},ticks:{callback:function(v){return this.getLabelForValue(v)}}}}})});
 }
 function dsTable(ds,p,D){const types=ds.types&&ds.types.length?ds.types:['รวม'];const dists=ds.district?DISTRICTS:['รวมทั้งจังหวัด'];
   const A=D?dsAgg(D.rows,ds):null;const cell=(y,d,t)=>{if(!A)return'<td class="r todo">·</td>';const has=A.has(r=>r.year===y&&(d==='รวมทั้งจังหวัด'||r.dist===d)&&r.type===t);return`<td class="r num">${has?nf.format(Math.round(A.v(r=>r.year===y&&(d==='รวมทั้งจังหวัด'||r.dist===d)&&r.type===t))):'–'}</td>`};

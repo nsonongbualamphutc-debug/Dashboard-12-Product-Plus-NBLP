@@ -31,7 +31,7 @@ function series(b){const A=styAgg(b.rows),R=b.rows,avg=isAvg(b);
   const agg=L0=>{L0=L0.filter(r=>r.value!=null&&+r.value>0);if(!L0.length)return null;const s=L0.reduce((a,r)=>a+(+r.value),0);return avg?s/L0.length:s};
   const yr=y=>{const Y=R.filter(r=>r.year===y);const T=Y.filter(r=>r.dist===TOT&&+r.value>0);return T.length&&A.ds.length?T:Y.filter(r=>r.dist!==TOT||!A.ds.length)};
   const distV=(y,d)=>{const Y=R.filter(r=>r.year===y&&r.dist===d&&+r.value>0);if(!Y.length)return null;const s=Y.reduce((a,r)=>a+(+r.value),0);return avg?s/Y.length:s};
-  const tot=A.ys.map(y=>{if(avg&&A.ds.length){const v=A.ds.map(d=>distV(y,d)).filter(x=>x!=null);return v.length?v.reduce((a,x)=>a+x,0)/v.length:null}return agg(yr(y))});
+  const tot=A.ys.map(y=>{if(avg&&A.ds.length){const T=R.filter(r=>r.year===y&&r.dist===TOT&&+r.value>0);if(T.length)return T.reduce((a,r)=>a+(+r.value),0)/T.length;const v=A.ds.map(d=>distV(y,d)).filter(x=>x!=null);return v.length?v.reduce((a,x)=>a+x,0)/v.length:null}return agg(yr(y))});
   const last=v=>{for(let i=v.length-1;i>=0;i--)if(v[i]!=null)return v[i];return 0};
   const dist=A.ds.map(d=>({k:d,label:dShort(d),v:A.ys.map(y=>distV(y,d))})).filter(s=>s.v.some(x=>x!=null)).sort((x,y)=>last(y.v)-last(x.v));
   const types=A.ts.filter(t=>t!=='รวม').map(t=>({k:t,label:tLab(t),v:A.ys.map(y=>agg(yr(y).filter(r=>(r.type||'รวม')===t)))})).filter(s=>s.v.some(x=>x!=null)).sort((x,y)=>last(y.v)-last(x.v));
